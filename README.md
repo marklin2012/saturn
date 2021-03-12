@@ -30,10 +30,10 @@ export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
     
     请按照上述的清单安装系统依赖
 
-2. 下载本项目代码 (需要提前配置公司 host)
+2. 下载本项目代码 
 
     ```bash
-    git clone https://git.mrball.com.cn:9009/mimi/mercury.git
+    git clone https://github.com/marklin2012/saturn.git
     ```
 3. 安装 flutter 包依赖
 
