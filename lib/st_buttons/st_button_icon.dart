@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:saturn/st_buttons/st_buttons.dart';
+import 'package:saturn/st_buttons/st_button_type_size_state.dart';
+import 'package:saturn/st_buttons/st_button_enum.dart';
 
-class STButtonIcon extends STBtnTypeSizeState {
+class STButtonIcon extends STButtonTypeSizeState {
   final Widget icon;
   final VoidCallback onPressed;
-  final STButtonSize btnSize;
-  final STButtonState btnState;
   final double width;
   final EdgeInsets padding;
 
@@ -14,22 +13,24 @@ class STButtonIcon extends STBtnTypeSizeState {
       {Key key,
       @required this.icon,
       this.onPressed,
-      this.btnSize,
-      this.btnState,
-      this.width = STBtnIconW,
-      this.padding = STBtnIconPadding})
-      : super(
+      @required STButtonSize buttonSize,
+      @required STButtonState buttonState,
+      this.width,
+      this.padding})
+      : assert(icon != null),
+        super(
             key: key,
-            btnSize: btnSize,
-            btnState: btnState,
-            btnType: STButtonType.Icon);
+            buttonSize: buttonSize,
+            buttonState: buttonState,
+            buttonType: STButtonType.icon);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: disable == false ? onPressed : null,
       child: Container(
-        width: width,
-        padding: padding,
+        width: width ?? STButtonConst.iconWidth,
+        padding: padding ?? STButtonConst.iconPadding,
         decoration: BoxDecoration(
           color: backgroundColor,
           shape: BoxShape.circle,
@@ -37,7 +38,6 @@ class STButtonIcon extends STBtnTypeSizeState {
         alignment: Alignment.center,
         child: icon,
       ),
-      onTap: disable == false ? onPressed : null,
     );
   }
 }

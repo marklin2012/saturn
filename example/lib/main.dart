@@ -62,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _reduceCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -102,6 +108,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            STButtons(
+              icon: Icon(
+                Icons.star,
+                color: Colors.white,
+              ),
+              label: 'text',
+              onPressed: _reduceCounter,
+              buttonType: STButtonType.text,
             ),
           ],
         ),

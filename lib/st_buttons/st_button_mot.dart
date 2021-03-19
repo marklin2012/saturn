@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:saturn/st_buttons/st_buttons.dart';
+import 'package:saturn/st_buttons/st_button_type_size_state.dart';
 import 'package:saturn/st_color_utils.dart';
+import 'package:saturn/st_buttons/st_button_enum.dart';
 
-class STButtonMOT extends STBtnTypeSizeState {
+class STButtonMOT extends STButtonTypeSizeState {
   final Widget icon;
-  final Widget label;
+  final String label;
+  final TextStyle style;
   final VoidCallback onPressed;
-  final STButtonSize btnSize;
-  final STButtonState btnState;
-  final STButtonType btnType;
   final double height;
   final double width;
   final double radius;
@@ -20,29 +19,34 @@ class STButtonMOT extends STBtnTypeSizeState {
       {Key key,
       this.icon,
       @required this.label,
+      this.style,
       this.onPressed,
-      this.btnSize,
-      this.btnState,
-      this.btnType,
+      @required STButtonSize buttonSize,
+      @required STButtonState buttonState,
+      STButtonType buttonType,
       this.height,
       this.width,
       this.radius,
       this.borderColor,
       this.borderWidth})
-      : super(key: key, btnSize: btnSize, btnState: btnState, btnType: btnType);
+      : assert(label != null),
+        super(
+            key: key,
+            buttonSize: buttonSize,
+            buttonState: buttonState,
+            buttonType: buttonType);
 
   @override
   Widget build(BuildContext context) {
-    var boxDecoration = BoxDecoration();
-    if (btnType == STButtonType.Main) {
+    var boxDecoration = const BoxDecoration();
+    if (buttonType == STButtonType.main) {
       boxDecoration = BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(radius ?? space),
       );
     }
-    if (btnType == STButtonType.OutLine) {
+    if (buttonType == STButtonType.outLine) {
       boxDecoration = BoxDecoration(
-        shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(radius ?? space),
         border: Border.all(
           color: borderColor ?? firRankBlue,
@@ -51,22 +55,26 @@ class STButtonMOT extends STBtnTypeSizeState {
       );
     }
     var _icon = icon;
-    if (btnState == STButtonState.Loading && _icon == null) {
-      _icon = Icon(
+    if (buttonState == STButtonState.loading && _icon == null) {
+      _icon = const Icon(
         Icons.refresh,
         color: colorWhite,
       );
     }
     return GestureDetector(
+      onTap: disable == false ? onPressed : null,
       child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: height ?? btnH),
+        constraints: BoxConstraints(minHeight: height ?? defaultHeight),
         child: Container(
-          width: width ?? btnW,
+          width: width ?? defaultWidth,
           decoration: boxDecoration,
           padding: edgeInsets,
           alignment: Alignment.center,
           child: _icon == null
-              ? label
+              ? Text(
+                  label,
+                  style: style ?? const TextStyle(color: thrRankFont),
+                )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -74,12 +82,14 @@ class STButtonMOT extends STBtnTypeSizeState {
                     SizedBox(
                       width: space,
                     ),
-                    label
+                    Text(
+                      label,
+                      style: style ?? const TextStyle(color: thrRankFont),
+                    ),
                   ],
                 ),
         ),
       ),
-      onTap: disable == false ? onPressed : null,
     );
   }
 }
