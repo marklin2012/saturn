@@ -52,7 +52,10 @@ class STButtonMOT extends STBtnTypeSizeState {
     }
     var _icon = icon;
     if (btnState == STButtonState.Loading && _icon == null) {
-      _icon = Icon(Icons.refresh);
+      _icon = Icon(
+        Icons.refresh,
+        color: colorWhite,
+      );
     }
     return GestureDetector(
       child: ConstrainedBox(
