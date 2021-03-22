@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'st_alerts.dart';
+import 'st_alert_state.dart';
 import 'st_alert_utils.dart';
 
 class STAlertTitleText extends STAlertTypeButtonTypeState {
+  final double width;
   final String title;
   final String text;
   final String rightText;
   final IconData rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
-  final STAlertRightButtonType alertRightBtnType;
+  final STAlertRightButtonType alertRightButtonType;
 
   const STAlertTitleText(
       {Key key,
       @required this.title,
       @required this.text,
-      this.rightText,
-      this.rightIcon,
-      this.onRightTap,
+      this.rightText = "",
+      this.rightIcon = null,
+      this.width = STAlertConst.defaultWidth,
+      this.onRightTap = null,
       this.alertState,
-      this.alertRightBtnType})
+      this.alertRightButtonType})
       : super(
             key: key,
             alertState: alertState,
-            alertRightBtnType: alertRightBtnType,
+            alertRightButtonType: alertRightButtonType,
             alertType: STAlertType.Title);
 
   @override
@@ -37,14 +39,16 @@ class STAlertTitleText extends STAlertTypeButtonTypeState {
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.none)));
     List<Widget> rightChildren = [];
-    rightChildren = this.addRightBtn(
+    rightChildren = this.addRightButton(
         rightChildren, this.rightIcon, this.rightText, this.onRightTap);
     rightChildren.add(SizedBox(width: STAlertConst.rightPadding));
 
     List<Widget> secRowChildren = [];
-    secRowChildren.add(SizedBox(width: STAlertConst.secondTextLeftPadding));
+    secRowChildren.add(SizedBox(width: STAlertConst.leftPadding));
     secRowChildren.add(SizedBox(
-        width: STAlertConst.defaultWidth -
+        width: (this.width > STAlertConst.defaultWidth
+                ? this.width
+                : STAlertConst.defaultWidth) -
             STAlertConst.secondTextLeftPadding -
             STAlertConst.rightPadding,
         child: Text(this.text,

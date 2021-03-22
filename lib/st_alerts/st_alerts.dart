@@ -1,66 +1,92 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+
 import 'st_alert_utils.dart';
+import 'st_alert_icon_text.dart';
+import 'st_alert_icon_title_text.dart';
+import 'st_alert_text.dart';
+import 'st_alert_title_text.dart';
 
-abstract class STAlertTypeButtonTypeState extends StatelessWidget {
-  final STAlertType alertType;
-  final STAlertState alertState;
-  final STAlertRightButtonType alertRightBtnType;
+class STAlerts extends StatelessWidget {
+  static Widget show(
+    BuildContext context,
+    STAlertType alertType,
+    STAlertState alertState,
+    STAlertRightButtonType alertRightButtonType, {
+    String text = "",
+    String title = "",
+    double width = STAlertConst.defaultWidth,
+    IconData icon = null,
+    String rightText = "",
+    IconData rightIcon = null,
+    VoidCallback onRightTap = null,
+  }) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          switch (alertType) {
+            case STAlertType.Text:
+              return new STAlertText(
+                title: title,
+                width: width,
+                rightText: rightText,
+                rightIcon: rightIcon,
+                alertState: alertState,
+                alertRightButtonType: alertRightButtonType,
+                onRightTap: onRightTap,
+              );
 
-  const STAlertTypeButtonTypeState(
-      {this.alertType = STAlertType.Text,
-      this.alertState = STAlertState.Alert,
-      this.alertRightBtnType = STAlertRightButtonType.None,
-      Key key})
-      : super(key: key);
+            case STAlertType.Icon:
+              return new STAlertIconText(
+                title: title,
+                width: width,
+                icon: icon,
+                rightText: rightText,
+                rightIcon: rightIcon,
+                alertState: alertState,
+                alertRightButtonType: alertRightButtonType,
+                onRightTap: onRightTap,
+              );
 
-  Color get backgroundColor {
-    switch (alertState) {
-      case STAlertState.Alert:
-        {
-          return STAlertConst.colorAlertBlue;
-        }
-      case STAlertState.Success:
-        {
-          return STAlertConst.colorAlertGreen;
-        }
-      case STAlertState.Danger:
-        {
-          return STAlertConst.colorAlertRed;
-        }
-      case STAlertState.Warning:
-        {
-          return STAlertConst.colorAlertOrange;
-        }
-    }
+            case STAlertType.Title:
+              return new STAlertTitleText(
+                title: title,
+                width: width,
+                text: text,
+                rightText: rightText,
+                rightIcon: rightIcon,
+                alertState: alertState,
+                alertRightButtonType: alertRightButtonType,
+                onRightTap: onRightTap,
+              );
+
+            case STAlertType.Icon_Title:
+              return new STAlertIconTitleText(
+                title: title,
+                width: width,
+                text: text,
+                icon: icon,
+                rightText: rightText,
+                rightIcon: rightIcon,
+                alertState: alertState,
+                alertRightButtonType: alertRightButtonType,
+                onRightTap: onRightTap,
+              );
+            default:
+              return null;
+          }
+        });
   }
 
-  List<Widget> addRightBtn(
-      List rowChildren, IconData icon, String text, VoidCallback tap) {
-    switch (this.alertRightBtnType) {
-      case STAlertRightButtonType.None:
-        {}
-        break;
-      case STAlertRightButtonType.Icon:
-        {
-          rowChildren.add(GestureDetector(
-            child: Icon(icon, size: 17.0, color: Colors.blue),
-            onTap: tap,
-          ));
-        }
-        break;
-      case STAlertRightButtonType.Text:
-        {
-          rowChildren.add(GestureDetector(
-            child: Text(text,
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    decoration: TextDecoration.none)),
-            onTap: tap,
-          ));
-        }
-        break;
-    }
-    return rowChildren;
+  static void hide(
+    BuildContext context,
+  ) {
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

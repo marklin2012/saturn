@@ -8,10 +8,11 @@ class STAlertConst {
   static const colorAlertGreen = Color.fromRGBO(73, 197, 100, 0.12);
   static const colorAlertRed = Color.fromRGBO(255, 65, 65, 0.12);
   static const colorAlertOrange = Color.fromRGBO(255, 169, 39, 0.12);
+  static const colorAlertBackground = Color.fromRGBO(255, 255, 255, 0.1);
 
 //**************************************************************** */
 
-  static const defaultWidth = 343.0;
+  static const defaultWidth = 200.0;
   static const defaultHeight = 40.0;
   static const iconWidth = 17.0;
 

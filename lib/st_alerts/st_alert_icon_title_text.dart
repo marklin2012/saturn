@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'st_alerts.dart';
+import 'st_alert_state.dart';
 import 'st_alert_utils.dart';
 
 class STAlertIconTitleText extends STAlertTypeButtonTypeState {
+  final double width;
   final IconData icon;
   final String title;
   final String text;
@@ -10,22 +11,23 @@ class STAlertIconTitleText extends STAlertTypeButtonTypeState {
   final IconData rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
-  final STAlertRightButtonType alertRightBtnType;
+  final STAlertRightButtonType alertRightButtonType;
 
   const STAlertIconTitleText(
       {Key key,
       @required this.icon,
       @required this.title,
       @required this.text,
-      this.rightText,
-      this.rightIcon,
-      this.onRightTap,
+      this.rightText = "",
+      this.rightIcon = null,
+      this.width = STAlertConst.defaultWidth,
+      this.onRightTap = null,
       this.alertState,
-      this.alertRightBtnType})
+      this.alertRightButtonType})
       : super(
             key: key,
             alertState: alertState,
-            alertRightBtnType: alertRightBtnType,
+            alertRightButtonType: alertRightButtonType,
             alertType: STAlertType.Icon_Title);
 
   @override
@@ -42,14 +44,16 @@ class STAlertIconTitleText extends STAlertTypeButtonTypeState {
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.none)));
     List<Widget> rightChildren = [];
-    rightChildren = this.addRightBtn(
+    rightChildren = this.addRightButton(
         rightChildren, this.rightIcon, this.rightText, this.onRightTap);
     rightChildren.add(SizedBox(width: STAlertConst.rightPadding));
 
     List<Widget> secRowChildren = [];
     secRowChildren.add(SizedBox(width: STAlertConst.secondTextLeftPadding));
     secRowChildren.add(SizedBox(
-        width: STAlertConst.defaultWidth -
+        width: (this.width > STAlertConst.defaultWidth
+                ? this.width
+                : STAlertConst.defaultWidth) -
             STAlertConst.secondTextLeftPadding -
             STAlertConst.rightPadding,
         child: Text(this.text,
@@ -63,7 +67,9 @@ class STAlertIconTitleText extends STAlertTypeButtonTypeState {
       color: Colors.white,
       child: Center(
         child: Container(
-          width: STAlertConst.defaultWidth,
+          width: this.width > STAlertConst.defaultWidth
+              ? this.width
+              : STAlertConst.defaultWidth,
           decoration: new BoxDecoration(
             color: backgroundColor,
             borderRadius:
