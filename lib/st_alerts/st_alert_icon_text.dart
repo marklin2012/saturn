@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'st_alerts.dart';
+import 'st_alert_utils.dart';
 
-class STAlertIconText extends STAlertTypeBtnTypeState {
+class STAlertIconText extends STAlertTypeButtonTypeState {
   final String title;
   final IconData icon;
   final String rightText;
   final IconData rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
-  final STAlertRightBtnType alertRightBtnType;
+  final STAlertRightButtonType alertRightBtnType;
 
   const STAlertIconText(
       {Key key,
@@ -28,28 +29,30 @@ class STAlertIconText extends STAlertTypeBtnTypeState {
   @override
   Widget build(BuildContext context) {
     List<Widget> rowChildren = [];
-    rowChildren.add(SizedBox(width: 18));
-    rowChildren.add(Icon(this.icon, size: 17.0, color: Colors.blue));
-    rowChildren.add(SizedBox(width: 14));
+    rowChildren.add(SizedBox(width: STAlertConst.leftPadding));
+    rowChildren
+        .add(Icon(this.icon, size: STAlertConst.iconWidth, color: Colors.blue));
+    rowChildren.add(SizedBox(width: STAlertConst.iconTitlePadding));
     rowChildren.add(Text(this.title,
         style: TextStyle(
             color: Colors.black,
-            fontSize: 16,
+            fontSize: STAlertConst.textFontSize,
             decoration: TextDecoration.none)));
     List<Widget> rightChildren = [];
     rightChildren = this.addRightBtn(
         rightChildren, this.rightIcon, this.rightText, this.onRightTap);
-    rightChildren.add(SizedBox(width: 16));
+    rightChildren.add(SizedBox(width: STAlertConst.rightPadding));
 
     return Container(
       color: Colors.white,
       child: Center(
         child: Container(
-          width: STSizeW,
-          height: STSizeDefaultH,
+          width: STAlertConst.defaultWidth,
+          height: STAlertConst.defaultHeight,
           decoration: new BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            borderRadius:
+                BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

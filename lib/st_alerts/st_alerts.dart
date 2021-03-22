@@ -1,31 +1,15 @@
 import 'package:flutter/material.dart';
+import 'st_alert_utils.dart';
 
-//定义的Color，带合并代码后迁移到ColorUtil中
-//**************************************************************** */
-
-const color_alert_blue = Color.fromRGBO(9, 91, 249, 0.12);
-const color_alert_green = Color.fromRGBO(73, 197, 100, 0.12);
-const color_alert_red = Color.fromRGBO(255, 65, 65, 0.12);
-const color_alert_orange = Color.fromRGBO(255, 169, 39, 0.12);
-
-//**************************************************************** */
-
-const STSizeW = 343.0;
-const STSizeDefaultH = 40.0;
-
-enum STAlertType { Text, Icon, Title, Icon_Title }
-enum STAlertState { Alert, Success, Danger, Warning }
-enum STAlertRightBtnType { None, Icon, Text }
-
-abstract class STAlertTypeBtnTypeState extends StatelessWidget {
+abstract class STAlertTypeButtonTypeState extends StatelessWidget {
   final STAlertType alertType;
   final STAlertState alertState;
-  final STAlertRightBtnType alertRightBtnType;
+  final STAlertRightButtonType alertRightBtnType;
 
-  const STAlertTypeBtnTypeState(
+  const STAlertTypeButtonTypeState(
       {this.alertType = STAlertType.Text,
       this.alertState = STAlertState.Alert,
-      this.alertRightBtnType = STAlertRightBtnType.None,
+      this.alertRightBtnType = STAlertRightButtonType.None,
       Key key})
       : super(key: key);
 
@@ -33,19 +17,19 @@ abstract class STAlertTypeBtnTypeState extends StatelessWidget {
     switch (alertState) {
       case STAlertState.Alert:
         {
-          return color_alert_blue;
+          return STAlertConst.colorAlertBlue;
         }
       case STAlertState.Success:
         {
-          return color_alert_green;
+          return STAlertConst.colorAlertGreen;
         }
       case STAlertState.Danger:
         {
-          return color_alert_red;
+          return STAlertConst.colorAlertRed;
         }
       case STAlertState.Warning:
         {
-          return color_alert_orange;
+          return STAlertConst.colorAlertOrange;
         }
     }
   }
@@ -53,10 +37,10 @@ abstract class STAlertTypeBtnTypeState extends StatelessWidget {
   List<Widget> addRightBtn(
       List rowChildren, IconData icon, String text, VoidCallback tap) {
     switch (this.alertRightBtnType) {
-      case STAlertRightBtnType.None:
+      case STAlertRightButtonType.None:
         {}
         break;
-      case STAlertRightBtnType.Icon:
+      case STAlertRightButtonType.Icon:
         {
           rowChildren.add(GestureDetector(
             child: Icon(icon, size: 17.0, color: Colors.blue),
@@ -64,7 +48,7 @@ abstract class STAlertTypeBtnTypeState extends StatelessWidget {
           ));
         }
         break;
-      case STAlertRightBtnType.Text:
+      case STAlertRightButtonType.Text:
         {
           rowChildren.add(GestureDetector(
             child: Text(text,

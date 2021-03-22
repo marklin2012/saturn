@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'st_alerts.dart';
+import 'st_alert_utils.dart';
 
-class STAlertText extends STAlertTypeBtnTypeState {
+class STAlertText extends STAlertTypeButtonTypeState {
   final String title;
   final String rightText;
   final IconData rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
-  final STAlertRightBtnType alertRightBtnType;
+  final STAlertRightButtonType alertRightBtnType;
 
   const STAlertText(
       {Key key,
@@ -26,25 +27,26 @@ class STAlertText extends STAlertTypeBtnTypeState {
   @override
   Widget build(BuildContext context) {
     List<Widget> rowChildren = [];
-    rowChildren.add(SizedBox(width: 16));
+    rowChildren.add(SizedBox(width: STAlertConst.leftPadding));
     rowChildren.add(Text(this.title,
         style: TextStyle(
             color: Colors.black,
-            fontSize: 16,
+            fontSize: STAlertConst.textFontSize,
             decoration: TextDecoration.none)));
     List<Widget> rightChildren = [];
     rightChildren = this.addRightBtn(
         rightChildren, this.rightIcon, this.rightText, this.onRightTap);
-    rightChildren.add(SizedBox(width: 16));
+    rightChildren.add(SizedBox(width: STAlertConst.rightPadding));
     return Container(
       color: Colors.white,
       child: Center(
         child: Container(
-          width: STSizeW,
-          height: STSizeDefaultH,
+          width: STAlertConst.defaultWidth,
+          height: STAlertConst.defaultHeight,
           decoration: new BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            borderRadius:
+                BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

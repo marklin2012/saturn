@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'st_alerts.dart';
+import 'st_alert_utils.dart';
 
-class STAlertIconTitleText extends STAlertTypeBtnTypeState {
+class STAlertIconTitleText extends STAlertTypeButtonTypeState {
   final IconData icon;
   final String title;
   final String text;
@@ -9,7 +10,7 @@ class STAlertIconTitleText extends STAlertTypeBtnTypeState {
   final IconData rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
-  final STAlertRightBtnType alertRightBtnType;
+  final STAlertRightButtonType alertRightBtnType;
 
   const STAlertIconTitleText(
       {Key key,
@@ -30,46 +31,48 @@ class STAlertIconTitleText extends STAlertTypeBtnTypeState {
   @override
   Widget build(BuildContext context) {
     List<Widget> firRowChildren = [];
-    firRowChildren.add(SizedBox(width: 18));
-    firRowChildren.add(Icon(this.icon, size: 17.0, color: Colors.blue));
-    firRowChildren.add(SizedBox(width: 14));
+    firRowChildren.add(SizedBox(width: STAlertConst.leftPadding));
+    firRowChildren
+        .add(Icon(this.icon, size: STAlertConst.iconWidth, color: Colors.blue));
+    firRowChildren.add(SizedBox(width: STAlertConst.iconTitlePadding));
     firRowChildren.add(Text(this.title,
         style: TextStyle(
             color: Colors.black,
-            fontSize: 18,
+            fontSize: STAlertConst.titleFontSize,
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.none)));
     List<Widget> rightChildren = [];
     rightChildren = this.addRightBtn(
         rightChildren, this.rightIcon, this.rightText, this.onRightTap);
-    rightChildren.add(SizedBox(width: 16));
+    rightChildren.add(SizedBox(width: STAlertConst.rightPadding));
 
     List<Widget> secRowChildren = [];
-    secRowChildren.add(SizedBox(width: 18));
-    secRowChildren.add(SizedBox(width: 17));
-    secRowChildren.add(SizedBox(width: 14));
+    secRowChildren.add(SizedBox(width: STAlertConst.secondTextLeftPadding));
     secRowChildren.add(SizedBox(
-        width: STSizeW - 18 - 17 - 14 - 18,
+        width: STAlertConst.defaultWidth -
+            STAlertConst.secondTextLeftPadding -
+            STAlertConst.rightPadding,
         child: Text(this.text,
             softWrap: true,
             style: TextStyle(
                 color: Colors.black,
-                fontSize: 16,
+                fontSize: STAlertConst.textFontSize,
                 decoration: TextDecoration.none))));
 
     return Container(
       color: Colors.white,
       child: Center(
         child: Container(
-          width: STSizeW,
+          width: STAlertConst.defaultWidth,
           decoration: new BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            borderRadius:
+                BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 4),
+              SizedBox(height: STAlertConst.firstTitleTopPading),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -86,11 +89,11 @@ class STAlertIconTitleText extends STAlertTypeBtnTypeState {
                       )),
                 ],
               ),
-              SizedBox(height: 8),
+              SizedBox(height: STAlertConst.secondTextTopPading),
               Row(
                 children: secRowChildren,
               ),
-              SizedBox(height: 4),
+              SizedBox(height: STAlertConst.secondTextBottomPading),
             ],
           ),
         ),
