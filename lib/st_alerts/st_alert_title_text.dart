@@ -7,7 +7,7 @@ class STAlertTitleText extends STAlertTypeButtonTypeState {
   final String title;
   final String text;
   final String rightText;
-  final IconData rightIcon;
+  final String rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
   final STAlertRightButtonType alertRightButtonType;
@@ -57,43 +57,40 @@ class STAlertTitleText extends STAlertTypeButtonTypeState {
                 color: Colors.black,
                 fontSize: STAlertConst.textFontSize,
                 decoration: TextDecoration.none))));
-    return Container(
-      color: Colors.white,
-      child: Center(
-        child: Container(
-          width: STAlertConst.defaultWidth,
-          decoration: new BoxDecoration(
-            color: backgroundColor,
-            borderRadius:
-                BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: STAlertConst.firstTitleTopPading),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: firRowChildren,
-                    ),
+    return Center(
+      child: Container(
+        width: STAlertConst.defaultWidth,
+        decoration: new BoxDecoration(
+          color: backgroundColor,
+          borderRadius:
+              BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: STAlertConst.firstTitleTopPading),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: firRowChildren,
                   ),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        children: rightChildren,
-                      )),
-                ],
-              ),
-              SizedBox(height: STAlertConst.secondTextTopPading),
-              Row(
-                children: secRowChildren,
-              ),
-              SizedBox(height: STAlertConst.secondTextBottomPading),
-            ],
-          ),
+                ),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      children: rightChildren,
+                    )),
+              ],
+            ),
+            SizedBox(height: STAlertConst.secondTextTopPading),
+            Row(
+              children: secRowChildren,
+            ),
+            SizedBox(height: STAlertConst.secondTextBottomPading),
+          ],
         ),
       ),
     );

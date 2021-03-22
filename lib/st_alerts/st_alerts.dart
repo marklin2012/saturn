@@ -17,65 +17,84 @@ class STAlerts extends StatelessWidget {
     String text = "",
     String title = "",
     double width = STAlertConst.defaultWidth,
-    IconData icon = null,
+    String icon = "",
     String rightText = "",
-    IconData rightIcon = null,
+    String rightIcon = "",
     VoidCallback onRightTap = null,
   }) {
     showDialog(
         context: context,
+        barrierColor: Colors.transparent,
         builder: (context) {
+          var alert = null;
+
           switch (alertType) {
             case STAlertType.Text:
-              return new STAlertText(
-                title: title,
-                width: width,
-                rightText: rightText,
-                rightIcon: rightIcon,
-                alertState: alertState,
-                alertRightButtonType: alertRightButtonType,
-                onRightTap: onRightTap,
-              );
+              {
+                alert = new STAlertText(
+                  title: title,
+                  width: width,
+                  rightText: rightText,
+                  rightIcon: rightIcon,
+                  alertState: alertState,
+                  alertRightButtonType: alertRightButtonType,
+                  onRightTap: onRightTap,
+                );
+              }
+              break;
 
             case STAlertType.Icon:
-              return new STAlertIconText(
-                title: title,
-                width: width,
-                icon: icon,
-                rightText: rightText,
-                rightIcon: rightIcon,
-                alertState: alertState,
-                alertRightButtonType: alertRightButtonType,
-                onRightTap: onRightTap,
-              );
+              {
+                alert = new STAlertIconText(
+                  title: title,
+                  width: width,
+                  icon: icon,
+                  rightText: rightText,
+                  rightIcon: rightIcon,
+                  alertState: alertState,
+                  alertRightButtonType: alertRightButtonType,
+                  onRightTap: onRightTap,
+                );
+              }
+              break;
 
             case STAlertType.Title:
-              return new STAlertTitleText(
-                title: title,
-                width: width,
-                text: text,
-                rightText: rightText,
-                rightIcon: rightIcon,
-                alertState: alertState,
-                alertRightButtonType: alertRightButtonType,
-                onRightTap: onRightTap,
-              );
+              {
+                alert = new STAlertTitleText(
+                  title: title,
+                  width: width,
+                  text: text,
+                  rightText: rightText,
+                  rightIcon: rightIcon,
+                  alertState: alertState,
+                  alertRightButtonType: alertRightButtonType,
+                  onRightTap: onRightTap,
+                );
+              }
+              break;
 
             case STAlertType.Icon_Title:
-              return new STAlertIconTitleText(
-                title: title,
-                width: width,
-                text: text,
-                icon: icon,
-                rightText: rightText,
-                rightIcon: rightIcon,
-                alertState: alertState,
-                alertRightButtonType: alertRightButtonType,
-                onRightTap: onRightTap,
-              );
-            default:
-              return null;
+              {
+                alert = new STAlertIconTitleText(
+                  title: title,
+                  width: width,
+                  text: text,
+                  icon: icon,
+                  rightText: rightText,
+                  rightIcon: rightIcon,
+                  alertState: alertState,
+                  alertRightButtonType: alertRightButtonType,
+                  onRightTap: onRightTap,
+                );
+              }
+              break;
           }
+          return GestureDetector(
+            child: alert,
+            onTap: () {
+              hide(context);
+            },
+          );
         });
   }
 

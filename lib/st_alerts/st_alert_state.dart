@@ -35,7 +35,7 @@ abstract class STAlertTypeButtonTypeState extends Dialog {
   }
 
   List<Widget> addRightButton(
-      List rowChildren, IconData icon, String text, VoidCallback tap) {
+      List rowChildren, String icon, String text, VoidCallback tap) {
     switch (this.alertRightButtonType) {
       case STAlertRightButtonType.None:
         {}
@@ -43,7 +43,12 @@ abstract class STAlertTypeButtonTypeState extends Dialog {
       case STAlertRightButtonType.Icon:
         {
           rowChildren.add(GestureDetector(
-            child: Icon(icon, size: 17.0, color: Colors.blue),
+            child: Image.asset(icon,
+                width: STAlertConst.iconWidth,
+                height: STAlertConst.iconWidth,
+                repeat: ImageRepeat
+                    .noRepeat, //当一个图片占不满容器的时候这个可以控制图片水平ImageRepeat.repeatX， 或者垂直ImageRepeat.repeatY  或者依次排列ImageRepeat.repeat，来占满   或者正常ImageRepeat.noRepeat
+                fit: BoxFit.contain),
             onTap: tap,
           ));
         }

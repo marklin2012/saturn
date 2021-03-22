@@ -6,7 +6,7 @@ class STAlertText extends STAlertTypeButtonTypeState {
   final double width;
   final String title;
   final String rightText;
-  final IconData rightIcon;
+  final String rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
   final STAlertRightButtonType alertRightButtonType;
@@ -39,8 +39,9 @@ class STAlertText extends STAlertTypeButtonTypeState {
     rightChildren = this.addRightButton(
         rightChildren, this.rightIcon, this.rightText, this.onRightTap);
     rightChildren.add(SizedBox(width: STAlertConst.rightPadding));
-    return new Material(
-        type: MaterialType.transparency,
+    return Material(
+        //创建透明层
+        type: MaterialType.transparency, //透明类型
         child: Center(
           child: Container(
             width: this.width > STAlertConst.defaultWidth

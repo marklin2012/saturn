@@ -4,11 +4,11 @@ import 'st_alert_utils.dart';
 
 class STAlertIconTitleText extends STAlertTypeButtonTypeState {
   final double width;
-  final IconData icon;
+  final String icon;
   final String title;
   final String text;
   final String rightText;
-  final IconData rightIcon;
+  final String rightIcon;
   final VoidCallback onRightTap;
   final STAlertState alertState;
   final STAlertRightButtonType alertRightButtonType;
@@ -19,7 +19,7 @@ class STAlertIconTitleText extends STAlertTypeButtonTypeState {
       @required this.title,
       @required this.text,
       this.rightText = "",
-      this.rightIcon = null,
+      this.rightIcon = "",
       this.width = STAlertConst.defaultWidth,
       this.onRightTap = null,
       this.alertState,
@@ -34,8 +34,12 @@ class STAlertIconTitleText extends STAlertTypeButtonTypeState {
   Widget build(BuildContext context) {
     List<Widget> firRowChildren = [];
     firRowChildren.add(SizedBox(width: STAlertConst.leftPadding));
-    firRowChildren
-        .add(Icon(this.icon, size: STAlertConst.iconWidth, color: Colors.blue));
+    firRowChildren.add(Image.asset(this.icon,
+        width: STAlertConst.iconWidth,
+        height: STAlertConst.iconWidth,
+        repeat: ImageRepeat
+            .noRepeat, //当一个图片占不满容器的时候这个可以控制图片水平ImageRepeat.repeatX， 或者垂直ImageRepeat.repeatY  或者依次排列ImageRepeat.repeat，来占满   或者正常ImageRepeat.noRepeat
+        fit: BoxFit.contain));
     firRowChildren.add(SizedBox(width: STAlertConst.iconTitlePadding));
     firRowChildren.add(Text(this.title,
         style: TextStyle(
@@ -63,45 +67,42 @@ class STAlertIconTitleText extends STAlertTypeButtonTypeState {
                 fontSize: STAlertConst.textFontSize,
                 decoration: TextDecoration.none))));
 
-    return Container(
-      color: Colors.white,
-      child: Center(
-        child: Container(
-          width: this.width > STAlertConst.defaultWidth
-              ? this.width
-              : STAlertConst.defaultWidth,
-          decoration: new BoxDecoration(
-            color: backgroundColor,
-            borderRadius:
-                BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: STAlertConst.firstTitleTopPading),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: firRowChildren,
-                    ),
+    return Center(
+      child: Container(
+        width: this.width > STAlertConst.defaultWidth
+            ? this.width
+            : STAlertConst.defaultWidth,
+        decoration: new BoxDecoration(
+          color: backgroundColor,
+          borderRadius:
+              BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: STAlertConst.firstTitleTopPading),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: firRowChildren,
                   ),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        children: rightChildren,
-                      )),
-                ],
-              ),
-              SizedBox(height: STAlertConst.secondTextTopPading),
-              Row(
-                children: secRowChildren,
-              ),
-              SizedBox(height: STAlertConst.secondTextBottomPading),
-            ],
-          ),
+                ),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      children: rightChildren,
+                    )),
+              ],
+            ),
+            SizedBox(height: STAlertConst.secondTextTopPading),
+            Row(
+              children: secRowChildren,
+            ),
+            SizedBox(height: STAlertConst.secondTextBottomPading),
+          ],
         ),
       ),
     );
