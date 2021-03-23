@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/st_button_size_state.dart';
 
 import 'package:saturn/st_button/st_buttons.dart';
 import 'package:saturn/st_color_utils.dart';
 
-class STButtonMOT extends StatelessWidget {
+class STButtonMOT extends StatelessWidget with STButtonSizeState {
   final Widget icon;
   final String label;
   final TextStyle style;
@@ -39,13 +40,13 @@ class STButtonMOT extends StatelessWidget {
     var boxDecoration = const BoxDecoration();
     if (buttonType == STButtonType.main) {
       boxDecoration = BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(radius ?? space),
+        color: stBackgroundColor(buttonState),
+        borderRadius: BorderRadius.circular(radius ?? stSpace(buttonSize)),
       );
     }
     if (buttonType == STButtonType.outLine) {
       boxDecoration = BoxDecoration(
-        borderRadius: BorderRadius.circular(radius ?? space),
+        borderRadius: BorderRadius.circular(radius ?? stSpace(buttonSize)),
         border: Border.all(
           color: borderColor ?? firRankBlue,
           width: borderWidth ?? 1,
@@ -62,11 +63,12 @@ class STButtonMOT extends StatelessWidget {
     return GestureDetector(
       onTap: disable == false ? onPressed : null,
       child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: height ?? defaultHeight),
+        constraints:
+            BoxConstraints(minHeight: height ?? stDefaultHeight(buttonSize)),
         child: Container(
-          width: width ?? defaultWidth,
+          width: width ?? stDefaultWidth(buttonSize),
           decoration: boxDecoration,
-          padding: edgeInsets,
+          padding: stEdgeInsets(buttonSize),
           alignment: Alignment.center,
           child: _icon == null
               ? Text(
@@ -78,7 +80,7 @@ class STButtonMOT extends StatelessWidget {
                   children: [
                     _icon,
                     SizedBox(
-                      width: space,
+                      width: stSpace(buttonSize),
                     ),
                     Text(
                       label,
@@ -91,54 +93,10 @@ class STButtonMOT extends StatelessWidget {
     );
   }
 
-  Color get backgroundColor {
-    if (buttonState == STButtonState.success) {
-      return assistGreen;
-    }
-    if (buttonState == STButtonState.danger) {
-      return assistRed;
-    }
-    if (buttonState == STButtonState.focus) {
-      return secRankBlue;
-    }
-    if (buttonState == STButtonState.disable) {
-      return fourRankBlue;
-    }
-    return firRankBlue;
-  }
-
   bool get disable {
     if (buttonState == STButtonState.disable || onPressed == null) {
       return true;
     }
     return false;
-  }
-
-  double get defaultHeight {
-    if (buttonSize == STButtonSize.small) {
-      return STButtonConst.smallHeight;
-    }
-    return STButtonConst.bigHeight;
-  }
-
-  double get defaultWidth {
-    if (buttonSize == STButtonSize.small) {
-      return STButtonConst.smallWidth;
-    }
-    return STButtonConst.bigWidth;
-  }
-
-  double get space {
-    if (buttonSize == STButtonSize.small) {
-      return STButtonConst.smallSpace;
-    }
-    return STButtonConst.bigSpace;
-  }
-
-  EdgeInsets get edgeInsets {
-    if (buttonSize == STButtonSize.small) {
-      return STButtonConst.smallEdgetInset;
-    }
-    return STButtonConst.bigEdgetInset;
   }
 }

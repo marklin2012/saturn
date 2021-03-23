@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headline4,
             ),
             STButtons(
-                buttonState: STButtonState.success, onPressed: _reduceCounter),
+                buttonState: STButtonState.danger, onPressed: _reduceCounter),
             SizedBox(height: 5),
             STButtons.icon(
               icon: Icon(
@@ -127,6 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5),
             STButtons(
+              label: 'text',
               buttonType: STButtonType.text,
               onPressed: _reduceCounter,
             ),
