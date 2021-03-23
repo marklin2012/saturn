@@ -102,12 +102,13 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: STInput(),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: STInput.password(),
             ),
             STButton(state: STButtonState.danger, onTap: _reduceCounter),
             SizedBox(height: 5),
