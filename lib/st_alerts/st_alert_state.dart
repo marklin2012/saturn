@@ -7,27 +7,27 @@ abstract class STAlertTypeButtonTypeState extends Dialog {
   final STAlertRightButtonType alertRightButtonType;
 
   const STAlertTypeButtonTypeState(
-      {this.alertType = STAlertType.Text,
-      this.alertState = STAlertState.Alert,
-      this.alertRightButtonType = STAlertRightButtonType.None,
+      {this.alertType = STAlertType.text,
+      this.alertState = STAlertState.alert,
+      this.alertRightButtonType = STAlertRightButtonType.none,
       Key key})
       : super(key: key);
 
   Color get backgroundColor {
     switch (alertState) {
-      case STAlertState.Alert:
+      case STAlertState.alert:
         {
           return STAlertConst.colorAlertBlue;
         }
-      case STAlertState.Success:
+      case STAlertState.success:
         {
           return STAlertConst.colorAlertGreen;
         }
-      case STAlertState.Danger:
+      case STAlertState.danger:
         {
           return STAlertConst.colorAlertRed;
         }
-      case STAlertState.Warning:
+      case STAlertState.warning:
         {
           return STAlertConst.colorAlertOrange;
         }
@@ -36,30 +36,29 @@ abstract class STAlertTypeButtonTypeState extends Dialog {
 
   List<Widget> addRightButton(
       List rowChildren, String icon, String text, VoidCallback tap) {
-    switch (this.alertRightButtonType) {
-      case STAlertRightButtonType.None:
+    switch (alertRightButtonType) {
+      case STAlertRightButtonType.none:
         {}
         break;
-      case STAlertRightButtonType.Icon:
+      case STAlertRightButtonType.icon:
         {
           rowChildren.add(GestureDetector(
             child: Image.asset(icon,
                 width: STAlertConst.iconWidth,
                 height: STAlertConst.iconWidth,
-                repeat: ImageRepeat
-                    .noRepeat, //当一个图片占不满容器的时候这个可以控制图片水平ImageRepeat.repeatX， 或者垂直ImageRepeat.repeatY  或者依次排列ImageRepeat.repeat，来占满   或者正常ImageRepeat.noRepeat
+                repeat: ImageRepeat.noRepeat,
                 fit: BoxFit.contain),
             onTap: tap,
           ));
         }
         break;
-      case STAlertRightButtonType.Text:
+      case STAlertRightButtonType.text:
         {
           rowChildren.add(GestureDetector(
             child: Text(text,
                 style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 16,
+                    fontSize: STAlertConst.textFontSize,
                     decoration: TextDecoration.none)),
             onTap: tap,
           ));

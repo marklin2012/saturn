@@ -24,34 +24,34 @@ class STAlertText extends STAlertTypeButtonTypeState {
             key: key,
             alertState: alertState,
             alertRightButtonType: alertRightButtonType,
-            alertType: STAlertType.Text);
+            alertType: STAlertType.text);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> rowChildren = [];
-    rowChildren.add(SizedBox(width: STAlertConst.leftPadding));
-    rowChildren.add(Text(this.title,
-        style: TextStyle(
+    rowChildren.add(const SizedBox(width: STAlertConst.leftPadding));
+    rowChildren.add(Text(title,
+        style: const TextStyle(
             color: Colors.black,
             fontSize: STAlertConst.textFontSize,
             decoration: TextDecoration.none)));
     List<Widget> rightChildren = [];
-    rightChildren = this.addRightButton(
-        rightChildren, this.rightIcon, this.rightText, this.onRightTap);
-    rightChildren.add(SizedBox(width: STAlertConst.rightPadding));
+    rightChildren =
+        addRightButton(rightChildren, rightIcon, rightText, onRightTap);
+    rightChildren.add(const SizedBox(width: STAlertConst.rightPadding));
     return Material(
         //创建透明层
         type: MaterialType.transparency, //透明类型
         child: Center(
           child: Container(
-            width: this.width > STAlertConst.defaultWidth
-                ? this.width
+            width: width > STAlertConst.defaultWidth
+                ? width
                 : STAlertConst.defaultWidth,
             height: STAlertConst.defaultHeight,
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius:
-                  BorderRadius.all(Radius.circular(STAlertConst.cornerRadius)),
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(STAlertConst.cornerRadius)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

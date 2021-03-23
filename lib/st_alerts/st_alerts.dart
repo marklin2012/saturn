@@ -29,9 +29,9 @@ class STAlerts extends StatelessWidget {
           var alert = null;
 
           switch (alertType) {
-            case STAlertType.Text:
+            case STAlertType.text:
               {
-                alert = new STAlertText(
+                alert = STAlertText(
                   title: title,
                   width: width,
                   rightText: rightText,
@@ -43,9 +43,9 @@ class STAlerts extends StatelessWidget {
               }
               break;
 
-            case STAlertType.Icon:
+            case STAlertType.icon:
               {
-                alert = new STAlertIconText(
+                alert = STAlertIconText(
                   title: title,
                   width: width,
                   icon: icon,
@@ -58,9 +58,9 @@ class STAlerts extends StatelessWidget {
               }
               break;
 
-            case STAlertType.Title:
+            case STAlertType.title:
               {
-                alert = new STAlertTitleText(
+                alert = STAlertTitleText(
                   title: title,
                   width: width,
                   text: text,
@@ -73,9 +73,9 @@ class STAlerts extends StatelessWidget {
               }
               break;
 
-            case STAlertType.Icon_Title:
+            case STAlertType.iconTitle:
               {
-                alert = new STAlertIconTitleText(
+                alert = STAlertIconTitleText(
                   title: title,
                   width: width,
                   text: text,

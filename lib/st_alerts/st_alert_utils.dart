@@ -32,6 +32,6 @@ class STAlertConst {
   static const textFontSize = 16.0;
 }
 
-enum STAlertType { Text, Icon, Title, Icon_Title }
-enum STAlertState { Alert, Success, Danger, Warning }
-enum STAlertRightButtonType { None, Icon, Text }
+enum STAlertType { text, icon, title, iconTitle }
+enum STAlertState { alert, success, danger, warning }
+enum STAlertRightButtonType { none, icon, text }
