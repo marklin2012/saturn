@@ -1,43 +1,43 @@
 import 'package:flutter/material.dart';
 
+import 'package:saturn/st_button/st_buttons.dart';
 import 'package:saturn/st_color_utils.dart';
-import 'package:saturn/st_buttons/st_button_enum.dart';
 
-// 按钮相关常量
-class STButtonConst {
-  // 大按钮的宽度
-  static const bigWidth = 172.0;
-  // 小按钮的宽度
-  static const smallWidth = 84.0;
-  // 大按钮的最小高度
-  static const bigHeight = 38.0;
-  // 小按钮的最小高度
-  static const smallHeight = 24.0;
-  // 小按钮中的间距以及圆角
-  static const smallSpace = 4.0;
-  // 大按钮中的间距以及圆角
-  static const bigSpace = 8.0;
-  // 大按钮内容的inset
-  static const bigEdgetInset = EdgeInsets.fromLTRB(16, 6, 16, 6);
-  // 小按钮内容的inset
-  static const smallEdgetInset = EdgeInsets.fromLTRB(12, 3, 12, 3);
-  // 图形按钮的宽度
-  static const iconWidth = 44.0;
-  // 图形按钮的padding,图形与外部内容的inset
-  static const iconPadding = EdgeInsets.all(10);
-}
-
-abstract class STButtonTypeSizeState extends StatelessWidget {
-  final STButtonType buttonType;
+class STButtonIcon extends StatelessWidget {
+  final Widget icon;
+  final VoidCallback onPressed;
+  final double width;
+  final EdgeInsets padding;
   final STButtonSize buttonSize;
   final STButtonState buttonState;
 
-  const STButtonTypeSizeState(
-      {this.buttonType = STButtonType.main,
-      this.buttonSize = STButtonSize.big,
-      this.buttonState = STButtonState.main,
-      Key key})
-      : super(key: key);
+  const STButtonIcon(
+      {Key key,
+      @required this.icon,
+      this.onPressed,
+      this.buttonSize,
+      this.buttonState,
+      this.width,
+      this.padding})
+      : assert(icon != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: disable == false ? onPressed : null,
+      child: Container(
+        width: width ?? STButtonConst.iconWidth,
+        padding: padding ?? STButtonConst.iconPadding,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          shape: BoxShape.circle,
+        ),
+        alignment: Alignment.center,
+        child: icon,
+      ),
+    );
+  }
 
   Color get backgroundColor {
     if (buttonState == STButtonState.success) {
@@ -56,7 +56,7 @@ abstract class STButtonTypeSizeState extends StatelessWidget {
   }
 
   bool get disable {
-    if (buttonState == STButtonState.disable) {
+    if (buttonState == STButtonState.disable || onPressed == null) {
       return true;
     }
     return false;
