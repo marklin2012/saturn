@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
 import 'st_alert_utils.dart';
 
-abstract class STAlertTypeButtonTypeState extends Dialog {
-  final STAlertType alertType;
-  final STAlertState alertState;
-  final STAlertRightButtonType alertRightButtonType;
-
-  const STAlertTypeButtonTypeState(
-      {this.alertType = STAlertType.text,
-      this.alertState = STAlertState.alert,
-      this.alertRightButtonType = STAlertRightButtonType.none,
-      Key key})
-      : super(key: key);
-
-  Color get backgroundColor {
-    switch (alertState) {
+abstract class STAlertTypeButtonTypeState {
+  Color stBackgroundColor(STAlertState state) {
+    switch (state) {
       case STAlertState.alert:
         {
           return STAlertConst.colorAlertBlue;
@@ -34,7 +23,7 @@ abstract class STAlertTypeButtonTypeState extends Dialog {
     }
   }
 
-  List<Widget> addRightButton(
+  List<Widget> addRightButton(STAlertRightButtonType alertRightButtonType,
       List rowChildren, String icon, String text, VoidCallback tap) {
     switch (alertRightButtonType) {
       case STAlertRightButtonType.none:

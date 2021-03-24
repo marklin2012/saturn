@@ -3,10 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 import 'st_alert_utils.dart';
-import 'st_alert_icon_text.dart';
-import 'st_alert_icon_title_text.dart';
-import 'st_alert_text.dart';
-import 'st_alert_title_text.dart';
+import 'st_alert.dart';
 
 class STAlerts extends StatelessWidget {
   static Widget show(
@@ -31,39 +28,9 @@ class STAlerts extends StatelessWidget {
           switch (alertType) {
             case STAlertType.text:
               {
-                alert = STAlertText(
-                  title: title,
-                  width: width,
-                  rightText: rightText,
-                  rightIcon: rightIcon,
-                  alertState: alertState,
-                  alertRightButtonType: alertRightButtonType,
-                  onRightTap: onRightTap,
-                );
-              }
-              break;
-
-            case STAlertType.icon:
-              {
-                alert = STAlertIconText(
-                  title: title,
-                  width: width,
-                  icon: icon,
-                  rightText: rightText,
-                  rightIcon: rightIcon,
-                  alertState: alertState,
-                  alertRightButtonType: alertRightButtonType,
-                  onRightTap: onRightTap,
-                );
-              }
-              break;
-
-            case STAlertType.title:
-              {
-                alert = STAlertTitleText(
-                  title: title,
-                  width: width,
+                alert = STAlert.text(
                   text: text,
+                  width: width,
                   rightText: rightText,
                   rightIcon: rightIcon,
                   alertState: alertState,
@@ -73,13 +40,43 @@ class STAlerts extends StatelessWidget {
               }
               break;
 
-            case STAlertType.iconTitle:
+            case STAlertType.iconText:
               {
-                alert = STAlertIconTitleText(
-                  title: title,
-                  width: width,
+                alert = STAlert.iconText(
                   text: text,
                   icon: icon,
+                  width: width,
+                  rightText: rightText,
+                  rightIcon: rightIcon,
+                  alertState: alertState,
+                  alertRightButtonType: alertRightButtonType,
+                  onRightTap: onRightTap,
+                );
+              }
+              break;
+
+            case STAlertType.titleText:
+              {
+                alert = STAlert.titleText(
+                  title: title,
+                  text: text,
+                  width: width,
+                  rightText: rightText,
+                  rightIcon: rightIcon,
+                  alertState: alertState,
+                  alertRightButtonType: alertRightButtonType,
+                  onRightTap: onRightTap,
+                );
+              }
+              break;
+
+            case STAlertType.iconTitleText:
+              {
+                alert = STAlert.iconTitleText(
+                  title: title,
+                  text: text,
+                  icon: icon,
+                  width: width,
                   rightText: rightText,
                   rightIcon: rightIcon,
                   alertState: alertState,

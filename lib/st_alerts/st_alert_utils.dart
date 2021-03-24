@@ -12,17 +12,19 @@ class STAlertConst {
 
 //**************************************************************** */
 
-  static const defaultWidth = 200.0;
+  static const defaultWidth = 200.0; //默认宽度
   static const defaultHeight = 40.0;
   static const iconWidth = 17.0;
 
   static const cornerRadius = 4.0;
 
+// Padding
   static const leftPadding = 16.0;
   static const rightPadding = 16.0;
   static const iconTitlePadding = 14.0;
-  static const secondTextLeftPadding =
-      leftPadding + iconWidth + iconTitlePadding;
+
+  static const secondTextWithIconLeftPadding =
+      leftPadding + iconWidth + iconTitlePadding; //当类型为iconTitleText时，第二排文字的左边距
   static const firstTitleTopPading = 4.0;
   static const secondTextTopPading = 8.0;
   static const secondTextBottomPading = 4.0;
@@ -32,6 +34,9 @@ class STAlertConst {
   static const textFontSize = 16.0;
 }
 
-enum STAlertType { text, icon, title, iconTitle }
+// alert类型,text纯文字，iconText图片加文字，titleText标题加文字,iconTitleText 图片标题加文字
+enum STAlertType { text, iconText, titleText, iconTitleText }
+// alert状态
 enum STAlertState { alert, success, danger, warning }
+// alert右边按钮类型
 enum STAlertRightButtonType { none, icon, text }

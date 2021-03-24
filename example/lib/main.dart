@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:saturn/saturn.dart';
+import 'package:saturn/st_alerts/st_alert_include.dart';
 
 void main() {
   runApp(MyApp());
@@ -107,7 +108,34 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          STAlerts.show(
+            context,
+            STAlertType.text,
+            STAlertState.alert,
+            STAlertRightButtonType.none,
+            title: "方法",
+            width: 240,
+          );
+
+          //  STAlerts.show(context, STAlertType.iconText, STAlertState.warning,
+          //       STAlertRightButtonType.icon,
+          //       icon: "assets/images/basketball_check.png",
+          //       text: "Hello",
+          //       rightIcon: "assets/images/basketball_check.png",
+          //       width: 250, onRightTap: () {
+          //     print('好的');
+          //   });
+
+          // STAlerts.show(context, STAlertType.titleText, STAlertState.warning,
+          //     STAlertRightButtonType.icon,
+          //     title: "好的",
+          //     text: "好的好的好的好的好的好的好的好的好的",
+          //     rightIcon: "assets/images/basketball_check.png",
+          //     width: 250, onRightTap: () {
+          //   print('好的');
+          // });
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
