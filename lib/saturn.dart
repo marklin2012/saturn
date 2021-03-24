@@ -1,6 +1,6 @@
 library saturn;
 
-export 'st_button/st_buttons.dart';
+export 'st_button/st_button.dart';
 
 /// A Calculator.
 class Calculator {

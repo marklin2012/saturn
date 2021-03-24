@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_button/st_button_size_state.dart';
 
-import 'package:saturn/st_button/st_buttons.dart';
+import 'package:saturn/st_button/st_button.dart';
 import 'package:saturn/st_color_utils.dart';
 
 class STButtonMOT extends StatelessWidget with STButtonSizeState {

@@ -109,10 +109,10 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            STButtons(
+            STButton(
                 buttonState: STButtonState.danger, onPressed: _reduceCounter),
             SizedBox(height: 5),
-            STButtons.icon(
+            STButton.icon(
               icon: Icon(
                 Icons.star,
                 color: Colors.white,
@@ -120,13 +120,13 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: _incrementCounter,
             ),
             SizedBox(height: 5),
-            STButtons(
+            STButton(
               buttonType: STButtonType.outLine,
               buttonSize: STButtonSize.small,
               onPressed: _incrementCounter,
             ),
             SizedBox(height: 5),
-            STButtons(
+            STButton(
               label: 'text',
               buttonType: STButtonType.text,
               onPressed: _reduceCounter,

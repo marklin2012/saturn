@@ -5,14 +5,10 @@ import 'package:saturn/st_button/st_button_icon.dart';
 
 // 提供四种样式的按钮
 enum STButtonType {
-  // 实心主按钮
-  main,
-  // 描边按钮
-  outLine,
-  // 文本按钮
-  text,
-  // 图形按钮
-  icon,
+  main, // 实心主按钮
+  outLine, // 描边按钮
+  text, // 文本按钮
+  icon, // 图形按钮
 }
 
 // 提供两种大小样式的按钮
@@ -23,45 +19,30 @@ enum STButtonSize {
 
 // 提供六种状态样式的按钮
 enum STButtonState {
-  // 默认
-  main,
-  // 点击
-  focus,
-  // 加载
-  loading,
-  // 禁用
-  disable,
-  // 成功
-  success,
-  // 危险
-  danger,
+  main, // 默认
+  focus, // 点击
+  loading, // 加载
+  disable, // 禁用
+  success, // 成功
+  danger, // 危险
 }
 
 // 按钮相关常量
 class STButtonConst {
-  // 大按钮的宽度
-  static const bigWidth = 172.0;
-  // 小按钮的宽度
-  static const smallWidth = 84.0;
-  // 大按钮的最小高度
-  static const bigHeight = 38.0;
-  // 小按钮的最小高度
-  static const smallHeight = 24.0;
-  // 小按钮中的间距以及圆角
-  static const smallSpace = 4.0;
-  // 大按钮中的间距以及圆角
-  static const bigSpace = 8.0;
-  // 大按钮内容的inset
-  static const bigEdgetInset = EdgeInsets.fromLTRB(16, 6, 16, 6);
-  // 小按钮内容的inset
-  static const smallEdgetInset = EdgeInsets.fromLTRB(12, 3, 12, 3);
-  // 图形按钮的宽度
-  static const iconWidth = 44.0;
-  // 图形按钮的padding,图形与外部内容的inset
-  static const iconPadding = EdgeInsets.all(10);
+  static const bigWidth = 172.0; // 大按钮的宽度
+  static const smallWidth = 84.0; // 小按钮的宽度
+  static const bigHeight = 38.0; // 大按钮的最小高度
+  static const smallHeight = 24.0; // 小按钮的最小高度
+  static const smallSpace = 4.0; // 小按钮中的间距以及圆角
+  static const bigSpace = 8.0; // 大按钮中的间距以及圆角
+  static const bigEdgetInset = EdgeInsets.fromLTRB(16, 6, 16, 6); // 大按钮内容的inset
+  static const smallEdgetInset =
+      EdgeInsets.fromLTRB(12, 3, 12, 3); // 小按钮内容的inset
+  static const iconWidth = 44.0; // 图形按钮的宽度
+  static const iconPadding = EdgeInsets.all(10); // 图形按钮的padding,图形与外部内容的inset
 }
 
-class STButtons extends StatelessWidget {
+class STButton extends StatelessWidget {
   final Widget icon;
   final String label;
   final TextStyle style;
@@ -76,7 +57,7 @@ class STButtons extends StatelessWidget {
   final double borderWidth;
   final EdgeInsets padding;
 
-  const STButtons(
+  const STButton(
       {Key key,
       this.icon,
       this.label = 'button',
@@ -97,7 +78,7 @@ class STButtons extends StatelessWidget {
         assert(label != null),
         super(key: key);
 
-  const STButtons.icon(
+  const STButton.icon(
       {Key key,
       @required this.icon,
       this.width,
