@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:saturn/st_button/st_button_mot.dart';
-import 'package:saturn/st_button/st_button_icon.dart';
+import 'package:saturn/st_button/base.dart';
 
 // 提供四种样式的按钮
 enum STButtonType {
@@ -27,29 +26,14 @@ enum STButtonState {
   danger, // 危险
 }
 
-// 按钮相关常量
-class STButtonConst {
-  static const bigWidth = 172.0; // 大按钮的宽度
-  static const smallWidth = 84.0; // 小按钮的宽度
-  static const bigHeight = 38.0; // 大按钮的最小高度
-  static const smallHeight = 24.0; // 小按钮的最小高度
-  static const smallSpace = 4.0; // 小按钮中的间距以及圆角
-  static const bigSpace = 8.0; // 大按钮中的间距以及圆角
-  static const bigEdgetInset = EdgeInsets.fromLTRB(16, 6, 16, 6); // 大按钮内容的inset
-  static const smallEdgetInset =
-      EdgeInsets.fromLTRB(12, 3, 12, 3); // 小按钮内容的inset
-  static const iconWidth = 44.0; // 图形按钮的宽度
-  static const iconPadding = EdgeInsets.all(10); // 图形按钮的padding,图形与外部内容的inset
-}
-
 class STButton extends StatelessWidget {
   final Widget icon;
-  final String label;
+  final String text;
   final TextStyle style;
-  final VoidCallback onPressed;
-  final STButtonSize buttonSize;
-  final STButtonState buttonState;
-  final STButtonType buttonType;
+  final VoidCallback onTap;
+  final STButtonSize size;
+  final STButtonState state;
+  final STButtonType type;
   final double height;
   final double width;
   final double radius;
@@ -60,22 +44,21 @@ class STButton extends StatelessWidget {
   const STButton(
       {Key key,
       this.icon,
-      this.label = 'button',
+      this.text,
       this.style,
-      this.onPressed,
-      this.buttonSize = STButtonSize.big,
-      this.buttonState = STButtonState.main,
-      this.buttonType = STButtonType.main,
+      this.onTap,
+      this.size = STButtonSize.big,
+      this.state = STButtonState.main,
+      this.type = STButtonType.main,
       this.height,
       this.width,
       this.radius,
       this.borderColor,
       this.borderWidth,
       this.padding})
-      : assert(buttonType != null),
-        assert(buttonSize != null),
-        assert(buttonState != null),
-        assert(label != null),
+      : assert(type != null),
+        assert(size != null),
+        assert(state != null),
         super(key: key);
 
   const STButton.icon(
@@ -83,12 +66,12 @@ class STButton extends StatelessWidget {
       @required this.icon,
       this.width,
       this.padding,
-      this.buttonState,
-      this.buttonSize,
-      this.onPressed,
-      this.label,
+      this.state,
+      this.size,
+      this.onTap,
+      this.text,
       this.style,
-      this.buttonType = STButtonType.icon,
+      this.type = STButtonType.icon,
       this.height,
       this.radius,
       this.borderColor,
@@ -98,30 +81,19 @@ class STButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (buttonType == STButtonType.icon) {
-      return STButtonIcon(
-        icon: icon,
-        width: width,
-        padding: padding,
-        buttonSize: buttonSize,
-        buttonState: buttonState,
-        onPressed: onPressed,
-      );
-    } else {
-      return STButtonMOT(
-        label: label,
-        icon: icon,
-        style: style,
-        onPressed: onPressed,
-        buttonSize: buttonSize,
-        buttonState: buttonState,
-        buttonType: buttonType,
-        height: height,
-        width: width,
-        radius: radius,
-        borderColor: borderColor,
-        borderWidth: borderWidth,
-      );
-    }
+    return STButtonBase(
+      text: text,
+      icon: icon,
+      style: style,
+      onTap: onTap,
+      size: size,
+      state: state,
+      type: type,
+      height: height,
+      width: width,
+      radius: radius,
+      borderColor: borderColor,
+      borderWidth: borderWidth,
+    );
   }
 }
