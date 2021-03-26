@@ -43,94 +43,10 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   @override
   Widget build(BuildContext context) {
     _lastState = state;
-    final ValueNotifier<STButtonState> curState = ValueNotifier(state);
     if (type == STButtonType.icon) {
-      return ValueListenableBuilder(
-        valueListenable: curState,
-        builder: (context, STButtonState value, child) {
-          return GestureDetector(
-            onTap: disable == false ? onTap : null,
-            onTapDown: (details) => curState.value = STButtonState.focus,
-            onTapCancel: () => curState.value = _lastState,
-            child: Container(
-              width: width ?? STButtonConstant.iconWidth,
-              padding: padding ?? STButtonConstant.iconPadding,
-              decoration: BoxDecoration(
-                color: bgColorFromButtonState(value),
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: icon,
-            ),
-          );
-        },
-      );
+      return buildIconTypeButton(context);
     } else {
-      return ValueListenableBuilder(
-        valueListenable: curState,
-        builder: (context, STButtonState value, child) {
-          _decoration = const BoxDecoration();
-          if (type == STButtonType.main) {
-            _decoration = BoxDecoration(
-              color: bgColorFromButtonState(value),
-              borderRadius:
-                  BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
-            );
-          } else if (type == STButtonType.outLine) {
-            _decoration = BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
-              border: Border.all(
-                color: borderColor ?? STColor.firRankBlue,
-                width: borderWidth ?? 1,
-              ),
-            );
-          }
-          _icon = icon;
-          if (state == STButtonState.loading && _icon == null) {
-            _icon = const Icon(
-              Icons.refresh,
-              color: STColor.colorWhite,
-            );
-          }
-          return GestureDetector(
-            onTap: disable == false ? onTap : null,
-            onTapDown: (details) => curState.value = STButtonState.focus,
-            onTapCancel: () => curState.value = _lastState,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: height ?? heightFromButtonSize(size),
-              ),
-              child: Container(
-                width: width ?? widthFromButtonSize(size),
-                decoration: _decoration,
-                padding: edgeInsetsFromButtonSize(size),
-                alignment: Alignment.center,
-                child: _icon == null
-                    ? Text(
-                        text ?? 'button',
-                        style: style ??
-                            const TextStyle(color: STColor.thrRankFont),
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _icon,
-                          SizedBox(
-                            width: spaceFromButtonSize(size),
-                          ),
-                          Text(
-                            text ?? 'button',
-                            style: style ??
-                                const TextStyle(color: STColor.thrRankFont),
-                          ),
-                        ],
-                      ),
-              ),
-            ),
-          );
-        },
-      );
+      return buildOtherTypeButton(context);
     }
   }
 
@@ -139,5 +55,114 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       return true;
     }
     return false;
+  }
+
+  Widget buildIconTypeButton(BuildContext context) {
+    final ValueNotifier<STButtonState> curState = ValueNotifier(state);
+    return ValueListenableBuilder(
+      valueListenable: curState,
+      builder: (context, STButtonState value, child) {
+        return GestureDetector(
+          onTap: disable == false ? onTap : null,
+          onTapDown: (details) {
+            if (disable == false) {
+              curState.value = STButtonState.focus;
+            }
+          },
+          onTapCancel: () {
+            if (disable == false) {
+              curState.value = _lastState;
+            }
+          },
+          child: Container(
+            width: width ?? STButtonConstant.iconWidth,
+            padding: padding ?? STButtonConstant.iconPadding,
+            decoration: BoxDecoration(
+              color: bgColorFromButtonState(value),
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: icon,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildOtherTypeButton(BuildContext context) {
+    final ValueNotifier<STButtonState> curState = ValueNotifier(state);
+    return ValueListenableBuilder(
+      valueListenable: curState,
+      builder: (context, STButtonState stateValue, child) {
+        _decoration = const BoxDecoration();
+        if (type == STButtonType.main) {
+          _decoration = BoxDecoration(
+            color: bgColorFromButtonState(stateValue),
+            borderRadius:
+                BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
+          );
+        } else if (type == STButtonType.outLine) {
+          _decoration = BoxDecoration(
+            borderRadius:
+                BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
+            border: Border.all(
+              color: borderColor ?? STColor.firRankBlue,
+              width: borderWidth ?? 1,
+            ),
+          );
+        }
+        _icon = icon;
+        if (stateValue == STButtonState.loading && _icon == null) {
+          _icon = const Icon(
+            Icons.refresh,
+            color: STColor.colorWhite,
+          );
+        }
+        return GestureDetector(
+          onTap: disable == false ? onTap : null,
+          onTapDown: (details) {
+            if (disable == false) {
+              curState.value = STButtonState.focus;
+            }
+          },
+          onTapCancel: () {
+            if (disable == false) {
+              curState.value = _lastState;
+            }
+          },
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: height ?? heightFromButtonSize(size),
+            ),
+            child: Container(
+              width: width ?? widthFromButtonSize(size),
+              decoration: _decoration,
+              padding: edgeInsetsFromButtonSize(size),
+              alignment: Alignment.center,
+              child: _icon == null
+                  ? Text(
+                      text ?? 'button',
+                      style:
+                          style ?? const TextStyle(color: STColor.thrRankFont),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _icon,
+                        SizedBox(
+                          width: spaceFromButtonSize(size),
+                        ),
+                        Text(
+                          text ?? 'button',
+                          style: style ??
+                              const TextStyle(color: STColor.thrRankFont),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
