@@ -2,39 +2,46 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-import 'st_alert_utils.dart';
-import 'st_alert.dart';
+import 'common.dart';
+import 'base.dart';
 
-class STAlerts extends StatelessWidget {
-  static Widget show(
-    BuildContext context,
-    STAlertType alertType,
-    STAlertState alertState,
-    STAlertRightButtonType alertRightButtonType, {
-    String text = "",
-    String title = "",
-    double width = STAlertConst.defaultWidth,
-    String icon = "",
-    String rightText = "",
-    String rightIcon = "",
-    VoidCallback onRightTap = null,
-  }) {
+class STAlert extends StatelessWidget {
+  static show(
+      BuildContext context,
+      STAlertType type,
+      STAlertState state,
+      STAlertRightButtonType rightButtonType,
+      STAlertDisappearType disappearType,
+      {String text = "",
+      String description = "",
+      double width = STAlertConstant.defaultWidth,
+      String icon = "",
+      String rightText = "",
+      String rightIcon = "",
+      VoidCallback onRightTap,
+      int disappearTime = 5}) {
     showDialog(
         context: context,
         barrierColor: Colors.transparent,
         builder: (context) {
-          var alert = null;
+          if (disappearType == STAlertDisappearType.auto) {
+            Future.delayed(Duration(seconds: disappearTime), () {
+              hide(context);
+            });
+          }
 
-          switch (alertType) {
+          STAlertBase alert;
+
+          switch (type) {
             case STAlertType.text:
               {
-                alert = STAlert.text(
+                alert = STAlertBase.text(
                   text: text,
                   width: width,
                   rightText: rightText,
                   rightIcon: rightIcon,
-                  alertState: alertState,
-                  alertRightButtonType: alertRightButtonType,
+                  state: state,
+                  rightButtonType: rightButtonType,
                   onRightTap: onRightTap,
                 );
               }
@@ -42,45 +49,45 @@ class STAlerts extends StatelessWidget {
 
             case STAlertType.iconText:
               {
-                alert = STAlert.iconText(
+                alert = STAlertBase.iconText(
                   text: text,
                   icon: icon,
                   width: width,
                   rightText: rightText,
                   rightIcon: rightIcon,
-                  alertState: alertState,
-                  alertRightButtonType: alertRightButtonType,
+                  state: state,
+                  rightButtonType: rightButtonType,
                   onRightTap: onRightTap,
                 );
               }
               break;
 
-            case STAlertType.titleText:
+            case STAlertType.textDescription:
               {
-                alert = STAlert.titleText(
-                  title: title,
+                alert = STAlertBase.textDescription(
                   text: text,
+                  description: description,
                   width: width,
                   rightText: rightText,
                   rightIcon: rightIcon,
-                  alertState: alertState,
-                  alertRightButtonType: alertRightButtonType,
+                  state: state,
+                  rightButtonType: rightButtonType,
                   onRightTap: onRightTap,
                 );
               }
               break;
 
-            case STAlertType.iconTitleText:
+            case STAlertType.iconTextDescription:
               {
-                alert = STAlert.iconTitleText(
-                  title: title,
+                alert = STAlertBase.iconTextDescription(
                   text: text,
+                  description: description,
                   icon: icon,
                   width: width,
                   rightText: rightText,
                   rightIcon: rightIcon,
-                  alertState: alertState,
-                  alertRightButtonType: alertRightButtonType,
+                  state: state,
+                  rightButtonType: rightButtonType,
                   onRightTap: onRightTap,
                 );
               }
