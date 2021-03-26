@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:saturn/st_button/st_button.dart';
+import 'package:saturn/saturn.dart';
 
 class ButtonPage extends StatefulWidget {
   @override
