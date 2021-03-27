@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'common.dart';
 
-class STAlertBase extends Dialog with STAlertInterface {
+class STAlertBase extends Dialog {
   final double width;
   final String icon;
   final String text;
@@ -28,6 +28,7 @@ class STAlertBase extends Dialog with STAlertInterface {
       : super(
           key: key,
         );
+
   const STAlertBase.text(
       {Key key,
       @required this.text,
@@ -222,5 +223,55 @@ class STAlertBase extends Dialog with STAlertInterface {
       );
     }
     return widget;
+  }
+
+  Color bgColorFromAlertState(STAlertState state) {
+    switch (state) {
+      case STAlertState.alert:
+        return STAlertConstant.colorBlue;
+      case STAlertState.success:
+        return STAlertConstant.colorGreen;
+      case STAlertState.danger:
+        return STAlertConstant.colorRed;
+      case STAlertState.warning:
+        return STAlertConstant.colorOrange;
+      default:
+        return Colors.transparent;
+    }
+  }
+
+  List<Widget> addRightButton(STAlertRightButtonType alertRightButtonType,
+      List rowChildren, String icon, String text, VoidCallback tap) {
+    switch (alertRightButtonType) {
+      case STAlertRightButtonType.none:
+        {}
+        break;
+      case STAlertRightButtonType.icon:
+        {
+          rowChildren.add(GestureDetector(
+            child: Image.asset(icon,
+                width: STAlertConstant.iconWidth,
+                height: STAlertConstant.iconWidth,
+                repeat: ImageRepeat.noRepeat,
+                fit: BoxFit.contain),
+            onTap: tap,
+          ));
+        }
+        break;
+      case STAlertRightButtonType.text:
+        {
+          rowChildren.add(GestureDetector(
+            child: Text(text,
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey,
+                    fontSize: STAlertConstant.descriptionFontSize,
+                    decoration: TextDecoration.none)),
+            onTap: tap,
+          ));
+        }
+        break;
+    }
+    return rowChildren;
   }
 }
