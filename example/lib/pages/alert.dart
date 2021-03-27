@@ -19,8 +19,9 @@ class AlertPage extends StatelessWidget {
               // SocketManage.send(textEditController.text);
 
               STAlert.show(context, STAlertType.text, STAlertState.warning,
-                  STAlertRightButtonType.icon, STAlertDisappearType.auto,
-                  text: "好的",
+                  STAlertRightButtonType.text, STAlertDisappearType.auto,
+                  text: "你说是就是你说是就是你说是就是你说是就是",
+                  rightText: "你说好不好",
                   rightIcon: "assets/images/basketball_check.png",
                   width: 250, onRightTap: () {
                 print('好的');
@@ -36,9 +37,9 @@ class AlertPage extends StatelessWidget {
 
               STAlert.show(context, STAlertType.iconText, STAlertState.success,
                   STAlertRightButtonType.text, STAlertDisappearType.none,
-                  text: "好的",
+                  text: "你说是就是你说是就是你说是就是你说是就是",
                   icon: "assets/images/basketball_check.png",
-                  rightText: "你说是就是",
+                  rightText: "你说是就",
                   width: 250, onRightTap: () {
                 print('好的');
               }, disappearTime: 0);

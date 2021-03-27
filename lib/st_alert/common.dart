@@ -20,18 +20,22 @@ class STAlertConstant {
 
 // Padding
   static const leftPadding = 16.0;
-  static const rightPadding = 16.0;
+  static const rightPadding = 10.0;
+  static const firstTextRightPadding = 5.0;
   static const iconTitlePadding = 14.0;
 
   static const secondTextWithIconLeftPadding =
       leftPadding + iconWidth + iconTitlePadding; //当类型为iconTitleText时，第二排文字的左边距
   static const firstTitleTopPading = 4.0;
-  static const secondTextTopPading = 8.0;
+  static const secondTextTopPading = 4.0;
   static const secondTextBottomPading = 4.0;
 
 //Font
   static const textFontSize = 16.0;
   static const descriptionFontSize = 14.0;
+
+  static const singleTextWidth = 15.0;
+  static const rightTextCount = 4;
 }
 
 // alert类型,text纯文字，iconText图片加文字，textDescription 文字加说明,iconTextDescription 图片文字加说明
