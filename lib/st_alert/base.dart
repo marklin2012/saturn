@@ -113,6 +113,7 @@ class STAlertBase extends Dialog with STAlertInterface {
 
     firRowChildren.add(Text(text,
         style: const TextStyle(
+            fontWeight: FontWeight.normal,
             color: Colors.black,
             fontSize: STAlertConstant.textFontSize,
             decoration: TextDecoration.none)));
@@ -142,6 +143,7 @@ class STAlertBase extends Dialog with STAlertInterface {
         child: Text(description,
             softWrap: true,
             style: const TextStyle(
+                fontWeight: FontWeight.normal,
                 color: Colors.black,
                 fontSize: STAlertConstant.descriptionFontSize,
                 decoration: TextDecoration.none))));

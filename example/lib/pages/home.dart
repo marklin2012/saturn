@@ -1,9 +1,11 @@
 import 'package:example/models/page_model.dart';
 import 'package:example/pages/input.dart';
+import 'package:example/pages/alert.dart';
 import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
   PageModel(name: 'Input', page: InputPage()),
+  PageModel(name: 'Alert', page: AlertPage()),
 ];
 
 class HomePage extends StatelessWidget {

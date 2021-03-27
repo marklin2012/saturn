@@ -2,11 +2,11 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-import 'common.dart';
 import 'base.dart';
+import 'common.dart';
 
 class STAlert extends StatelessWidget {
-  static show(
+  static void show(
       BuildContext context,
       STAlertType type,
       STAlertState state,

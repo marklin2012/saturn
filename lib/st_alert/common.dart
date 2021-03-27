@@ -80,6 +80,7 @@ abstract class STAlertInterface {
           rowChildren.add(GestureDetector(
             child: Text(text,
                 style: TextStyle(
+                    fontWeight: FontWeight.normal,
                     color: Colors.grey,
                     fontSize: STAlertConstant.descriptionFontSize,
                     decoration: TextDecoration.none)),
