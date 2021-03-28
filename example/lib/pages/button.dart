@@ -9,6 +9,8 @@ class ButtonPage extends StatefulWidget {
 
 class _ButtonPageState extends State<ButtonPage> {
   int _counter = 0;
+  bool _firBtnLoading = false;
+  bool _secBtnDisable = true;
 
   void _incrementCounter() {
     setState(() {
@@ -37,26 +39,38 @@ class _ButtonPageState extends State<ButtonPage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 5),
-            STButton(state: STButtonState.danger, onTap: _reduceCounter),
+            STButton(
+              type: STButtonType.danger,
+              onTap: _reduceCounter,
+              loading: _firBtnLoading,
+            ),
             SizedBox(height: 5),
             STButton.icon(
               icon: Icon(
                 Icons.star,
                 color: Colors.white,
               ),
+              disable: _secBtnDisable,
               onTap: _incrementCounter,
             ),
             SizedBox(height: 5),
             STButton(
-              type: STButtonType.outLine,
-              size: STButtonSize.small,
-              onTap: _incrementCounter,
+              text: 'change fir state',
+              style: STButtonStyle.outLine,
+              type: STButtonType.success,
+              onTap: () {
+                _firBtnLoading = !_firBtnLoading;
+                setState(() {});
+              },
             ),
             SizedBox(height: 5),
             STButton(
-              text: 'text',
-              type: STButtonType.text,
-              onTap: _reduceCounter,
+              text: 'change sec disable',
+              style: STButtonStyle.text,
+              onTap: () {
+                _secBtnDisable = !_secBtnDisable;
+                setState(() {});
+              },
             ),
           ],
         ),

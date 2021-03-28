@@ -2,38 +2,35 @@ import 'package:flutter/material.dart';
 
 import 'package:saturn/st_button/base.dart';
 
-// 提供四种样式的按钮
-enum STButtonType {
-  main, // 实心主按钮
+// 提供四种风格
+enum STButtonStyle {
+  normal, // 实心主按钮
   outLine, // 描边按钮
   text, // 文本按钮
   icon, // 图形按钮
 }
-
-// 提供两种大小样式的按钮
+// 提供三种样式
+enum STButtonType {
+  normal, // 默认
+  success, // 成功
+  danger, // 危险
+}
+// 区分大小
 enum STButtonSize {
   big,
   small,
 }
 
-// 提供六种状态样式的按钮
-enum STButtonState {
-  main, // 默认
-  focus, // 点击
-  loading, // 加载
-  disable, // 禁用
-  success, // 成功
-  danger, // 危险
-}
-
 class STButton extends StatelessWidget {
   final Widget icon;
   final String text;
-  final TextStyle style;
+  final TextStyle textStyle;
   final VoidCallback onTap;
   final STButtonSize size;
-  final STButtonState state;
+  final STButtonStyle style;
   final STButtonType type;
+  final bool disable;
+  final bool loading;
   final double height;
   final double width;
   final double radius;
@@ -45,20 +42,21 @@ class STButton extends StatelessWidget {
       {Key key,
       this.icon,
       this.text,
-      this.style,
+      this.textStyle,
       this.onTap,
       this.size = STButtonSize.big,
-      this.state = STButtonState.main,
-      this.type = STButtonType.main,
+      this.style = STButtonStyle.normal,
+      this.type = STButtonType.normal,
       this.height,
       this.width,
       this.radius,
       this.borderColor,
       this.borderWidth,
-      this.padding})
+      this.padding,
+      this.disable = false,
+      this.loading = false})
       : assert(type != null),
         assert(size != null),
-        assert(state != null),
         super(key: key);
 
   const STButton.icon(
@@ -66,16 +64,18 @@ class STButton extends StatelessWidget {
       @required this.icon,
       this.width,
       this.padding,
-      this.state,
+      this.textStyle,
       this.size,
       this.onTap,
       this.text,
-      this.style,
-      this.type = STButtonType.icon,
+      this.style = STButtonStyle.icon,
+      this.type,
       this.height,
       this.radius,
       this.borderColor,
-      this.borderWidth})
+      this.borderWidth,
+      this.disable = false,
+      this.loading = false})
       : assert(icon != null),
         super(key: key);
 
@@ -83,12 +83,14 @@ class STButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return STButtonBase(
       text: text,
+      textStyle: textStyle,
       icon: icon,
-      style: style,
       onTap: onTap,
       size: size,
-      state: state,
+      style: style,
       type: type,
+      disable: disable,
+      loading: loading,
       height: height,
       width: width,
       radius: radius,

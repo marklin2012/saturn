@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:saturn/saturn.dart';
 
+// 提供四种状态
+enum STButtonState {
+  normal, // 默认
+  focus, // 高亮
+  loading, // 加载
+  disable, // 禁用
+}
+
 // 按钮相关常量
 class STButtonConstant {
   static const bigWidth = 172.0; // 大按钮的宽度
@@ -18,18 +26,39 @@ class STButtonConstant {
 }
 
 abstract class STButtonInterface {
-  Color bgColorFromButtonState(STButtonState state) {
-    switch (state) {
-      case STButtonState.success:
+  Color bgColorFromButtonType(STButtonType type) {
+    switch (type) {
+      case STButtonType.success:
         return STColor.assistGreen;
-      case STButtonState.danger:
+      case STButtonType.danger:
         return STColor.assistRed;
-      case STButtonState.focus:
-        return STColor.secRankBlue;
-      case STButtonState.disable:
-        return STColor.fourRankBlue;
       default:
         return STColor.firRankBlue;
+    }
+  }
+
+  Color textColorFromButton(STButtonStyle style, STButtonType type) {
+    if (style == STButtonStyle.normal) {
+      return STColor.colorWhite;
+    } else {
+      if (type == STButtonType.success) {
+        return STColor.assistGreen;
+      } else if (type == STButtonType.danger) {
+        return STColor.assistRed;
+      } else {
+        return STColor.firRankBlue;
+      }
+    }
+  }
+
+  double opacityFromButtonState(STButtonState state) {
+    switch (state) {
+      case STButtonState.focus:
+        return 0.8;
+      case STButtonState.disable:
+        return 0.2;
+      default:
+        return 1.0;
     }
   }
 
