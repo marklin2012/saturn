@@ -23,6 +23,8 @@ class STAlertConstant {
   static const rightPadding = 10.0;
   static const firstTextRightPadding = 5.0;
   static const iconTitlePadding = 14.0;
+  static const rightButtonIconTopPadding = 4.0;
+  static const rightButtonTextTopPadding = 2.0;
 
   static const secondTextWithIconLeftPadding =
       leftPadding + iconWidth + iconTitlePadding; //当类型为iconTitleText时，第二排文字的左边距
@@ -140,11 +142,16 @@ class STAlert extends Dialog {
       } else {
         curIcon = icon;
       }
-      firRowChildren.add(Image.asset(curIcon,
-          width: STAlertConstant.iconWidth,
-          height: STAlertConstant.iconWidth,
-          repeat: ImageRepeat.noRepeat,
-          fit: BoxFit.contain));
+      firRowChildren.add(Column(
+        children: [
+          const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
+          Image.asset(curIcon,
+              width: STAlertConstant.iconWidth,
+              height: STAlertConstant.iconWidth,
+              repeat: ImageRepeat.noRepeat,
+              fit: BoxFit.contain)
+        ],
+      ));
       firRowChildren
           .add(const SizedBox(width: STAlertConstant.iconTitlePadding));
     }
@@ -241,19 +248,16 @@ class STAlert extends Dialog {
             const SizedBox(height: STAlertConstant.firstTitleTopPading),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: firRowChildren,
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: firRowChildren,
                 ),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: rightChildren,
-                    )),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: rightChildren,
+                ),
               ],
             ),
             const SizedBox(height: STAlertConstant.firstTitleTopPading),
@@ -275,22 +279,21 @@ class STAlert extends Dialog {
               const SizedBox(height: STAlertConstant.firstTitleTopPading),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: firRowChildren,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: firRowChildren,
                   ),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        children: rightChildren,
-                      )),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: rightChildren,
+                  ),
                 ],
               ),
               const SizedBox(height: STAlertConstant.secondTextTopPading),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: secRowChildren,
               ),
               const SizedBox(height: STAlertConstant.secondTextBottomPading),
@@ -327,6 +330,7 @@ class STAlert extends Dialog {
 
   List<Widget> addRightButton(
       List rowChildren, String icon, String text, VoidCallback tap) {
+    rowChildren.add(const SizedBox(height: 20));
     if (isNullOrEmpty(text)) {
       if (isNullOrEmpty(icon)) {
       } else {
@@ -336,32 +340,40 @@ class STAlert extends Dialog {
         } else {
           curIcon = icon;
         }
-        rowChildren.add(GestureDetector(
-          child: Image.asset(icon,
-              width: STAlertConstant.iconWidth,
-              height: STAlertConstant.iconWidth,
-              repeat: ImageRepeat.noRepeat,
-              fit: BoxFit.contain),
-          onTap: tap,
+        rowChildren.add(Column(
+          children: [
+            const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
+            GestureDetector(
+              child: Image.asset(icon,
+                  width: STAlertConstant.iconWidth,
+                  height: STAlertConstant.iconWidth,
+                  repeat: ImageRepeat.noRepeat,
+                  fit: BoxFit.contain),
+              onTap: tap,
+            )
+          ],
         ));
       }
     } else {
-      rowChildren.add(GestureDetector(
-        child: SizedBox(
-            width: STAlertConstant.singleTextWidth *
-                STAlertConstant.rightTextCount,
-            child: Text(
-              text,
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey,
-                  fontSize: STAlertConstant.descriptionFontSize,
-                  decoration: TextDecoration.none),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            )),
-        onTap: tap,
-      ));
+      rowChildren.add(Column(children: [
+        const SizedBox(height: STAlertConstant.rightButtonTextTopPadding),
+        GestureDetector(
+          child: SizedBox(
+              width: STAlertConstant.singleTextWidth *
+                  STAlertConstant.rightTextCount,
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey,
+                    fontSize: STAlertConstant.descriptionFontSize,
+                    decoration: TextDecoration.none),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              )),
+          onTap: tap,
+        )
+      ]));
     }
     return rowChildren;
   }

@@ -41,6 +41,7 @@ class AlertPage extends StatelessWidget {
 
               STAlert.show(
                   context: context,
+                  type: STAlertType.alert,
                   text:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
                   isAutoClose: true,
@@ -63,11 +64,12 @@ class AlertPage extends StatelessWidget {
 
               STAlert.show(
                   context: context,
+                  type: STAlertType.danger,
                   text: "你说是就是",
                   description:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
                   isAutoClose: true,
-                  showLeftIcon: false,
+                  showLeftIcon: true,
                   rightText: "你说好不好",
                   rightIcon: "assets/images/basketball_check.png",
                   width: 250,
@@ -86,6 +88,7 @@ class AlertPage extends StatelessWidget {
 
               STAlert.show(
                   context: context,
+                  type: STAlertType.warning,
                   text: "你说是就是",
                   description:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
