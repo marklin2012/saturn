@@ -15,11 +15,11 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final double radius;
   final Color borderColor;
   final double borderWidth;
-  final STButtonStyle style;
   final STButtonType type;
   final STButtonSize size;
-  final bool disable;
+  final bool disabled;
   final bool loading;
+  final bool circle;
   final EdgeInsets padding;
 
   STButtonBase(
@@ -34,89 +34,44 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       this.padding,
       this.borderColor,
       this.borderWidth,
-      this.disable,
-      this.loading,
-      @required this.style,
-      @required this.type,
-      @required this.size})
+      this.disabled = false,
+      this.loading = false,
+      this.circle = false,
+      this.type = STButtonType.primary,
+      this.size = STButtonSize.large})
       : super(key: key);
 
   BoxDecoration _decoration;
   Widget _icon;
   STButtonState _state;
   STButtonState _lastState;
+  ValueNotifier<STButtonState> _curState;
 
-  void getOriginState() {
-    _lastState = STButtonState.normal;
+  void initOriginState() {
+    _lastState = STButtonState.primary;
     if (loading) {
       _lastState = STButtonState.loading;
-    }
-    if (disable) {
-      _lastState = STButtonState.disable;
+    } else if (disabled) {
+      _lastState = STButtonState.disabled;
     }
     _state = _lastState;
+    _curState = ValueNotifier(_state);
   }
 
   @override
   Widget build(BuildContext context) {
-    getOriginState();
-    if (style == STButtonStyle.icon) {
-      return buildIconTypeButton(context);
-    } else {
-      return buildOtherTypeButton(context);
-    }
-  }
-
-  Widget buildIconTypeButton(BuildContext context) {
-    final ValueNotifier<STButtonState> curState = ValueNotifier(_state);
+    initOriginState();
     return ValueListenableBuilder(
-      valueListenable: curState,
-      builder: (context, STButtonState value, child) {
-        return GestureDetector(
-          onTap: excOnTap(),
-          onTapDown: (details) {
-            // 加载的过程或者不可用的状态下不可点击
-            if (_state == STButtonState.loading || disable == true) {
-              return;
-            }
-            curState.value = STButtonState.focus;
-          },
-          onTapCancel: () {
-            if (disable == false) {
-              curState.value = _lastState;
-            }
-          },
-          child: Opacity(
-            opacity: opacityFromButtonState(value),
-            child: Container(
-              width: width ?? STButtonConstant.iconWidth,
-              padding: padding ?? STButtonConstant.iconPadding,
-              decoration: BoxDecoration(
-                color: bgColorFromButtonType(type),
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: icon,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget buildOtherTypeButton(BuildContext context) {
-    final ValueNotifier<STButtonState> curState = ValueNotifier(_state);
-    return ValueListenableBuilder(
-      valueListenable: curState,
+      valueListenable: _curState,
       builder: (context, STButtonState stateValue, child) {
-        _decoration = const BoxDecoration();
-        if (style == STButtonStyle.normal) {
-          _decoration = BoxDecoration(
-            color: bgColorFromButtonType(type),
-            borderRadius:
-                BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
-          );
-        } else if (style == STButtonStyle.outLine) {
+        _decoration = BoxDecoration(
+          color: bgColorFromButtonType(type),
+          borderRadius:
+              BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
+        );
+        if (type == STButtonType.text) {
+          _decoration = const BoxDecoration();
+        } else if (type == STButtonType.outline) {
           _decoration = BoxDecoration(
             borderRadius:
                 BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
@@ -124,6 +79,11 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
               color: borderColor ?? bgColorFromButtonType(type),
               width: borderWidth ?? 1,
             ),
+          );
+        } else if (circle) {
+          _decoration = BoxDecoration(
+            color: bgColorFromButtonType(type),
+            shape: BoxShape.circle,
           );
         }
         _icon = icon;
@@ -141,14 +101,14 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           onTap: excOnTap(),
           onTapDown: (details) {
             // 加载的过程或者不可用的状态下不可点击
-            if (_state == STButtonState.loading || disable == true) {
+            if (_state == STButtonState.loading || disabled == true) {
               return;
             }
-            curState.value = STButtonState.focus;
+            _curState.value = STButtonState.highlighted;
           },
           onTapCancel: () {
-            if (disable == false) {
-              curState.value = _lastState;
+            if (disabled == false) {
+              _curState.value = _lastState;
             }
           },
           child: ConstrainedBox(
@@ -162,30 +122,24 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
                 decoration: _decoration,
                 padding: edgeInsetsFromButtonSize(size),
                 alignment: Alignment.center,
-                child: _icon == null
-                    ? Text(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (_icon != null) _icon,
+                    if (!circle && text != null)
+                      SizedBox(
+                        width: spaceFromButtonSize(size),
+                      ),
+                    if (!circle && text != null)
+                      Text(
                         text ?? 'button',
                         style: textStyle ??
                             TextStyle(
-                              color: textColorFromButton(style, type),
+                              color: textColorFromButton(type),
                             ),
                       )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _icon,
-                          SizedBox(
-                            width: spaceFromButtonSize(size),
-                          ),
-                          Text(
-                            text ?? 'button',
-                            style: textStyle ??
-                                TextStyle(
-                                  color: textColorFromButton(style, type),
-                                ),
-                          )
-                        ],
-                      ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -196,7 +150,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
 
   void Function() excOnTap() {
     // 加载的过程或者不可用的状态下不可点击
-    if (_state == STButtonState.loading || disable == true) {
+    if (loading || disabled == true) {
       return null;
     } else {
       return onTap;
