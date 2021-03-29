@@ -11,13 +11,15 @@ enum STButtonStyle {
 }
 // 提供三种样式
 enum STButtonType {
-  normal, // 默认
+  primary, // 主按钮
+  outline, // 描边按钮
+  text, // 纯文本按钮
   success, // 成功
   danger, // 危险
 }
 // 区分大小
 enum STButtonSize {
-  big,
+  large,
   small,
 }
 
@@ -27,10 +29,10 @@ class STButton extends StatelessWidget {
   final TextStyle textStyle;
   final VoidCallback onTap;
   final STButtonSize size;
-  final STButtonStyle style;
   final STButtonType type;
-  final bool disable;
+  final bool disabled;
   final bool loading;
+  final bool circle;
   final double height;
   final double width;
   final double radius;
@@ -44,16 +46,16 @@ class STButton extends StatelessWidget {
       this.text,
       this.textStyle,
       this.onTap,
-      this.size = STButtonSize.big,
-      this.style = STButtonStyle.normal,
-      this.type = STButtonType.normal,
+      this.size = STButtonSize.large,
+      this.type = STButtonType.primary,
       this.height,
       this.width,
       this.radius,
       this.borderColor,
       this.borderWidth,
       this.padding,
-      this.disable = false,
+      this.circle = false,
+      this.disabled = false,
       this.loading = false})
       : assert(type != null),
         assert(size != null),
@@ -68,13 +70,13 @@ class STButton extends StatelessWidget {
       this.size,
       this.onTap,
       this.text,
-      this.style = STButtonStyle.icon,
       this.type,
       this.height,
       this.radius,
       this.borderColor,
       this.borderWidth,
-      this.disable = false,
+      this.circle = true,
+      this.disabled = false,
       this.loading = false})
       : assert(icon != null),
         super(key: key);
@@ -87,13 +89,13 @@ class STButton extends StatelessWidget {
       icon: icon,
       onTap: onTap,
       size: size,
-      style: style,
       type: type,
-      disable: disable,
+      disabled: disabled,
       loading: loading,
       height: height,
       width: width,
       radius: radius,
+      circle: circle,
       borderColor: borderColor,
       borderWidth: borderWidth,
     );
