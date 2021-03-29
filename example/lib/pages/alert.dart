@@ -18,14 +18,18 @@ class AlertPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STAlert.show(context, STAlertType.text, STAlertState.warning,
-                  STAlertRightButtonType.text, STAlertDisappearType.auto,
-                  text: "你说是就是你说是就是你说是就是你说是就是",
-                  rightText: "你说好不好",
+              STAlert.show(
+                  context: context,
+                  type: STAlertType.success,
+                  text: "你说是就是",
+                  isAutoClose: false,
+                  showLeftIcon: false,
                   rightIcon: "assets/images/basketball_check.png",
-                  width: 250, onRightTap: () {
-                print('好的');
-              }, disappearTime: 3);
+                  width: 250,
+                  onRightTap: () {
+                    print('好的');
+                  },
+                  disappearTime: 3);
             },
           ),
           FlatButton(
@@ -35,14 +39,19 @@ class AlertPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STAlert.show(context, STAlertType.iconText, STAlertState.success,
-                  STAlertRightButtonType.text, STAlertDisappearType.none,
-                  text: "你说是就是你说是就是你说是就是你说是就是",
-                  icon: "assets/images/basketball_check.png",
-                  rightText: "你说是就",
-                  width: 250, onRightTap: () {
-                print('好的');
-              }, disappearTime: 0);
+              STAlert.show(
+                  context: context,
+                  text:
+                      "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+                  isAutoClose: true,
+                  showLeftIcon: true,
+                  rightText: "你说好不好",
+                  rightIcon: "assets/images/basketball_check.png",
+                  width: 250,
+                  onRightTap: () {
+                    print('好的');
+                  },
+                  disappearTime: 3);
             },
           ),
           FlatButton(
@@ -53,16 +62,19 @@ class AlertPage extends StatelessWidget {
               // SocketManage.send(textEditController.text);
 
               STAlert.show(
-                  context,
-                  STAlertType.textDescription,
-                  STAlertState.alert,
-                  STAlertRightButtonType.none,
-                  STAlertDisappearType.auto,
-                  text: "好的",
-                  description: "好的好的好的好的好的好的好的好的好的",
-                  width: 250, onRightTap: () {
-                print('好的');
-              }, disappearTime: 3);
+                  context: context,
+                  text: "你说是就是",
+                  description:
+                      "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+                  isAutoClose: true,
+                  showLeftIcon: false,
+                  rightText: "你说好不好",
+                  rightIcon: "assets/images/basketball_check.png",
+                  width: 250,
+                  onRightTap: () {
+                    print('好的');
+                  },
+                  disappearTime: 3);
             },
           ),
           FlatButton(
@@ -73,20 +85,19 @@ class AlertPage extends StatelessWidget {
               // SocketManage.send(textEditController.text);
 
               STAlert.show(
-                  context,
-                  STAlertType.iconTextDescription,
-                  STAlertState.warning,
-                  STAlertRightButtonType.icon,
-                  STAlertDisappearType.auto,
-                  text: "好的",
-                  icon: "assets/images/basketball_check.png",
-                  description: "好的好的好的好的好的好的好的好的好的",
-                  rightIcon: "assets/images/basketball_check.png",
-                  width: 250, onRightTap: () {
-                print('好的');
-              }, disappearTime: 3);
+                  context: context,
+                  text: "你说是就是",
+                  description:
+                      "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+                  isAutoClose: false,
+                  showLeftIcon: true,
+                  width: 250,
+                  onRightTap: () {
+                    print('好的');
+                  },
+                  disappearTime: 3);
             },
-          )
+          ),
         ],
       ),
     );
