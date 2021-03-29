@@ -6,21 +6,21 @@ import 'package:saturn/st_button/st_button.dart';
 
 // ignore: must_be_immutable
 class STButtonBase extends StatelessWidget with STButtonInterface {
-  Widget icon;
-  final String text;
-  final TextStyle textStyle;
+  final Widget icon;
+  final String text; // 文本内容
+  final TextStyle textStyle; // 文本的style样式
   final VoidCallback onTap;
   final double height;
   final double width;
-  final double radius;
-  final Color borderColor;
-  final double borderWidth;
+  final double radius; // style为normal、outline 时的圆角
+  final Color borderColor; // style为outline 时的外边框颜色
+  final double borderWidth; // style为outline 时的外边框
   final STButtonStyle style;
   final STButtonType type;
   final STButtonSize size;
-  final bool disable;
-  final bool loading;
-  final EdgeInsets padding;
+  final bool disable; // 按钮是否不可用
+  final bool loading; // 是否加载中
+  final EdgeInsets padding; // style为icon 时图片与外边框的內距
 
   STButtonBase(
       {Key key,
@@ -41,10 +41,10 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       @required this.size})
       : super(key: key);
 
-  BoxDecoration _decoration;
-  Widget _icon;
-  STButtonState _state;
-  STButtonState _lastState;
+  BoxDecoration _decoration; // 内部设置不同style的容器
+  Widget _icon; // 内部设置加载中的icon
+  STButtonState _curState; // 供内部管理的 当前状态
+  STButtonState _lastState; // 供内部管理的 上一次的状态
 
   void getOriginState() {
     _lastState = STButtonState.normal;
@@ -54,7 +54,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     if (disable) {
       _lastState = STButtonState.disable;
     }
-    _state = _lastState;
+    _curState = _lastState;
   }
 
   @override
@@ -68,7 +68,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   }
 
   Widget buildIconTypeButton(BuildContext context) {
-    final ValueNotifier<STButtonState> curState = ValueNotifier(_state);
+    final ValueNotifier<STButtonState> curState = ValueNotifier(_curState);
     return ValueListenableBuilder(
       valueListenable: curState,
       builder: (context, STButtonState value, child) {
@@ -76,7 +76,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           onTap: excOnTap(),
           onTapDown: (details) {
             // 加载的过程或者不可用的状态下不可点击
-            if (_state == STButtonState.loading || disable == true) {
+            if (_curState == STButtonState.loading || disable == true) {
               return;
             }
             curState.value = STButtonState.focus;
@@ -105,7 +105,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   }
 
   Widget buildOtherTypeButton(BuildContext context) {
-    final ValueNotifier<STButtonState> curState = ValueNotifier(_state);
+    final ValueNotifier<STButtonState> curState = ValueNotifier(_curState);
     return ValueListenableBuilder(
       valueListenable: curState,
       builder: (context, STButtonState stateValue, child) {
@@ -141,7 +141,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           onTap: excOnTap(),
           onTapDown: (details) {
             // 加载的过程或者不可用的状态下不可点击
-            if (_state == STButtonState.loading || disable == true) {
+            if (_curState == STButtonState.loading || disable == true) {
               return;
             }
             curState.value = STButtonState.focus;
@@ -196,7 +196,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
 
   void Function() excOnTap() {
     // 加载的过程或者不可用的状态下不可点击
-    if (_state == STButtonState.loading || disable == true) {
+    if (_curState == STButtonState.loading || disable == true) {
       return null;
     } else {
       return onTap;

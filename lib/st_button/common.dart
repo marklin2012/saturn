@@ -41,13 +41,7 @@ abstract class STButtonInterface {
     if (style == STButtonStyle.normal) {
       return STColor.colorWhite;
     } else {
-      if (type == STButtonType.success) {
-        return STColor.assistGreen;
-      } else if (type == STButtonType.danger) {
-        return STColor.assistRed;
-      } else {
-        return STColor.firRankBlue;
-      }
+      return bgColorFromButtonType(type);
     }
   }
 
