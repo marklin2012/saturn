@@ -4,10 +4,10 @@ import 'package:saturn/saturn.dart';
 
 // 提供四种状态
 enum STButtonState {
-  normal, // 默认
-  focus, // 高亮
+  primary, // 默认
+  highlighted, // 高亮
   loading, // 加载
-  disable, // 禁用
+  disabled, // 禁用
 }
 
 // 按钮相关常量
@@ -37,25 +37,24 @@ abstract class STButtonInterface {
     }
   }
 
-  Color textColorFromButton(STButtonStyle style, STButtonType type) {
-    if (style == STButtonStyle.normal) {
-      return STColor.colorWhite;
-    } else {
-      if (type == STButtonType.success) {
-        return STColor.assistGreen;
-      } else if (type == STButtonType.danger) {
-        return STColor.assistRed;
-      } else {
+  Color textColorFromButton(STButtonType type) {
+    switch (type) {
+      case STButtonType.primary:
+        return STColor.colorWhite;
+      case STButtonType.success:
+        return STColor.colorWhite;
+      case STButtonType.danger:
+        return STColor.colorWhite;
+      default:
         return STColor.firRankBlue;
-      }
     }
   }
 
   double opacityFromButtonState(STButtonState state) {
     switch (state) {
-      case STButtonState.focus:
+      case STButtonState.highlighted:
         return 0.8;
-      case STButtonState.disable:
+      case STButtonState.disabled:
         return 0.2;
       default:
         return 1.0;
