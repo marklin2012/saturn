@@ -57,9 +57,7 @@ class STButton extends StatelessWidget {
       this.circle = false,
       this.disabled = false,
       this.loading = false})
-      : assert(type != null),
-        assert(size != null),
-        super(key: key);
+      : super(key: key);
 
   const STButton.icon(
       {Key key,
@@ -84,9 +82,10 @@ class STButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return STButtonBase(
+      key: key,
+      icon: icon,
       text: text,
       textStyle: textStyle,
-      icon: icon,
       onTap: onTap,
       size: size,
       type: type,

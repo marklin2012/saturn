@@ -6,9 +6,9 @@ import 'package:saturn/st_button/st_button.dart';
 
 // ignore: must_be_immutable
 class STButtonBase extends StatelessWidget with STButtonInterface {
-  Widget icon;
-  final String text;
-  final TextStyle textStyle;
+  final Widget icon;
+  final String text; // 文本内容
+  final TextStyle textStyle; // 文本的style样式
   final VoidCallback onTap;
   final double height;
   final double width;
