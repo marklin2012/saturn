@@ -103,13 +103,15 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           onTap: excOnTap(),
           onTapDown: (details) {
             // 加载的过程或者不可用的状态下不可点击
-            if (_state == STButtonState.loading || disabled == true) {
+            if (_state == STButtonState.loading ||
+                disabled == true ||
+                onTap == null) {
               return;
             }
             _curState.value = STButtonState.highlighted;
           },
           onTapCancel: () {
-            if (disabled == false) {
+            if (disabled == false && onTap != null) {
               _curState.value = _lastState;
             }
           },
