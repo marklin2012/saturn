@@ -90,13 +90,6 @@ class _ButtonPageState extends State<ButtonPage> {
               loading: _loading,
             ),
             SizedBox(height: 5),
-            STButton(
-              text: '警告',
-              type: STButtonType.danger,
-              onTap: _reduceCounter,
-              loading: _loading,
-            ),
-            SizedBox(height: 5),
             STButton.icon(
               icon: Icon(
                 Icons.star,

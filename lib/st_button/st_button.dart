@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:saturn/st_button/base.dart';
 
-// 提供四种风格
-enum STButtonStyle {
-  normal, // 实心主按钮
-  outLine, // 描边按钮
-  text, // 文本按钮
-  icon, // 图形按钮
-}
 // 提供三种样式
 enum STButtonType {
   primary, // 主按钮
