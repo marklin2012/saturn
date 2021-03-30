@@ -36,6 +36,7 @@ class STButton extends StatelessWidget {
   final double height;
   final double width;
   final double radius;
+  final Color backgroundColor;
   final Color borderColor;
   final double borderWidth;
   final EdgeInsets padding;
@@ -51,6 +52,7 @@ class STButton extends StatelessWidget {
       this.height,
       this.width,
       this.radius,
+      this.backgroundColor,
       this.borderColor,
       this.borderWidth,
       this.padding,
@@ -71,6 +73,7 @@ class STButton extends StatelessWidget {
       this.type,
       this.height,
       this.radius,
+      this.backgroundColor,
       this.borderColor,
       this.borderWidth,
       this.circle = true,
@@ -95,6 +98,7 @@ class STButton extends StatelessWidget {
       width: width,
       radius: radius,
       circle: circle,
+      backgroundColor: backgroundColor,
       borderColor: borderColor,
       borderWidth: borderWidth,
     );

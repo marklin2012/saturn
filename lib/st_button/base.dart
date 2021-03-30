@@ -13,6 +13,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final double height;
   final double width;
   final double radius;
+  final Color backgroundColor;
   final Color borderColor;
   final double borderWidth;
   final STButtonType type;
@@ -31,6 +32,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       this.height,
       this.width,
       this.radius,
+      this.backgroundColor,
       this.padding,
       this.borderColor,
       this.borderWidth,
@@ -65,7 +67,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       valueListenable: _curState,
       builder: (context, STButtonState stateValue, child) {
         _decoration = BoxDecoration(
-          color: bgColorFromButtonType(type),
+          color: backgroundColor ?? bgColorFromButtonType(type),
           borderRadius:
               BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
         );
@@ -82,7 +84,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           );
         } else if (circle) {
           _decoration = BoxDecoration(
-            color: bgColorFromButtonType(type),
+            color: backgroundColor ?? bgColorFromButtonType(type),
             shape: BoxShape.circle,
           );
         }
