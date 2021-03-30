@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'future_utils.dart';
 
 class STAlertConstant {
 //定义的Color，带合并代码后迁移到ColorUtil中
@@ -95,12 +96,12 @@ class STAlert extends Dialog {
         barrierColor: Colors.transparent,
         builder: (context) {
           if (isAutoClose) {
-            Future.delayed(Duration(seconds: disappearTime), () {
+            FutureUtils().delayedAction(() {
               hide(context);
-            });
+            }, disappearTime);
           }
 
-          var alert = STAlert(
+          final alert = STAlert(
             type: type,
             text: text,
             showLeftIcon: showLeftIcon,
@@ -115,10 +116,10 @@ class STAlert extends Dialog {
           );
 
           return GestureDetector(
-            child: alert,
             onTap: () {
               STAlert.hide(context);
             },
+            child: alert,
           );
         });
   }
@@ -131,7 +132,7 @@ class STAlert extends Dialog {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> firRowChildren = [];
+    final List<Widget> firRowChildren = [];
     firRowChildren.add(const SizedBox(width: STAlertConstant.leftPadding));
 
     //第一行添加图片
@@ -142,16 +143,17 @@ class STAlert extends Dialog {
       } else {
         curIcon = icon;
       }
-      firRowChildren.add(Column(
-        children: [
-          const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
-          Image.asset(curIcon,
-              width: STAlertConstant.iconWidth,
-              height: STAlertConstant.iconWidth,
-              repeat: ImageRepeat.noRepeat,
-              fit: BoxFit.contain)
-        ],
-      ));
+      firRowChildren.add(
+        Column(
+          children: [
+            const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
+            Image.asset(curIcon,
+                width: STAlertConstant.iconWidth,
+                height: STAlertConstant.iconWidth,
+                fit: BoxFit.contain)
+          ],
+        ),
+      );
       firRowChildren
           .add(const SizedBox(width: STAlertConstant.iconTitlePadding));
     }
@@ -163,7 +165,7 @@ class STAlert extends Dialog {
       curLeftPadding = STAlertConstant.leftPadding;
     }
 
-    double curWidth = width > STAlertConstant.defaultWidth
+    final double curWidth = width > STAlertConstant.defaultWidth
         ? width
         : STAlertConstant.defaultWidth;
 
@@ -182,7 +184,7 @@ class STAlert extends Dialog {
       }
     } else {
       //右边text宽度，这里要改成实际宽度。
-      double rigthTextWidth =
+      final double rigthTextWidth =
           (rightText.length >= STAlertConstant.rightTextCount
                   ? STAlertConstant.rightTextCount
                   : rightText.length) *
@@ -196,24 +198,31 @@ class STAlert extends Dialog {
     }
 
     //第一行添加左边文字
-    firRowChildren.add(SizedBox(
+    firRowChildren.add(
+      SizedBox(
         width: firTextWidth,
-        child: Text(text,
-            softWrap: true,
-            style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.black,
-                fontSize: STAlertConstant.textFontSize,
-                decoration: TextDecoration.none))));
+        child: Text(
+          text,
+          softWrap: true,
+          style: const TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.black,
+              fontSize: STAlertConstant.textFontSize,
+              decoration: TextDecoration.none),
+        ),
+      ),
+    );
 
     //添加右边控件
     List<Widget> rightChildren = [];
     rightChildren =
         addRightButton(rightChildren, rightIcon, rightText, onRightTap);
-    rightChildren.add(const SizedBox(width: STAlertConstant.rightPadding));
+    rightChildren.add(
+      const SizedBox(width: STAlertConstant.rightPadding),
+    );
 
     //添加第二排
-    double secTextWidth =
+    final double secTextWidth =
         curWidth - curLeftPadding - STAlertConstant.rightPadding;
     String curDescription;
     if (isNullOrEmpty(description)) {
@@ -221,20 +230,25 @@ class STAlert extends Dialog {
     } else {
       curDescription = description;
     }
-    List<Widget> secRowChildren = [];
+    final List<Widget> secRowChildren = [];
     secRowChildren.add(SizedBox(width: curLeftPadding));
-    secRowChildren.add(SizedBox(
+    secRowChildren.add(
+      SizedBox(
         width: secTextWidth,
-        child: Text(curDescription,
-            softWrap: true,
-            style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.black,
-                fontSize: STAlertConstant.descriptionFontSize,
-                decoration: TextDecoration.none))));
+        child: Text(
+          curDescription,
+          softWrap: true,
+          style: const TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.black,
+              fontSize: STAlertConstant.descriptionFontSize,
+              decoration: TextDecoration.none),
+        ),
+      ),
+    );
 
     //搭建widget
-    var widget;
+    Widget widget;
     if (isNullOrEmpty(description)) {
       widget = Center(
         child: Container(
@@ -244,24 +258,27 @@ class STAlert extends Dialog {
             borderRadius: const BorderRadius.all(
                 Radius.circular(STAlertConstant.cornerRadius)),
           ),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            const SizedBox(height: STAlertConstant.firstTitleTopPading),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: firRowChildren,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: rightChildren,
-                ),
-              ],
-            ),
-            const SizedBox(height: STAlertConstant.firstTitleTopPading),
-          ]),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: STAlertConstant.firstTitleTopPading),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: firRowChildren,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: rightChildren,
+                  ),
+                ],
+              ),
+              const SizedBox(height: STAlertConstant.firstTitleTopPading),
+            ],
+          ),
         ),
       );
     } else {
@@ -340,40 +357,46 @@ class STAlert extends Dialog {
         } else {
           curIcon = icon;
         }
-        rowChildren.add(Column(
-          children: [
-            const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
-            GestureDetector(
-              child: Image.asset(icon,
-                  width: STAlertConstant.iconWidth,
-                  height: STAlertConstant.iconWidth,
-                  repeat: ImageRepeat.noRepeat,
-                  fit: BoxFit.contain),
-              onTap: tap,
-            )
-          ],
-        ));
+        rowChildren.add(
+          Column(
+            children: [
+              const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
+              GestureDetector(
+                onTap: tap,
+                child: Image.asset(curIcon,
+                    width: STAlertConstant.iconWidth,
+                    height: STAlertConstant.iconWidth,
+                    fit: BoxFit.contain),
+              )
+            ],
+          ),
+        );
       }
     } else {
-      rowChildren.add(Column(children: [
-        const SizedBox(height: STAlertConstant.rightButtonTextTopPadding),
-        GestureDetector(
-          child: SizedBox(
-              width: STAlertConstant.singleTextWidth *
-                  STAlertConstant.rightTextCount,
-              child: Text(
-                text,
-                style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey,
-                    fontSize: STAlertConstant.descriptionFontSize,
-                    decoration: TextDecoration.none),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )),
-          onTap: tap,
-        )
-      ]));
+      rowChildren.add(
+        Column(
+          children: [
+            const SizedBox(height: STAlertConstant.rightButtonTextTopPadding),
+            GestureDetector(
+              onTap: tap,
+              child: SizedBox(
+                width: STAlertConstant.singleTextWidth *
+                    STAlertConstant.rightTextCount,
+                child: Text(
+                  text,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey,
+                      fontSize: STAlertConstant.descriptionFontSize,
+                      decoration: TextDecoration.none),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
     }
     return rowChildren;
   }
