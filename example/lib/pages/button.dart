@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:saturn/saturn.dart';
+import 'package:saturn/st_button/common.dart';
 
 class ButtonPage extends StatefulWidget {
   @override
@@ -125,6 +126,18 @@ class _ButtonPageState extends State<ButtonPage> {
               text: 'change disable',
               type: STButtonType.text,
               onTap: _changeDisable,
+            ),
+            SizedBox(height: 5),
+            STButton(
+              type: STButtonType.outline,
+              text: 'success outline',
+              borderColor: STColor.assistGreen,
+              textStyle: TextStyle(color: STColor.assistGreen),
+            ),
+            SizedBox(height: 5),
+            STButton.icon(
+              backgroundColor: STColor.assistRed,
+              icon: Icon(Icons.assignment_late_outlined, color: Colors.white),
             ),
           ],
         ),
