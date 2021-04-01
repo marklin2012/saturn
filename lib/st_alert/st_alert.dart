@@ -5,10 +5,10 @@ class STAlertConstant {
 //定义的Color，带合并代码后迁移到ColorUtil中
 //**************************************************************** */
 
-  static const colorBlue = Color.fromRGBO(9, 91, 249, 0.12);
-  static const colorGreen = Color.fromRGBO(73, 197, 100, 0.12);
-  static const colorRed = Color.fromRGBO(255, 65, 65, 0.12);
-  static const colorOrange = Color.fromRGBO(255, 169, 39, 0.12);
+  static const colorInfo = Color(0xFF095BF9);
+  static const colorSuccess = Color(0xFF49C564);
+  static const colorError = Color(0xFFFF4141);
+  static const colorWarnning = Color(0xFFFFA927);
   static const colorBackground = Color.fromRGBO(255, 255, 255, 0.1);
 
 //**************************************************************** */
@@ -20,6 +20,8 @@ class STAlertConstant {
   static const cornerRadius = 4.0;
 
 // Padding
+  static const verticalPadding = 8.0;
+  static const horizontalPadding = 16.0;
   static const leftPadding = 16.0;
   static const rightPadding = 10.0;
   static const firstTextRightPadding = 5.0;
@@ -38,7 +40,7 @@ class STAlertConstant {
   static const descriptionFontSize = 14.0;
 
   static const singleTextWidth = 15.0;
-  static const rightTextCount = 4;
+  static const closeTextCount = 4;
 
 //Icon
   static const defaultLeftIcon = "assets/images/basketball_check.png";
@@ -46,34 +48,40 @@ class STAlertConstant {
 }
 
 // alert 类型
-enum STAlertType { alert, success, danger, warning }
+enum STAlertType {
+  info, // 信息 默认值
+  success, // 成功
+  error, // 危险
+  warning, // 警告
+}
 
 class STAlert extends Dialog {
   final double width;
   final String icon;
-  final String text;
+  final String message;
   final String description;
-  final String rightText;
-  final String rightIcon;
-  final VoidCallback onRightTap;
+  final String closeText;
   final STAlertType type;
-  final bool showLeftIcon;
-  final bool isAutoClose;
+  final bool showIcon;
+  final bool autoClose;
+  final bool closable;
   final int disappearTime;
+
+  final VoidCallback onCloseTap;
 
   const STAlert({
     Key key,
     @required this.type,
-    @required this.text,
-    @required this.showLeftIcon,
-    @required this.isAutoClose,
+    @required this.message,
+    @required this.showIcon,
+    @required this.autoClose,
     this.width = STAlertConstant.defaultWidth,
     this.icon,
     this.description,
-    this.rightText,
-    this.rightIcon,
-    this.onRightTap,
+    this.closeText,
+    this.onCloseTap,
     this.disappearTime,
+    this.closable = false,
   }) : super(
           key: key,
         );
@@ -81,21 +89,22 @@ class STAlert extends Dialog {
   static void show(
       {@required BuildContext context,
       @required STAlertType type,
-      @required String text,
-      @required bool showLeftIcon,
-      @required bool isAutoClose,
+      @required String message,
+      bool showIcon = false,
+      bool autoClose = false,
+      bool closable = false,
       double width = STAlertConstant.defaultWidth,
       String icon,
       String description,
-      String rightText,
+      String closeText,
       String rightIcon,
-      VoidCallback onRightTap,
+      VoidCallback onCloseTap,
       int disappearTime = 5}) {
     showDialog(
         context: context,
         barrierColor: Colors.transparent,
         builder: (context) {
-          if (isAutoClose) {
+          if (autoClose) {
             FutureUtils().delayedAction(() {
               hide(context);
             }, disappearTime);
@@ -103,15 +112,15 @@ class STAlert extends Dialog {
 
           final alert = STAlert(
             type: type,
-            text: text,
-            showLeftIcon: showLeftIcon,
-            isAutoClose: isAutoClose,
+            message: message,
+            showIcon: showIcon,
+            autoClose: autoClose,
             description: description,
             width: width,
             icon: icon,
-            rightText: rightText,
-            rightIcon: rightIcon,
-            onRightTap: onRightTap,
+            closable: closable,
+            closeText: closeText,
+            onCloseTap: onCloseTap,
             disappearTime: disappearTime,
           );
 
@@ -132,194 +141,84 @@ class STAlert extends Dialog {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> firRowChildren = [];
-    firRowChildren.add(const SizedBox(width: STAlertConstant.leftPadding));
-
-    //第一行添加图片
-    if (showLeftIcon == true) {
-      String curIcon;
-      if (isNullOrEmpty(icon)) {
-        curIcon = STAlertConstant.defaultLeftIcon;
-      } else {
-        curIcon = icon;
-      }
-      firRowChildren.add(
-        Column(
-          children: [
-            const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
-            Image.asset(curIcon,
-                width: STAlertConstant.iconWidth,
-                height: STAlertConstant.iconWidth,
-                fit: BoxFit.contain)
-          ],
-        ),
-      );
-      firRowChildren
-          .add(const SizedBox(width: STAlertConstant.iconTitlePadding));
-    }
-
-    double curLeftPadding = 0;
-    if (showLeftIcon == true) {
-      curLeftPadding = STAlertConstant.secondTextWithIconLeftPadding;
-    } else {
-      curLeftPadding = STAlertConstant.leftPadding;
-    }
-
     final double curWidth = width > STAlertConstant.defaultWidth
         ? width
         : STAlertConstant.defaultWidth;
-
-    double firTextWidth;
-    if (isNullOrEmpty(rightText)) {
-      if (isNullOrEmpty(rightIcon)) {
-        firTextWidth = curWidth - curLeftPadding - STAlertConstant.rightPadding;
-      } else {
-        {
-          firTextWidth = curWidth -
-              curLeftPadding -
-              STAlertConstant.rightPadding -
-              STAlertConstant.firstTextRightPadding -
-              STAlertConstant.iconWidth;
-        }
-      }
-    } else {
-      //右边text宽度，这里要改成实际宽度。
-      final double rigthTextWidth =
-          (rightText.length >= STAlertConstant.rightTextCount
-                  ? STAlertConstant.rightTextCount
-                  : rightText.length) *
-              STAlertConstant.singleTextWidth;
-
-      firTextWidth = curWidth -
-          curLeftPadding -
-          STAlertConstant.rightPadding -
-          STAlertConstant.firstTextRightPadding -
-          rigthTextWidth;
+    Widget closeInsideWidget = const Icon(
+      Icons.close,
+      size: 16.0,
+    );
+    if (!isNullOrEmpty(closeText)) {
+      closeInsideWidget = Text(
+        closeText,
+        style: const TextStyle(color: Color(0xFF888888), fontSize: 16.0),
+      );
     }
 
-    //第一行添加左边文字
-    firRowChildren.add(
-      SizedBox(
-        width: firTextWidth,
-        child: Text(
-          text,
-          softWrap: true,
-          style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              fontSize: STAlertConstant.textFontSize,
-              decoration: TextDecoration.none),
+    return Center(
+      child: Container(
+        width: curWidth,
+        decoration: BoxDecoration(
+          color: bgColorFromAlertType(type),
+          borderRadius: const BorderRadius.all(
+              Radius.circular(STAlertConstant.cornerRadius)),
         ),
-      ),
-    );
-
-    //添加右边控件
-    List<Widget> rightChildren = [];
-    rightChildren =
-        addRightButton(rightChildren, rightIcon, rightText, onRightTap);
-    rightChildren.add(
-      const SizedBox(width: STAlertConstant.rightPadding),
-    );
-
-    //添加第二排
-    final double secTextWidth =
-        curWidth - curLeftPadding - STAlertConstant.rightPadding;
-    String curDescription;
-    if (isNullOrEmpty(description)) {
-      curDescription = "";
-    } else {
-      curDescription = description;
-    }
-    final List<Widget> secRowChildren = [];
-    secRowChildren.add(SizedBox(width: curLeftPadding));
-    secRowChildren.add(
-      SizedBox(
-        width: secTextWidth,
-        child: Text(
-          curDescription,
-          softWrap: true,
-          style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              fontSize: STAlertConstant.descriptionFontSize,
-              decoration: TextDecoration.none),
-        ),
-      ),
-    );
-
-    //搭建widget
-    Widget widget;
-    if (isNullOrEmpty(description)) {
-      widget = Center(
-        child: Container(
-          width: curWidth,
-          decoration: BoxDecoration(
-            color: bgColorFromAlertType(type),
-            borderRadius: const BorderRadius.all(
-                Radius.circular(STAlertConstant.cornerRadius)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: STAlertConstant.firstTitleTopPading),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: firRowChildren,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: rightChildren,
-                  ),
-                ],
+              if (showIcon)
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: iconFromAlertType(type),
+                ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!isNullOrEmpty(message))
+                      Text(
+                        message,
+                        softWrap: true,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                            fontSize: STAlertConstant.textFontSize,
+                            decoration: TextDecoration.none),
+                      ),
+                    if (!isNullOrEmpty(description))
+                      Text(
+                        description,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey,
+                            fontSize: STAlertConstant.descriptionFontSize,
+                            decoration: TextDecoration.none),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                  ],
+                ),
               ),
-              const SizedBox(height: STAlertConstant.firstTitleTopPading),
+              if (closable)
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (onCloseTap != null) {
+                        onCloseTap();
+                      }
+                    },
+                    child: closeInsideWidget,
+                  ),
+                ),
             ],
           ),
         ),
-      );
-    } else {
-      widget = Center(
-        child: Container(
-          width: curWidth,
-          decoration: BoxDecoration(
-            color: bgColorFromAlertType(type),
-            borderRadius: const BorderRadius.all(
-                Radius.circular(STAlertConstant.cornerRadius)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: STAlertConstant.firstTitleTopPading),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: firRowChildren,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: rightChildren,
-                  ),
-                ],
-              ),
-              const SizedBox(height: STAlertConstant.secondTextTopPading),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: secRowChildren,
-              ),
-              const SizedBox(height: STAlertConstant.secondTextBottomPading),
-            ],
-          ),
-        ),
-      );
-    }
-    return widget;
+      ),
+    );
   }
 
   bool isNullOrEmpty(String str) {
@@ -330,74 +229,45 @@ class STAlert extends Dialog {
     }
   }
 
+  Widget iconFromAlertType(STAlertType type) {
+    IconData iconData;
+    Color iconColor;
+    switch (type) {
+      case STAlertType.success:
+        iconData = Icons.check;
+        iconColor = STAlertConstant.colorSuccess;
+        break;
+      case STAlertType.error:
+        iconData = Icons.error;
+        iconColor = STAlertConstant.colorError;
+        break;
+      case STAlertType.warning:
+        iconData = Icons.info;
+        iconColor = STAlertConstant.colorWarnning;
+        break;
+      default:
+        iconData = Icons.info;
+        iconColor = STAlertConstant.colorInfo;
+    }
+    return Icon(
+      iconData,
+      size: 16.0,
+      color: iconColor,
+    );
+  }
+
   Color bgColorFromAlertType(STAlertType state) {
     switch (state) {
-      case STAlertType.alert:
-        return STAlertConstant.colorBlue;
+      case STAlertType.info:
+        return STAlertConstant.colorInfo.withOpacity(0.12);
       case STAlertType.success:
-        return STAlertConstant.colorGreen;
-      case STAlertType.danger:
-        return STAlertConstant.colorRed;
+        return STAlertConstant.colorSuccess.withOpacity(0.12);
+      case STAlertType.error:
+        return STAlertConstant.colorError.withOpacity(0.12);
       case STAlertType.warning:
-        return STAlertConstant.colorOrange;
+        return STAlertConstant.colorWarnning.withOpacity(0.12);
       default:
         return Colors.transparent;
     }
-  }
-
-  List<Widget> addRightButton(
-      List rowChildren, String icon, String text, VoidCallback tap) {
-    rowChildren.add(const SizedBox(height: 20));
-    if (isNullOrEmpty(text)) {
-      if (isNullOrEmpty(icon)) {
-      } else {
-        String curIcon;
-        if (isNullOrEmpty(icon)) {
-          curIcon = STAlertConstant.defaultRightIcon;
-        } else {
-          curIcon = icon;
-        }
-        rowChildren.add(
-          Column(
-            children: [
-              const SizedBox(height: STAlertConstant.rightButtonIconTopPadding),
-              GestureDetector(
-                onTap: tap,
-                child: Image.asset(curIcon,
-                    width: STAlertConstant.iconWidth,
-                    height: STAlertConstant.iconWidth,
-                    fit: BoxFit.contain),
-              )
-            ],
-          ),
-        );
-      }
-    } else {
-      rowChildren.add(
-        Column(
-          children: [
-            const SizedBox(height: STAlertConstant.rightButtonTextTopPadding),
-            GestureDetector(
-              onTap: tap,
-              child: SizedBox(
-                width: STAlertConstant.singleTextWidth *
-                    STAlertConstant.rightTextCount,
-                child: Text(
-                  text,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.grey,
-                      fontSize: STAlertConstant.descriptionFontSize,
-                      decoration: TextDecoration.none),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
-    return rowChildren;
   }
 }
