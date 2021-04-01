@@ -16,8 +16,6 @@ const Color _defaultBackgroundColor = Color(0xFFFAFCFF);
 const Color _defaultBorderColor = Color(0xFFC4C5C7);
 const Color _borderHighlightedColor = Color(0xFF095BF9);
 
-const TextStyle _normalTextStyle = TextStyle();
-
 class STInput extends StatefulWidget {
   const STInput({
     Key key,
