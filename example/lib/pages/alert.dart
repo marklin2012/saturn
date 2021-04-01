@@ -21,12 +21,12 @@ class AlertPage extends StatelessWidget {
               STAlert.show(
                   context: context,
                   type: STAlertType.success,
-                  text: "你说是就是",
-                  isAutoClose: false,
-                  showLeftIcon: false,
+                  message: "你说是就是",
+                  autoClose: false,
+                  showIcon: false,
                   rightIcon: "assets/images/basketball_check.png",
                   width: 250,
-                  onRightTap: () {
+                  onCloseTap: () {
                     print('好的');
                   },
                   disappearTime: 3);
@@ -41,15 +41,15 @@ class AlertPage extends StatelessWidget {
 
               STAlert.show(
                   context: context,
-                  type: STAlertType.alert,
-                  text:
+                  type: STAlertType.info,
+                  message:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
-                  isAutoClose: true,
-                  showLeftIcon: true,
-                  rightText: "你说好不好",
+                  autoClose: true,
+                  showIcon: true,
+                  closeText: "你说好不好",
                   rightIcon: "assets/images/basketball_check.png",
                   width: 250,
-                  onRightTap: () {
+                  onCloseTap: () {
                     print('好的');
                   },
                   disappearTime: 3);
@@ -64,16 +64,17 @@ class AlertPage extends StatelessWidget {
 
               STAlert.show(
                   context: context,
-                  type: STAlertType.danger,
-                  text: "你说是就是",
+                  type: STAlertType.error,
+                  closable: true,
+                  message: "你说是就是",
                   description:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
-                  isAutoClose: true,
-                  showLeftIcon: true,
-                  rightText: "你说好不好",
+                  autoClose: true,
+                  showIcon: true,
+                  closeText: "你说好不好",
                   rightIcon: "assets/images/basketball_check.png",
                   width: 250,
-                  onRightTap: () {
+                  onCloseTap: () {
                     print('好的');
                   },
                   disappearTime: 3);
@@ -89,13 +90,13 @@ class AlertPage extends StatelessWidget {
               STAlert.show(
                   context: context,
                   type: STAlertType.warning,
-                  text: "你说是就是",
+                  message: "你说是就是",
                   description:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
-                  isAutoClose: false,
-                  showLeftIcon: true,
+                  autoClose: false,
+                  showIcon: true,
                   width: 250,
-                  onRightTap: () {
+                  onCloseTap: () {
                     print('好的');
                   },
                   disappearTime: 3);
