@@ -12,6 +12,7 @@ class BadgePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 30),
             STBadge(
               dot: true,
             ),

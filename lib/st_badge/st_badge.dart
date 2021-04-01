@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_badge/badge_positoned.dart';
 
-const Color _defaultBgColor = Color(0xFFFF4141);
-const double _maxHeight = 16.0;
-const double _dotWidth = 10.0;
-const double _badgefontSize = 12.0;
-
 class STBadge extends StatelessWidget {
   final Widget child; // 与其他Widget配合使用,可空，空即为单独使用
   final String content; // 自定义的内容
@@ -22,11 +17,17 @@ class STBadge extends StatelessWidget {
     this.content,
     this.value,
     this.maxNumber = 99,
-    this.backgroundColor = _defaultBgColor,
+    this.backgroundColor,
     this.dot = false,
     this.position,
     this.padding,
   }) : super(key: key);
+
+  static const _defaultBackgroundColor = Color(0xFFFF4141);
+  static const _maxHeight = 16.0;
+  static const _dotWidth = 10.0;
+  static const _badgefontSize = 12.0;
+  static const _defaultPadding = EdgeInsets.fromLTRB(3, 1, 3, 1);
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +54,8 @@ class STBadge extends StatelessWidget {
         width: _dotWidth,
         height: _dotWidth,
         decoration: BoxDecoration(
-          color: _defaultBgColor,
-          borderRadius: BorderRadius.circular(_dotWidth / 2),
+          color: backgroundColor ?? _defaultBackgroundColor,
+          shape: BoxShape.circle,
         ),
       );
     } else {
@@ -64,10 +65,10 @@ class STBadge extends StatelessWidget {
           minWidth: _maxHeight,
         ),
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: backgroundColor ?? _defaultBackgroundColor,
           borderRadius: BorderRadius.circular(_maxHeight / 2),
         ),
-        padding: const EdgeInsets.fromLTRB(3, 1, 3, 1),
+        padding: padding ?? _defaultPadding,
         child: Text(
           _getValue(),
           style: const TextStyle(color: Colors.white, fontSize: _badgefontSize),
