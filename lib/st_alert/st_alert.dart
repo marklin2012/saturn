@@ -36,7 +36,7 @@ class STAlertConstant {
   static const secondTextBottomPading = 4.0;
 
 //Font
-  static const textFontSize = 16.0;
+  static const textFontSize = 18.0;
   static const descriptionFontSize = 14.0;
 
   static const singleTextWidth = 15.0;
@@ -151,7 +151,10 @@ class STAlert extends Dialog {
     if (!isNullOrEmpty(closeText)) {
       closeInsideWidget = Text(
         closeText,
-        style: const TextStyle(color: Color(0xFF888888), fontSize: 16.0),
+        style: const TextStyle(
+            color: Color(0xFF888888),
+            fontSize: 16.0,
+            decoration: TextDecoration.none),
       );
     }
 
@@ -170,7 +173,7 @@ class STAlert extends Dialog {
             children: [
               if (showIcon)
                 Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
+                  padding: const EdgeInsets.only(top: 4, right: 12.0),
                   child: iconFromAlertType(type),
                 ),
               Expanded(
@@ -178,16 +181,35 @@ class STAlert extends Dialog {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (!isNullOrEmpty(message))
-                      Text(
-                        message,
-                        softWrap: true,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                            fontSize: STAlertConstant.textFontSize,
-                            decoration: TextDecoration.none),
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (!isNullOrEmpty(message))
+                          Expanded(
+                            child: Text(
+                              message,
+                              softWrap: true,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                  fontSize: STAlertConstant.textFontSize,
+                                  decoration: TextDecoration.none),
+                            ),
+                          ),
+                        if (closable)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                if (onCloseTap != null) {
+                                  onCloseTap();
+                                }
+                              },
+                              child: closeInsideWidget,
+                            ),
+                          ),
+                      ],
+                    ),
                     if (!isNullOrEmpty(description))
                       Text(
                         description,
@@ -202,18 +224,6 @@ class STAlert extends Dialog {
                   ],
                 ),
               ),
-              if (closable)
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      if (onCloseTap != null) {
-                        onCloseTap();
-                      }
-                    },
-                    child: closeInsideWidget,
-                  ),
-                ),
             ],
           ),
         ),
@@ -251,7 +261,7 @@ class STAlert extends Dialog {
     }
     return Icon(
       iconData,
-      size: 16.0,
+      size: 20.0,
       color: iconColor,
     );
   }
