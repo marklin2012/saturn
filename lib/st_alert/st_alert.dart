@@ -1,61 +1,8 @@
 import 'package:flutter/material.dart';
 import 'future_utils.dart';
+import 'common.dart';
 
-class STAlertConstant {
-//定义的Color，带合并代码后迁移到ColorUtil中
-//**************************************************************** */
-
-  static const colorInfo = Color(0xFF095BF9);
-  static const colorSuccess = Color(0xFF49C564);
-  static const colorError = Color(0xFFFF4141);
-  static const colorWarnning = Color(0xFFFFA927);
-  static const colorBackground = Color.fromRGBO(255, 255, 255, 0.1);
-
-//**************************************************************** */
-
-  static const defaultWidth = 200.0; //默认宽度
-  static const defaultHeight = 40.0;
-  static const iconWidth = 17.0;
-
-  static const cornerRadius = 4.0;
-
-// Padding
-  static const verticalPadding = 8.0;
-  static const horizontalPadding = 16.0;
-  static const leftPadding = 16.0;
-  static const rightPadding = 10.0;
-  static const firstTextRightPadding = 5.0;
-  static const iconTitlePadding = 14.0;
-  static const rightButtonIconTopPadding = 4.0;
-  static const rightButtonTextTopPadding = 2.0;
-
-  static const secondTextWithIconLeftPadding =
-      leftPadding + iconWidth + iconTitlePadding; //当类型为iconTitleText时，第二排文字的左边距
-  static const firstTitleTopPading = 4.0;
-  static const secondTextTopPading = 4.0;
-  static const secondTextBottomPading = 4.0;
-
-//Font
-  static const textFontSize = 18.0;
-  static const descriptionFontSize = 14.0;
-
-  static const singleTextWidth = 15.0;
-  static const closeTextCount = 4;
-
-//Icon
-  static const defaultLeftIcon = "assets/images/basketball_check.png";
-  static const defaultRightIcon = "assets/images/basketball_check.png";
-}
-
-// alert 类型
-enum STAlertType {
-  info, // 信息 默认值
-  success, // 成功
-  error, // 危险
-  warning, // 警告
-}
-
-class STAlert extends Dialog {
+class STAlert extends Dialog with STAlertInterface {
   final double width;
   final String icon;
   final String message;
@@ -97,9 +44,8 @@ class STAlert extends Dialog {
       String icon,
       String description,
       String closeText,
-      String rightIcon,
       VoidCallback onCloseTap,
-      int disappearTime = 5}) {
+      int disappearTime = STAlertConstant.defaultDisappearTime}) {
     showDialog(
         context: context,
         barrierColor: Colors.transparent,
@@ -144,17 +90,29 @@ class STAlert extends Dialog {
     final double curWidth = width > STAlertConstant.defaultWidth
         ? width
         : STAlertConstant.defaultWidth;
-    Widget closeInsideWidget = const Icon(
-      Icons.close,
-      size: 16.0,
-    );
+    Widget closeInsideWidget = const Padding(
+        padding: EdgeInsets.only(top: 3.0),
+        child: Icon(
+          Icons.close,
+          size: STAlertConstant.iconWidth,
+        ));
     if (!isNullOrEmpty(closeText)) {
-      closeInsideWidget = Text(
-        closeText,
-        style: const TextStyle(
-            color: Color(0xFF888888),
-            fontSize: 16.0,
-            decoration: TextDecoration.none),
+      final double closeTextWidth =
+          (closeText.length >= STAlertConstant.closeTextMaxCount
+                  ? STAlertConstant.closeTextMaxCount
+                  : closeText.length) *
+              STAlertConstant.singleTextWidth;
+
+      closeInsideWidget = SizedBox(
+        width: closeTextWidth,
+        child: Text(closeText,
+            style: const TextStyle(
+                color: Colors.grey,
+                fontSize: STAlertConstant.messageFontSize,
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis),
       );
     }
 
@@ -192,7 +150,7 @@ class STAlert extends Dialog {
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black,
-                                  fontSize: STAlertConstant.textFontSize,
+                                  fontSize: STAlertConstant.messageFontSize,
                                   decoration: TextDecoration.none),
                             ),
                           ),
@@ -215,11 +173,9 @@ class STAlert extends Dialog {
                         description,
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: Colors.grey,
+                            color: Colors.black,
                             fontSize: STAlertConstant.descriptionFontSize,
                             decoration: TextDecoration.none),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       )
                   ],
                 ),
@@ -261,23 +217,8 @@ class STAlert extends Dialog {
     }
     return Icon(
       iconData,
-      size: 20.0,
+      size: STAlertConstant.iconWidth,
       color: iconColor,
     );
-  }
-
-  Color bgColorFromAlertType(STAlertType state) {
-    switch (state) {
-      case STAlertType.info:
-        return STAlertConstant.colorInfo.withOpacity(0.12);
-      case STAlertType.success:
-        return STAlertConstant.colorSuccess.withOpacity(0.12);
-      case STAlertType.error:
-        return STAlertConstant.colorError.withOpacity(0.12);
-      case STAlertType.warning:
-        return STAlertConstant.colorWarnning.withOpacity(0.12);
-      default:
-        return Colors.transparent;
-    }
   }
 }

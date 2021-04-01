@@ -24,7 +24,6 @@ class AlertPage extends StatelessWidget {
                   message: "你说是就是",
                   autoClose: false,
                   showIcon: false,
-                  rightIcon: "assets/images/basketball_check.png",
                   width: 250,
                   onCloseTap: () {
                     print('好的');
@@ -44,10 +43,9 @@ class AlertPage extends StatelessWidget {
                   type: STAlertType.info,
                   message:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
-                  autoClose: true,
+                  autoClose: false,
                   showIcon: true,
                   closeText: "你说好不好",
-                  rightIcon: "assets/images/basketball_check.png",
                   width: 250,
                   onCloseTap: () {
                     print('好的');
@@ -69,10 +67,8 @@ class AlertPage extends StatelessWidget {
                   message: "你说是就是",
                   description:
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
-                  autoClose: true,
-                  showIcon: true,
-                  closeText: "你说好不好",
-                  rightIcon: "assets/images/basketball_check.png",
+                  autoClose: false,
+                  showIcon: false,
                   width: 250,
                   onCloseTap: () {
                     print('好的');
@@ -95,6 +91,8 @@ class AlertPage extends StatelessWidget {
                       "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
                   autoClose: false,
                   showIcon: true,
+                  closeText: "关闭",
+                  closable: true,
                   width: 250,
                   onCloseTap: () {
                     print('好的');
