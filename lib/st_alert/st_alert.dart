@@ -22,20 +22,20 @@ class STAlert extends Dialog with STAlertInterface {
     @required this.message,
     @required this.showIcon,
     @required this.autoClose,
+    @required this.closable,
     this.width = STAlertConstant.defaultWidth,
     this.icon,
     this.description,
     this.closeText,
     this.onCloseTap,
     this.disappearTime,
-    this.closable = false,
   }) : super(
           key: key,
         );
 
   static void show(
       {@required BuildContext context,
-      @required STAlertType type,
+      STAlertType type = STAlertType.info,
       @required String message,
       bool showIcon = false,
       bool autoClose = false,
