@@ -2,11 +2,13 @@ import 'package:example/models/page_model.dart';
 import 'package:example/pages/button.dart';
 
 import 'package:example/pages/input.dart';
+import 'package:example/pages/switch.dart';
 import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
   PageModel(name: 'Input', page: InputPage()),
   PageModel(name: 'Button', page: ButtonPage()),
+  PageModel(name: 'Switch', page: SwitchPage()),
 ];
 
 class HomePage extends StatelessWidget {
