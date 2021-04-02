@@ -43,7 +43,7 @@ class BadgePage extends StatelessWidget {
             ),
             SizedBox(height: 30),
             STBadge(
-              content: 'Price',
+              value: 'Price',
               backgroundColor: Colors.blue,
             ),
           ],

@@ -3,7 +3,6 @@ import 'package:saturn/st_badge/badge_positoned.dart';
 
 class STBadge extends StatelessWidget {
   final Widget child; // 与其他Widget配合使用,可空，空即为单独使用
-  final String content; // 自定义的内容
   final String value; // 真实的数值
   final int maxNumber; // 自定义的最大值
   final Color backgroundColor; // 自定义的颜色
@@ -14,7 +13,6 @@ class STBadge extends StatelessWidget {
   const STBadge({
     Key key,
     this.child,
-    this.content,
     this.value,
     this.maxNumber = 99,
     this.backgroundColor,
@@ -85,8 +83,6 @@ class STBadge extends StatelessWidget {
       } else {
         return '$_intValue';
       }
-    } else if (content != null) {
-      return content;
     } else {
       return value;
     }
