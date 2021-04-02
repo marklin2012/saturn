@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
-
-class STLoadingConstant {
-  static const defaultWidth = 100.0; //默认宽度
-  static const defaultHeight = 40.0; //默认宽度
-
-  static const iconWidth = 40.0; //默认宽度
-
-  static const cornerRadius = 4.0;
-
-  static const textFontSize = 14.0;
-}
+import 'common.dart';
 
 class STLoading extends Dialog {
   final String icon;
+  final String gifIcon;
   final String text;
   final bool iconUpperText;
 
   const STLoading({
     Key key,
     this.icon,
+    this.gifIcon,
     this.text,
     this.iconUpperText = false,
   }) : super(key: key);
@@ -26,15 +18,26 @@ class STLoading extends Dialog {
   static void show(
       {@required BuildContext context,
       String icon,
+      String gifIcon,
       String text,
       bool iconUpperText}) {
     showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierColor: Colors.transparent,
+        barrierDismissible: true,
         builder: (BuildContext context) {
           return STLoading(
-              icon: icon, text: text, iconUpperText: iconUpperText);
+              icon: icon,
+              gifIcon: gifIcon,
+              text: text,
+              iconUpperText: iconUpperText);
         });
+  }
+
+  static void hide(
+    BuildContext context,
+  ) {
+    Navigator.pop(context);
   }
 
   @override
@@ -42,8 +45,7 @@ class STLoading extends Dialog {
     Widget widget;
 
     Text textWidget;
-    if (text == null) {
-    } else {
+    if (!(text == null)) {
       textWidget = Text(text,
           style: const TextStyle(
               fontWeight: FontWeight.normal,
@@ -53,50 +55,44 @@ class STLoading extends Dialog {
     }
 
     Image imageWidget;
-    if (icon == null) {
-    } else {
+    if (!(icon == null)) {
       imageWidget = Image.asset(icon,
           width: STLoadingConstant.iconWidth,
           height: STLoadingConstant.iconWidth,
           fit: BoxFit.contain);
+    } else {
+      if (!(gifIcon == null)) {
+        imageWidget = Image.asset(gifIcon,
+            width: STLoadingConstant.iconWidth,
+            height: STLoadingConstant.iconWidth,
+            fit: BoxFit.contain);
+      }
     }
 
-    if (icon == null) {
-      if (text == null) {
-      } else {
+    if ((icon == null) && (gifIcon == null)) {
+      if (!(text == null)) {
         widget = textWidget;
       }
     } else {
       if (text == null) {
-        if (iconUpperText == true) {
-          widget = Row(children: <Widget>[textWidget, imageWidget]);
-        } else {
-          widget = Column(children: <Widget>[textWidget, imageWidget]);
-        }
-      } else {
         widget = imageWidget;
+      } else {
+        if (iconUpperText == true) {
+          widget = Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            imageWidget,
+            const SizedBox(width: 5),
+            textWidget,
+          ]);
+        } else {
+          widget = Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            imageWidget,
+            const SizedBox(width: 5),
+            textWidget
+          ]);
+        }
       }
     }
     // TODO: implement build
-    return Center(
-      child: Container(
-          width: STLoadingConstant.defaultWidth,
-          decoration: const BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.all(
-                Radius.circular(STLoadingConstant.cornerRadius)),
-          ),
-          child: Container(
-            width: STLoadingConstant.defaultWidth,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: <Widget>[
-                const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Color(0xffAA1F52))),
-              ],
-            ),
-          )),
-    );
+    return Center(child: widget);
   }
 }

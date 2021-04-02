@@ -15,7 +15,12 @@ class LoadingPage extends StatelessWidget {
             child: Text("文字"),
             color: Colors.blue,
             onPressed: () {
-              STLoading.show(context: context, text: "正在加载中...");
+              STLoading.show(
+                  context: context,
+                  iconUpperText: true,
+                  text: "正在加载中...",
+                  icon: "assets/images/icon_selected_20x20.png",
+                  gifIcon: "assets/images/1.gif");
             },
           ),
         ],
