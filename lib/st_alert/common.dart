@@ -29,6 +29,7 @@ class STAlertConstant {
 //Font
   static const messageFontSize = 16.0;
   static const descriptionFontSize = 14.0;
+  static const closeTextFontSize = 14.0;
 
   static const closeTextMaxCount = 4;
   static const singleTextWidth = 16.0;

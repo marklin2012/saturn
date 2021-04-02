@@ -108,7 +108,7 @@ class STAlert extends Dialog with STAlertInterface {
         child: Text(closeText,
             style: const TextStyle(
                 color: Colors.grey,
-                fontSize: STAlertConstant.messageFontSize,
+                fontSize: STAlertConstant.closeTextFontSize,
                 fontWeight: FontWeight.normal,
                 decoration: TextDecoration.none),
             maxLines: 1,
