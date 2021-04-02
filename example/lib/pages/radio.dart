@@ -60,7 +60,7 @@ class _RadioPageState extends State<RadioPage> {
             ),
             STRadio(
               value: '英语',
-              text: '语文',
+              text: '英语',
               groupValue: _radioGroupValue,
               onChanged: (value) {
                 setState(() {
