@@ -48,12 +48,19 @@ class STAlert extends Dialog with STAlertInterface {
       int disappearTime = STAlertConstant.defaultDisappearTime}) {
     showDialog(
         context: context,
+        barrierDismissible: false,
         barrierColor: Colors.transparent,
         builder: (context) {
           if (autoClose) {
             FutureUtils().delayedAction(() {
               hide(context);
             }, disappearTime);
+          }
+
+          if (closable && onCloseTap == null) {
+            onCloseTap = () {
+              hide(context);
+            };
           }
 
           final alert = STAlert(
@@ -70,12 +77,16 @@ class STAlert extends Dialog with STAlertInterface {
             disappearTime: disappearTime,
           );
 
-          return GestureDetector(
-            onTap: () {
-              STAlert.hide(context);
-            },
-            child: alert,
-          );
+          if (closable) {
+            return alert;
+          } else {
+            return GestureDetector(
+              onTap: () {
+                STAlert.hide(context);
+              },
+              child: alert,
+            );
+          }
         });
   }
 

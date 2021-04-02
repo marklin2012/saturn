@@ -70,9 +70,6 @@ class AlertPage extends StatelessWidget {
                   autoClose: false,
                   showIcon: false,
                   width: 250,
-                  onCloseTap: () {
-                    print('好的');
-                  },
                   disappearTime: 3);
             },
           ),
@@ -95,7 +92,8 @@ class AlertPage extends StatelessWidget {
                   closable: true,
                   width: 250,
                   onCloseTap: () {
-                    print('好的');
+                    STAlert.hide(context);
+                    print("好的");
                   },
                   disappearTime: 3);
             },
