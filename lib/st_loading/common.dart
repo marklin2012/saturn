@@ -9,4 +9,6 @@ class STLoadingConstant {
   static const cornerRadius = 4.0;
 
   static const textFontSize = 14.0;
+
+  static const animationTime = 2;
 }

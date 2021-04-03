@@ -52,19 +52,13 @@ class _STLoadingState extends State<STLoading>
   void initState() {
     super.initState();
 
-    controller =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    controller = AnimationController(
+        duration: const Duration(seconds: STLoadingConstant.animationTime),
+        vsync: this);
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        print("status is completed");
         controller.reset();
         controller.forward();
-      } else if (status == AnimationStatus.dismissed) {
-        print("status is dismissed");
-      } else if (status == AnimationStatus.forward) {
-        print("status is forward");
-      } else if (status == AnimationStatus.reverse) {
-        print("status is reverse");
       }
     });
     controller.forward();
@@ -81,7 +75,7 @@ class _STLoadingState extends State<STLoading>
     Widget widget;
 
     Text textWidget;
-    if (!(this.widget.text == null)) {
+    if (this.widget.text != null) {
       textWidget = Text(this.widget.text,
           style: const TextStyle(
               fontWeight: FontWeight.normal,
@@ -91,7 +85,7 @@ class _STLoadingState extends State<STLoading>
     }
 
     Widget imageWidget;
-    if (!(this.widget.icon == null)) {
+    if (this.widget.icon != null) {
       imageWidget = RotationTransition(
           turns: controller,
           child: Image.asset(this.widget.icon,
@@ -99,7 +93,7 @@ class _STLoadingState extends State<STLoading>
               height: STLoadingConstant.iconWidth,
               fit: BoxFit.contain));
     } else {
-      if (!(this.widget.gifIcon == null)) {
+      if (this.widget.gifIcon != null) {
         imageWidget = Image.asset(this.widget.gifIcon,
             width: STLoadingConstant.iconWidth,
             height: STLoadingConstant.iconWidth,
