@@ -22,13 +22,13 @@ class AlertPage extends StatelessWidget {
                   context: context,
                   type: STAlertType.success,
                   message: "你说是就是",
-                  autoClose: false,
+                  autoClose: true,
                   showIcon: false,
                   width: 250,
                   onCloseTap: () {
                     print('好的');
                   },
-                  disappearTime: 3);
+                  disappearTime: 2);
             },
           ),
           FlatButton(

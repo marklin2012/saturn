@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'future_utils.dart';
+
 import 'common.dart';
 
-class STAlert extends Dialog with STAlertInterface {
+class STAlert extends StatefulWidget {
   final double width;
   final String icon;
   final String message;
@@ -51,12 +53,6 @@ class STAlert extends Dialog with STAlertInterface {
         barrierDismissible: false,
         barrierColor: Colors.transparent,
         builder: (context) {
-          if (autoClose) {
-            FutureUtils().delayedAction(() {
-              hide(context);
-            }, disappearTime);
-          }
-
           if (closable && onCloseTap == null) {
             onCloseTap = () {
               hide(context);
@@ -97,9 +93,27 @@ class STAlert extends Dialog with STAlertInterface {
   }
 
   @override
+  _STAlertState createState() => _STAlertState();
+}
+
+class _STAlertState extends State<STAlert> with STAlertInterface {
+  Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.autoClose) {
+      timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
+        STAlert.hide(context);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final double curWidth = width > STAlertConstant.defaultWidth
-        ? width
+    final double curWidth = widget.width > STAlertConstant.defaultWidth
+        ? widget.width
         : STAlertConstant.defaultWidth;
     Widget closeInsideWidget = const Padding(
         padding: EdgeInsets.only(top: 3.0),
@@ -107,16 +121,16 @@ class STAlert extends Dialog with STAlertInterface {
           Icons.close,
           size: STAlertConstant.iconWidth,
         ));
-    if (!isNullOrEmpty(closeText)) {
+    if (!isNullOrEmpty(widget.closeText)) {
       final double closeTextWidth =
-          (closeText.length >= STAlertConstant.closeTextMaxCount
+          (widget.closeText.length >= STAlertConstant.closeTextMaxCount
                   ? STAlertConstant.closeTextMaxCount
-                  : closeText.length) *
+                  : widget.closeText.length) *
               STAlertConstant.singleTextWidth;
 
       closeInsideWidget = SizedBox(
         width: closeTextWidth,
-        child: Text(closeText,
+        child: Text(widget.closeText,
             style: const TextStyle(
                 color: Colors.grey,
                 fontSize: STAlertConstant.closeTextFontSize,
@@ -131,7 +145,7 @@ class STAlert extends Dialog with STAlertInterface {
       child: Container(
         width: curWidth,
         decoration: BoxDecoration(
-          color: bgColorFromAlertType(type),
+          color: bgColorFromAlertType(widget.type),
           borderRadius: const BorderRadius.all(
               Radius.circular(STAlertConstant.cornerRadius)),
         ),
@@ -140,10 +154,10 @@ class STAlert extends Dialog with STAlertInterface {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (showIcon)
+              if (widget.showIcon)
                 Padding(
                   padding: const EdgeInsets.only(top: 4, right: 12.0),
-                  child: iconFromAlertType(type),
+                  child: iconFromAlertType(widget.type),
                 ),
               Expanded(
                 child: Column(
@@ -153,10 +167,10 @@ class STAlert extends Dialog with STAlertInterface {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (!isNullOrEmpty(message))
+                        if (!isNullOrEmpty(widget.message))
                           Expanded(
                             child: Text(
-                              message,
+                              widget.message,
                               softWrap: true,
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -165,13 +179,13 @@ class STAlert extends Dialog with STAlertInterface {
                                   decoration: TextDecoration.none),
                             ),
                           ),
-                        if (closable)
+                        if (widget.closable)
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0),
                             child: GestureDetector(
                               onTap: () {
-                                if (onCloseTap != null) {
-                                  onCloseTap();
+                                if (widget.onCloseTap != null) {
+                                  widget.onCloseTap();
                                 }
                               },
                               child: closeInsideWidget,
@@ -179,9 +193,9 @@ class STAlert extends Dialog with STAlertInterface {
                           ),
                       ],
                     ),
-                    if (!isNullOrEmpty(description))
+                    if (!isNullOrEmpty(widget.description))
                       Text(
-                        description,
+                        widget.description,
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             color: Colors.black,
@@ -196,6 +210,14 @@ class STAlert extends Dialog with STAlertInterface {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    if (timer != null) {
+      timer.cancel();
+    }
+    super.dispose();
   }
 
   bool isNullOrEmpty(String str) {
