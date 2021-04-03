@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'common.dart';
 
-class STLoading extends Dialog {
+class STLoading extends StatefulWidget {
   final String icon;
   final String gifIcon;
   final String text;
@@ -41,12 +41,48 @@ class STLoading extends Dialog {
   }
 
   @override
+  _STLoadingState createState() => _STLoadingState();
+}
+
+class _STLoadingState extends State<STLoading>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        print("status is completed");
+        controller.reset();
+        controller.forward();
+      } else if (status == AnimationStatus.dismissed) {
+        print("status is dismissed");
+      } else if (status == AnimationStatus.forward) {
+        print("status is forward");
+      } else if (status == AnimationStatus.reverse) {
+        print("status is reverse");
+      }
+    });
+    controller.forward();
+  }
+
+  @override
+  void dispose() {
+    controller.stop();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Widget widget;
 
     Text textWidget;
-    if (!(text == null)) {
-      textWidget = Text(text,
+    if (!(this.widget.text == null)) {
+      textWidget = Text(this.widget.text,
           style: const TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.black,
@@ -54,30 +90,32 @@ class STLoading extends Dialog {
               decoration: TextDecoration.none));
     }
 
-    Image imageWidget;
-    if (!(icon == null)) {
-      imageWidget = Image.asset(icon,
-          width: STLoadingConstant.iconWidth,
-          height: STLoadingConstant.iconWidth,
-          fit: BoxFit.contain);
+    Widget imageWidget;
+    if (!(this.widget.icon == null)) {
+      imageWidget = RotationTransition(
+          turns: controller,
+          child: Image.asset(this.widget.icon,
+              width: STLoadingConstant.iconWidth,
+              height: STLoadingConstant.iconWidth,
+              fit: BoxFit.contain));
     } else {
-      if (!(gifIcon == null)) {
-        imageWidget = Image.asset(gifIcon,
+      if (!(this.widget.gifIcon == null)) {
+        imageWidget = Image.asset(this.widget.gifIcon,
             width: STLoadingConstant.iconWidth,
             height: STLoadingConstant.iconWidth,
             fit: BoxFit.contain);
       }
     }
 
-    if ((icon == null) && (gifIcon == null)) {
-      if (!(text == null)) {
+    if ((this.widget.icon == null) && (this.widget.gifIcon == null)) {
+      if (!(this.widget.text == null)) {
         widget = textWidget;
       }
     } else {
-      if (text == null) {
+      if (this.widget.text == null) {
         widget = imageWidget;
       } else {
-        if (iconUpperText == true) {
+        if (this.widget.iconUpperText == true) {
           widget = Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             imageWidget,
             const SizedBox(width: 5),

@@ -16,10 +16,48 @@ class LoadingPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STLoading.show(
+                context: context,
+                text: "正在加载中...",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("图片"),
+            color: Colors.blue,
+            onPressed: () {
+              STLoading.show(
+                context: context,
+                icon: "assets/images/icon_selected_20x20.png",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("gif"),
+            color: Colors.blue,
+            onPressed: () {
+              STLoading.show(context: context, gifIcon: "assets/images/1.gif");
+            },
+          ),
+          FlatButton(
+            child: Text("文字图片"),
+            color: Colors.blue,
+            onPressed: () {
+              STLoading.show(
+                context: context,
+                iconUpperText: true,
+                text: "正在加载中...",
+                icon: "assets/images/icon_selected_20x20.png",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("文字Gif"),
+            color: Colors.blue,
+            onPressed: () {
+              STLoading.show(
                   context: context,
                   iconUpperText: true,
                   text: "正在加载中...",
-                  icon: "assets/images/icon_selected_20x20.png",
                   gifIcon: "assets/images/1.gif");
             },
           ),
