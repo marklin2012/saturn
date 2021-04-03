@@ -1,3 +1,4 @@
+import 'package:example/pages/checkbox.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/models/page_model.dart';
@@ -11,6 +12,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Button', page: ButtonPage()),
   PageModel(name: 'Switch', page: SwitchPage()),
   PageModel(name: 'Radio', page: RadioPage()),
+  PageModel(name: 'Checkbox', page: CheckboxPage()),
 ];
 
 class HomePage extends StatelessWidget {
