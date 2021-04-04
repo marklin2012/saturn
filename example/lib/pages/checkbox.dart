@@ -9,6 +9,14 @@ class CheckboxPage extends StatefulWidget {
 
 class _CheckboxPageState extends State<CheckboxPage> {
   var _checkValue = false;
+  var _boxItems = [
+    BoxItem(title: '语文'),
+    BoxItem(title: '数学'),
+    BoxItem(title: '英语'),
+    BoxItem(title: '禁用', disabled: true),
+  ];
+  var _selected = ['语文'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +93,27 @@ class _CheckboxPageState extends State<CheckboxPage> {
                   },
                 ),
               ],
+            ),
+            SizedBox(height: 20),
+            Text('自定义的CheckBoxGroup'),
+            STCheckboxGroup(
+              items: _boxItems,
+              selecteds: _selected,
+              onChanged: (List<String> values) {
+                setState(() {
+                  _selected = values;
+                });
+              },
+            ),
+            STCheckboxGroup(
+              items: _boxItems,
+              selecteds: _selected,
+              direction: BoxDirection.vertical,
+              onChanged: (List<String> values) {
+                setState(() {
+                  _selected = values;
+                });
+              },
             ),
           ],
         ),
