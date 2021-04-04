@@ -3,6 +3,7 @@ library saturn;
 export 'package:saturn/st_input/st_input.dart';
 export 'package:saturn/st_badge/st_badge.dart';
 export 'package:saturn/st_tooltip/st_tooltip.dart';
+export 'package:saturn/st_button/st_button.dart';
 
 /// A Calculator.
 class Calculator {
