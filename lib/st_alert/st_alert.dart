@@ -110,6 +110,18 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
     }
   }
 
+  TextStyle titleStyle = const TextStyle(
+      fontWeight: FontWeight.w500,
+      color: Colors.black,
+      fontSize: STAlertConstant.titleFontSize,
+      decoration: TextDecoration.none);
+
+  TextStyle messageStyle = const TextStyle(
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+      fontSize: STAlertConstant.messageFontSize,
+      decoration: TextDecoration.none);
+
   @override
   Widget build(BuildContext context) {
     final double curWidth = widget.width > STAlertConstant.defaultWidth
@@ -134,7 +146,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
             style: const TextStyle(
                 color: Colors.grey,
                 fontSize: STAlertConstant.closeTextFontSize,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.w400,
                 decoration: TextDecoration.none),
             maxLines: 1,
             overflow: TextOverflow.ellipsis),
@@ -172,11 +184,9 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
                             child: Text(
                               widget.message,
                               softWrap: true,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: STAlertConstant.messageFontSize,
-                                  decoration: TextDecoration.none),
+                              style: isNullOrEmpty(widget.description)
+                                  ? messageStyle
+                                  : titleStyle,
                             ),
                           ),
                         if (widget.closable)
@@ -196,11 +206,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
                     if (!isNullOrEmpty(widget.description))
                       Text(
                         widget.description,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                            fontSize: STAlertConstant.descriptionFontSize,
-                            decoration: TextDecoration.none),
+                        style: messageStyle,
                       )
                   ],
                 ),
