@@ -5,6 +5,7 @@ export 'package:saturn/st_button/st_button.dart';
 export 'package:saturn/st_switch/st_switch.dart';
 export 'package:saturn/st_radio/st_radio.dart';
 export 'package:saturn/st_checkbox/st_checkbox.dart';
+export 'package:saturn/st_stepper/st_stepper.dart';
 
 /// A Calculator.
 class Calculator {
