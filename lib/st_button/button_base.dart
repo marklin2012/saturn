@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:saturn/st_button/common.dart';
 import 'package:saturn/st_button/st_button.dart';
 
-// ignore: must_be_immutable
-class STButtonBase extends StatelessWidget with STButtonInterface {
+class STButtonBase extends StatefulWidget {
   final Widget icon;
   final String text; // 文本内容
   final TextStyle textStyle; // 文本的style样式
@@ -23,7 +22,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final bool circle;
   final EdgeInsets padding;
 
-  STButtonBase(
+  const STButtonBase(
       {Key key,
       this.icon,
       this.text,
@@ -43,6 +42,11 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       this.size = STButtonSize.large})
       : super(key: key);
 
+  @override
+  _STButtonBaseState createState() => _STButtonBaseState();
+}
+
+class _STButtonBaseState extends State<STButtonBase> with STButtonInterface {
   BoxDecoration _decoration;
   Widget _icon;
   STButtonState _state;
@@ -51,9 +55,9 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
 
   void initOriginState() {
     _lastState = STButtonState.primary;
-    if (loading) {
+    if (widget.loading) {
       _lastState = STButtonState.loading;
-    } else if (disabled) {
+    } else if (widget.disabled) {
       _lastState = STButtonState.disabled;
     }
     _state = _lastState;
@@ -66,81 +70,44 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     return ValueListenableBuilder(
       valueListenable: _curState,
       builder: (context, STButtonState stateValue, child) {
-        _decoration = BoxDecoration(
-          color: backgroundColor ?? bgColorFromButtonType(type),
-          borderRadius:
-              BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
-        );
-        if (type == STButtonType.text) {
-          _decoration = const BoxDecoration();
-        } else if (type == STButtonType.outline) {
-          _decoration = BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(radius ?? spaceFromButtonSize(size)),
-            border: Border.all(
-              color: borderColor ?? bgColorFromButtonType(type),
-              width: borderWidth ?? 1,
-            ),
-          );
-        } else if (circle) {
-          _decoration = BoxDecoration(
-            color: backgroundColor ?? bgColorFromButtonType(type),
-            shape: BoxShape.circle,
-          );
-        }
-        _icon = icon;
-        // 当状态为Loading且外部没有设置时，内部直接给定一个Loading的过程
-        if (stateValue == STButtonState.loading && _icon == null) {
-          _icon = const SizedBox(
-            width: 24.0,
-            height: 24.0,
-            child: CupertinoActivityIndicator(
-              radius: 12.0,
-            ),
-          );
-        }
+        _baseConfig(stateValue);
         return GestureDetector(
           onTap: excOnTap(),
           onTapDown: (details) {
             // 加载的过程或者不可用的状态下不可点击
             if (_state == STButtonState.loading ||
-                disabled == true ||
-                onTap == null) {
+                widget.disabled == true ||
+                widget.onTap == null) {
               return;
             }
             _curState.value = STButtonState.highlighted;
           },
           onTapCancel: () {
-            if (disabled == false && onTap != null) {
+            if (widget.disabled == false && widget.onTap != null) {
               _curState.value = _lastState;
             }
           },
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: height ?? heightFromButtonSize(size),
-            ),
+                minHeight: widget.height ?? heightFromButtonSize(widget.size)),
             child: Opacity(
               opacity: opacityFromButtonState(stateValue),
               child: Container(
-                width: width ?? widthFromButtonSize(size),
+                width: widget.width ?? widthFromButtonSize(widget.size),
                 decoration: _decoration,
-                padding: edgeInsetsFromButtonSize(size),
+                padding: edgeInsetsFromButtonSize(widget.size),
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (_icon != null) _icon,
-                    if (!circle && text != null)
-                      SizedBox(
-                        width: spaceFromButtonSize(size),
-                      ),
-                    if (!circle && text != null)
+                    if (!widget.circle && widget.text != null)
+                      SizedBox(width: spaceFromButtonSize(widget.size)),
+                    if (!widget.circle && widget.text != null)
                       Text(
-                        text ?? 'button',
-                        style: textStyle ??
-                            TextStyle(
-                              color: textColorFromButton(type),
-                            ),
+                        widget.text ?? 'button',
+                        style: widget.textStyle ??
+                            TextStyle(color: textColorFromButton(widget.type)),
                       )
                   ],
                 ),
@@ -152,12 +119,48 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     );
   }
 
+  void _baseConfig(STButtonState stateValue) {
+    _decoration = BoxDecoration(
+      color: widget.backgroundColor ?? bgColorFromButtonType(widget.type),
+      borderRadius: BorderRadius.circular(
+          widget.radius ?? spaceFromButtonSize(widget.size)),
+    );
+    if (widget.type == STButtonType.text) {
+      _decoration = const BoxDecoration();
+    } else if (widget.type == STButtonType.outline) {
+      _decoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(
+            widget.radius ?? spaceFromButtonSize(widget.size)),
+        border: Border.all(
+          color: widget.borderColor ?? bgColorFromButtonType(widget.type),
+          width: widget.borderWidth ?? 1,
+        ),
+      );
+    } else if (widget.circle) {
+      _decoration = BoxDecoration(
+        color: widget.backgroundColor ?? bgColorFromButtonType(widget.type),
+        shape: BoxShape.circle,
+      );
+    }
+    _icon = widget.icon;
+    // 当状态为Loading且外部没有设置时，内部直接给定一个Loading的过程
+    if (stateValue == STButtonState.loading && _icon == null) {
+      _icon = const SizedBox(
+        width: 24.0,
+        height: 24.0,
+        child: CupertinoActivityIndicator(
+          radius: 12.0,
+        ),
+      );
+    }
+  }
+
   void Function() excOnTap() {
     // 加载的过程或者不可用的状态下不可点击
-    if (loading || disabled == true) {
+    if (widget.loading || widget.disabled == true) {
       return null;
     } else {
-      return onTap;
+      return widget.onTap;
     }
   }
 }
