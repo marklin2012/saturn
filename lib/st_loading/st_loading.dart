@@ -84,22 +84,22 @@ class _STLoadingState extends State<STLoading>
 
   @override
   Widget build(BuildContext context) {
-    Widget widget;
+    Widget returnWidget;
 
     Color curThemeColor;
-    if (this.widget.themeColor == null) {
-      if (this.widget.showBackground) {
+    if (widget.themeColor == null) {
+      if (widget.showBackground) {
         curThemeColor = Colors.white;
       } else {
         curThemeColor = Colors.black;
       }
     } else {
-      curThemeColor = this.widget.themeColor;
+      curThemeColor = widget.themeColor;
     }
 
     Text textWidget;
-    if (this.widget.text != null) {
-      textWidget = Text(this.widget.text,
+    if (widget.text != null) {
+      textWidget = Text(widget.text,
           style: TextStyle(
               fontWeight: FontWeight.normal,
               color: curThemeColor,
@@ -108,16 +108,16 @@ class _STLoadingState extends State<STLoading>
     }
 
     Widget imageWidget;
-    if (this.widget.icon != null) {
+    if (widget.icon != null) {
       imageWidget = RotationTransition(
           turns: controller,
-          child: Image.asset(this.widget.icon,
+          child: Image.asset(widget.icon,
               width: STLoadingConstant.iconWidth,
               height: STLoadingConstant.iconWidth,
               fit: BoxFit.contain));
     } else {
-      if (this.widget.gifIcon != null) {
-        imageWidget = Image.asset(this.widget.gifIcon,
+      if (widget.gifIcon != null) {
+        imageWidget = Image.asset(widget.gifIcon,
             width: STLoadingConstant.iconWidth,
             height: STLoadingConstant.iconWidth,
             fit: BoxFit.contain);
@@ -131,34 +131,36 @@ class _STLoadingState extends State<STLoading>
       }
     }
 
-    if ((this.widget.icon == null) && (this.widget.gifIcon == null)) {
-      if (this.widget.text != null) {
-        if (this.widget.showDefaultIcon) {
-          widget = Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+    if ((widget.icon == null) && (widget.gifIcon == null)) {
+      if (widget.text != null) {
+        if (widget.showDefaultIcon) {
+          returnWidget =
+              Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             imageWidget,
             const SizedBox(width: 5),
             textWidget,
           ]);
         } else {
-          widget = textWidget;
+          returnWidget = textWidget;
         }
       } else {
-        if (this.widget.showDefaultIcon) {
-          widget = imageWidget;
+        if (widget.showDefaultIcon) {
+          returnWidget = imageWidget;
         }
       }
     } else {
-      if (this.widget.text == null) {
-        widget = imageWidget;
+      if (widget.text == null) {
+        returnWidget = imageWidget;
       } else {
-        if (this.widget.iconUpperText == true) {
-          widget = Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        if (widget.iconUpperText == true) {
+          returnWidget =
+              Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             imageWidget,
             const SizedBox(width: STLoadingConstant.iconTextDistance),
             textWidget,
           ]);
         } else {
-          widget = Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          returnWidget = Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
             imageWidget,
             const SizedBox(width: STLoadingConstant.iconTextDistance),
             textWidget
@@ -167,7 +169,7 @@ class _STLoadingState extends State<STLoading>
       }
     }
 
-    if (this.widget.showBackground) {
+    if (widget.showBackground) {
       return Center(
         child: Container(
           width: 120,
@@ -176,11 +178,11 @@ class _STLoadingState extends State<STLoading>
             borderRadius: BorderRadius.circular(STLoadingConstant.cornerRadius),
             color: STLoadingConstant.defaultBackgroundColor,
           ),
-          child: Center(child: widget),
+          child: Center(child: returnWidget),
         ),
       );
     } else {
-      return Center(child: widget);
+      return Center(child: returnWidget);
     }
   }
 }
