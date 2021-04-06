@@ -61,6 +61,18 @@ class LoadingPage extends StatelessWidget {
                   gifIcon: "assets/images/1.gif");
             },
           ),
+          FlatButton(
+            child: Text("默认icon"),
+            color: Colors.blue,
+            onPressed: () {
+              STLoading.show(
+                context: context,
+                showDefaultIcon: true,
+                text: "正在加载中...",
+                showBackground: true,
+              );
+            },
+          ),
         ],
       ),
     );
