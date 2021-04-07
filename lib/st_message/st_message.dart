@@ -15,16 +15,16 @@ class STMessage extends StatefulWidget {
     @required this.message,
     this.explainInfo,
     this.explain,
-    this.icon,
+    @required this.icon,
   }) : super(key: key);
 
   static void show(
       {@required BuildContext context,
       String title,
-      String message,
+      @required String message,
       String explainInfo,
       String explain,
-      String icon}) {
+      @required String icon}) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -64,8 +64,6 @@ class _STMessageState extends State<STMessage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget returnWidget;
-
     TextStyle titleStyle = const TextStyle(
         fontWeight: FontWeight.w600,
         color: Colors.black,
@@ -85,7 +83,7 @@ class _STMessageState extends State<STMessage> {
         decoration: TextDecoration.none);
 
     Image imageWidget;
-    if (widget.icon != null) {
+    if (!isNullOrEmpty(widget.icon)) {
       imageWidget = Image.asset(widget.icon,
           width: STMessageConstant.iconWidth,
           height: STMessageConstant.iconWidth,
@@ -93,15 +91,15 @@ class _STMessageState extends State<STMessage> {
     }
 
     Text titleWidget;
-    if (widget.title != null) {
+    if (!isNullOrEmpty(widget.title)) {
       titleWidget = Text(widget.title, softWrap: false, style: titleStyle);
     }
 
     final Text messageWidget =
         Text(widget.message, softWrap: true, style: messageStyle);
 
-    final bool haveExplain =
-        (widget.explain != null) && (widget.explainInfo != null);
+    final bool haveExplain = (!isNullOrEmpty(widget.explain)) &&
+        (!isNullOrEmpty(widget.explainInfo));
     return Align(
         alignment: Alignment.topCenter,
         child: Container(
@@ -127,7 +125,7 @@ class _STMessageState extends State<STMessage> {
                         ),
                         if (haveExplain)
                           Text(widget.explain, style: explainStyle)
-                        else if (widget.title != null)
+                        else if (!isNullOrEmpty(widget.title))
                           titleWidget
                         else
                           messageWidget,
@@ -139,12 +137,20 @@ class _STMessageState extends State<STMessage> {
                 ),
                 if (haveExplain)
                   titleWidget
-                else if (widget.title != null)
+                else if (!isNullOrEmpty(widget.title))
                   messageWidget,
                 if (haveExplain) messageWidget,
               ],
             ),
           ),
         ));
+  }
+
+  bool isNullOrEmpty(String str) {
+    if (str == null || str.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
