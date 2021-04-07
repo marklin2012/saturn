@@ -3,11 +3,13 @@ import 'package:example/pages/badge.dart';
 import 'package:example/pages/button.dart';
 
 import 'package:example/pages/input.dart';
+import 'package:example/pages/alert.dart';
 import 'package:example/pages/tooltip.dart';
 import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
   PageModel(name: 'Input', page: InputPage()),
+  PageModel(name: 'Alert', page: AlertPage()),
   PageModel(name: 'Badge', page: BadgePage()),
   PageModel(name: 'tooltip', page: TooltipPage()),
   PageModel(name: 'Button', page: ButtonPage()),
