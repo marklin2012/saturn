@@ -33,15 +33,21 @@ class STLoading extends StatefulWidget {
     showDialog(
         context: context,
         barrierColor: Colors.transparent,
-        barrierDismissible: true,
+        barrierDismissible: false,
         builder: (BuildContext context) {
-          return STLoading(
+          STLoading loading = STLoading(
             icon: icon,
             gifIcon: gifIcon,
             text: text,
             showDefaultIcon: showDefaultIcon,
             iconUpperText: iconUpperText,
             showBackground: showBackground,
+          );
+          return GestureDetector(
+            onTap: () {
+              STLoading.hide(context);
+            },
+            child: loading,
           );
         });
   }
@@ -98,7 +104,7 @@ class _STLoadingState extends State<STLoading>
     }
 
     Text textWidget;
-    if (widget.text != null) {
+    if (!isNullOrEmpty(widget.text)) {
       textWidget = Text(widget.text,
           style: TextStyle(
               fontWeight: FontWeight.normal,
@@ -108,7 +114,7 @@ class _STLoadingState extends State<STLoading>
     }
 
     Widget imageWidget;
-    if (widget.icon != null) {
+    if (!isNullOrEmpty(widget.icon)) {
       imageWidget = RotationTransition(
           turns: controller,
           child: Image.asset(widget.icon,
@@ -116,7 +122,7 @@ class _STLoadingState extends State<STLoading>
               height: STLoadingConstant.iconWidth,
               fit: BoxFit.contain));
     } else {
-      if (widget.gifIcon != null) {
+      if (!isNullOrEmpty(widget.gifIcon)) {
         imageWidget = Image.asset(widget.gifIcon,
             width: STLoadingConstant.iconWidth,
             height: STLoadingConstant.iconWidth,
