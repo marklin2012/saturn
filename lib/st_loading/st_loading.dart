@@ -131,8 +131,8 @@ class _STLoadingState extends State<STLoading>
       }
     }
 
-    if ((widget.icon == null) && (widget.gifIcon == null)) {
-      if (widget.text != null) {
+    if (isNullOrEmpty(widget.icon) && isNullOrEmpty(widget.gifIcon)) {
+      if (!isNullOrEmpty(widget.text)) {
         if (widget.showDefaultIcon) {
           returnWidget =
               Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
@@ -149,7 +149,7 @@ class _STLoadingState extends State<STLoading>
         }
       }
     } else {
-      if (widget.text == null) {
+      if (isNullOrEmpty(widget.text)) {
         returnWidget = imageWidget;
       } else {
         if (widget.iconUpperText == true) {
@@ -183,6 +183,14 @@ class _STLoadingState extends State<STLoading>
       );
     } else {
       return Center(child: returnWidget);
+    }
+  }
+
+  bool isNullOrEmpty(String str) {
+    if (str == null || str.isEmpty) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
