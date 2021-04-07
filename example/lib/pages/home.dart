@@ -4,6 +4,7 @@ import 'package:example/pages/button.dart';
 
 import 'package:example/pages/input.dart';
 import 'package:example/pages/tooltip.dart';
+import 'package:example/pages/toast.dart';
 import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
@@ -11,6 +12,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Badge', page: BadgePage()),
   PageModel(name: 'tooltip', page: TooltipPage()),
   PageModel(name: 'Button', page: ButtonPage()),
+  PageModel(name: 'Toast', page: ToastPage()),
 ];
 
 class HomePage extends StatelessWidget {
