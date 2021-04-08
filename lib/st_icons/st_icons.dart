@@ -13,6 +13,9 @@
 ///
 ///
 ///
+
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: avoid_redundant_argument_values
 import 'package:flutter/widgets.dart';
 
 class STIcons {
