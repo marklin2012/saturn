@@ -5,58 +5,19 @@ class STLoading extends StatefulWidget {
   final String icon;
   final String gifIcon;
   final String text;
-  final Color themeColor;
+  final Color textColor; // 文字颜色
   final bool showDefaultIcon; //show default icon 只有在icon 和 gificon都为空时，设置才有效
   final bool iconUpperText;
-  final bool showBackground;
 
   const STLoading({
     Key key,
     this.icon,
     this.gifIcon,
     this.text,
-    this.themeColor,
+    this.textColor,
     this.showDefaultIcon,
     this.iconUpperText,
-    this.showBackground,
   }) : super(key: key);
-
-  static void show(
-      {@required BuildContext context,
-      String icon,
-      String gifIcon,
-      String text,
-      Color themeColor,
-      bool showDefaultIcon = false,
-      bool iconUpperText = false,
-      bool showBackground = false}) {
-    showDialog(
-        context: context,
-        barrierColor: Colors.transparent,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          STLoading loading = STLoading(
-            icon: icon,
-            gifIcon: gifIcon,
-            text: text,
-            showDefaultIcon: showDefaultIcon,
-            iconUpperText: iconUpperText,
-            showBackground: showBackground,
-          );
-          return GestureDetector(
-            onTap: () {
-              STLoading.hide(context);
-            },
-            child: loading,
-          );
-        });
-  }
-
-  static void hide(
-    BuildContext context,
-  ) {
-    Navigator.pop(context);
-  }
 
   @override
   _STLoadingState createState() => _STLoadingState();
@@ -93,14 +54,10 @@ class _STLoadingState extends State<STLoading>
     Widget returnWidget;
 
     Color curThemeColor;
-    if (widget.themeColor == null) {
-      if (widget.showBackground) {
-        curThemeColor = Colors.white;
-      } else {
-        curThemeColor = Colors.black;
-      }
+    if (widget.textColor == null) {
+      curThemeColor = Colors.black;
     } else {
-      curThemeColor = widget.themeColor;
+      curThemeColor = widget.textColor;
     }
 
     Text textWidget;
@@ -175,21 +132,7 @@ class _STLoadingState extends State<STLoading>
       }
     }
 
-    if (widget.showBackground) {
-      return Center(
-        child: Container(
-          width: 120,
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(STLoadingConstant.cornerRadius),
-            color: STLoadingConstant.defaultBackgroundColor,
-          ),
-          child: Center(child: returnWidget),
-        ),
-      );
-    } else {
-      return Center(child: returnWidget);
-    }
+    return Center(child: returnWidget);
   }
 
   bool isNullOrEmpty(String str) {
