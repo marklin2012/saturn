@@ -35,7 +35,7 @@ class ToastPage extends StatelessWidget {
               STToast.show(
                   context: context,
                   icon: "assets/images/basketball_check.png",
-                  isIconAnimation: true);
+                  haveIconAnimation: true);
             },
           ),
           FlatButton(
@@ -46,7 +46,7 @@ class ToastPage extends StatelessWidget {
                   context: context,
                   icon: "assets/images/basketball_check.png",
                   message: "这是一个message",
-                  iconUpText: true);
+                  isIconUpText: true);
             },
           ),
         ],

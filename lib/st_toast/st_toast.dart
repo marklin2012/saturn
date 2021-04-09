@@ -5,19 +5,23 @@ import 'common.dart';
 class STToast extends StatefulWidget {
   final String message;
   final String icon;
-  final bool iconUpText;
-  final bool isIconAnimation;
+  final bool isIconUpText;
+  final bool haveIconAnimation;
 
   const STToast(
-      {Key key, this.message, this.icon, this.iconUpText, this.isIconAnimation})
+      {Key key,
+      this.message,
+      this.icon,
+      this.isIconUpText,
+      this.haveIconAnimation})
       : super(key: key);
 
   static void show(
       {@required BuildContext context,
       String message,
       String icon,
-      bool iconUpText = false,
-      bool isIconAnimation = false}) {
+      bool isIconUpText = false,
+      bool haveIconAnimation = false}) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -26,8 +30,8 @@ class STToast extends StatefulWidget {
           final toast = STToast(
               message: message,
               icon: icon,
-              iconUpText: iconUpText,
-              isIconAnimation: isIconAnimation);
+              isIconUpText: isIconUpText,
+              haveIconAnimation: haveIconAnimation);
           return GestureDetector(
             onTap: () {
               STToast.hide(context);
@@ -54,7 +58,7 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    if (!isNullOrEmpty(widget.icon) && widget.isIconAnimation) {
+    if (!isNullOrEmpty(widget.icon) && widget.haveIconAnimation) {
       controller = AnimationController(
           duration: const Duration(seconds: 2), vsync: this);
       controller.addStatusListener((status) {
@@ -83,12 +87,8 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
 
     Widget imageWidget;
     if (!isNullOrEmpty(widget.icon)) {
-      double curIconWidth = (widget.iconUpText || isNullOrEmpty(widget.message))
-          ? STToastConstant.iconWidth
-          : STToastConstant.smallIconWidth;
-      Image innerImageWidget = Image.asset(widget.icon,
-          width: curIconWidth, height: curIconWidth, fit: BoxFit.scaleDown);
-      if (widget.isIconAnimation) {
+      Image innerImageWidget = Image.asset(widget.icon, fit: BoxFit.fitWidth);
+      if (widget.haveIconAnimation) {
         imageWidget =
             RotationTransition(turns: controller, child: innerImageWidget);
       } else {
@@ -104,7 +104,6 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     Widget returnWidget;
     if (isNullOrEmpty(widget.icon)) {
       returnWidget = Container(
-          width: STToastConstant.textDefaultWidth,
           decoration: boxDecoration,
           child: Padding(
               padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
@@ -112,16 +111,13 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     } else {
       if (isNullOrEmpty(widget.message)) {
         returnWidget = Container(
-            width: STToastConstant.iconDefaultWidth,
-            height: STToastConstant.iconDefaultWidth,
             decoration: boxDecoration,
             child: Padding(
                 padding: EdgeInsets.fromLTRB(27, 27, 27, 27),
                 child: imageWidget));
       } else {
-        if (widget.iconUpText) {
+        if (widget.isIconUpText) {
           returnWidget = Container(
-            width: STToastConstant.iconUpTextDefaultWidth,
             decoration: boxDecoration,
             child: Padding(
               padding: EdgeInsets.fromLTRB(24, 24, 24, 24),
@@ -133,7 +129,6 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
           );
         } else {
           returnWidget = Container(
-            width: STToastConstant.iconLeftTextDefaultWidth,
             decoration: boxDecoration,
             child: Padding(
               padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
