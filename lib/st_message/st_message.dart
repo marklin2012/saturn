@@ -71,10 +71,11 @@ class _STMessageState extends State<STMessage> {
         decoration: TextDecoration.none);
 
     TextStyle messageStyle = const TextStyle(
-        fontWeight: FontWeight.w400,
-        color: Colors.black,
-        fontSize: STMessageConstant.messageFontSize,
-        decoration: TextDecoration.none);
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+      fontSize: STMessageConstant.messageFontSize,
+      decoration: TextDecoration.none,
+    );
 
     TextStyle explainStyle = const TextStyle(
         fontWeight: FontWeight.w500,
@@ -92,11 +93,14 @@ class _STMessageState extends State<STMessage> {
 
     Text titleWidget;
     if (!isNullOrEmpty(widget.title)) {
-      titleWidget = Text(widget.title, softWrap: false, style: titleStyle);
+      titleWidget = Text(widget.title, softWrap: true, style: titleStyle);
     }
 
-    final Text messageWidget =
-        Text(widget.message, softWrap: true, style: messageStyle);
+    final Text messageWidget = Text(
+      widget.message,
+      softWrap: true,
+      style: messageStyle,
+    );
 
     final bool haveExplain = (!isNullOrEmpty(widget.explain)) &&
         (!isNullOrEmpty(widget.explainInfo));
@@ -109,7 +113,11 @@ class _STMessageState extends State<STMessage> {
             color: Colors.white,
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
+            padding: const EdgeInsets.fromLTRB(
+                STMessageConstant.containerLeftPadding,
+                STMessageConstant.containerTopPadding,
+                STMessageConstant.containerLeftPadding,
+                STMessageConstant.containerTopPadding),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,17 +126,24 @@ class _STMessageState extends State<STMessage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         imageWidget,
                         const SizedBox(
-                          width: 8,
+                          width: STMessageConstant.iconMessageDistance,
                         ),
                         if (haveExplain)
                           Text(widget.explain, style: explainStyle)
                         else if (!isNullOrEmpty(widget.title))
-                          titleWidget
+                          Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: STMessageConstant.textMaxWidth),
+                              child: titleWidget)
                         else
-                          messageWidget,
+                          Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: STMessageConstant.textMaxWidth),
+                              child: messageWidget)
                       ],
                     ),
                     if (haveExplain)

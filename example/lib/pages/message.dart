@@ -13,12 +13,22 @@ class MessagePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           FlatButton(
-            child: Text("文字图片"),
+            child: Text("单行文字图片"),
             color: Colors.blue,
             onPressed: () {
               STMessage.show(
                   context: context,
-                  message: "好的",
+                  message: "这是文本信息",
+                  icon: "assets/images/basketball_check.png");
+            },
+          ),
+          FlatButton(
+            child: Text("多行文字图片"),
+            color: Colors.blue,
+            onPressed: () {
+              STMessage.show(
+                  context: context,
+                  message: "好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
                   icon: "assets/images/basketball_check.png");
             },
           ),
@@ -29,7 +39,7 @@ class MessagePage extends StatelessWidget {
               STMessage.show(
                   context: context,
                   title: "标题标题",
-                  message: "好的",
+                  message: "好的好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
                   icon: "assets/images/basketball_check.png");
             },
           ),
@@ -40,7 +50,7 @@ class MessagePage extends StatelessWidget {
               STMessage.show(
                   context: context,
                   title: "标题标题",
-                  message: "好的",
+                  message: "好的好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
                   explain: "说的",
                   explainInfo: "这个",
                   icon: "assets/images/basketball_check.png");
