@@ -64,6 +64,9 @@ class _STMessageState extends State<STMessage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double containerWidth = screenWidth * STMessageConstant.defaultWidthPercent;
+
     TextStyle titleStyle = const TextStyle(
         fontWeight: FontWeight.w600,
         color: Colors.black,
@@ -107,10 +110,17 @@ class _STMessageState extends State<STMessage> {
     return Align(
         alignment: Alignment.topCenter,
         child: Container(
-          width: STMessageConstant.defaultWidth,
+          width: containerWidth,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(STMessageConstant.cornerRadius),
             color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(5.0, 5.0),
+                  blurRadius: 5.0,
+                  spreadRadius: 2.0),
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -137,12 +147,12 @@ class _STMessageState extends State<STMessage> {
                         else if (!isNullOrEmpty(widget.title))
                           Container(
                               constraints: BoxConstraints(
-                                  maxWidth: STMessageConstant.textMaxWidth),
+                                  maxWidth: getTextMaxWidth(containerWidth)),
                               child: titleWidget)
                         else
                           Container(
                               constraints: BoxConstraints(
-                                  maxWidth: STMessageConstant.textMaxWidth),
+                                  maxWidth: getTextMaxWidth(containerWidth)),
                               child: messageWidget)
                       ],
                     ),
@@ -159,6 +169,14 @@ class _STMessageState extends State<STMessage> {
             ),
           ),
         ));
+  }
+
+  double getTextMaxWidth(containerWidth) {
+    double textMaxWidth = containerWidth -
+        STMessageConstant.iconWidth -
+        STMessageConstant.containerLeftPadding * 2 -
+        STMessageConstant.iconMessageDistance;
+    return textMaxWidth;
   }
 
   bool isNullOrEmpty(String str) {
