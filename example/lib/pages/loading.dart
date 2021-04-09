@@ -10,6 +10,7 @@ class LoadingPage extends StatelessWidget {
     Color themeColor,
     bool showDefaultIcon = false,
     bool iconUpperText = false,
+    bool haveIconAnimation = false,
   }) {
     showDialog(
         context: context,
@@ -17,12 +18,12 @@ class LoadingPage extends StatelessWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           STLoading loading = STLoading(
-            icon: icon,
-            gifIcon: gifIcon,
-            text: text,
-            showDefaultIcon: showDefaultIcon,
-            iconUpperText: iconUpperText,
-          );
+              icon: icon,
+              gifIcon: gifIcon,
+              text: text,
+              showDefaultIcon: showDefaultIcon,
+              isIconUpperText: iconUpperText,
+              haveIconAnimation: haveIconAnimation);
           return GestureDetector(
             onTap: () {
               hide(context);
@@ -64,6 +65,7 @@ class LoadingPage extends StatelessWidget {
               show(
                 context: context,
                 icon: "assets/images/icon_selected_20x20.png",
+                haveIconAnimation: true,
               );
             },
           ),

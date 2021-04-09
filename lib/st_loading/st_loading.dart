@@ -7,17 +7,19 @@ class STLoading extends StatefulWidget {
   final String text;
   final Color textColor; // 文字颜色
   final bool showDefaultIcon; //show default icon 只有在icon 和 gificon都为空时，设置才有效
-  final bool iconUpperText;
+  final bool isIconUpperText; //icon默认在左边
+  final bool haveIconAnimation; //icon是否有动画
 
-  const STLoading({
-    Key key,
-    this.icon,
-    this.gifIcon,
-    this.text,
-    this.textColor,
-    this.showDefaultIcon,
-    this.iconUpperText,
-  }) : super(key: key);
+  const STLoading(
+      {Key key,
+      this.icon,
+      this.gifIcon,
+      this.text,
+      this.textColor,
+      this.showDefaultIcon = false,
+      this.isIconUpperText = false,
+      this.haveIconAnimation = false})
+      : super(key: key);
 
   @override
   _STLoadingState createState() => _STLoadingState();
@@ -31,21 +33,25 @@ class _STLoadingState extends State<STLoading>
   void initState() {
     super.initState();
 
-    controller = AnimationController(
-        duration: const Duration(seconds: STLoadingConstant.animationTime),
-        vsync: this);
-    controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.reset();
-        controller.forward();
-      }
-    });
-    controller.forward();
+    if (widget.haveIconAnimation) {
+      controller = AnimationController(
+          duration: const Duration(seconds: STLoadingConstant.animationTime),
+          vsync: this);
+      controller.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller.reset();
+          controller.forward();
+        }
+      });
+      controller.forward();
+    }
   }
 
   @override
   void dispose() {
-    controller.stop();
+    if (widget.haveIconAnimation) {
+      controller.stop();
+    }
     super.dispose();
   }
 
@@ -53,11 +59,11 @@ class _STLoadingState extends State<STLoading>
   Widget build(BuildContext context) {
     Widget returnWidget;
 
-    Color curThemeColor;
+    Color curTextColor;
     if (widget.textColor == null) {
-      curThemeColor = Colors.black;
+      curTextColor = Colors.black;
     } else {
-      curThemeColor = widget.textColor;
+      curTextColor = widget.textColor;
     }
 
     Text textWidget;
@@ -65,57 +71,35 @@ class _STLoadingState extends State<STLoading>
       textWidget = Text(widget.text,
           style: TextStyle(
               fontWeight: FontWeight.normal,
-              color: curThemeColor,
+              color: curTextColor,
               fontSize: STLoadingConstant.textFontSize,
               decoration: TextDecoration.none));
     }
 
     Widget imageWidget;
-    if (!isNullOrEmpty(widget.icon)) {
-      imageWidget = RotationTransition(
-          turns: controller,
-          child: Image.asset(widget.icon,
-              width: STLoadingConstant.iconWidth,
-              height: STLoadingConstant.iconWidth,
-              fit: BoxFit.contain));
-    } else {
-      if (!isNullOrEmpty(widget.gifIcon)) {
-        imageWidget = Image.asset(widget.gifIcon,
-            width: STLoadingConstant.iconWidth,
-            height: STLoadingConstant.iconWidth,
-            fit: BoxFit.contain);
-      } else {
-        imageWidget = RotationTransition(
-            turns: controller,
-            child: Icon(
-              Icons.autorenew,
-              color: curThemeColor,
-            ));
-      }
-    }
 
     if (isNullOrEmpty(widget.icon) && isNullOrEmpty(widget.gifIcon)) {
-      if (!isNullOrEmpty(widget.text)) {
-        if (widget.showDefaultIcon) {
-          returnWidget =
-              Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            imageWidget,
-            const SizedBox(width: 5),
-            textWidget,
-          ]);
-        } else {
-          returnWidget = textWidget;
-        }
-      } else {
-        if (widget.showDefaultIcon) {
-          returnWidget = imageWidget;
-        }
+      if (widget.showDefaultIcon) {
+        imageWidget = Icon(
+          Icons.autorenew,
+          color: curTextColor,
+        );
       }
     } else {
-      if (isNullOrEmpty(widget.text)) {
-        returnWidget = imageWidget;
-      } else {
-        if (widget.iconUpperText == true) {
+      imageWidget = Image.asset(
+          isNullOrEmpty(widget.icon) ? widget.gifIcon : widget.icon,
+          width: STLoadingConstant.iconWidth,
+          height: STLoadingConstant.iconWidth,
+          fit: BoxFit.contain);
+    }
+
+    if ((imageWidget != null) && widget.haveIconAnimation) {
+      imageWidget = RotationTransition(turns: controller, child: imageWidget);
+    }
+
+    if (imageWidget != null) {
+      if (textWidget != null) {
+        if (widget.isIconUpperText) {
           returnWidget =
               Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             imageWidget,
@@ -129,7 +113,11 @@ class _STLoadingState extends State<STLoading>
             textWidget
           ]);
         }
+      } else {
+        returnWidget = imageWidget;
       }
+    } else {
+      returnWidget = textWidget;
     }
 
     return Center(child: returnWidget);
