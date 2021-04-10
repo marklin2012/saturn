@@ -73,10 +73,14 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double containerMaxWidth = screenWidth * STToastConstant.maxWidthPercent;
+
     Text messageWidget;
     if (!isNullOrEmpty(widget.message)) {
       messageWidget = Text(
         widget.message,
+        softWrap: true,
         style: const TextStyle(
             fontWeight: FontWeight.w400,
             color: Colors.white,
@@ -103,46 +107,41 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
 
     Widget returnWidget;
     if (isNullOrEmpty(widget.icon)) {
-      returnWidget = Container(
-          decoration: boxDecoration,
-          child: Padding(
-              padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
-              child: messageWidget));
+      returnWidget = Padding(
+          padding: EdgeInsets.fromLTRB(24, 12, 24, 12), child: messageWidget);
     } else {
       if (isNullOrEmpty(widget.message)) {
-        returnWidget = Container(
-            decoration: boxDecoration,
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(27, 27, 27, 27),
-                child: imageWidget));
+        returnWidget = Padding(
+            padding: EdgeInsets.fromLTRB(27, 27, 27, 27), child: imageWidget);
       } else {
         if (widget.isIconUpText) {
-          returnWidget = Container(
-            decoration: boxDecoration,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(24, 24, 24, 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [imageWidget, SizedBox(height: 10), messageWidget],
-              ),
+          returnWidget = Padding(
+            padding: EdgeInsets.fromLTRB(24, 24, 24, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [imageWidget, SizedBox(height: 10), messageWidget],
             ),
           );
         } else {
-          returnWidget = Container(
-            decoration: boxDecoration,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [imageWidget, SizedBox(width: 10), messageWidget],
-              ),
+          returnWidget = Padding(
+            padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                imageWidget,
+                SizedBox(width: 10),
+                Expanded(child: messageWidget)
+              ],
             ),
           );
         }
       }
     }
     return Center(
-      child: returnWidget,
+      child: Container(
+          constraints: BoxConstraints(maxWidth: containerMaxWidth),
+          decoration: boxDecoration,
+          child: returnWidget),
     );
   }
 

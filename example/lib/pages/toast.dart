@@ -15,7 +15,9 @@ class ToastPage extends StatelessWidget {
             child: Text("文字"),
             color: Colors.blue,
             onPressed: () {
-              STToast.show(context: context, message: "这是一个message");
+              STToast.show(
+                  context: context,
+                  message: "这是一个message这是一个message这是一个message这是一个message");
             },
           ),
           FlatButton(
@@ -25,7 +27,7 @@ class ToastPage extends StatelessWidget {
               STToast.show(
                   context: context,
                   icon: "assets/images/basketball_check.png",
-                  message: "这是一个message");
+                  message: "这是一个message这是一个message这是一个message这是一个message");
             },
           ),
           FlatButton(
@@ -45,7 +47,7 @@ class ToastPage extends StatelessWidget {
               STToast.show(
                   context: context,
                   icon: "assets/images/basketball_check.png",
-                  message: "这是一个message",
+                  message: "这是一个message这是一个message这是一个message这是一个message",
                   isIconUpText: true);
             },
           ),
