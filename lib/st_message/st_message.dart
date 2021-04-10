@@ -123,11 +123,7 @@ class _STMessageState extends State<STMessage> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-                STMessageConstant.containerLeftPadding,
-                STMessageConstant.containerTopPadding,
-                STMessageConstant.containerLeftPadding,
-                STMessageConstant.containerTopPadding),
+            padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +131,9 @@ class _STMessageState extends State<STMessage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    Expanded(
+                        child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         imageWidget,
@@ -145,17 +143,11 @@ class _STMessageState extends State<STMessage> {
                         if (haveExplain)
                           Text(widget.explain, style: explainStyle)
                         else if (!isNullOrEmpty(widget.title))
-                          Container(
-                              constraints: BoxConstraints(
-                                  maxWidth: getTextMaxWidth(containerWidth)),
-                              child: titleWidget)
+                          Expanded(child: titleWidget)
                         else
-                          Container(
-                              constraints: BoxConstraints(
-                                  maxWidth: getTextMaxWidth(containerWidth)),
-                              child: messageWidget)
+                          Expanded(child: messageWidget)
                       ],
-                    ),
+                    )),
                     if (haveExplain)
                       Text(widget.explainInfo, style: explainStyle)
                   ],
@@ -169,14 +161,6 @@ class _STMessageState extends State<STMessage> {
             ),
           ),
         ));
-  }
-
-  double getTextMaxWidth(containerWidth) {
-    double textMaxWidth = containerWidth -
-        STMessageConstant.iconWidth -
-        STMessageConstant.containerLeftPadding * 2 -
-        STMessageConstant.iconMessageDistance;
-    return textMaxWidth;
   }
 
   bool isNullOrEmpty(String str) {
