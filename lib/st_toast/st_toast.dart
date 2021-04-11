@@ -61,20 +61,23 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     if (!isNullOrEmpty(widget.icon) && widget.haveIconAnimation) {
       controller = AnimationController(
           duration: const Duration(seconds: 2), vsync: this);
-      controller.addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller.reset();
-          controller.forward();
-        }
-      });
+      controller.addStatusListener(
+        (status) {
+          if (status == AnimationStatus.completed) {
+            controller.reset();
+            controller.forward();
+          }
+        },
+      );
       controller.forward();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double containerMaxWidth = screenWidth * STToastConstant.maxWidthPercent;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double containerMaxWidth =
+        screenWidth * STToastConstant.maxWidthPercent;
 
     Text messageWidget;
     if (!isNullOrEmpty(widget.message)) {
@@ -91,7 +94,8 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
 
     Widget imageWidget;
     if (!isNullOrEmpty(widget.icon)) {
-      Image innerImageWidget = Image.asset(widget.icon, fit: BoxFit.fitWidth);
+      final Image innerImageWidget =
+          Image.asset(widget.icon, fit: BoxFit.fitWidth);
       if (widget.haveIconAnimation) {
         imageWidget =
             RotationTransition(turns: controller, child: innerImageWidget);
@@ -100,7 +104,7 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
       }
     }
 
-    BoxDecoration boxDecoration = BoxDecoration(
+    final BoxDecoration boxDecoration = BoxDecoration(
       borderRadius: BorderRadius.circular(STToastConstant.cornerRadius),
       color: STToastConstant.defaultBackgroundColor,
     );
@@ -108,28 +112,34 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     Widget returnWidget;
     if (isNullOrEmpty(widget.icon)) {
       returnWidget = Padding(
-          padding: EdgeInsets.fromLTRB(24, 12, 24, 12), child: messageWidget);
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+          child: messageWidget);
     } else {
       if (isNullOrEmpty(widget.message)) {
         returnWidget = Padding(
-            padding: EdgeInsets.fromLTRB(27, 27, 27, 27), child: imageWidget);
+            padding: const EdgeInsets.fromLTRB(27, 27, 27, 27),
+            child: imageWidget);
       } else {
         if (widget.isIconUpText) {
           returnWidget = Padding(
-            padding: EdgeInsets.fromLTRB(24, 24, 24, 24),
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [imageWidget, SizedBox(height: 10), messageWidget],
+              children: [
+                imageWidget,
+                const SizedBox(height: 10),
+                messageWidget
+              ],
             ),
           );
         } else {
           returnWidget = Padding(
-            padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+            padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 imageWidget,
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(child: messageWidget)
               ],
             ),
