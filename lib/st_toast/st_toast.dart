@@ -7,13 +7,19 @@ class STToast extends StatefulWidget {
   final String icon;
   final bool isIconUpText;
   final bool haveIconAnimation;
+  final STToastLocationType locationType;
+  final double topPadding;
+  final double bottomPadding;
 
   const STToast(
       {Key key,
       this.message,
       this.icon,
       this.isIconUpText,
-      this.haveIconAnimation})
+      this.haveIconAnimation,
+      this.locationType,
+      this.topPadding,
+      this.bottomPadding})
       : super(key: key);
 
   static void show(
@@ -21,7 +27,10 @@ class STToast extends StatefulWidget {
       String message,
       String icon,
       bool isIconUpText = false,
-      bool haveIconAnimation = false}) {
+      bool haveIconAnimation = false,
+      STToastLocationType locationType = STToastLocationType.center,
+      double topPadding = STToastConstant.defaultTopBottomPadding,
+      double bottomPadding = STToastConstant.defaultTopBottomPadding}) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -31,7 +40,10 @@ class STToast extends StatefulWidget {
               message: message,
               icon: icon,
               isIconUpText: isIconUpText,
-              haveIconAnimation: haveIconAnimation);
+              haveIconAnimation: haveIconAnimation,
+              locationType: locationType,
+              topPadding: topPadding,
+              bottomPadding: bottomPadding);
           return GestureDetector(
             onTap: () {
               STToast.hide(context);
@@ -147,11 +159,31 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
         }
       }
     }
-    return Center(
-      child: Container(
-          constraints: BoxConstraints(maxWidth: containerMaxWidth),
-          decoration: boxDecoration,
-          child: returnWidget),
+    double curTopPadding = 0;
+    double curBottomPadding = 0;
+    AlignmentGeometry alignment;
+    switch (widget.locationType) {
+      case STToastLocationType.top:
+        alignment = Alignment.topCenter;
+        curTopPadding = widget.topPadding;
+        break;
+      case STToastLocationType.center:
+        alignment = Alignment.center;
+        break;
+      case STToastLocationType.bottom:
+        alignment = Alignment.bottomCenter;
+        curBottomPadding = widget.bottomPadding;
+        break;
+    }
+    return Align(
+      alignment: alignment,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, curTopPadding, 0, curBottomPadding),
+        child: Container(
+            constraints: BoxConstraints(maxWidth: containerMaxWidth),
+            decoration: boxDecoration,
+            child: returnWidget),
+      ),
     );
   }
 

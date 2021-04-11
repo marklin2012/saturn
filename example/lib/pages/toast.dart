@@ -21,23 +21,26 @@ class ToastPage extends StatelessWidget {
             },
           ),
           FlatButton(
-            child: Text("左文字图片"),
+            child: Text("左文字图片位置下"),
             color: Colors.blue,
             onPressed: () {
               STToast.show(
                   context: context,
                   icon: "assets/images/basketball_check.png",
-                  message: "这是一个message这是一个message这是一个message这是一个message");
+                  message: "这是一个message这是一个message这是一个message这是一个message",
+                  locationType: STToastLocationType.bottom);
+              ;
             },
           ),
           FlatButton(
-            child: Text("图片"),
+            child: Text("图片位置上"),
             color: Colors.blue,
             onPressed: () {
               STToast.show(
                   context: context,
                   icon: "assets/images/basketball_check.png",
-                  haveIconAnimation: true);
+                  haveIconAnimation: true,
+                  locationType: STToastLocationType.top);
             },
           ),
           FlatButton(
