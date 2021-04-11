@@ -13,9 +13,6 @@ class STCheckBox extends StatelessWidget {
   final EdgeInsets padding; // 内边距
   final double radius; // 框的圆角半径
   final Color iconColor; // 图片颜色
-  final String iconPath; // 图片的路径
-  final String iconPackage; // 包名
-  final Size iconSize;
 
   const STCheckBox({
     Key key,
@@ -31,9 +28,6 @@ class STCheckBox extends StatelessWidget {
     this.iconColor = const Color(0xFFFFFFFF),
     this.boxWidth = 24.0,
     this.radius = 4.0,
-    this.iconPath = 'images/checkbox/selected.png',
-    this.iconPackage = 'saturn',
-    this.iconSize = const Size(14.0, 12.0),
   }) : super(key: key);
 
   @override
@@ -78,11 +72,9 @@ class STCheckBox extends StatelessWidget {
               color: activeColor,
             ),
           ),
-          Image.asset(
-            iconPath,
-            package: iconPackage,
-            width: iconSize.width,
-            height: iconSize.height,
+          Icon(
+            Icons.check,
+            size: boxWidth,
             color: iconColor,
           )
         ],

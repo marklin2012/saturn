@@ -10,6 +10,7 @@ class STStepperItem extends StatefulWidget {
   final ValueChanged<StepperItemType> onChanged;
   final Color borderColor;
   final bool disabled;
+  final double iconSize;
 
   const STStepperItem({
     Key key,
@@ -17,6 +18,7 @@ class STStepperItem extends StatefulWidget {
     this.onChanged,
     this.borderColor,
     this.disabled = false,
+    this.iconSize = 16.0,
   })  : assert(type != null),
         super(key: key);
 
@@ -25,32 +27,19 @@ class STStepperItem extends StatefulWidget {
 }
 
 class _STStepperItemState extends State<STStepperItem> {
-  static const reduceIconPath = 'images/stepper/reduce.png';
-  static const plusIconPath = 'images/stepper/plus.png';
-  static const iconPackage = 'saturn';
   BorderRadius _borderRadius;
-  Image _image;
+  Icon _image;
   Color _borderColor;
 
   @override
   void initState() {
     super.initState();
     _borderRadius = const BorderRadius.horizontal(left: Radius.circular(2.0));
-    _image = Image.asset(
-      reduceIconPath,
-      package: iconPackage,
-      width: 8,
-      height: 1,
-    );
+    _image = Icon(Icons.remove, size: widget.iconSize);
     if (widget.type == StepperItemType.plus) {
       _borderRadius =
           const BorderRadius.horizontal(right: Radius.circular(2.0));
-      _image = Image.asset(
-        plusIconPath,
-        package: iconPackage,
-        width: 8,
-        height: 8,
-      );
+      _image = Icon(Icons.add, size: widget.iconSize);
     }
     _borderColor = widget.borderColor ?? const Color(0xFF000000);
   }
