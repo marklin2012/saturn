@@ -26,24 +26,24 @@ class STMessage extends StatefulWidget {
       String explain,
       @required String icon}) {
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        barrierColor: Colors.transparent,
-        builder: (context) {
-          final _message = STMessage(
-              title: title,
-              message: message,
-              explainInfo: explainInfo,
-              explain: explain,
-              icon: icon);
-          return GestureDetector(
-            onTap: () {
-              STMessage.hide(context);
-            },
-            child: _message,
-          );
-          ;
-        });
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        final _message = STMessage(
+            title: title,
+            message: message,
+            explainInfo: explainInfo,
+            explain: explain,
+            icon: icon);
+        return GestureDetector(
+          onTap: () {
+            STMessage.hide(context);
+          },
+          child: _message,
+        );
+      },
+    );
   }
 
   static void hide(
