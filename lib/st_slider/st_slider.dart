@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 
+import 'package:saturn/st_slider/painter_background_tip.dart';
+import 'package:saturn/st_slider/num_utils.dart';
+
 enum STSliderDotType {
   start,
   end,
 }
 
+class STSliderConstant {
+  static const horizontalWidth = 303.0;
+  static const verticalHeight = 200.0;
+  static const dotWidth = 18.0;
+  static const crossLength = 2.0;
+  static const borderRadius = BorderRadius.all(Radius.circular(2.0));
+  static const showTipSize = 40.0;
+  static const showTipVerticalOffset = 4.0;
+}
+
 class STSlider extends StatefulWidget {
   final Axis axis; // 方向
-  final bool showTooltip; // 显示提示
+  final double size; // 当Axis为横轴时代表宽度，为竖轴是代表高度
+  final bool showTip; // 显示提示
+  final TextStyle tipTextStyle; // 提示字体的样式
   final Color activeColor; // 选中颜色
   final Color inactiveColor; // 未选中的颜色
   final int minValue; // 最小值
@@ -27,24 +42,18 @@ class STSlider extends StatefulWidget {
     this.maxValue,
     this.disabled = false,
     this.axis = Axis.horizontal,
-    this.showTooltip,
+    this.showTip = true,
+    this.tipTextStyle = const TextStyle(color: Colors.white, fontSize: 16),
     this.value = 0,
     this.rangeValues,
     this.textStyle = const TextStyle(color: Color(0xFF000000), fontSize: 14.0),
     this.onChanged,
     this.onChangedRange,
+    this.size,
   }) : super(key: key);
 
   @override
   _STSliderState createState() => _STSliderState();
-}
-
-class STSliderConstant {
-  static const horizontalWidth = 303.0;
-  static const verticalHeight = 200.0;
-  static const dotWidth = 18.0;
-  static const crossLength = 2.0;
-  static const borderRadius = BorderRadius.all(Radius.circular(2.0));
 }
 
 class _STSliderState extends State<STSlider> {
@@ -55,11 +64,14 @@ class _STSliderState extends State<STSlider> {
   final GlobalKey _firstKey = GlobalKey(debugLabel: 'firstDot'); // 控件的key
   Offset _firstOffset; // 第一个原点位置
 
+  bool _firHighlighted = false;
+  bool _secHighlighted = false;
+
   double get _height {
     if (_isHorizontal) {
       return STSliderConstant.crossLength;
     } else {
-      return STSliderConstant.horizontalWidth;
+      return widget.size ?? STSliderConstant.horizontalWidth;
     }
   }
 
@@ -67,7 +79,7 @@ class _STSliderState extends State<STSlider> {
     if (!_isHorizontal) {
       return STSliderConstant.crossLength;
     } else {
-      return STSliderConstant.verticalHeight;
+      return widget.size ?? STSliderConstant.verticalHeight;
     }
   }
 
@@ -86,23 +98,15 @@ class _STSliderState extends State<STSlider> {
   void _findRenderObject() {
     final RenderBox renderBox = _firstKey.currentContext.findRenderObject();
     // offset.dx , offset.dy 就是控件的左上角坐标
-    final offset = renderBox.localToGlobal(Offset.zero);
-    final dx = offset.dx + (renderBox.size.width / 2);
-    final dy = offset.dy + (renderBox.size.height / 2);
-    _firstOffset = Offset(dx, dy);
+    _firstOffset = renderBox.localToGlobal(Offset.zero);
     if (widget.rangeValues != null && widget.rangeValues.start != 0) {
+      final temp = _firstOffset;
       if (_isHorizontal) {
-        _firstOffset = Offset(
-            dx -
-                widget.rangeValues.start * _width -
-                STSliderConstant.dotWidth / 2,
-            dy);
+        _firstOffset =
+            Offset(temp.dx - widget.rangeValues.start * _width, temp.dy);
       } else {
-        _firstOffset = Offset(
-            dx,
-            dy -
-                widget.rangeValues.start * _height -
-                STSliderConstant.dotWidth / 2);
+        _firstOffset =
+            Offset(temp.dx, temp.dy - widget.rangeValues.start * _height);
       }
     }
     setState(() {});
@@ -167,6 +171,7 @@ class _STSliderState extends State<STSlider> {
       _secondDot = _getDot(_secondValue, STSliderDotType.end);
     }
     return Stack(
+      clipBehavior: Clip.none,
       children: [
         Container(
           height: _isHorizontal ? STSliderConstant.dotWidth : _height,
@@ -184,103 +189,42 @@ class _STSliderState extends State<STSlider> {
           child: _activeChild(),
         ),
         Positioned(
-          left: _getFirstDotPostionLeft(_firstValue),
-          top: _getFirstDotPositonTop(_firstValue),
+          left: _getDotPostionLeft(_firstValue),
+          top: _getDotPositonTop(_firstValue),
           child: _firstDot,
         ),
-        if (_secondDot != null)
+        if (widget.showTip && _firHighlighted)
           Positioned(
-              left: _getFirstDotPostionLeft(_secondValue),
-              top: _getFirstDotPositonTop(_secondValue),
-              child: _secondDot),
-      ],
-    );
-  }
-
-  double _getActiveLeft() {
-    if (widget.rangeValues == null) {
-      return _isHorizontal ? 0 : STSliderConstant.dotWidth / 2 - 1;
-    } else {
-      return _getFirstDotPostionLeft(_firstValue) +
-          STSliderConstant.dotWidth / 2;
-    }
-  }
-
-  double _getActiveTop() {
-    if (widget.rangeValues == null) {
-      return _isHorizontal ? STSliderConstant.dotWidth / 2 - 1 : 0;
-    } else {
-      return _getFirstDotPositonTop(_firstValue) +
-          STSliderConstant.dotWidth / 2;
-    }
-  }
-
-  double _getFirstDotPostionLeft(double value) {
-    if (value == 0 || !_isHorizontal) {
-      return 0;
-    } else if (value == 1) {
-      return _width - STSliderConstant.dotWidth;
-    } else {
-      return value * _width + STSliderConstant.dotWidth / 2;
-    }
-  }
-
-  double _getFirstDotPositonTop(double value) {
-    if (value == 0 || _isHorizontal) {
-      return 0;
-    } else if (value == 1) {
-      return _height - STSliderConstant.dotWidth;
-    } else {
-      return value * _height + STSliderConstant.dotWidth / 2;
-    }
-  }
-
-  Widget _getDot(double value, STSliderDotType dotType) {
-    if (widget.disabled) {
-      return Container(
-        key: dotType == STSliderDotType.start ? _firstKey : null,
-        alignment: Alignment.center,
-        width: STSliderConstant.dotWidth,
-        height: STSliderConstant.dotWidth,
-        decoration: BoxDecoration(
-          color: widget.activeColor,
-          shape: BoxShape.circle,
-        ),
-      );
-    } else {
-      return Draggable(
-        axis: widget.axis,
-        feedback: Container(
-          alignment: Alignment.center,
-          width: STSliderConstant.dotWidth,
-          height: STSliderConstant.dotWidth,
-          decoration: BoxDecoration(
-            color: widget.activeColor,
-            shape: BoxShape.circle,
-          ),
-        ),
-        onDragEnd: (details) {
-          // debugPrint('${details.offset}-$_firstOffset-$isFirst');
-          updateDragAction(details.offset, dotType);
-        },
-        child: Tooltip(
-          message: widget.maxValue == null
-              ? '${(value * 100).round()}%'
-              : _calculateValue(value),
-          verticalOffset: -(STSliderConstant.dotWidth + 5) * 2,
-          child: Container(
-            key: dotType == STSliderDotType.start ? _firstKey : null,
-            alignment: Alignment.center,
-            width: STSliderConstant.dotWidth,
-            height: STSliderConstant.dotWidth,
-            decoration: BoxDecoration(
-              color: widget.activeColor,
-              shape: BoxShape.circle,
+            left: _getTipPostionLeft(_firstValue),
+            top: _getTipPositonTop(_firstValue),
+            child: SliderTipPaint(
+              size: STSliderConstant.showTipSize,
+              child: Text(
+                _calculateValue(_firstValue),
+                style: widget.tipTextStyle,
+              ),
             ),
           ),
-        ),
-      );
-    }
+        if (_secondDot != null)
+          Positioned(
+            left: _getDotPostionLeft(_secondValue),
+            top: _getDotPositonTop(_secondValue),
+            child: _secondDot,
+          ),
+        if (widget.showTip && _secHighlighted && widget.rangeValues != null)
+          Positioned(
+            left: _getTipPostionLeft(_secondValue),
+            top: _getTipPositonTop(_secondValue),
+            child: SliderTipPaint(
+              size: STSliderConstant.showTipSize,
+              child: Text(
+                _calculateValue(_secondValue),
+                style: widget.tipTextStyle,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 
   Widget _backgroundChild() {
@@ -316,33 +260,110 @@ class _STSliderState extends State<STSlider> {
 
   double _getActiveChildHeight() {
     if (widget.rangeValues == null) {
-      if (_isHorizontal) {
-        return STSliderConstant.crossLength;
-      } else if (_firstValue == 0) {
-        return 0;
-      } else if (_firstValue == 1) {
-        return _height;
-      } else {
-        return _firstValue * _height + STSliderConstant.dotWidth / 2;
-      }
+      if (_isHorizontal) return STSliderConstant.crossLength;
+      return _firstValue * _height;
     } else {
+      if (_isHorizontal) return STSliderConstant.crossLength;
       return (_secondValue - _firstValue) * _height;
     }
   }
 
   double _getActiveChildWidth() {
     if (widget.rangeValues == null) {
-      if (!_isHorizontal) {
-        return STSliderConstant.crossLength;
-      } else if (_firstValue == 0) {
-        return 0;
-      } else if (_firstValue == 1) {
-        return _width;
-      } else {
-        return _firstValue * _width + STSliderConstant.dotWidth / 2;
-      }
+      if (!_isHorizontal) return STSliderConstant.crossLength;
+      return _firstValue * _width;
     } else {
+      if (!_isHorizontal) return STSliderConstant.crossLength;
       return (_secondValue - _firstValue) * _width;
+    }
+  }
+
+  double _getActiveLeft() {
+    if (widget.rangeValues == null) {
+      return _isHorizontal ? 0 : STSliderConstant.dotWidth / 2;
+    } else {
+      if (!_isHorizontal) return STSliderConstant.dotWidth / 2;
+      return _getDotPostionLeft(_firstValue);
+    }
+  }
+
+  double _getActiveTop() {
+    if (widget.rangeValues == null) {
+      return _isHorizontal ? STSliderConstant.dotWidth / 2 : 0;
+    } else {
+      if (_isHorizontal) return STSliderConstant.dotWidth / 2;
+      return _getDotPositonTop(_firstValue);
+    }
+  }
+
+  double _getDotPostionLeft(double value) {
+    if (!_isHorizontal) return 0;
+    return value * _width - STSliderConstant.dotWidth / 2;
+  }
+
+  double _getDotPositonTop(double value) {
+    if (_isHorizontal) return 0;
+    return value * _height - STSliderConstant.dotWidth / 2;
+  }
+
+  double _getTipPostionLeft(double value) {
+    return _getDotPostionLeft(value) -
+        (STSliderConstant.showTipSize - STSliderConstant.dotWidth) / 2;
+  }
+
+  double _getTipPositonTop(double value) {
+    return _getDotPositonTop(value) -
+        STSliderConstant.showTipSize -
+        STSliderConstant.showTipVerticalOffset;
+  }
+
+  Widget _getDot(double value, STSliderDotType dotType) {
+    if (widget.disabled) {
+      return Container(
+        key: dotType == STSliderDotType.start ? _firstKey : null,
+        alignment: Alignment.center,
+        width: STSliderConstant.dotWidth,
+        height: STSliderConstant.dotWidth,
+        decoration: BoxDecoration(
+          color: widget.activeColor,
+          shape: BoxShape.circle,
+        ),
+      );
+    } else {
+      return Draggable(
+        axis: widget.axis,
+        feedback: Container(
+          alignment: Alignment.center,
+          width: STSliderConstant.dotWidth,
+          height: STSliderConstant.dotWidth,
+          decoration: BoxDecoration(
+            color: widget.activeColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+        onDragStarted: () {
+          if (dotType == STSliderDotType.start) {
+            _firHighlighted = true;
+          } else {
+            _secHighlighted = true;
+          }
+          setState(() {});
+        },
+        onDragEnd: (details) {
+          // debugPrint('${details.offset}-$_firstOffset');
+          updateDragAction(details.offset, dotType);
+        },
+        child: Container(
+          key: dotType == STSliderDotType.start ? _firstKey : null,
+          alignment: Alignment.center,
+          width: STSliderConstant.dotWidth,
+          height: STSliderConstant.dotWidth,
+          decoration: BoxDecoration(
+            color: widget.activeColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+      );
     }
   }
 
@@ -352,8 +373,7 @@ class _STSliderState extends State<STSlider> {
       if (_isHorizontal) {
         if (positon.dx <= _firstOffset.dx) {
           _firstValue = 0;
-        } else if (positon.dx >
-            _firstOffset.dx + _width - STSliderConstant.dotWidth) {
+        } else if (positon.dx >= _firstOffset.dx + _width) {
           _firstValue = 1;
         } else {
           _firstValue = (positon.dx - _firstOffset.dx) / _width;
@@ -361,8 +381,7 @@ class _STSliderState extends State<STSlider> {
       } else {
         if (positon.dy <= _firstOffset.dy) {
           _firstValue = 0;
-        } else if (positon.dy >
-            _firstOffset.dy + _height - STSliderConstant.dotWidth) {
+        } else if (positon.dy >= _firstOffset.dy + _height) {
           _firstValue = 1;
         } else {
           _firstValue = (positon.dy - _firstOffset.dy) / _height;
@@ -372,8 +391,7 @@ class _STSliderState extends State<STSlider> {
       if (_isHorizontal) {
         if (positon.dx <= _firstOffset.dx) {
           _secondValue = 0;
-        } else if (positon.dx >
-            _firstOffset.dx + _width - STSliderConstant.dotWidth) {
+        } else if (positon.dx >= _firstOffset.dx + _width) {
           _secondValue = 1;
         } else {
           _secondValue = (positon.dx - _firstOffset.dx) / _width;
@@ -381,42 +399,50 @@ class _STSliderState extends State<STSlider> {
       } else {
         if (positon.dy <= _firstOffset.dy) {
           _secondValue = 0;
-        } else if (positon.dy >
-            _firstOffset.dy + _height - STSliderConstant.dotWidth) {
+        } else if (positon.dy >= _firstOffset.dy + _height) {
           _secondValue = 1;
         } else {
           _secondValue = (positon.dy - _firstOffset.dy) / _height;
         }
       }
     }
+
     if (widget.onChanged != null) widget.onChanged(_firstValue);
     if (widget.rangeValues != null && widget.onChangedRange != null) {
+      // 确保第二个值大于第一个值
+      if (_firstValue > _secondValue) {
+        final temp = _firstValue;
+        _firstValue = _secondValue;
+        _secondValue = temp;
+      }
       widget.onChangedRange(RangeValues(_firstValue, _secondValue));
     }
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (dotType == STSliderDotType.start) {
+        _firHighlighted = false;
+      } else {
+        _secHighlighted = false;
+      }
+      setState(() {});
+    });
   }
 
   void updateTapAction(Offset positon) {
     if (widget.rangeValues != null || widget.disabled) return;
     if (_isHorizontal) {
-      if (positon.dx <= STSliderConstant.dotWidth) {
-        _firstValue = 0;
-      } else if (positon.dx > _width - STSliderConstant.dotWidth) {
-        _firstValue = 1;
-      } else {
-        _firstValue = (positon.dx - STSliderConstant.dotWidth) / _width;
-      }
+      _firstValue = positon.dx / _width;
     } else {
-      if (positon.dy <= STSliderConstant.dotWidth) {
-        _firstValue = 0;
-      } else if (positon.dy > _height - STSliderConstant.dotWidth) {
-        _firstValue = 1;
-      } else {
-        _firstValue = (positon.dy - STSliderConstant.dotWidth) / _height;
-      }
+      _firstValue = positon.dy / _height;
     }
     if (widget.onChanged != null) widget.onChanged(_firstValue);
   }
 
-  String _calculateValue(double value) =>
-      '${(value * widget.maxValue).round()}';
+  String _calculateValue(double value) {
+    if (widget.maxValue == null) {
+      return NumUtils().formartNum(value, 2);
+    } else {
+      return NumUtils().formartNum(value * widget.maxValue, 2);
+    }
+  }
 }

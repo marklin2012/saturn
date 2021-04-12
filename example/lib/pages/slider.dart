@@ -20,11 +20,11 @@ class _SliderPageState extends State<SliderPage> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 5),
+            SizedBox(height: 10),
+            Text('系统Slider'),
             Slider(
               value: _sliderValue,
               label: '$_sliderValue',
-              divisions: 4,
               onChanged: (double value) {
                 setState(() {
                   _sliderValue = value;
@@ -32,14 +32,14 @@ class _SliderPageState extends State<SliderPage> {
               },
             ),
             SizedBox(height: 10),
+            Text('自定义Slider'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 STSlider(
                   axis: Axis.vertical,
                   value: _sliderValue,
-                  minValue: 0,
-                  maxValue: 1000,
+                  size: 300,
                   onChanged: (value) {
                     setState(() {
                       _sliderValue = value;
@@ -62,6 +62,7 @@ class _SliderPageState extends State<SliderPage> {
             SizedBox(height: 20),
             STSlider(
               value: _sliderValue,
+              size: 340,
               onChanged: (value) {
                 setState(() {
                   _sliderValue = value;
@@ -72,6 +73,8 @@ class _SliderPageState extends State<SliderPage> {
             STSlider(
               disabled: sliderDisabled,
               rangeValues: _sliderRangeValue,
+              minValue: 0,
+              maxValue: 1000,
               onChangedRange: (value) {
                 setState(() {
                   _sliderRangeValue = value;
