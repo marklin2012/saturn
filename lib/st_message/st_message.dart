@@ -36,12 +36,7 @@ class STMessage extends StatefulWidget {
             explainInfo: explainInfo,
             explain: explain,
             icon: icon);
-        return GestureDetector(
-          onTap: () {
-            STMessage.hide(context);
-          },
-          child: _message,
-        );
+        return _message;
       },
     );
   }
