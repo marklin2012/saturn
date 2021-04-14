@@ -44,12 +44,7 @@ class STToast extends StatefulWidget {
               locationType: locationType,
               topPadding: topPadding,
               bottomPadding: bottomPadding);
-          return GestureDetector(
-            onTap: () {
-              STToast.hide(context);
-            },
-            child: toast,
-          );
+          return toast;
         });
   }
 
