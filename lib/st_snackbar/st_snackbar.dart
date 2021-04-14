@@ -66,12 +66,7 @@ class STSnackbar extends StatefulWidget {
             bottomPadding: bottomPadding,
             onButtonTap: onButtonTap,
           );
-          return GestureDetector(
-            onTap: () {
-              STSnackbar.hide(context);
-            },
-            child: snackbar,
-          );
+          return snackbar;
         });
   }
 
