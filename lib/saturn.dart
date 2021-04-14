@@ -6,6 +6,7 @@ export 'package:saturn/st_badge/st_badge.dart';
 export 'package:saturn/st_tooltip/st_tooltip.dart';
 export 'package:saturn/st_button/st_button.dart';
 export 'package:saturn/st_icons/st_icons.dart';
+export 'package:saturn/st_dialog/include.dart';
 
 /// A Calculator.
 class Calculator {
