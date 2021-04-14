@@ -19,7 +19,10 @@ class SnackbarPage extends StatelessWidget {
               // SocketManage.send(textEditController.text);
 
               STSnackbar.show(
-                  context: context, title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是");
+                context: context,
+                title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+                locationType: STSnackbarLocationType.top,
+              );
             },
           ),
           FlatButton(
@@ -30,9 +33,11 @@ class SnackbarPage extends StatelessWidget {
               // SocketManage.send(textEditController.text);
 
               STSnackbar.show(
-                  context: context,
-                  title: "你说是就是你说",
-                  message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说");
+                context: context,
+                title: "你说是就是你说",
+                message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
+                locationType: STSnackbarLocationType.bottom,
+              );
             },
           ),
           FlatButton(
@@ -73,7 +78,10 @@ class SnackbarPage extends StatelessWidget {
               STSnackbar.show(
                   context: context,
                   title: "你说是就是你说你说是就是你说",
-                  buttonText: "文字按钮");
+                  buttonText: "文字按钮",
+                  onButtonTap: () {
+                    print("好的");
+                  });
             },
           ),
           FlatButton(

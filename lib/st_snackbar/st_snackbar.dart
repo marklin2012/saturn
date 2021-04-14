@@ -10,6 +10,11 @@ class STSnackbar extends StatefulWidget {
   final String image;
   final IconData icon;
   final Color iconColor;
+  final STSnackbarLocationType locationType;
+  final double topPadding;
+  final double bottomPadding;
+
+  final VoidCallback onButtonTap;
 
   const STSnackbar(
       {Key key,
@@ -20,7 +25,11 @@ class STSnackbar extends StatefulWidget {
       this.buttonHaveBackground,
       this.image,
       this.icon,
-      this.iconColor})
+      this.iconColor,
+      this.locationType,
+      this.topPadding,
+      this.bottomPadding,
+      this.onButtonTap})
       : super(key: key);
 
   static void show({
@@ -33,21 +42,30 @@ class STSnackbar extends StatefulWidget {
     String image,
     IconData icon,
     Color iconColor = Colors.white,
+    STSnackbarLocationType locationType = STSnackbarLocationType.center,
+    double topPadding = STSnackbarConstant.defaultTopBottomPadding,
+    double bottomPadding = STSnackbarConstant.defaultTopBottomPadding,
+    VoidCallback onButtonTap,
   }) {
     showDialog(
         context: context,
         barrierDismissible: false,
         barrierColor: Colors.transparent,
         builder: (context) {
-          final snackbar = new STSnackbar(
-              title: title,
-              message: message,
-              buttonText: buttonText,
-              buttonTextColor: buttonTextColor,
-              buttonHaveBackground: buttonHaveBackground,
-              image: image,
-              icon: icon,
-              iconColor: iconColor);
+          final snackbar = STSnackbar(
+            title: title,
+            message: message,
+            buttonText: buttonText,
+            buttonTextColor: buttonTextColor,
+            buttonHaveBackground: buttonHaveBackground,
+            image: image,
+            icon: icon,
+            iconColor: iconColor,
+            locationType: locationType,
+            topPadding: topPadding,
+            bottomPadding: bottomPadding,
+            onButtonTap: onButtonTap,
+          );
           return GestureDetector(
             onTap: () {
               STSnackbar.hide(context);
@@ -70,10 +88,11 @@ class STSnackbar extends StatefulWidget {
 class _STSnackbarState extends State<STSnackbar> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double containerMaxWidth = screenWidth * STSnackbarConstant.maxWidthPercent;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double containerMaxWidth =
+        screenWidth * STSnackbarConstant.maxWidthPercent;
 
-    BoxDecoration boxDecoration = BoxDecoration(
+    final BoxDecoration boxDecoration = BoxDecoration(
       borderRadius: BorderRadius.circular(STSnackbarConstant.cornerRadius),
       color: STSnackbarConstant.defaultBackgroundColor,
     );
@@ -115,19 +134,33 @@ class _STSnackbarState extends State<STSnackbar> {
       curButtonTextColor = widget.buttonTextColor;
     }
 
-    FlatButton buttonWidget;
+    TextButton buttonWidget;
     if (!isNullOrEmpty(widget.buttonText)) {
-      buttonWidget = FlatButton(
-        child: Text(widget.buttonText,
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                color: curButtonTextColor,
-                fontSize: 16,
-                decoration: TextDecoration.none)),
-        color: widget.buttonHaveBackground
-            ? STSnackbarConstant.blueColor
-            : Colors.transparent,
-        onPressed: () {},
+      buttonWidget = TextButton(
+        onPressed: () {
+          if (widget.onButtonTap != null) {
+            widget.onButtonTap();
+          }
+        },
+        child: Container(
+            padding: const EdgeInsets.fromLTRB(
+                STSnackbarConstant.textButtonPadding,
+                STSnackbarConstant.textButtonPadding,
+                STSnackbarConstant.textButtonPadding,
+                STSnackbarConstant.textButtonPadding),
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.circular(STSnackbarConstant.buttonCornerRadius),
+              color: widget.buttonHaveBackground
+                  ? STSnackbarConstant.blueColor
+                  : Colors.transparent,
+            ),
+            child: Text(widget.buttonText,
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: curButtonTextColor,
+                    fontSize: 16,
+                    decoration: TextDecoration.none))),
       );
     }
 
@@ -143,34 +176,53 @@ class _STSnackbarState extends State<STSnackbar> {
       );
     }
 
-    return Center(
-        child: Container(
-      constraints: BoxConstraints(maxWidth: containerMaxWidth),
-      decoration: boxDecoration,
-      child: Padding(
-          padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                if (imageWidget != null) imageWidget,
-                if (imageWidget != null) SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (titleWidget != null) titleWidget,
-                        if (messageWidget != null) messageWidget
-                      ]),
-                )
-              ])),
-              if (buttonWidget != null) buttonWidget
-            ],
-          )),
-    ));
+    double curTopPadding = 0;
+    double curBottomPadding = 0;
+    AlignmentGeometry alignment;
+    switch (widget.locationType) {
+      case STSnackbarLocationType.top:
+        alignment = Alignment.topCenter;
+        curTopPadding = widget.topPadding;
+        break;
+      case STSnackbarLocationType.center:
+        alignment = Alignment.center;
+        break;
+      case STSnackbarLocationType.bottom:
+        alignment = Alignment.bottomCenter;
+        curBottomPadding = widget.bottomPadding;
+        break;
+    }
+    return Align(
+        alignment: alignment,
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(0, curTopPadding, 0, curBottomPadding),
+            child: Container(
+              constraints: BoxConstraints(maxWidth: containerMaxWidth),
+              decoration: boxDecoration,
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        if (imageWidget != null) imageWidget,
+                        if (imageWidget != null) const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (titleWidget != null) titleWidget,
+                                if (messageWidget != null) messageWidget
+                              ]),
+                        )
+                      ])),
+                      if (buttonWidget != null) buttonWidget
+                    ],
+                  )),
+            )));
   }
 
   bool isNullOrEmpty(String str) {

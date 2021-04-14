@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum STSnackbarLocationType { top, center, bottom }
+
 class STSnackbarConstant {
   static const maxWidthPercent = 0.9;
 
@@ -8,8 +10,12 @@ class STSnackbarConstant {
   static const buttonTextFontSize = 16.0;
 
   static const cornerRadius = 8.0;
+  static const buttonCornerRadius = 4.0;
 
   static const defaultBackgroundColor = Color.fromRGBO(0, 0, 0, 0.8);
 
   static const blueColor = Color.fromRGBO(9, 91, 249, 1);
+
+  static const defaultTopBottomPadding = 14.0;
+  static const textButtonPadding = 5.0;
 }
