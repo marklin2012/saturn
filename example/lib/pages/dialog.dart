@@ -16,10 +16,10 @@ class DialogPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
-                  context: context,
-                  title: "标题标题",
-                  message: "描述说明信息",
-                  dialogType: STDialogDialogType.title);
+                context: context,
+                title: "标题标题",
+                message: "描述说明信息",
+              );
             },
           ),
           FlatButton(
@@ -27,10 +27,11 @@ class DialogPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
-                  context: context,
-                  title: "标题标题",
-                  message: "描述说明信息",
-                  dialogType: STDialogDialogType.doubleButton);
+                context: context,
+                title: "标题标题",
+                message: "描述说明信息",
+                isDoubleButton: true,
+              );
             },
           ),
           FlatButton(
@@ -38,10 +39,10 @@ class DialogPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
-                  context: context,
-                  icon: "assets/images/basketball_check.png",
-                  message: "描述说明信息",
-                  dialogType: STDialogDialogType.icon);
+                context: context,
+                icon: "assets/images/basketball_check.png",
+                message: "描述说明信息",
+              );
             },
           ),
           FlatButton(
@@ -52,17 +53,13 @@ class DialogPage extends StatelessWidget {
                   context: context,
                   title: "标题标题",
                   message: "描述说明信息",
-                  dialogType: STDialogDialogType.list,
                   choiceList: [
-                    {
-                      "text": "选项一",
-                      "action": () {
-                        print("好的");
-                      }
-                    },
-                    {
-                      "text": "选项二",
-                    }
+                    ChoiceItem(
+                        title: "选项一",
+                        onItemTap: () {
+                          print("好的");
+                        }),
+                    ChoiceItem(title: "选项二"),
                   ]);
             },
           ),
@@ -71,10 +68,11 @@ class DialogPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
-                  context: context,
-                  title: "标题标题",
-                  message: "描述说明信息",
-                  dialogType: STDialogDialogType.textField);
+                context: context,
+                title: "标题标题",
+                message: "描述说明信息",
+                haveTextField: true,
+              );
             },
           ),
         ],

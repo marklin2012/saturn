@@ -2,6 +2,23 @@ import 'package:flutter/material.dart';
 
 import 'common.dart';
 
+class ChoiceItem {
+  String title;
+  String message;
+  String icon;
+  bool isSelect;
+  bool aligmentCenter;
+  VoidCallback onItemTap;
+
+  ChoiceItem(
+      {this.title,
+      this.message,
+      this.icon,
+      this.isSelect,
+      this.aligmentCenter,
+      this.onItemTap});
+}
+
 class STDialog extends StatefulWidget {
   final int width;
   final String title;
@@ -9,43 +26,47 @@ class STDialog extends StatefulWidget {
   final String icon;
   final String buttonText;
   final List choiceList;
+  final bool isDoubleButton;
+  final bool haveTextField;
+  final VoidCallback onCancelTap;
+  final VoidCallback onMakeSureTap;
   final STDialogType type;
-  final STDialogDialogType dialogType;
-  final STDialogListType listType;
-  final STDialogDynamicListType dynamicListType;
 
-  const STDialog(
-      {Key key,
-      this.width,
-      this.title,
-      this.message,
-      this.icon,
-      this.buttonText,
-      this.choiceList,
-      this.type,
-      this.dialogType,
-      this.listType,
-      this.dynamicListType})
-      : super(key: key);
+  const STDialog({
+    Key key,
+    this.width,
+    this.title,
+    this.message,
+    this.icon,
+    this.buttonText,
+    this.choiceList,
+    this.isDoubleButton,
+    this.haveTextField,
+    this.onCancelTap,
+    this.onMakeSureTap,
+    this.type,
+  }) : super(key: key);
 
-  static void show(
-      {@required BuildContext context,
-      int width,
-      String title,
-      String message,
-      String icon,
-      String buttonText,
-      List choiceList,
-      STDialogType type = STDialogType.dialog,
-      STDialogDialogType dialogType = STDialogDialogType.title,
-      STDialogListType listType = STDialogListType.text,
-      STDialogDynamicListType dynamicListType =
-          STDialogDynamicListType.message}) {
+  static void show({
+    @required BuildContext context,
+    int width,
+    String title,
+    String message,
+    String icon,
+    String buttonText,
+    List choiceList,
+    bool isDoubleButton = false,
+    bool haveTextField = false,
+    VoidCallback onCancelTap,
+    VoidCallback onMakeSureTap,
+    STDialogType type = STDialogType.dialog,
+  }) {
     showDialog(
         context: context,
         barrierDismissible: false,
         barrierColor: Colors.transparent,
         builder: (context) {
+          if (onMakeSureTap == null) {}
           final toast = STDialog(
             width: width,
             title: title,
@@ -53,17 +74,19 @@ class STDialog extends StatefulWidget {
             icon: icon,
             buttonText: buttonText,
             choiceList: choiceList,
+            isDoubleButton: isDoubleButton,
+            haveTextField: haveTextField,
+            onCancelTap: onCancelTap ??
+                () {
+                  STDialog.hide(context);
+                },
+            onMakeSureTap: onMakeSureTap ??
+                () {
+                  STDialog.hide(context);
+                },
             type: type,
-            dialogType: dialogType,
-            listType: listType,
-            dynamicListType: dynamicListType,
           );
-          return GestureDetector(
-            onTap: () {
-              STDialog.hide(context);
-            },
-            child: toast,
-          );
+          return toast;
         });
   }
 
@@ -132,15 +155,15 @@ class _STDialogState extends State<STDialog> {
             messageWidget,
           ];
 
-          if (widget.dialogType == STDialogDialogType.list) {
+          if (!isEmptyArray(widget.choiceList)) {
             columnArray.add(const SizedBox(height: 16));
 
             for (int i = 0; i < widget.choiceList.length; i++) {
               columnArray.add(getLineWidget(containerWidth));
 
-              final Map model = widget.choiceList[i];
-              final String text = model["text"];
-              final VoidCallback action = model["action"];
+              final ChoiceItem model = widget.choiceList[i];
+              final String title = model.title;
+              final VoidCallback action = model.onItemTap;
               columnArray.add(
                 SizedBox(
                     height: 44,
@@ -155,7 +178,7 @@ class _STDialogState extends State<STDialog> {
                           }
                         },
                         child: Text(
-                          text,
+                          title,
                           softWrap: true,
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
@@ -168,7 +191,7 @@ class _STDialogState extends State<STDialog> {
             }
           } else {
             String buttonText = "我知道了";
-            if (widget.dialogType == STDialogDialogType.textField) {
+            if (widget.haveTextField) {
               buttonText = "确定";
               columnArray.add(SizedBox(
                 width: containerWidth - 30,
@@ -192,7 +215,7 @@ class _STDialogState extends State<STDialog> {
             columnArray.add(const SizedBox(height: 16));
 
             columnArray.add(getLineWidget(containerWidth));
-            if (widget.dialogType == STDialogDialogType.doubleButton) {
+            if (widget.isDoubleButton) {
               columnArray.add(Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -203,7 +226,11 @@ class _STDialogState extends State<STDialog> {
                           overlayColor: MaterialStateColor.resolveWith(
                               (states) => Colors.transparent),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (widget.onCancelTap != null) {
+                            widget.onCancelTap();
+                          }
+                        },
                         child: const Text("取消",
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -223,7 +250,11 @@ class _STDialogState extends State<STDialog> {
                             overlayColor: MaterialStateColor.resolveWith(
                                 (states) => Colors.transparent),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (widget.onMakeSureTap != null) {
+                              widget.onMakeSureTap();
+                            }
+                          },
                           child: const Text("确定",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -239,7 +270,11 @@ class _STDialogState extends State<STDialog> {
                     overlayColor: MaterialStateColor.resolveWith(
                         (states) => Colors.transparent),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (widget.onMakeSureTap != null) {
+                      widget.onMakeSureTap();
+                    }
+                  },
                   child: Text(buttonText,
                       style: const TextStyle(
                           fontWeight: FontWeight.w500,
@@ -251,7 +286,20 @@ class _STDialogState extends State<STDialog> {
         }
         break;
       case STDialogType.list:
-        {}
+        {
+          containerWidth =
+              screenWidth * STDialogConstant.dialogDefaultWidthPercent;
+          columnArray = [
+            const SizedBox(
+              height: 16,
+            ),
+            imageWidget ?? (titleWidget ?? Container()),
+            const SizedBox(
+              height: 4,
+            ),
+            messageWidget,
+          ];
+        }
         break;
 
       case STDialogType.dynamicList:
@@ -289,6 +337,18 @@ class _STDialogState extends State<STDialog> {
       height: 1,
       color: const Color.fromRGBO(239, 243, 249, 1),
     );
+  }
+
+  bool isEmptyArray(List list) {
+    if (list == null) {
+      return true;
+    } else {
+      if (list.isEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   bool isNullOrEmpty(String str) {
