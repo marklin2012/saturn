@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'common.dart';
@@ -5,26 +7,32 @@ import 'common.dart';
 class STMessage extends StatefulWidget {
   final String title;
   final String message;
-  final String explainInfo;
-  final String explain;
   final String icon;
+  final Widget widget;
+  final bool showShadow;
+  final bool autoClose;
+  final int disappearTime;
 
-  const STMessage({
-    Key key,
-    this.title,
-    @required this.message,
-    this.explainInfo,
-    this.explain,
-    @required this.icon,
-  }) : super(key: key);
+  const STMessage(
+      {Key key,
+      this.title,
+      @required this.message,
+      @required this.icon,
+      this.widget,
+      this.showShadow,
+      this.autoClose,
+      this.disappearTime})
+      : super(key: key);
 
   static void show(
       {@required BuildContext context,
       String title,
       @required String message,
-      String explainInfo,
-      String explain,
-      @required String icon}) {
+      @required String icon,
+      Widget widget,
+      bool showShadow = true,
+      bool autoClose = false,
+      int disappearTime = STMessageConstant.defaultDisappearTime}) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -33,9 +41,11 @@ class STMessage extends StatefulWidget {
         final _message = STMessage(
             title: title,
             message: message,
-            explainInfo: explainInfo,
-            explain: explain,
-            icon: icon);
+            icon: icon,
+            widget: widget,
+            showShadow: showShadow,
+            autoClose: autoClose,
+            disappearTime: disappearTime);
         return _message;
       },
     );
@@ -52,9 +62,17 @@ class STMessage extends StatefulWidget {
 }
 
 class _STMessageState extends State<STMessage> {
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
+
+    if (widget.autoClose) {
+      timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
+        STMessage.hide(context);
+      });
+    }
   }
 
   @override
@@ -76,12 +94,6 @@ class _STMessageState extends State<STMessage> {
       decoration: TextDecoration.none,
     );
 
-    const TextStyle explainStyle = TextStyle(
-        fontWeight: FontWeight.w500,
-        color: Colors.grey,
-        fontSize: STMessageConstant.explainFontSize,
-        decoration: TextDecoration.none);
-
     Image imageWidget;
     if (!isNullOrEmpty(widget.icon)) {
       imageWidget = Image.asset(widget.icon,
@@ -101,8 +113,11 @@ class _STMessageState extends State<STMessage> {
       style: messageStyle,
     );
 
-    final bool haveExplain = (!isNullOrEmpty(widget.explain)) &&
-        (!isNullOrEmpty(widget.explainInfo));
+    Color shadowColor = Colors.black26;
+    if (!widget.showShadow) {
+      shadowColor = Colors.transparent;
+    }
+
     return Align(
         alignment: Alignment.topCenter,
         child: Container(
@@ -110,53 +125,46 @@ class _STMessageState extends State<STMessage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(STMessageConstant.cornerRadius),
             color: Colors.white,
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(5.0, 5.0),
+                  color: shadowColor,
+                  offset: const Offset(5.0, 5.0),
                   blurRadius: 5.0,
                   spreadRadius: 2.0),
             ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: widget.widget ??
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          imageWidget,
-                          const SizedBox(
-                            width: STMessageConstant.iconMessageDistance,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              imageWidget,
+                              const SizedBox(
+                                width: STMessageConstant.iconMessageDistance,
+                              ),
+                              if (!isNullOrEmpty(widget.title))
+                                Expanded(child: titleWidget)
+                              else
+                                Expanded(child: messageWidget)
+                            ],
                           ),
-                          if (haveExplain)
-                            Text(widget.explain, style: explainStyle)
-                          else if (!isNullOrEmpty(widget.title))
-                            Expanded(child: titleWidget)
-                          else
-                            Expanded(child: messageWidget)
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    if (haveExplain)
-                      Text(widget.explainInfo, style: explainStyle)
+                    if (!isNullOrEmpty(widget.title)) messageWidget,
                   ],
                 ),
-                if (haveExplain)
-                  titleWidget
-                else if (!isNullOrEmpty(widget.title))
-                  messageWidget,
-                if (haveExplain) messageWidget,
-              ],
-            ),
-          ),
+              ),
         ));
   }
 
@@ -166,5 +174,13 @@ class _STMessageState extends State<STMessage> {
     } else {
       return false;
     }
+  }
+
+  @override
+  void dispose() {
+    if (timer != null) {
+      timer.cancel();
+    }
+    super.dispose();
   }
 }
