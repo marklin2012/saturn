@@ -4,6 +4,60 @@ import 'package:flutter/material.dart';
 
 import 'common.dart';
 
+class STMessageSharedInstance {
+  BuildContext _curContext;
+  factory STMessageSharedInstance() => _sharedInstance();
+
+  static STMessageSharedInstance _instance;
+
+  STMessageSharedInstance._() {}
+
+  static STMessageSharedInstance _sharedInstance() {
+    if (_instance == null) {
+      _instance = STMessageSharedInstance._();
+    }
+    return _instance;
+  }
+
+  void show(
+      {@required BuildContext context,
+      String title,
+      @required String message,
+      @required String icon,
+      Widget widget,
+      bool showShadow = true,
+      bool autoClose = false,
+      int disappearTime = STMessageConstant.defaultDisappearTime}) {
+    if (_curContext != null) {
+      hide(context);
+    }
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        final _message = STMessage(
+            title: title,
+            message: message,
+            icon: icon,
+            widget: widget,
+            showShadow: showShadow,
+            autoClose: autoClose,
+            disappearTime: disappearTime);
+        return _message;
+      },
+    );
+    _curContext = context;
+  }
+
+  void hide(
+    BuildContext context,
+  ) {
+    Navigator.pop(context);
+    _curContext = null;
+  }
+}
+
 class STMessage extends StatefulWidget {
   final String title;
   final String message;
@@ -24,39 +78,6 @@ class STMessage extends StatefulWidget {
       this.disappearTime})
       : super(key: key);
 
-  static void show(
-      {@required BuildContext context,
-      String title,
-      @required String message,
-      @required String icon,
-      Widget widget,
-      bool showShadow = true,
-      bool autoClose = false,
-      int disappearTime = STMessageConstant.defaultDisappearTime}) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      barrierColor: Colors.transparent,
-      builder: (context) {
-        final _message = STMessage(
-            title: title,
-            message: message,
-            icon: icon,
-            widget: widget,
-            showShadow: showShadow,
-            autoClose: autoClose,
-            disappearTime: disappearTime);
-        return _message;
-      },
-    );
-  }
-
-  static void hide(
-    BuildContext context,
-  ) {
-    Navigator.pop(context);
-  }
-
   @override
   _STMessageState createState() => _STMessageState();
 }
@@ -70,7 +91,7 @@ class _STMessageState extends State<STMessage> {
 
     if (widget.autoClose) {
       timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
-        STMessage.hide(context);
+        STMessageSharedInstance().hide(context);
       });
     }
   }
