@@ -12,6 +12,7 @@ export 'package:saturn/st_stepper/st_stepper.dart';
 export 'package:saturn/st_slider/st_slider.dart';
 export 'package:saturn/st_icons/st_icons.dart';
 export 'package:saturn/st_select/st_select.dart';
+export 'package:saturn/st_select/select_mix_item.dart';
 
 /// A Calculator.
 class Calculator {

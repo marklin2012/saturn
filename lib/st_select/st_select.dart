@@ -1,85 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_select/select_mix.dart';
+import 'package:saturn/st_select/select_mix_item.dart';
 import 'package:saturn/st_select/select_texts.dart';
 
-enum STSelectEnums {
+enum STSelectTypes {
   mix,
   texts,
 }
 
-class STSelectMixData {
-  final IconData icon;
-  final String title;
-  final bool disabled;
-
-  const STSelectMixData({
-    this.icon,
-    this.title,
-    this.disabled = false,
-  });
-}
-
-class STSelectTextsData {
-  String firTitle;
-  String secTitle;
-  String thrTitle;
-
-  STSelectTextsData({
-    this.firTitle,
-    this.secTitle,
-    this.thrTitle,
-  });
-}
-
 class STSelect extends StatelessWidget {
-  final STSelectEnums enums;
-  final STSelectMixData initialMix;
-  final STSelectTextsData initialTexts;
-  final List<STSelectMixData> mixList;
-  final List<STSelectTextsData> textsList;
-  final Function(STSelectMixData value) onSelectedMix;
-  final Function(STSelectTextsData value) onSelectedText;
-  final EdgeInsets margin;
-  final Widget child;
-  final String title;
-
   const STSelect({
     Key key,
-    this.enums,
+    this.types,
     this.margin = const EdgeInsets.symmetric(horizontal: 16.0),
-    this.initialMix,
-    this.initialTexts,
-    this.mixList,
-    this.textsList,
-    this.onSelectedMix,
-    this.onSelectedText,
+    this.initMixValue,
+    this.mixListValues,
+    this.onChangedMixValue,
     this.child,
     this.title,
+    this.initTextsValue,
+    this.textsListValues,
+    this.onChangedTextsValue,
   }) : super(key: key);
+
+  final STSelectTypes types; // 不同的样式
+  final EdgeInsets margin; // 混合选择器的内嵌
+  final STSelectMixItem initMixValue; // 混合选择器的初始值
+  final List<STSelectMixItem> mixListValues; // 混合选择器的所有数据
+  final Function(STSelectMixItem) onChangedMixValue; //混合选择器选中后的回调
+  final Widget child; // 文本选择器的触发组件
+  final String title; // 文本选择器的标题
+  final List<String> initTextsValue; // 文本选择器的初始值
+  //文本选择器的所有数据，有几个list对应几个选择器
+  final List<List<String>> textsListValues;
+  //文本选择器选中后的回调，按下标对应选中的结果
+  final Function(List<String>) onChangedTextsValue;
 
   @override
   Widget build(BuildContext context) {
-    if (enums == STSelectEnums.mix) {
+    if (types == STSelectTypes.mix) {
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16.0),
         child: STSelectMix(
-          initialValue: initialMix,
-          list: mixList,
-          onSelected: (STSelectMixData value) {
-            if (onSelectedMix != null) {
-              onSelectedMix(value);
+          initValue: initMixValue,
+          items: mixListValues,
+          onChanged: (STSelectMixItem value) {
+            if (onChangedMixValue != null) {
+              onChangedMixValue(value);
             }
           },
         ),
       );
     } else {
       return STSelectTexts(
-        initialValue: initialTexts,
-        list: textsList,
         title: title,
-        onSelected: (STSelectTextsData value) {
-          if (onSelectedText != null) {
-            onSelectedText(value);
+        initValue: initTextsValue,
+        listValues: textsListValues,
+        onChanged: (value) {
+          if (onChangedTextsValue != null) {
+            onChangedTextsValue(value);
           }
         },
         child: child,

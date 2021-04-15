@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_select/select_mix_item.dart';
 import 'package:saturn/st_select/select_show_dialog.dart';
-import 'package:saturn/st_select/st_select.dart';
 
 class STSelectMix extends StatefulWidget {
-  final STSelectMixData initialValue;
-  final List<STSelectMixData> list;
+  final STSelectMixItem initValue;
+  final List<STSelectMixItem> items;
   final Color selectedColor;
-  final Function(STSelectMixData value) onSelected;
+  final Function(STSelectMixItem) onChanged;
   final double verticalOffset;
 
   const STSelectMix({
     Key key,
-    this.initialValue,
-    this.list,
+    this.initValue,
+    this.items,
     this.selectedColor = const Color(0xFF095BF9),
-    this.onSelected,
+    this.onChanged,
     this.verticalOffset = 8.0,
   }) : super(key: key);
 
@@ -73,11 +73,11 @@ class _STSelectMixState extends State<STSelectMix> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (widget.initialValue != null)
+            if (widget.initValue != null)
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                 child: Text(
-                  widget.initialValue.title,
+                  widget.initValue.title,
                   style:
                       const TextStyle(color: Color(0xFF000000), fontSize: 16),
                 ),
@@ -110,14 +110,14 @@ class _STSelectMixState extends State<STSelectMix> {
       child: ListView.separated(
         physics: const ClampingScrollPhysics(),
         itemBuilder: (context, int index) {
-          final data = widget.list[index];
+          final data = widget.items[index];
           final _isSelected = _getSelected(data);
           return GestureDetector(
             onTap: () {
               if (data.disabled) return;
-              if (widget.onSelected != null) {
+              if (widget.onChanged != null) {
                 _showSelected = !_showSelected;
-                widget.onSelected(widget.list[index]);
+                widget.onChanged(widget.items[index]);
                 Navigator.pop(context);
               }
             },
@@ -164,16 +164,16 @@ class _STSelectMixState extends State<STSelectMix> {
             child: Container(color: const Color(0xFFDFE2E7)),
           );
         },
-        itemCount: widget.list.length,
+        itemCount: widget.items.length,
       ),
     );
   }
 
-  bool _getSelected(STSelectMixData data) {
-    return data.title == widget.initialValue.title;
+  bool _getSelected(STSelectMixItem data) {
+    return data.title == widget.initValue.title;
   }
 
-  Color _getColor(STSelectMixData data, {bool isSelected = false}) {
+  Color _getColor(STSelectMixItem data, {bool isSelected = false}) {
     if (data.disabled) {
       return const Color(0xFFC4C5C7);
     } else if (isSelected) {
