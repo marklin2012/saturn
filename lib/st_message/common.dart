@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum STMessageLocationType { top, center, bottom }
+
 class STMessageConstant {
   static const defaultWidthPercent = 0.9;
   static const iconWidth = 24.0;

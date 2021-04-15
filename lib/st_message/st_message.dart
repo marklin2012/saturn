@@ -6,6 +6,7 @@ import 'common.dart';
 
 class STMessageSharedInstance {
   BuildContext _curContext;
+  OverlayEntry _curOverlayEntry;
   factory STMessageSharedInstance() => _sharedInstance();
 
   static STMessageSharedInstance _instance;
@@ -13,47 +14,48 @@ class STMessageSharedInstance {
   STMessageSharedInstance._() {}
 
   static STMessageSharedInstance _sharedInstance() {
-    if (_instance == null) {
-      _instance = STMessageSharedInstance._();
-    }
+    _instance ?? STMessageSharedInstance._();
     return _instance;
   }
 
-  void show(
-      {@required BuildContext context,
-      String title,
-      @required String message,
-      @required String icon,
-      Widget widget,
-      bool showShadow = true,
-      bool autoClose = false,
-      int disappearTime = STMessageConstant.defaultDisappearTime}) {
+  void show({
+    @required BuildContext context,
+    String title,
+    @required String message,
+    @required String icon,
+    Widget widget,
+    bool showShadow = true,
+    bool autoClose = false,
+    int disappearTime = STMessageConstant.defaultDisappearTime,
+    final STMessageLocationType locationType = STMessageLocationType.top,
+    final bool haveSafeArea = true,
+  }) {
     if (_curContext != null) {
       hide(context);
     }
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      barrierColor: Colors.transparent,
-      builder: (context) {
-        final _message = STMessage(
-            title: title,
-            message: message,
-            icon: icon,
-            widget: widget,
-            showShadow: showShadow,
-            autoClose: autoClose,
-            disappearTime: disappearTime);
-        return _message;
-      },
-    );
+
+    final _message = STMessage(
+        title: title,
+        message: message,
+        icon: icon,
+        widget: widget,
+        showShadow: showShadow,
+        autoClose: autoClose,
+        disappearTime: disappearTime,
+        locationType: locationType,
+        haveSafeArea: haveSafeArea);
+
+    final OverlayState overlayState = Overlay.of(context);
+    _curOverlayEntry =
+        OverlayEntry(builder: (BuildContext context) => _message);
+    overlayState.insert(_curOverlayEntry);
     _curContext = context;
   }
 
   void hide(
     BuildContext context,
   ) {
-    Navigator.pop(context);
+    _curOverlayEntry.remove();
     _curContext = null;
   }
 }
@@ -66,6 +68,8 @@ class STMessage extends StatefulWidget {
   final bool showShadow;
   final bool autoClose;
   final int disappearTime;
+  final STMessageLocationType locationType;
+  final bool haveSafeArea;
 
   const STMessage(
       {Key key,
@@ -75,7 +79,9 @@ class STMessage extends StatefulWidget {
       this.widget,
       this.showShadow,
       this.autoClose,
-      this.disappearTime})
+      this.disappearTime,
+      this.locationType,
+      this.haveSafeArea})
       : super(key: key);
 
   @override
@@ -139,54 +145,78 @@ class _STMessageState extends State<STMessage> {
       shadowColor = Colors.transparent;
     }
 
+    double topPadding = 0;
+    double bottomPadding = 0;
+    AlignmentGeometry curAlignment;
+    switch (widget.locationType) {
+      case STMessageLocationType.top:
+        {
+          curAlignment = Alignment.topCenter;
+          topPadding = MediaQuery.of(context).padding.top;
+        }
+        break;
+      case STMessageLocationType.center:
+        curAlignment = Alignment.center;
+        break;
+      case STMessageLocationType.bottom:
+        {
+          curAlignment = Alignment.bottomCenter;
+        }
+        break;
+    }
+
     return Align(
-        alignment: Alignment.topCenter,
-        child: Container(
-          width: containerWidth,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(STMessageConstant.cornerRadius),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  color: shadowColor,
-                  offset: const Offset(5.0, 5.0),
-                  blurRadius: 5.0,
-                  spreadRadius: 2.0),
-            ],
-          ),
-          child: widget.widget ??
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              imageWidget,
-                              const SizedBox(
-                                width: STMessageConstant.iconMessageDistance,
-                              ),
-                              if (!isNullOrEmpty(widget.title))
-                                Expanded(child: titleWidget)
-                              else
-                                Expanded(child: messageWidget)
-                            ],
+      alignment: curAlignment,
+      child: Padding(
+          padding: EdgeInsets.fromLTRB(0, topPadding, 0, bottomPadding),
+          child: Container(
+            width: containerWidth,
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.circular(STMessageConstant.cornerRadius),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: shadowColor,
+                    offset: const Offset(5.0, 5.0),
+                    blurRadius: 5.0,
+                    spreadRadius: 2.0),
+              ],
+            ),
+            child: widget.widget ??
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                imageWidget,
+                                const SizedBox(
+                                  width: STMessageConstant.iconMessageDistance,
+                                ),
+                                if (!isNullOrEmpty(widget.title))
+                                  Expanded(child: titleWidget)
+                                else
+                                  Expanded(child: messageWidget)
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    if (!isNullOrEmpty(widget.title)) messageWidget,
-                  ],
+                        ],
+                      ),
+                      if (!isNullOrEmpty(widget.title)) messageWidget,
+                    ],
+                  ),
                 ),
-              ),
-        ));
+          )),
+    );
   }
 
   bool isNullOrEmpty(String str) {
