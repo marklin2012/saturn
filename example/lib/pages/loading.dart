@@ -2,33 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 
 class LoadingPage extends StatelessWidget {
-  static void show({
-    @required BuildContext context,
-    String icon,
-    String gifIcon,
-    String text,
-    Color themeColor,
-    bool showDefaultIcon = false,
-    bool iconUpperText = false,
-    bool haveIconAnimation = false,
-  }) {
+  static void show(
+      {@required BuildContext context,
+      String icon,
+      String text,
+      bool loading,
+      STLoadingDistributionType distributionType =
+          STLoadingDistributionType.leftIconRightText,
+      Color textColor = STLoadingConstant.defaultTextColor,
+      bool showDefaultIcon = false,
+      int animationTime = STLoadingConstant.animationTime}) {
+    STLoading _loading = STLoading(
+        icon: icon,
+        text: text,
+        loading: loading,
+        distributionType: distributionType,
+        showDefaultIcon: showDefaultIcon,
+        animationTime: animationTime);
     showDialog(
         context: context,
         barrierColor: Colors.transparent,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          STLoading loading = STLoading(
-              icon: icon,
-              gifIcon: gifIcon,
-              text: text,
-              showDefaultIcon: showDefaultIcon,
-              isIconUpperText: iconUpperText,
-              haveIconAnimation: haveIconAnimation);
           return GestureDetector(
             onTap: () {
               hide(context);
             },
-            child: loading,
+            child: _loading,
           );
         });
   }
@@ -65,15 +65,21 @@ class LoadingPage extends StatelessWidget {
               show(
                 context: context,
                 icon: "assets/images/icon_selected_20x20.png",
-                haveIconAnimation: true,
+                loading: true,
               );
             },
           ),
           FlatButton(
-            child: Text("gif"),
+            child: Text("上文字图片"),
             color: Colors.blue,
             onPressed: () {
-              show(context: context, gifIcon: "assets/images/1.gif");
+              show(
+                  context: context,
+                  text: "正在加载中...",
+                  icon: "assets/images/icon_selected_20x20.png",
+                  loading: true,
+                  distributionType:
+                      STLoadingDistributionType.leftIconRightText);
             },
           ),
           FlatButton(
@@ -81,22 +87,12 @@ class LoadingPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               show(
-                context: context,
-                iconUpperText: true,
-                text: "正在加载中...",
-                icon: "assets/images/icon_selected_20x20.png",
-              );
-            },
-          ),
-          FlatButton(
-            child: Text("文字Gif"),
-            color: Colors.blue,
-            onPressed: () {
-              show(
                   context: context,
-                  iconUpperText: true,
                   text: "正在加载中...",
-                  gifIcon: "assets/images/1.gif");
+                  icon: "assets/images/icon_selected_20x20.png",
+                  loading: true,
+                  distributionType:
+                      STLoadingDistributionType.topIconBottomText);
             },
           ),
         ],

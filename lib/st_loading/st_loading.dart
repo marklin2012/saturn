@@ -3,22 +3,22 @@ import 'common.dart';
 
 class STLoading extends StatefulWidget {
   final String icon;
-  final String gifIcon;
   final String text;
-  final Color textColor; // 文字颜色
-  final bool showDefaultIcon; //show default icon 只有在icon 和 gificon都为空时，设置才有效
-  final bool isIconUpperText; //icon默认在左边
-  final bool haveIconAnimation; //icon是否有动画
+  final bool loading;
+  final STLoadingDistributionType distributionType;
+  final Color textColor;
+  final bool showDefaultIcon;
+  final int animationTime;
 
   const STLoading(
       {Key key,
       this.icon,
-      this.gifIcon,
       this.text,
-      this.textColor,
+      this.loading = false,
+      this.distributionType = STLoadingDistributionType.leftIconRightText,
+      this.textColor = STLoadingConstant.defaultTextColor,
       this.showDefaultIcon = false,
-      this.isIconUpperText = false,
-      this.haveIconAnimation = false})
+      this.animationTime = STLoadingConstant.animationTime})
       : super(key: key);
 
   @override
@@ -33,94 +33,86 @@ class _STLoadingState extends State<STLoading>
   void initState() {
     super.initState();
 
-    if (widget.haveIconAnimation) {
-      controller = AnimationController(
-          duration: const Duration(seconds: STLoadingConstant.animationTime),
-          vsync: this);
-      controller.addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller.reset();
-          controller.forward();
-        }
-      });
-      controller.forward();
-    }
+    controller = AnimationController(
+        duration: Duration(seconds: widget.animationTime), vsync: this);
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.reset();
+        controller.forward();
+      }
+    });
   }
 
   @override
   void dispose() {
-    if (widget.haveIconAnimation) {
-      controller.stop();
-    }
+    controller.stop();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget returnWidget;
-
-    Color curTextColor;
-    if (widget.textColor == null) {
-      curTextColor = Colors.black;
-    } else {
-      curTextColor = widget.textColor;
-    }
-
     Text textWidget;
     if (!isNullOrEmpty(widget.text)) {
       textWidget = Text(widget.text,
           style: TextStyle(
               fontWeight: FontWeight.normal,
-              color: curTextColor,
+              color: widget.textColor,
               fontSize: STLoadingConstant.textFontSize,
               decoration: TextDecoration.none));
     }
 
     Widget imageWidget;
-
-    if (isNullOrEmpty(widget.icon) && isNullOrEmpty(widget.gifIcon)) {
+    if (isNullOrEmpty(widget.icon)) {
       if (widget.showDefaultIcon) {
         imageWidget = Icon(
           Icons.autorenew,
-          color: curTextColor,
+          color: widget.textColor,
         );
       }
     } else {
-      imageWidget = Image.asset(
-          isNullOrEmpty(widget.icon) ? widget.gifIcon : widget.icon,
+      imageWidget = Image.asset(widget.icon,
           width: STLoadingConstant.iconWidth,
           height: STLoadingConstant.iconWidth,
           fit: BoxFit.contain);
     }
 
-    if ((imageWidget != null) && widget.haveIconAnimation) {
+    if (imageWidget != null) {
       imageWidget = RotationTransition(turns: controller, child: imageWidget);
     }
 
-    if (imageWidget != null) {
-      if (textWidget != null) {
-        if (widget.isIconUpperText) {
-          returnWidget =
-              Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            imageWidget,
-            const SizedBox(width: STLoadingConstant.iconTextDistance),
-            textWidget,
-          ]);
-        } else {
-          returnWidget = Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            imageWidget,
-            const SizedBox(width: STLoadingConstant.iconTextDistance),
-            textWidget
-          ]);
-        }
-      } else {
-        returnWidget = imageWidget;
-      }
+    final bool haveTextAndIcon = (imageWidget != null) && (textWidget != null);
+
+    if (widget.loading) {
+      controller.forward();
     } else {
-      returnWidget = textWidget;
+      controller.stop();
     }
 
-    return Center(child: returnWidget);
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (haveTextAndIcon &&
+              (widget.distributionType ==
+                  STLoadingDistributionType.leftIconRightText))
+            Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              imageWidget,
+              const SizedBox(width: STLoadingConstant.iconTextDistance),
+              textWidget
+            ]),
+          if (textWidget == null ||
+              (haveTextAndIcon &&
+                  (widget.distributionType ==
+                      STLoadingDistributionType.topIconBottomText)))
+            imageWidget,
+          if (imageWidget == null ||
+              (haveTextAndIcon &&
+                  (widget.distributionType ==
+                      STLoadingDistributionType.topIconBottomText)))
+            textWidget,
+        ],
+      ),
+    );
   }
 
   bool isNullOrEmpty(String str) {
