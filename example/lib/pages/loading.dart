@@ -1,34 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 
-class LoadingPage extends StatelessWidget {
-  static void show(
-      {@required BuildContext context,
-      String icon,
-      String text,
-      bool loading,
-      STLoadingDistributionType distributionType =
-          STLoadingDistributionType.leftIconRightText,
-      Color textColor = STLoadingConstant.defaultTextColor,
-      bool showDefaultIcon = false,
-      int animationTime = STLoadingConstant.animationTime}) {
-    STLoading _loading = STLoading(
-        icon: icon,
-        text: text,
-        loading: loading,
-        distributionType: distributionType,
-        showDefaultIcon: showDefaultIcon,
-        animationTime: animationTime);
+class LoadingPage extends StatefulWidget {
+  @override
+  _LoadingPageState createState() => _LoadingPageState();
+}
+
+class _LoadingPageState extends State<LoadingPage> {
+  bool _isloading = true;
+  Function(void Function()) _curSetState;
+
+  void show({
+    @required BuildContext context,
+    String icon,
+    String text,
+    bool loading,
+    STLoadingDistributionType distributionType =
+        STLoadingDistributionType.leftIconRightText,
+    Color textColor = STLoadingConstant.defaultTextColor,
+    bool showDefaultIcon = false,
+    int animationTime = STLoadingConstant.animationTime,
+  }) {
     showDialog(
         context: context,
         barrierColor: Colors.transparent,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return GestureDetector(
-            onTap: () {
-              hide(context);
+          return StatefulBuilder(
+            builder: (context, theSetState) {
+              _curSetState = theSetState;
+              return GestureDetector(
+                onTap: () {
+                  hide(context);
+                },
+                child: STLoading(
+                    icon: icon,
+                    text: text,
+                    loading: _isloading,
+                    distributionType: distributionType,
+                    showDefaultIcon: showDefaultIcon,
+                    animationTime: animationTime),
+              );
             },
-            child: _loading,
           );
         });
   }
@@ -70,7 +83,7 @@ class LoadingPage extends StatelessWidget {
             },
           ),
           FlatButton(
-            child: Text("上文字图片"),
+            child: Text("左文字右图片"),
             color: Colors.blue,
             onPressed: () {
               show(
@@ -83,7 +96,7 @@ class LoadingPage extends StatelessWidget {
             },
           ),
           FlatButton(
-            child: Text("文字图片"),
+            child: Text("上文字下图片"),
             color: Colors.blue,
             onPressed: () {
               show(
@@ -93,6 +106,11 @@ class LoadingPage extends StatelessWidget {
                   loading: true,
                   distributionType:
                       STLoadingDistributionType.topIconBottomText);
+              Future.delayed(Duration(seconds: 2), () {
+                _curSetState(() {
+                  _isloading = !_isloading;
+                });
+              });
             },
           ),
         ],
