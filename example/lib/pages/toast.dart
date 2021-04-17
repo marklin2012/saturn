@@ -17,7 +17,8 @@ class ToastPage extends StatelessWidget {
             onPressed: () {
               STToast.show(
                   context: context,
-                  message: "这是一个message这是一个message这是一个message这是一个message");
+                  message: "这是一个message这是一个message这是一个message这是一个message",
+                  autoClose: true);
             },
           ),
           FlatButton(
@@ -28,7 +29,8 @@ class ToastPage extends StatelessWidget {
                   context: context,
                   icon: "assets/images/basketball_check.png",
                   message: "这是一个message这是一个message这是一个message这是一个message",
-                  locationType: STToastLocationType.bottom);
+                  locationType: STToastLocationType.bottom,
+                  closable: true);
               ;
             },
           ),

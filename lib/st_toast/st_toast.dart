@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'common.dart';
@@ -10,6 +12,9 @@ class STToast extends StatefulWidget {
   final STToastLocationType locationType;
   final double topPadding;
   final double bottomPadding;
+  final bool closable;
+  final bool autoClose;
+  final int disappearTime;
 
   const STToast(
       {Key key,
@@ -19,7 +24,10 @@ class STToast extends StatefulWidget {
       this.haveIconAnimation,
       this.locationType,
       this.topPadding,
-      this.bottomPadding})
+      this.bottomPadding,
+      this.closable,
+      this.autoClose,
+      this.disappearTime})
       : super(key: key);
 
   static void show(
@@ -30,20 +38,27 @@ class STToast extends StatefulWidget {
       bool haveIconAnimation = false,
       STToastLocationType locationType = STToastLocationType.center,
       double topPadding = STToastConstant.defaultTopBottomPadding,
-      double bottomPadding = STToastConstant.defaultTopBottomPadding}) {
+      double bottomPadding = STToastConstant.defaultTopBottomPadding,
+      bool closable = false,
+      bool autoClose = false,
+      int disappearTime = STToastConstant.defaultDisappearTime}) {
     showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: closable,
         barrierColor: Colors.transparent,
         builder: (context) {
           final toast = STToast(
-              message: message,
-              icon: icon,
-              isIconUpText: isIconUpText,
-              haveIconAnimation: haveIconAnimation,
-              locationType: locationType,
-              topPadding: topPadding,
-              bottomPadding: bottomPadding);
+            message: message,
+            icon: icon,
+            isIconUpText: isIconUpText,
+            haveIconAnimation: haveIconAnimation,
+            locationType: locationType,
+            topPadding: topPadding,
+            bottomPadding: bottomPadding,
+            closable: closable,
+            autoClose: autoClose,
+            disappearTime: disappearTime,
+          );
           return toast;
         });
   }
@@ -59,11 +74,18 @@ class STToast extends StatefulWidget {
 }
 
 class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
+  Timer timer;
   AnimationController controller;
 
   @override
   void initState() {
     super.initState();
+
+    if (widget.autoClose) {
+      timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
+        STToast.hide(context);
+      });
+    }
 
     if (!isNullOrEmpty(widget.icon) && widget.haveIconAnimation) {
       controller = AnimationController(
@@ -194,6 +216,9 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
   void dispose() {
     if (controller != null) {
       controller.stop();
+    }
+    if (timer != null) {
+      timer.cancel();
     }
     super.dispose();
   }
