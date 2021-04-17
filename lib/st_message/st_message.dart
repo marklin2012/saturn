@@ -20,8 +20,8 @@ class STMessageSharedInstance {
   void show(
       {@required BuildContext context,
       String title,
-      @required String message,
-      @required String icon,
+      String message,
+      String icon,
       Widget widget,
       bool showShadow = true,
       bool autoClose = false,
@@ -78,8 +78,8 @@ class STMessage extends StatefulWidget {
   const STMessage(
       {Key key,
       this.title,
-      @required this.message,
-      @required this.icon,
+      this.message,
+      this.icon,
       this.widget,
       this.showShadow,
       this.autoClose,
@@ -140,11 +140,14 @@ class _STMessageState extends State<STMessage> {
       titleWidget = Text(widget.title, softWrap: true, style: titleStyle);
     }
 
-    final Text messageWidget = Text(
-      widget.message,
-      softWrap: true,
-      style: messageStyle,
-    );
+    Text messageWidget;
+    if (!isNullOrEmpty(widget.message)) {
+      messageWidget = Text(
+        widget.message,
+        softWrap: true,
+        style: messageStyle,
+      );
+    }
 
     Color shadowColor = Colors.black26;
     if (!widget.showShadow) {

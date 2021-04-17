@@ -51,17 +51,14 @@ class MessagePage extends StatelessWidget {
                   icon: "assets/images/basketball_check.png");
             },
           ),
-          // FlatButton(
-          //   child: Text("标题文字说明图片"),
-          //   color: Colors.blue,
-          //   onPressed: () {
-          //     STMessage.show(
-          //       context: context,
-          //       title: "标题标题",
-          //       message: "好的好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
-          //     );
-          //   },
-          // ),
+          FlatButton(
+            child: Text("传入widget"),
+            color: Colors.blue,
+            onPressed: () {
+              STMessageSharedInstance()
+                  .show(context: context, widget: Text("好的"));
+            },
+          ),
         ],
       ),
     );
