@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
 import 'common.dart';
 
+enum STLoadingIconPosition {
+  left,
+  top,
+}
+
 class STLoading extends StatefulWidget {
-  final String icon;
+  final Widget icon; // 可支持图片或icon
   final String text;
-  final bool loading;
-  final STLoadingDistributionType distributionType;
-  final Color textColor;
-  final bool showDefaultIcon;
-  final int animationTime;
+  final bool alwaysLoading;
+  final STLoadingIconPosition iconPosition;
+  final TextStyle textStyle;
+  final int durationMilliseconds; // 毫秒
 
   const STLoading(
       {Key key,
-      this.icon,
-      this.text,
-      this.loading = false,
-      this.distributionType = STLoadingDistributionType.leftIconRightText,
-      this.textColor = STLoadingConstant.defaultTextColor,
-      this.showDefaultIcon = false,
-      this.animationTime = STLoadingConstant.animationTime})
+      this.icon = const Icon(
+        Icons.autorenew,
+        color: STLoadingConstant.defaultTextColor,
+      ),
+      this.text = '加载中...',
+      this.alwaysLoading = false,
+      this.iconPosition = STLoadingIconPosition.left,
+      this.textStyle = const TextStyle(
+        color: STLoadingConstant.defaultTextColor,
+        fontSize: STLoadingConstant.textFontSize,
+        decoration: TextDecoration.none,
+      ),
+      this.durationMilliseconds = 2000})
       : super(key: key);
 
   @override
@@ -27,99 +37,55 @@ class STLoading extends StatefulWidget {
 
 class _STLoadingState extends State<STLoading>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-
+  AnimationController _controller;
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(
-        duration: Duration(seconds: widget.animationTime), vsync: this);
-    controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.reset();
-        controller.forward();
-      }
-    });
+    _controller = AnimationController(
+        duration: Duration(milliseconds: widget.durationMilliseconds),
+        vsync: this);
   }
 
   @override
   void dispose() {
-    controller.stop();
+    _controller.stop();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Text textWidget;
-    if (!isNullOrEmpty(widget.text)) {
-      textWidget = Text(widget.text,
-          style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: widget.textColor,
-              fontSize: STLoadingConstant.textFontSize,
-              decoration: TextDecoration.none));
+    if (widget.alwaysLoading) {
+      _controller.repeat();
     }
 
-    Widget imageWidget;
-    if (isNullOrEmpty(widget.icon)) {
-      if (widget.showDefaultIcon) {
-        imageWidget = Icon(
-          Icons.autorenew,
-          color: widget.textColor,
-        );
-      }
-    } else {
-      imageWidget = Image.asset(widget.icon,
-          width: STLoadingConstant.iconWidth,
-          height: STLoadingConstant.iconWidth,
-          fit: BoxFit.contain);
-    }
-
-    if (imageWidget != null) {
-      imageWidget = RotationTransition(turns: controller, child: imageWidget);
-    }
-
-    final bool haveTextAndIcon = (imageWidget != null) && (textWidget != null);
-
-    if (widget.loading) {
-      controller.forward();
-    } else {
-      controller.stop();
-    }
-
-    return Center(
-      child: Column(
+    if (widget.iconPosition == STLoadingIconPosition.left) {
+      return Center(
+          child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          if (haveTextAndIcon &&
-              (widget.distributionType ==
-                  STLoadingDistributionType.leftIconRightText))
-            Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              imageWidget,
-              const SizedBox(width: STLoadingConstant.iconTextDistance),
-              textWidget
-            ]),
-          if (textWidget == null ||
-              (haveTextAndIcon &&
-                  (widget.distributionType ==
-                      STLoadingDistributionType.topIconBottomText)))
-            imageWidget,
-          if (imageWidget == null ||
-              (haveTextAndIcon &&
-                  (widget.distributionType ==
-                      STLoadingDistributionType.topIconBottomText)))
-            textWidget,
+        children: [
+          if (widget.icon != null)
+            RotationTransition(turns: _controller, child: widget.icon),
+          Text(
+            widget.text,
+            style: widget.textStyle,
+          )
         ],
-      ),
-    );
-  }
-
-  bool isNullOrEmpty(String str) {
-    if (str == null || str.isEmpty) {
-      return true;
+      ));
     } else {
-      return false;
+      return Center(
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.icon != null)
+            RotationTransition(turns: _controller, child: widget.icon),
+          Text(
+            widget.text,
+            style: widget.textStyle,
+          )
+        ],
+      ));
     }
   }
 }
