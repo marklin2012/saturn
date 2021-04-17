@@ -18,4 +18,6 @@ class STSnackbarConstant {
 
   static const defaultTopBottomPadding = 14.0;
   static const textButtonPadding = 5.0;
+
+  static const defaultDisappearTime = 5;
 }

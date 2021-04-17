@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:saturn/st_snackbar/common.dart';
 
@@ -13,8 +15,9 @@ class STSnackbar extends StatefulWidget {
   final STSnackbarLocationType locationType;
   final double topPadding;
   final double bottomPadding;
-
   final VoidCallback onButtonTap;
+  final bool autoClose;
+  final int disappearTime;
 
   const STSnackbar(
       {Key key,
@@ -29,24 +32,27 @@ class STSnackbar extends StatefulWidget {
       this.locationType,
       this.topPadding,
       this.bottomPadding,
-      this.onButtonTap})
+      this.onButtonTap,
+      this.autoClose,
+      this.disappearTime})
       : super(key: key);
 
-  static void show({
-    @required BuildContext context,
-    @required String title,
-    String message,
-    String buttonText,
-    Color buttonTextColor,
-    bool buttonHaveBackground = false,
-    String image,
-    IconData icon,
-    Color iconColor = Colors.white,
-    STSnackbarLocationType locationType = STSnackbarLocationType.center,
-    double topPadding = STSnackbarConstant.defaultTopBottomPadding,
-    double bottomPadding = STSnackbarConstant.defaultTopBottomPadding,
-    VoidCallback onButtonTap,
-  }) {
+  static void show(
+      {@required BuildContext context,
+      @required String title,
+      String message,
+      String buttonText,
+      Color buttonTextColor,
+      bool buttonHaveBackground = false,
+      String image,
+      IconData icon,
+      Color iconColor = Colors.white,
+      STSnackbarLocationType locationType = STSnackbarLocationType.center,
+      double topPadding = STSnackbarConstant.defaultTopBottomPadding,
+      double bottomPadding = STSnackbarConstant.defaultTopBottomPadding,
+      VoidCallback onButtonTap,
+      bool autoClose,
+      int disappearTime = STSnackbarConstant.defaultDisappearTime}) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -65,6 +71,8 @@ class STSnackbar extends StatefulWidget {
             topPadding: topPadding,
             bottomPadding: bottomPadding,
             onButtonTap: onButtonTap,
+            autoClose: autoClose,
+            disappearTime: disappearTime,
           );
           return snackbar;
         });
@@ -81,6 +89,28 @@ class STSnackbar extends StatefulWidget {
 }
 
 class _STSnackbarState extends State<STSnackbar> {
+  Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    bool isCurAutoClose = false;
+    if (widget.autoClose == null) {
+      if (isNullOrEmpty(widget.buttonText)) {
+        isCurAutoClose = true;
+      }
+    } else if (widget.autoClose == true) {
+      isCurAutoClose = true;
+    }
+
+    if (isCurAutoClose) {
+      timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
+        STSnackbar.hide(context);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -135,6 +165,8 @@ class _STSnackbarState extends State<STSnackbar> {
         onPressed: () {
           if (widget.onButtonTap != null) {
             widget.onButtonTap();
+          } else {
+            STSnackbar.hide(context);
           }
         },
         child: Container(
@@ -226,5 +258,13 @@ class _STSnackbarState extends State<STSnackbar> {
     } else {
       return false;
     }
+  }
+
+  @override
+  void dispose() {
+    if (timer != null) {
+      timer.cancel();
+    }
+    super.dispose();
   }
 }
