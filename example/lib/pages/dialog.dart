@@ -75,6 +75,37 @@ class DialogPage extends StatelessWidget {
               );
             },
           ),
+          FlatButton(
+            child: Text("message List"),
+            color: Colors.blue,
+            onPressed: () {
+              STDialog.show(
+                  context: context,
+                  title: "是不是",
+                  icon: "assets/images/basketball_check.png",
+                  message: "描述说明信息",
+                  haveTextField: true,
+                  type: STDialogType.list,
+                  choiceList: [
+                    ChoiceItem(
+                      title: "好的",
+                      haveSeparateLine: true,
+                      isAligmentCenter: true,
+                    ),
+                    ChoiceItem(
+                        title: "是不是",
+                        icon: "assets/images/basketball_check.png",
+                        haveSeparateLine: true,
+                        isAligmentCenter: true),
+                    ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                        haveSeparateLine: true,
+                        isAligmentCenter: false)
+                  ]);
+            },
+          ),
         ],
       ),
     );

@@ -7,15 +7,17 @@ class ChoiceItem {
   String message;
   String icon;
   bool isSelect;
-  bool aligmentCenter;
+  bool isAligmentCenter;
+  bool haveSeparateLine;
   VoidCallback onItemTap;
 
   ChoiceItem(
       {this.title,
       this.message,
       this.icon,
-      this.isSelect,
-      this.aligmentCenter,
+      this.isSelect = false,
+      this.isAligmentCenter = false,
+      this.haveSeparateLine = false,
       this.onItemTap});
 }
 
@@ -293,12 +295,45 @@ class _STDialogState extends State<STDialog> {
             const SizedBox(
               height: 16,
             ),
-            imageWidget ?? (titleWidget ?? Container()),
-            const SizedBox(
-              height: 4,
-            ),
-            messageWidget,
+            if (imageWidget != null)
+              Row(
+                children: [
+                  imageWidget,
+                  Column(
+                    children: [titleWidget, messageWidget],
+                  )
+                ],
+              )
+            else
+              messageWidget ?? Container(),
           ];
+
+          for (int i = 0; i < widget.choiceList.length; i++) {
+            columnArray
+                .add(getChoiceItemWidget(widget.choiceList[i], containerWidth));
+          }
+          columnArray.add(Padding(
+            padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.circular(STDialogConstant.cornerRadius),
+                color: STDialogConstant.defaultButtonTextColor,
+              ),
+              width: containerWidth - 24,
+              height: 44,
+              child: TextButton(
+                onPressed: () {},
+                child: const Text("操作",
+                    style: TextStyle(
+                        backgroundColor:
+                            STDialogConstant.defaultButtonTextColor,
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w400)),
+              ),
+            ),
+          ));
         }
         break;
 
@@ -328,6 +363,57 @@ class _STDialogState extends State<STDialog> {
             mainAxisSize: MainAxisSize.min,
             children: columnArray,
           )),
+    );
+  }
+
+  Widget getChoiceItemWidget(ChoiceItem item, double width) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: item.isAligmentCenter
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
+      children: [
+        if (!item.isAligmentCenter) const SizedBox(height: 13),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (!item.isAligmentCenter) const SizedBox(width: 24),
+            if (item.isSelect)
+              Radio(
+                value: 1,
+                groupValue: false,
+                onChanged: (value) {},
+              ),
+            if (item.isSelect) const SizedBox(width: 16),
+            if (!isNullOrEmpty(item.icon))
+              Image.asset(item.icon, fit: BoxFit.fitWidth),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!isNullOrEmpty(item.title))
+                  Text(item.title,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.none,
+                          color: Colors.black)),
+                if (!isNullOrEmpty(item.message))
+                  Text(item.message,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.none,
+                          color: Colors.grey)),
+              ],
+            )
+          ],
+        ),
+        const SizedBox(height: 13),
+        if (item.haveSeparateLine) getLineWidget(width)
+      ],
     );
   }
 
