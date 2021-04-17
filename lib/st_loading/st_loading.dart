@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_icons/st_icons.dart';
 import 'common.dart';
 
 enum STLoadingIconPosition {
@@ -17,7 +18,7 @@ class STLoading extends StatefulWidget {
   const STLoading(
       {Key key,
       this.icon = const Icon(
-        Icons.autorenew,
+        STIcons.status_loading,
         color: STLoadingConstant.defaultTextColor,
       ),
       this.text = '加载中...',
