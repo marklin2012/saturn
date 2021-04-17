@@ -14,22 +14,22 @@ class STMessageSharedInstance {
   STMessageSharedInstance._() {}
 
   static STMessageSharedInstance _sharedInstance() {
-    _instance ?? STMessageSharedInstance._();
-    return _instance;
+    return _instance ??= STMessageSharedInstance._();
   }
 
-  void show({
-    @required BuildContext context,
-    String title,
-    @required String message,
-    @required String icon,
-    Widget widget,
-    bool showShadow = true,
-    bool autoClose = false,
-    int disappearTime = STMessageConstant.defaultDisappearTime,
-    final STMessageLocationType locationType = STMessageLocationType.top,
-    final bool haveSafeArea = true,
-  }) {
+  void show(
+      {@required BuildContext context,
+      String title,
+      @required String message,
+      @required String icon,
+      Widget widget,
+      bool showShadow = true,
+      bool autoClose = false,
+      int disappearTime = STMessageConstant.defaultDisappearTime,
+      final STMessageLocationType locationType = STMessageLocationType.top,
+      final bool haveSafeArea = true,
+      final double topPadding,
+      final double bottomPadding}) {
     if (_curContext != null) {
       hide(context);
     }
@@ -43,7 +43,9 @@ class STMessageSharedInstance {
         autoClose: autoClose,
         disappearTime: disappearTime,
         locationType: locationType,
-        haveSafeArea: haveSafeArea);
+        haveSafeArea: haveSafeArea,
+        topPadding: topPadding,
+        bottomPadding: bottomPadding);
 
     final OverlayState overlayState = Overlay.of(context);
     _curOverlayEntry =
@@ -70,6 +72,8 @@ class STMessage extends StatefulWidget {
   final int disappearTime;
   final STMessageLocationType locationType;
   final bool haveSafeArea;
+  final double topPadding;
+  final double bottomPadding;
 
   const STMessage(
       {Key key,
@@ -81,7 +85,9 @@ class STMessage extends StatefulWidget {
       this.autoClose,
       this.disappearTime,
       this.locationType,
-      this.haveSafeArea})
+      this.haveSafeArea,
+      this.topPadding,
+      this.bottomPadding})
       : super(key: key);
 
   @override
@@ -145,14 +151,15 @@ class _STMessageState extends State<STMessage> {
       shadowColor = Colors.transparent;
     }
 
-    double topPadding = 0;
-    double bottomPadding = 0;
+    double curTopPadding = 0;
+    double curBottomPadding = 0;
     AlignmentGeometry curAlignment;
     switch (widget.locationType) {
       case STMessageLocationType.top:
         {
           curAlignment = Alignment.topCenter;
-          topPadding = MediaQuery.of(context).padding.top;
+          curTopPadding =
+              widget.topPadding ?? MediaQuery.of(context).padding.top;
         }
         break;
       case STMessageLocationType.center:
@@ -161,6 +168,8 @@ class _STMessageState extends State<STMessage> {
       case STMessageLocationType.bottom:
         {
           curAlignment = Alignment.bottomCenter;
+          curBottomPadding =
+              widget.bottomPadding ?? MediaQuery.of(context).padding.bottom;
         }
         break;
     }
@@ -168,7 +177,7 @@ class _STMessageState extends State<STMessage> {
     return Align(
       alignment: curAlignment,
       child: Padding(
-          padding: EdgeInsets.fromLTRB(0, topPadding, 0, bottomPadding),
+          padding: EdgeInsets.fromLTRB(0, curTopPadding, 0, curBottomPadding),
           child: Container(
             width: containerWidth,
             decoration: BoxDecoration(
