@@ -60,7 +60,10 @@ class _STSelectMixState extends State<STSelectMix> {
               height: 42.0 * 6,
             );
           },
-        );
+        ).then((value) {
+          _showSelected = !_showSelected;
+          setState(() {});
+        });
       },
       child: Container(
         key: _selectKey,
@@ -115,7 +118,6 @@ class _STSelectMixState extends State<STSelectMix> {
             onTap: () {
               if (data.disabled) return;
               if (widget.onChanged != null) {
-                _showSelected = !_showSelected;
                 widget.onChanged(widget.items[index]);
                 Navigator.pop(context);
               }
