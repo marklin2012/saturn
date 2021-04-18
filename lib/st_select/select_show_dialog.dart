@@ -16,22 +16,20 @@ class ShowSelectDialog extends Dialog {
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      child: SafeArea(
-        child: Stack(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-            ),
-            Positioned(
-              left: offset.dx,
-              right: offset.dx,
-              top: offset.dy,
-              height: height,
-              child: menu,
-            ),
-          ],
-        ),
+      child: Stack(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ),
+          Positioned(
+            left: offset.dx,
+            right: offset.dx,
+            top: offset.dy,
+            height: height,
+            child: menu,
+          ),
+        ],
       ),
     );
   }

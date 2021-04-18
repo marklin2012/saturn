@@ -49,7 +49,6 @@ class _STSelectMixState extends State<STSelectMix> {
         setState(() {});
         showDialog(
           barrierColor: Colors.transparent,
-          barrierDismissible: false,
           context: context,
           builder: (context) {
             return ShowSelectDialog(

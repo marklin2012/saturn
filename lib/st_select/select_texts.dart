@@ -61,6 +61,7 @@ class _STSelectTextsState extends State<STSelectTexts> {
       onTap: () {
         showDialog(
           context: context,
+          useSafeArea: false,
           builder: (context) {
             return ShowSelectDialog(
               menu: _getShowMenu(context),
