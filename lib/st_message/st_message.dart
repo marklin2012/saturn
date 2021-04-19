@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'common.dart';
+import '../utils/string.dart';
 
 class STMessageSharedInstance {
   BuildContext _curContext;
@@ -17,35 +18,33 @@ class STMessageSharedInstance {
     return _instance ??= STMessageSharedInstance._();
   }
 
-  void show(
-      {@required BuildContext context,
-      String title,
-      String message,
-      String icon,
-      Widget widget,
-      bool showShadow = true,
-      bool autoClose = false,
-      int disappearTime = STMessageConstant.defaultDisappearTime,
-      final STMessageLocationType locationType = STMessageLocationType.top,
-      final bool haveSafeArea = true,
-      final double topPadding,
-      final double bottomPadding}) {
+  void show({
+    @required BuildContext context,
+    String title,
+    String message,
+    String icon,
+    Widget widget,
+    bool showShadow = true,
+    bool autoClose = false,
+    int disappearTime = STMessageConstant.defaultDisappearTime,
+    STMessageLocationType locationType = STMessageLocationType.top,
+    bool haveSafeArea = true,
+  }) {
     if (_curContext != null) {
       hide(context);
     }
 
     final _message = STMessage(
-        title: title,
-        message: message,
-        icon: icon,
-        widget: widget,
-        showShadow: showShadow,
-        autoClose: autoClose,
-        disappearTime: disappearTime,
-        locationType: locationType,
-        haveSafeArea: haveSafeArea,
-        topPadding: topPadding,
-        bottomPadding: bottomPadding);
+      title: title,
+      message: message,
+      icon: icon,
+      widget: widget,
+      showShadow: showShadow,
+      autoClose: autoClose,
+      disappearTime: disappearTime,
+      locationType: locationType,
+      haveSafeArea: haveSafeArea,
+    );
 
     final OverlayState overlayState = Overlay.of(context);
     _curOverlayEntry =
@@ -72,23 +71,19 @@ class STMessage extends StatefulWidget {
   final int disappearTime;
   final STMessageLocationType locationType;
   final bool haveSafeArea;
-  final double topPadding;
-  final double bottomPadding;
 
-  const STMessage(
-      {Key key,
-      this.title,
-      this.message,
-      this.icon,
-      this.widget,
-      this.showShadow,
-      this.autoClose,
-      this.disappearTime,
-      this.locationType,
-      this.haveSafeArea,
-      this.topPadding,
-      this.bottomPadding})
-      : super(key: key);
+  const STMessage({
+    Key key,
+    this.title,
+    this.message,
+    this.icon,
+    this.widget,
+    this.showShadow,
+    this.autoClose,
+    this.disappearTime,
+    this.locationType,
+    this.haveSafeArea,
+  }) : super(key: key);
 
   @override
   _STMessageState createState() => _STMessageState();
@@ -102,7 +97,7 @@ class _STMessageState extends State<STMessage> {
     super.initState();
 
     if (widget.autoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
+      timer = Timer(Duration(seconds: widget.disappearTime), () {
         STMessageSharedInstance().hide(context);
       });
     }
@@ -154,15 +149,15 @@ class _STMessageState extends State<STMessage> {
       shadowColor = Colors.transparent;
     }
 
-    double curTopPadding = 0;
-    double curBottomPadding = 0;
+    double topMargin = 0;
+    double bottomMargin = 0;
     AlignmentGeometry curAlignment;
     switch (widget.locationType) {
       case STMessageLocationType.top:
         {
           curAlignment = Alignment.topCenter;
-          curTopPadding =
-              widget.topPadding ?? MediaQuery.of(context).padding.top;
+          topMargin =
+              widget.haveSafeArea ? MediaQuery.of(context).padding.top : 0;
         }
         break;
       case STMessageLocationType.center:
@@ -171,8 +166,8 @@ class _STMessageState extends State<STMessage> {
       case STMessageLocationType.bottom:
         {
           curAlignment = Alignment.bottomCenter;
-          curBottomPadding =
-              widget.bottomPadding ?? MediaQuery.of(context).padding.bottom;
+          bottomMargin =
+              widget.haveSafeArea ? MediaQuery.of(context).padding.bottom : 0;
         }
         break;
     }
@@ -180,7 +175,7 @@ class _STMessageState extends State<STMessage> {
     return Align(
       alignment: curAlignment,
       child: Padding(
-          padding: EdgeInsets.fromLTRB(0, curTopPadding, 0, curBottomPadding),
+          padding: EdgeInsets.fromLTRB(0, topMargin, 0, bottomMargin),
           child: Container(
             width: containerWidth,
             decoration: BoxDecoration(
@@ -197,7 +192,7 @@ class _STMessageState extends State<STMessage> {
             ),
             child: widget.widget ??
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,14 +224,6 @@ class _STMessageState extends State<STMessage> {
                 ),
           )),
     );
-  }
-
-  bool isNullOrEmpty(String str) {
-    if (str == null || str.isEmpty) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override
