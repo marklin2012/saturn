@@ -10,6 +10,8 @@ class STSelectTexts extends StatefulWidget {
     this.initValue,
     this.listValues,
     this.onChanged,
+    this.onUpdated,
+    this.initUnits,
   }) : super(key: key);
 
   final Widget child; // 供外部触发的组件
@@ -17,6 +19,8 @@ class STSelectTexts extends StatefulWidget {
   final List<String> initValue; // 初始默认值
   final List<List<String>> listValues; // 数据集合
   final Function(List<String> value) onChanged; // 点击确定后的回调
+  final Function(List<String> value) onUpdated; // 选择了就回调已选择的
+  final List<String> initUnits; // 初始化单位可为null
 
   @override
   _STSelectTextsState createState() => _STSelectTextsState();
@@ -27,6 +31,9 @@ class _STSelectTextsState extends State<STSelectTexts> {
   static const _selectTitleHeight = 48.0;
   static const _pickerItemExtent = 44.0;
   static const _textStyle = TextStyle(color: Color(0xFF555555), fontSize: 16);
+  static const _unitTextStyle =
+      TextStyle(color: Color(0xFF000000), fontSize: 16);
+  static const _magnification = 1.1;
 
   List<String> _selectedValues;
   double _width;
@@ -97,6 +104,7 @@ class _STSelectTextsState extends State<STSelectTexts> {
   Widget _getPickerView(int number) {
     var _titles = <String>[];
     String _initialTitle;
+    String _initUnit;
     if (number == 0) {
       _titles = _columnOneList;
     } else if (number == 1) {
@@ -104,8 +112,11 @@ class _STSelectTextsState extends State<STSelectTexts> {
     } else if (number == 2) {
       _titles = _columnThrList;
     }
-    if (widget.initValue.length > number) {
+    if (widget.initValue != null && widget.initValue.length > number) {
       _initialTitle = widget.initValue[number];
+    }
+    if (widget.initUnits != null && widget.initUnits.length > number) {
+      _initUnit = widget.initUnits[number];
     }
     if (_titles.isEmpty) return null;
     int _initItem = 0;
@@ -115,35 +126,60 @@ class _STSelectTextsState extends State<STSelectTexts> {
         break;
       }
     }
+    final _unitWidth = _initUnit != null ? 40.0 : 0.0;
     return Container(
-      height: _selectTextsHeight - _selectTitleHeight,
       width: _width / _columnNumber,
       padding: const EdgeInsets.all(0),
-      child: CupertinoPicker(
-          itemExtent: _pickerItemExtent,
-          selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
-            capLeftEdge: false,
-            capRightEdge: false,
-          ),
-          scrollController: FixedExtentScrollController(
-            initialItem: _initItem,
-          ),
-          useMagnifier: true,
-          magnification: 1.1,
-          onSelectedItemChanged: (int index) {
-            _selectedValues[number] = _titles[index];
-          },
-          children: List.generate(_titles.length, (index) {
-            return Container(
-              height: _pickerItemExtent,
-              alignment: Alignment.center,
-              color: const Color(0xFFFAFCFF),
-              child: Text(
-                _titles[index],
-                style: _textStyle,
+      child: Row(
+        children: [
+          SizedBox(
+            height: _selectTextsHeight - _selectTitleHeight,
+            width: _width / _columnNumber - _unitWidth,
+            child: CupertinoPicker(
+              itemExtent: _pickerItemExtent,
+              selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
+                capLeftEdge: false,
+                capRightEdge: false,
               ),
-            );
-          }).toList()),
+              scrollController: FixedExtentScrollController(
+                initialItem: _initItem,
+              ),
+              useMagnifier: true,
+              magnification: _magnification,
+              onSelectedItemChanged: (int index) {
+                _selectedValues[number] = _titles[index];
+                if (widget.onUpdated != null) {
+                  widget.onUpdated(_selectedValues);
+                }
+              },
+              children: List.generate(_titles.length, (index) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  height: _pickerItemExtent,
+                  alignment: _initUnit != null
+                      ? Alignment.centerRight
+                      : Alignment.center,
+                  child: Text(
+                    _titles[index],
+                    style: _textStyle,
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          if (_initUnit != null)
+            Container(
+              width: _unitWidth,
+              height: _pickerItemExtent * _magnification,
+              alignment: Alignment.centerLeft,
+              color: CupertinoColors.tertiarySystemFill,
+              child: Text(
+                _initUnit,
+                style: _unitTextStyle,
+              ),
+            ),
+        ],
+      ),
     );
   }
 
