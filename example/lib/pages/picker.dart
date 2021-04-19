@@ -10,6 +10,8 @@ class PickerPage extends StatefulWidget {
 class _PickerPageState extends State<PickerPage> {
   DateTime _selectedTime = DateTime.now();
   Duration _duration = Duration(hours: 2, minutes: 20, seconds: 30);
+  String _datePickerStr = 'DatePicker';
+  String _timePickerStr = 'timePicker';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,16 +49,18 @@ class _PickerPageState extends State<PickerPage> {
               initDateTime: _selectedTime,
               onDateTimeChanged: (value) {
                 _selectedTime = value;
+                _datePickerStr = value.toString();
                 setState(() {});
               },
-              child: Text('DatePicker'),
+              child: Text(_datePickerStr),
             ),
             SizedBox(height: 20),
             STPicker.time(
-              child: Text('timePicker'),
+              child: Text(_timePickerStr),
               initDuration: _duration,
               onTimerDurationChanged: (value) {
                 _duration = value;
+                _timePickerStr = value.toString();
                 setState(() {});
               },
             ),

@@ -22,7 +22,6 @@ class STSelect extends StatelessWidget {
     this.textsListValues,
     this.onChangedTextsValue,
     this.initUnits,
-    this.onUpdagedTextsValue,
   }) : super(key: key);
 
   final STSelectTypes types; // 不同的样式
@@ -36,8 +35,7 @@ class STSelect extends StatelessWidget {
   //文本选择器的所有数据，有几个list对应几个选择器
   final List<List<String>> textsListValues;
   //文本选择器选中后的回调，按下标对应选中的结果
-  final Function(List<String>) onChangedTextsValue;
-  final Function(List<String>) onUpdagedTextsValue; // 文本选择过程中的回调
+  final Function(List<String> value) onChangedTextsValue;
   final List<String> initUnits; // 文本选择器的单位集合
 
   @override
@@ -66,11 +64,6 @@ class STSelect extends StatelessWidget {
         onChanged: (value) {
           if (onChangedTextsValue != null) {
             onChangedTextsValue(value);
-          }
-        },
-        onUpdated: (value) {
-          if (onUpdagedTextsValue != null) {
-            onUpdagedTextsValue(value);
           }
         },
         child: child,

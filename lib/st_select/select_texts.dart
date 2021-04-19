@@ -2,31 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/st_select/select_show_dialog.dart';
 
-class STSelectTexts extends StatefulWidget {
-  const STSelectTexts({
-    Key key,
-    this.child,
-    this.title,
-    this.initValue,
-    this.listValues,
-    this.onChanged,
-    this.onUpdated,
-    this.initUnits,
-  }) : super(key: key);
-
-  final Widget child; // 供外部触发的组件
-  final String title; // 标题
-  final List<String> initValue; // 初始默认值
-  final List<List<String>> listValues; // 数据集合
-  final Function(List<String> value) onChanged; // 点击确定后的回调
-  final Function(List<String> value) onUpdated; // 选择了就回调已选择的
-  final List<String> initUnits; // 初始化单位可为null
-
-  @override
-  _STSelectTextsState createState() => _STSelectTextsState();
-}
-
-class _STSelectTextsState extends State<STSelectTexts> {
+class STSelectTextsConst {
   static const _selectTextsHeight = 302.0;
   static const _selectTitleHeight = 48.0;
   static const _pickerItemExtent = 44.0;
@@ -34,7 +10,81 @@ class _STSelectTextsState extends State<STSelectTexts> {
   static const _unitTextStyle =
       TextStyle(color: Color(0xFF000000), fontSize: 16);
   static const _magnification = 1.1;
+}
 
+class STSelectTexts extends StatelessWidget {
+  const STSelectTexts({
+    Key key,
+    this.child,
+    this.title,
+    this.initValue,
+    this.listValues,
+    this.onChanged,
+    this.initUnits,
+    this.calculateDays = false,
+  }) : super(key: key);
+
+  final Widget child; // 供外部触发的组件
+  final String title; // 标题
+  final List<String> initValue; // 初始默认值
+  final List<List<String>> listValues; // 数据集合
+  final Function(List<String> value) onChanged; // 点击确定后的回调
+  final List<String> initUnits;
+  final bool calculateDays;
+
+  @override
+  Widget build(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          useSafeArea: false,
+          builder: (context) {
+            return ShowSelectDialog(
+              menu: STSelectMenu(
+                title: title,
+                initValue: initValue,
+                listValues: listValues,
+                onChanged: onChanged,
+                initUnits: initUnits,
+                calculateDays: calculateDays,
+              ),
+              offset:
+                  Offset(0, _height - STSelectTextsConst._selectTextsHeight),
+              height: STSelectTextsConst._selectTextsHeight,
+            );
+          },
+        );
+      },
+      child: child,
+    );
+  }
+}
+
+class STSelectMenu extends StatefulWidget {
+  const STSelectMenu({
+    Key key,
+    this.title,
+    this.initValue,
+    this.listValues,
+    this.onChanged,
+    this.initUnits,
+    this.calculateDays,
+  }) : super(key: key);
+
+  final String title; // 标题
+  final List<String> initValue; // 初始默认值
+  final List<List<String>> listValues; // 数据集合
+  final Function(List<String> value) onChanged; // 点击确定后的回调
+  final List<String> initUnits;
+  final bool calculateDays; // 是否需要计算天数
+
+  @override
+  _STSelectMenuState createState() => _STSelectMenuState();
+}
+
+class _STSelectMenuState extends State<STSelectMenu> {
   List<String> _selectedValues;
   double _width;
   int _columnNumber = 1;
@@ -43,46 +93,24 @@ class _STSelectTextsState extends State<STSelectTexts> {
   List<String> _columnThrList;
 
   void _buildupLists() {
+    _selectedValues ??= widget.initValue ?? ['', '', ''];
     for (int i = 0; i < widget.listValues.length; i++) {
+      _columnNumber = i + 1;
       if (i == 0) {
         _columnOneList = widget.listValues[i];
-        _columnNumber = 1;
       } else if (i == 1) {
         _columnTwoList = widget.listValues[i];
-        _columnNumber = 2;
       } else if (i == 2) {
-        _columnThrList = widget.listValues[i];
-        _columnNumber = 3;
+        _columnThrList ??= widget.listValues[i];
         break; //只取前3,其余的忽略
       }
     }
-    _selectedValues = widget.initValue ?? ['', '', ''];
   }
 
   @override
   Widget build(BuildContext context) {
-    final _height = MediaQuery.of(context).size.height;
-    _width = MediaQuery.of(context).size.width;
     _buildupLists();
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          useSafeArea: false,
-          builder: (context) {
-            return ShowSelectDialog(
-              menu: _getShowMenu(context),
-              offset: Offset(0, _height - _selectTextsHeight),
-              height: _selectTextsHeight,
-            );
-          },
-        );
-      },
-      child: widget.child,
-    );
-  }
-
-  Widget _getShowMenu(BuildContext context) {
+    _width = MediaQuery.of(context).size.width;
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -133,10 +161,11 @@ class _STSelectTextsState extends State<STSelectTexts> {
       child: Row(
         children: [
           SizedBox(
-            height: _selectTextsHeight - _selectTitleHeight,
+            height: STSelectTextsConst._selectTextsHeight -
+                STSelectTextsConst._selectTitleHeight,
             width: _width / _columnNumber - _unitWidth,
             child: CupertinoPicker(
-              itemExtent: _pickerItemExtent,
+              itemExtent: STSelectTextsConst._pickerItemExtent,
               selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
                 capLeftEdge: false,
                 capRightEdge: false,
@@ -145,23 +174,23 @@ class _STSelectTextsState extends State<STSelectTexts> {
                 initialItem: _initItem,
               ),
               useMagnifier: true,
-              magnification: _magnification,
+              magnification: STSelectTextsConst._magnification,
               onSelectedItemChanged: (int index) {
                 _selectedValues[number] = _titles[index];
-                if (widget.onUpdated != null) {
-                  widget.onUpdated(_selectedValues);
+                if (number != 2) {
+                  _caculateDaysFromYearAndMonth();
                 }
               },
               children: List.generate(_titles.length, (index) {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  height: _pickerItemExtent,
+                  height: STSelectTextsConst._pickerItemExtent,
                   alignment: _initUnit != null
                       ? Alignment.centerRight
                       : Alignment.center,
                   child: Text(
                     _titles[index],
-                    style: _textStyle,
+                    style: STSelectTextsConst._textStyle,
                   ),
                 );
               }).toList(),
@@ -170,12 +199,13 @@ class _STSelectTextsState extends State<STSelectTexts> {
           if (_initUnit != null)
             Container(
               width: _unitWidth,
-              height: _pickerItemExtent * _magnification,
+              height: STSelectTextsConst._pickerItemExtent *
+                  STSelectTextsConst._magnification,
               alignment: Alignment.centerLeft,
               color: CupertinoColors.tertiarySystemFill,
               child: Text(
                 _initUnit,
-                style: _unitTextStyle,
+                style: STSelectTextsConst._unitTextStyle,
               ),
             ),
         ],
@@ -185,7 +215,7 @@ class _STSelectTextsState extends State<STSelectTexts> {
 
   Widget _getTitleChild(BuildContext context) {
     return SizedBox(
-      height: _selectTitleHeight,
+      height: STSelectTextsConst._selectTitleHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -216,4 +246,22 @@ class _STSelectTextsState extends State<STSelectTexts> {
       ),
     );
   }
+
+  void _caculateDaysFromYearAndMonth() {
+    if (!widget.calculateDays) {
+      return;
+    }
+    final _days = _updateListValues(_selectedValues);
+    _columnThrList = List.generate(_days, (index) => '${index + 1}').toList();
+    setState(() {});
+  }
+
+  int _updateListValues(List<String> value) {
+    final _year = int.parse(value[0]);
+    final _month = int.parse(value[1]);
+    final _days = _lastDayInMonth(_year, _month).day;
+    return _days;
+  }
+
+  DateTime _lastDayInMonth(int year, int month) => DateTime(year, month + 1, 0);
 }

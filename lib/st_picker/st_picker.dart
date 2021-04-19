@@ -9,7 +9,7 @@ enum STPickerModel {
   time, // 选择时间
 }
 
-class STPicker extends StatelessWidget {
+class STPicker extends StatefulWidget {
   const STPicker(
       {Key key,
       this.initDateTime,
@@ -64,18 +64,23 @@ class STPicker extends StatelessWidget {
       : super(key: key);
 
   @override
+  _STPickerState createState() => _STPickerState();
+}
+
+class _STPickerState extends State<STPicker> {
+  @override
   Widget build(BuildContext context) {
-    switch (model) {
+    switch (widget.model) {
       case STPickerModel.date:
         return STDatePicker(
-          key: key,
-          initDateTime: initDateTime,
-          minimumDate: minimumDate,
-          maximumDate: maximumDate,
-          minimumYear: minimumYear,
-          maximunYear: maximunYear,
-          onDateTimeChanged: onDateTimeChanged,
-          child: child,
+          key: widget.key,
+          initDateTime: widget.initDateTime,
+          minimumDate: widget.minimumDate,
+          maximumDate: widget.maximumDate,
+          minimumYear: widget.minimumYear,
+          maximunYear: widget.maximunYear,
+          onDateTimeChanged: widget.onDateTimeChanged,
+          child: widget.child,
         );
       case STPickerModel.calendar:
         break;
@@ -83,10 +88,10 @@ class STPicker extends StatelessWidget {
         break;
       case STPickerModel.time:
         return STTimePicker(
-          key: key,
-          initDuration: initDuration,
-          onTimerDurationChanged: onTimerDurationChanged,
-          child: child,
+          key: widget.key,
+          initDuration: widget.initDuration,
+          onTimerDurationChanged: widget.onTimerDurationChanged,
+          child: widget.child,
         );
     }
     return Container();

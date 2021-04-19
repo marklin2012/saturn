@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_select/st_select.dart';
 
-class STTimePicker extends StatefulWidget {
+class STTimePicker extends StatelessWidget {
   const STTimePicker({
     Key key,
     @required this.child,
@@ -15,26 +15,17 @@ class STTimePicker extends StatefulWidget {
   final Widget child;
 
   @override
-  _STTimePickerState createState() => _STTimePickerState();
-}
-
-class _STTimePickerState extends State<STTimePicker> {
-  List<String> _initValue;
-  List<List<String>> _listValues;
-
-  @override
   Widget build(BuildContext context) {
-    _initOriginValues();
     return STSelect(
       types: STSelectTypes.texts,
       title: '选择时间',
       initUnits: const ['小时', '分钟', '秒'],
-      initTextsValue: _initValue,
-      textsListValues: _listValues,
+      initTextsValue: _getInitValue(),
+      textsListValues: _getListValues(),
       onChangedTextsValue: (value) {
         _durationTransfromValue(value);
       },
-      child: widget.child,
+      child: child,
     );
   }
 
@@ -49,33 +40,24 @@ class _STTimePickerState extends State<STTimePicker> {
     if (value.length > 2 && int.tryParse(value[2]) != null) {
       _seconds = int.parse(value[2]);
     }
-    if (widget.onTimerDurationChanged != null) {
-      widget.onTimerDurationChanged(
+    if (onTimerDurationChanged != null) {
+      onTimerDurationChanged(
         Duration(hours: _hours, minutes: _minutes, seconds: _seconds),
       );
     }
   }
 
-  void _initOriginValues() {
-    _getInitValue();
-    _initListValues();
-  }
-
-  void _getInitValue() {
-    final tempDur = widget.initDuration ?? const Duration();
+  List<String> _getInitValue() {
+    final tempDur = initDuration ?? const Duration();
     final _tempSec = tempDur.inSeconds;
     final _hours = (_tempSec / 3600).floor();
     final _minutes = ((_tempSec % 3600) / 60).floor();
     final _seconds = _tempSec % 60;
-    _initValue = [
-      '$_hours',
-      '$_minutes',
-      '$_seconds',
-    ];
+    return ['$_hours', '$_minutes', '$_seconds'];
   }
 
-  void _initListValues() {
-    _listValues = [
+  List<List<String>> _getListValues() {
+    return [
       List.generate(24, (index) => '$index').toList(),
       List.generate(60, (index) => '$index').toList(),
       List.generate(60, (index) => '$index').toList(),
