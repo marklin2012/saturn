@@ -29,19 +29,6 @@ class _PickerPageState extends State<PickerPage> {
             //     debugPrint('$value');
             //   },
             // ),
-            Container(
-              height: 150,
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.date,
-                // minimumDate: _selectedTime.subtract(Duration(days: 100)),
-                minimumYear: 2018,
-                initialDateTime: _selectedTime,
-                onDateTimeChanged: (value) {
-                  _selectedTime = value;
-                  setState(() {});
-                },
-              ),
-            ),
             SizedBox(height: 30),
             STPicker.date(
               minimumYear: 2012,

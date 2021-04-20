@@ -21,7 +21,7 @@ class STSelectTexts extends StatelessWidget {
     this.listValues,
     this.onChanged,
     this.initUnits,
-    this.calculateDays = false,
+    this.looping = true,
   }) : super(key: key);
 
   final Widget child; // 供外部触发的组件
@@ -30,7 +30,7 @@ class STSelectTexts extends StatelessWidget {
   final List<List<String>> listValues; // 数据集合
   final Function(List<String> value) onChanged; // 点击确定后的回调
   final List<String> initUnits;
-  final bool calculateDays;
+  final bool looping; //是否循环
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class STSelectTexts extends StatelessWidget {
                 listValues: listValues,
                 onChanged: onChanged,
                 initUnits: initUnits,
-                calculateDays: calculateDays,
+                looping: looping,
               ),
               offset:
                   Offset(0, _height - STSelectTextsConst._selectTextsHeight),
@@ -70,7 +70,7 @@ class STSelectMenu extends StatefulWidget {
     this.listValues,
     this.onChanged,
     this.initUnits,
-    this.calculateDays,
+    this.looping,
   }) : super(key: key);
 
   final String title; // 标题
@@ -78,30 +78,48 @@ class STSelectMenu extends StatefulWidget {
   final List<List<String>> listValues; // 数据集合
   final Function(List<String> value) onChanged; // 点击确定后的回调
   final List<String> initUnits;
-  final bool calculateDays; // 是否需要计算天数
+  final bool looping;
 
   @override
   _STSelectMenuState createState() => _STSelectMenuState();
 }
 
 class _STSelectMenuState extends State<STSelectMenu> {
-  List<String> _selectedValues;
+  List<String> _selectedValues = [];
   double _width;
   int _columnNumber = 1;
   List<String> _columnOneList;
   List<String> _columnTwoList;
   List<String> _columnThrList;
+  List<String> _initValue = [];
+  List<List<String>> _listValues = [];
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   void _buildupLists() {
-    _selectedValues ??= widget.initValue ?? ['', '', ''];
-    for (int i = 0; i < widget.listValues.length; i++) {
+    // Dart List直接赋值的话是浅拷贝，会导致传入的值都会发生改变
+    _initValue = List.generate(
+        widget.initValue.length, (index) => widget.initValue[index]).toList();
+    if (_selectedValues.isEmpty) {
+      _selectedValues = List.generate(
+          widget.initValue.length, (index) => widget.initValue[index]).toList();
+    }
+    if (_listValues.isEmpty) {
+      _listValues = List.generate(
+              widget.listValues.length, (index) => widget.listValues[index])
+          .toList();
+    }
+    for (int i = 0; i < _listValues.length; i++) {
       _columnNumber = i + 1;
       if (i == 0) {
-        _columnOneList = widget.listValues[i];
+        _columnOneList = _listValues[i];
       } else if (i == 1) {
-        _columnTwoList = widget.listValues[i];
+        _columnTwoList = _listValues[i];
       } else if (i == 2) {
-        _columnThrList ??= widget.listValues[i];
+        _columnThrList = _listValues[i];
         break; //只取前3,其余的忽略
       }
     }
@@ -140,8 +158,8 @@ class _STSelectMenuState extends State<STSelectMenu> {
     } else if (number == 2) {
       _titles = _columnThrList;
     }
-    if (widget.initValue != null && widget.initValue.length > number) {
-      _initialTitle = widget.initValue[number];
+    if (_initValue != null && _initValue.length > number) {
+      _initialTitle = _initValue[number];
     }
     if (widget.initUnits != null && widget.initUnits.length > number) {
       _initUnit = widget.initUnits[number];
@@ -175,15 +193,13 @@ class _STSelectMenuState extends State<STSelectMenu> {
               ),
               useMagnifier: true,
               magnification: STSelectTextsConst._magnification,
+              looping: widget.looping,
               onSelectedItemChanged: (int index) {
                 _selectedValues[number] = _titles[index];
-                if (number != 2) {
-                  _caculateDaysFromYearAndMonth();
-                }
               },
               children: List.generate(_titles.length, (index) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   height: STSelectTextsConst._pickerItemExtent,
                   alignment: _initUnit != null
                       ? Alignment.centerRight
@@ -246,22 +262,4 @@ class _STSelectMenuState extends State<STSelectMenu> {
       ),
     );
   }
-
-  void _caculateDaysFromYearAndMonth() {
-    if (!widget.calculateDays) {
-      return;
-    }
-    final _days = _updateListValues(_selectedValues);
-    _columnThrList = List.generate(_days, (index) => '${index + 1}').toList();
-    setState(() {});
-  }
-
-  int _updateListValues(List<String> value) {
-    final _year = int.parse(value[0]);
-    final _month = int.parse(value[1]);
-    final _days = _lastDayInMonth(_year, _month).day;
-    return _days;
-  }
-
-  DateTime _lastDayInMonth(int year, int month) => DateTime(year, month + 1, 0);
 }

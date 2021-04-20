@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:saturn/st_select/select_texts.dart';
+import 'package:saturn/st_picker/st_cupertino_date_picker.dart';
+import 'package:saturn/st_select/select_show_dialog.dart';
 
+const _selectTextsHeight = 302.0;
+const _selectTitleHeight = 48.0;
+
+// ignore: must_be_immutable
 class STDatePicker extends StatelessWidget {
-  const STDatePicker(
+  STDatePicker(
       {Key key,
       this.initDateTime,
       this.minimumDate,
@@ -21,69 +26,82 @@ class STDatePicker extends StatelessWidget {
   final ValueChanged<DateTime> onDateTimeChanged; // 选中的日期回调
   final Widget child; //触发的组件
 
+  DateTime _selectedDate;
+
   @override
   Widget build(BuildContext context) {
-    return STSelectTexts(
-      title: '选择日期',
-      initUnits: const ['年', '月', '日'],
-      initValue: _getInitValue(),
-      listValues: _getListValues(),
-      onChanged: (value) {
-        _durationTransfromValue(value);
+    final _height = MediaQuery.of(context).size.height;
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          useSafeArea: false,
+          builder: (context) {
+            return ShowSelectDialog(
+              menu: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(12.0)),
+                ),
+                child: Column(
+                  children: [
+                    _getTitleChild(context),
+                    SizedBox(
+                      height: _selectTextsHeight - _selectTitleHeight,
+                      child: STCuperDatePicker(
+                        onDateTimeChanged: (value) {
+                          _selectedDate = value;
+                        },
+                        initialDateTime: initDateTime,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              offset: Offset(0, _height - _selectTextsHeight),
+              height: _selectTextsHeight,
+            );
+          },
+        );
       },
-      calculateDays: true,
       child: child,
     );
   }
 
-  void _durationTransfromValue(List<String> value) {
-    if (value == null) return;
-    int _year = 0;
-    if (value.isNotEmpty && int.tryParse(value[0]) != null) {
-      _year = int.parse(value[0]);
-    }
-    int _month = 0;
-    if (value.length > 1 && int.tryParse(value[1]) != null) {
-      _month = int.parse(value[1]);
-    }
-    int _day = 0;
-    if (value.length > 2 && int.tryParse(value[2]) != null) {
-      _day = int.parse(value[2]);
-    }
-    final _selectedDur = DateTime(_year, _month, _day);
-    if (onDateTimeChanged != null) {
-      onDateTimeChanged(_selectedDur);
-    }
+  Widget _getTitleChild(BuildContext context) {
+    return SizedBox(
+      height: _selectTitleHeight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              '取消',
+              style: TextStyle(color: Color(0xFF888888), fontSize: 17.0),
+            ),
+          ),
+          const Text(
+            '选择日期',
+            style: TextStyle(color: Color(0xFF000000), fontSize: 18),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              if (onDateTimeChanged != null) {
+                onDateTimeChanged(_selectedDate);
+              }
+            },
+            child: const Text(
+              '确定',
+              style: TextStyle(color: Color(0xFF000000), fontSize: 17.0),
+            ),
+          ),
+        ],
+      ),
+    );
   }
-
-  List<String> _getInitValue() {
-    final _initDateTime = initDateTime ?? DateTime.now();
-    final _year = _initDateTime.year;
-    final _month = _initDateTime.month;
-    final _day = _initDateTime.day;
-    return ['$_year', '$_month', '$_day'];
-  }
-
-  List<List<String>> _getListValues() {
-    final _minimunYear = minimumYear ?? DateTime.now().year - 10;
-    final _maximunYear = maximunYear ?? DateTime.now().year + 9;
-    final _initValue = _getInitValue();
-    return [
-      List.generate(
-              _maximunYear - _minimunYear, (index) => '${index + _minimunYear}')
-          .toList(),
-      List.generate(12, (index) => '${index + 1}').toList(),
-      List.generate(_updateListValues(_initValue), (index) => '${index + 1}')
-          .toList(),
-    ];
-  }
-
-  int _updateListValues(List<String> value) {
-    final _year = int.parse(value[0]);
-    final _month = int.parse(value[1]);
-    final _days = _lastDayInMonth(_year, _month).day;
-    return _days;
-  }
-
-  DateTime _lastDayInMonth(int year, int month) => DateTime(year, month + 1, 0);
 }

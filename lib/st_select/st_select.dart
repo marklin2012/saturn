@@ -22,6 +22,7 @@ class STSelect extends StatelessWidget {
     this.textsListValues,
     this.onChangedTextsValue,
     this.initUnits,
+    this.looping = false,
   }) : super(key: key);
 
   final STSelectTypes types; // 不同的样式
@@ -37,6 +38,7 @@ class STSelect extends StatelessWidget {
   //文本选择器选中后的回调，按下标对应选中的结果
   final Function(List<String> value) onChangedTextsValue;
   final List<String> initUnits; // 文本选择器的单位集合
+  final bool looping; //数据是否循环
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class STSelect extends StatelessWidget {
         initValue: initTextsValue,
         initUnits: initUnits,
         listValues: textsListValues,
+        looping: looping,
         onChanged: (value) {
           if (onChangedTextsValue != null) {
             onChangedTextsValue(value);

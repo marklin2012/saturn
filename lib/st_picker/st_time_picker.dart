@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_select/select_texts.dart';
 import 'package:saturn/st_select/st_select.dart';
 
 class STTimePicker extends StatelessWidget {
@@ -16,13 +17,12 @@ class STTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return STSelect(
-      types: STSelectTypes.texts,
+    return STSelectTexts(
       title: '选择时间',
       initUnits: const ['小时', '分钟', '秒'],
-      initTextsValue: _getInitValue(),
-      textsListValues: _getListValues(),
-      onChangedTextsValue: (value) {
+      initValue: _getInitValue(),
+      listValues: _getListValues(),
+      onChanged: (value) {
         _durationTransfromValue(value);
       },
       child: child,
