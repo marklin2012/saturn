@@ -22,12 +22,12 @@ class STMessageSharedInstance {
     @required BuildContext context,
     String title,
     String message,
-    String icon,
-    Widget widget,
+    Widget icon,
+    Widget content,
     bool showShadow = true,
     bool autoClose = false,
-    int disappearTime = STMessageConstant.defaultDisappearTime,
-    STMessageLocationType locationType = STMessageLocationType.top,
+    int disappearMilliseconds = STMessageConstant.defaultDisappearMilliseconds,
+    STMessageLocation location = STMessageLocation.top,
   }) {
     if (_curContext != null) {
       hide(context);
@@ -37,11 +37,11 @@ class STMessageSharedInstance {
       title: title,
       message: message,
       icon: icon,
-      widget: widget,
+      content: content,
       showShadow: showShadow,
       autoClose: autoClose,
-      disappearTime: disappearTime,
-      locationType: locationType,
+      disappearMilliseconds: disappearMilliseconds,
+      location: location,
     );
 
     final OverlayState overlayState = Overlay.of(context);
@@ -62,23 +62,23 @@ class STMessageSharedInstance {
 class STMessage extends StatefulWidget {
   final String title;
   final String message;
-  final String icon;
-  final Widget widget;
+  final Widget icon;
+  final Widget content;
   final bool showShadow;
   final bool autoClose;
-  final int disappearTime;
-  final STMessageLocationType locationType;
+  final int disappearMilliseconds;
+  final STMessageLocation location;
 
   const STMessage({
     Key key,
     this.title,
     this.message,
     this.icon,
-    this.widget,
+    this.content,
     this.showShadow,
     this.autoClose,
-    this.disappearTime,
-    this.locationType,
+    this.disappearMilliseconds,
+    this.location,
   }) : super(key: key);
 
   @override
@@ -87,16 +87,38 @@ class STMessage extends StatefulWidget {
 
 class _STMessageState extends State<STMessage> {
   Timer timer;
+  TextStyle titleTextStyle;
+  TextStyle messageTextStyle;
+  Offset containerShadowOffset;
+  EdgeInsets iconTitlePadding;
 
   @override
   void initState() {
     super.initState();
 
     if (widget.autoClose) {
-      timer = Timer(Duration(seconds: widget.disappearTime), () {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
         STMessageSharedInstance().hide(context);
       });
     }
+
+    titleTextStyle = const TextStyle(
+        fontWeight: FontWeight.w600,
+        color: Colors.black,
+        fontSize: STMessageConstant.titleFontSize,
+        decoration: TextDecoration.none);
+
+    messageTextStyle = const TextStyle(
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+      fontSize: STMessageConstant.messageFontSize,
+      decoration: TextDecoration.none,
+    );
+
+    containerShadowOffset = const Offset(5.0, 5.0);
+
+    iconTitlePadding =
+        const EdgeInsets.only(right: STMessageConstant.iconMessageDistance);
   }
 
   @override
@@ -105,25 +127,9 @@ class _STMessageState extends State<STMessage> {
     final double containerWidth =
         screenWidth * STMessageConstant.defaultWidthPercent;
 
-    Image imageWidget;
-    if (!isNullOrEmpty(widget.icon)) {
-      imageWidget = Image.asset(widget.icon,
-          width: STMessageConstant.iconWidth,
-          height: STMessageConstant.iconWidth,
-          fit: BoxFit.contain);
-    }
-
     Text titleWidget;
     if (!isNullOrEmpty(widget.title)) {
-      titleWidget = Text(
-        widget.title,
-        softWrap: true,
-        style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-            fontSize: STMessageConstant.titleFontSize,
-            decoration: TextDecoration.none),
-      );
+      titleWidget = Text(widget.title, softWrap: true, style: titleTextStyle);
     }
 
     Text messageWidget;
@@ -131,31 +137,13 @@ class _STMessageState extends State<STMessage> {
       messageWidget = Text(
         widget.message,
         softWrap: true,
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          color: Colors.black,
-          fontSize: STMessageConstant.messageFontSize,
-          decoration: TextDecoration.none,
-        ),
+        style: messageTextStyle,
       );
-    }
-
-    AlignmentGeometry curAlignment;
-    switch (widget.locationType) {
-      case STMessageLocationType.top:
-        curAlignment = Alignment.topCenter;
-        break;
-      case STMessageLocationType.center:
-        curAlignment = Alignment.center;
-        break;
-      case STMessageLocationType.bottom:
-        curAlignment = Alignment.bottomCenter;
-        break;
     }
 
     return SafeArea(
       child: Align(
-        alignment: curAlignment,
+        alignment: getAligmentFromLocation(widget.location),
         child: Container(
           width: containerWidth,
           decoration: BoxDecoration(
@@ -165,12 +153,12 @@ class _STMessageState extends State<STMessage> {
               BoxShadow(
                   color:
                       widget.showShadow ? Colors.black26 : Colors.transparent,
-                  offset: const Offset(5.0, 5.0),
+                  offset: containerShadowOffset,
                   blurRadius: 5.0,
                   spreadRadius: 2.0),
             ],
           ),
-          child: widget.widget ??
+          child: widget.content ??
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: Column(
@@ -185,10 +173,10 @@ class _STMessageState extends State<STMessage> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              imageWidget,
-                              const SizedBox(
-                                width: STMessageConstant.iconMessageDistance,
-                              ),
+                              if (widget.icon != null)
+                                Padding(
+                                    padding: iconTitlePadding,
+                                    child: widget.icon),
                               if (!isNullOrEmpty(widget.title))
                                 Expanded(child: titleWidget)
                               else
@@ -205,6 +193,17 @@ class _STMessageState extends State<STMessage> {
         ),
       ),
     );
+  }
+
+  AlignmentGeometry getAligmentFromLocation(STMessageLocation location) {
+    switch (widget.location) {
+      case STMessageLocation.center:
+        return Alignment.center;
+      case STMessageLocation.bottom:
+        return Alignment.bottomCenter;
+      default:
+        return Alignment.topCenter;
+    }
   }
 
   @override

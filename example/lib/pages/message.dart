@@ -4,6 +4,9 @@ import 'package:saturn/saturn.dart';
 class MessagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Image imageWidget = Image.asset("assets/images/basketball_check.png",
+        width: 24.0, height: 24.0, fit: BoxFit.contain);
+    Icon iconWidget = Icon(Icons.error_outline);
     return Scaffold(
       appBar: AppBar(
         title: Text('Inputs'),
@@ -18,7 +21,7 @@ class MessagePage extends StatelessWidget {
               STMessageSharedInstance().show(
                   context: context,
                   message: "这是文本信息",
-                  icon: "assets/images/basketball_check.png",
+                  icon: imageWidget,
                   showShadow: false,
                   autoClose: true);
             },
@@ -30,13 +33,13 @@ class MessagePage extends StatelessWidget {
               STMessageSharedInstance().show(
                   context: context,
                   message: "好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
-                  icon: "assets/images/basketball_check.png");
+                  icon: iconWidget);
               Future.delayed(Duration(seconds: 2), () {
                 STMessageSharedInstance().show(
-                    context: context,
-                    title: "标题标题",
-                    message: "好的好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
-                    icon: "assets/images/basketball_check.png");
+                  context: context,
+                  title: "标题标题",
+                  message: "好的好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
+                );
               });
             },
           ),
@@ -48,7 +51,8 @@ class MessagePage extends StatelessWidget {
                   context: context,
                   title: "标题标题",
                   message: "好的好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
-                  icon: "assets/images/basketball_check.png");
+                  location: STMessageLocation.center,
+                  showShadow: false);
             },
           ),
           FlatButton(
@@ -56,7 +60,7 @@ class MessagePage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STMessageSharedInstance()
-                  .show(context: context, widget: Text("好的"));
+                  .show(context: context, content: Text("好的"));
             },
           ),
         ],

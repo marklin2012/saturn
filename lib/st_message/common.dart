@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-
-enum STMessageLocationType { top, center, bottom }
+enum STMessageLocation { top, center, bottom }
 
 class STMessageConstant {
   static const defaultWidthPercent = 0.9;
-  static const iconWidth = 24.0;
   static const iconMessageDistance = 8.0;
 
   static const cornerRadius = 8.0;
@@ -13,5 +10,5 @@ class STMessageConstant {
   static const messageFontSize = 16.0;
   static const explainFontSize = 14.0;
 
-  static const defaultDisappearTime = 5;
+  static const defaultDisappearMilliseconds = 5000;
 }
