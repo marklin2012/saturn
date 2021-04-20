@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'common.dart';
 import '../utils/string.dart';
+import 'common.dart';
 
 class STMessageSharedInstance {
   BuildContext _curContext;
@@ -12,7 +12,7 @@ class STMessageSharedInstance {
 
   static STMessageSharedInstance _instance;
 
-  STMessageSharedInstance._() {}
+  STMessageSharedInstance._();
 
   static STMessageSharedInstance _sharedInstance() {
     return _instance ??= STMessageSharedInstance._();
@@ -105,19 +105,6 @@ class _STMessageState extends State<STMessage> {
     final double containerWidth =
         screenWidth * STMessageConstant.defaultWidthPercent;
 
-    const TextStyle titleStyle = TextStyle(
-        fontWeight: FontWeight.w600,
-        color: Colors.black,
-        fontSize: STMessageConstant.titleFontSize,
-        decoration: TextDecoration.none);
-
-    const TextStyle messageStyle = TextStyle(
-      fontWeight: FontWeight.w400,
-      color: Colors.black,
-      fontSize: STMessageConstant.messageFontSize,
-      decoration: TextDecoration.none,
-    );
-
     Image imageWidget;
     if (!isNullOrEmpty(widget.icon)) {
       imageWidget = Image.asset(widget.icon,
@@ -128,7 +115,15 @@ class _STMessageState extends State<STMessage> {
 
     Text titleWidget;
     if (!isNullOrEmpty(widget.title)) {
-      titleWidget = Text(widget.title, softWrap: true, style: titleStyle);
+      titleWidget = Text(
+        widget.title,
+        softWrap: true,
+        style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+            fontSize: STMessageConstant.titleFontSize,
+            decoration: TextDecoration.none),
+      );
     }
 
     Text messageWidget;
@@ -136,29 +131,25 @@ class _STMessageState extends State<STMessage> {
       messageWidget = Text(
         widget.message,
         softWrap: true,
-        style: messageStyle,
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          color: Colors.black,
+          fontSize: STMessageConstant.messageFontSize,
+          decoration: TextDecoration.none,
+        ),
       );
-    }
-
-    Color shadowColor = Colors.black26;
-    if (!widget.showShadow) {
-      shadowColor = Colors.transparent;
     }
 
     AlignmentGeometry curAlignment;
     switch (widget.locationType) {
       case STMessageLocationType.top:
-        {
-          curAlignment = Alignment.topCenter;
-        }
+        curAlignment = Alignment.topCenter;
         break;
       case STMessageLocationType.center:
         curAlignment = Alignment.center;
         break;
       case STMessageLocationType.bottom:
-        {
-          curAlignment = Alignment.bottomCenter;
-        }
+        curAlignment = Alignment.bottomCenter;
         break;
     }
 
@@ -172,7 +163,8 @@ class _STMessageState extends State<STMessage> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                  color: shadowColor,
+                  color:
+                      widget.showShadow ? Colors.black26 : Colors.transparent,
                   offset: const Offset(5.0, 5.0),
                   blurRadius: 5.0,
                   spreadRadius: 2.0),
