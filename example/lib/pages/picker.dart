@@ -41,7 +41,7 @@ class _PickerPageState extends State<PickerPage> {
               },
               child: Text(_datePickerStr),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             STPicker.time(
               child: Text(_timePickerStr),
               initDuration: _duration,
@@ -51,6 +51,10 @@ class _PickerPageState extends State<PickerPage> {
                 setState(() {});
               },
             ),
+            SizedBox(height: 30),
+            STPicker(),
+            SizedBox(height: 30),
+            STPicker(isRange: true),
           ],
         ),
       ),

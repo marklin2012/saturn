@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_select/select_texts.dart';
-import 'package:saturn/st_select/st_select.dart';
 
 class STTimePicker extends StatelessWidget {
   const STTimePicker({

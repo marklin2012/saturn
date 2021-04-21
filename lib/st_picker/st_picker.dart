@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_picker/st_calendar_date_picker.dart';
 import 'package:saturn/st_picker/st_date_picker.dart';
 import 'package:saturn/st_picker/st_time_picker.dart';
 
 enum STPickerModel {
-  calendar, //选择单个日历日期
-  calendarRange, // 选择日历范围内日期
+  calendar, //选择日历日期
   date, // 选择日期
   time, // 选择时间
 }
@@ -21,7 +21,10 @@ class STPicker extends StatefulWidget {
       this.model = STPickerModel.calendar,
       this.child,
       this.onTimerDurationChanged,
-      this.initDuration})
+      this.initDuration,
+      this.isRange = false,
+      this.offsetVertical,
+      this.marign})
       : super(key: key);
 
   final STPickerModel model; // 四种不同的类型
@@ -32,8 +35,12 @@ class STPicker extends StatefulWidget {
   final int maximunYear; // 最大显示的年份
   final Widget child; // date、time模式下触发组件
   final ValueChanged<DateTime> onDateTimeChanged; // 选中的日期回调
-  final ValueChanged<Duration> onTimerDurationChanged; // 选中的时间回调
   final Duration initDuration; // 初始时间
+  final ValueChanged<Duration> onTimerDurationChanged; // 选中的时间回调
+  // calendar 参数
+  final bool isRange; //是否可以选择范围值
+  final double offsetVertical; //垂直方向偏移量
+  final EdgeInsets marign; //与外部的间隙
 
   const STPicker.date(
       {Key key,
@@ -46,7 +53,10 @@ class STPicker extends StatefulWidget {
       this.onTimerDurationChanged,
       this.model = STPickerModel.date,
       this.child,
-      this.initDuration})
+      this.initDuration,
+      this.isRange,
+      this.offsetVertical,
+      this.marign})
       : super(key: key);
 
   const STPicker.time(
@@ -60,7 +70,10 @@ class STPicker extends StatefulWidget {
       this.onTimerDurationChanged,
       this.model = STPickerModel.time,
       this.child,
-      this.initDuration})
+      this.initDuration,
+      this.isRange,
+      this.offsetVertical,
+      this.marign})
       : super(key: key);
 
   @override
@@ -82,10 +95,6 @@ class _STPickerState extends State<STPicker> {
           onDateTimeChanged: widget.onDateTimeChanged,
           child: widget.child,
         );
-      case STPickerModel.calendar:
-        break;
-      case STPickerModel.calendarRange:
-        break;
       case STPickerModel.time:
         return STTimePicker(
           key: widget.key,
@@ -93,7 +102,13 @@ class _STPickerState extends State<STPicker> {
           onTimerDurationChanged: widget.onTimerDurationChanged,
           child: widget.child,
         );
+      default:
+        return STCalendarDatePicker(
+          isRange: widget.isRange,
+          marign: widget.marign,
+          offsetVertical: widget.offsetVertical,
+          onChanged: widget.onDateTimeChanged,
+        );
     }
-    return Container();
   }
 }
