@@ -102,7 +102,20 @@ class DialogPage extends StatelessWidget {
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
                         haveSeparateLine: true,
-                        isAligmentCenter: false)
+                        isAligmentCenter: false),
+                    ChoiceItem(
+                      title: "好的",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                    ChoiceItem(
+                      title: "是不是",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                    ChoiceItem(
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
                   ]);
             },
           ),
@@ -129,6 +142,26 @@ class DialogPage extends StatelessWidget {
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
+                      ),
+                      ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                      ),
+                      ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                      ),
+                      ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                      ),
+                      ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
                       )
                     ],
                     [
@@ -137,11 +170,57 @@ class DialogPage extends StatelessWidget {
                         icon: "assets/images/basketball_check.png",
                       ),
                       ChoiceItem(
-                        title: "是不是",
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                      )
+                    ],
+                    [
+                      ChoiceItem(
+                        title: "好的",
                         icon: "assets/images/basketball_check.png",
                       ),
+                      ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                      )
+                    ],
+                    [
+                      ChoiceItem(
+                        title: "好的",
+                        icon: "assets/images/basketball_check.png",
+                      ),
+                      ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                      )
+                    ],
+                    [
+                      ChoiceItem(
+                        title: "好的",
+                        icon: "assets/images/basketball_check.png",
+                      ),
+                      ChoiceItem(
+                        title: "不好",
+                        message: "描述说明信息",
+                        icon: "assets/images/basketball_check.png",
+                      )
                     ]
                   ]);
+            },
+          ),
+          FlatButton(
+            child: Text("自定义"),
+            color: Colors.blue,
+            onPressed: () {
+              STDialog.show(
+                  context: context,
+                  icon: "assets/images/basketball_check.png",
+                  message: "描述说明信息",
+                  title: "这是一个标题",
+                  type: STDialogType.normal);
             },
           ),
         ],

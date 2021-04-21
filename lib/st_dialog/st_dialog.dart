@@ -31,7 +31,7 @@ class STDialog extends StatefulWidget {
   final bool isDoubleButton;
   final bool haveTextField;
   final VoidCallback onCancelTap;
-  final VoidCallback onMakeSureTap;
+  final Function(String text) onMakeSureTap;
   final STDialogType type;
 
   const STDialog({
@@ -60,7 +60,7 @@ class STDialog extends StatefulWidget {
     bool isDoubleButton = false,
     bool haveTextField = false,
     VoidCallback onCancelTap,
-    VoidCallback onMakeSureTap,
+    Function(String text) onMakeSureTap,
     STDialogType type = STDialogType.dialog,
   }) {
     showDialog(
@@ -68,7 +68,6 @@ class STDialog extends StatefulWidget {
         barrierDismissible: false,
         barrierColor: Colors.transparent,
         builder: (context) {
-          if (onMakeSureTap == null) {}
           final toast = STDialog(
             width: width,
             title: title,
@@ -83,7 +82,7 @@ class STDialog extends StatefulWidget {
                   STDialog.hide(context);
                 },
             onMakeSureTap: onMakeSureTap ??
-                () {
+                (text) {
                   STDialog.hide(context);
                 },
             type: type,
@@ -103,12 +102,26 @@ class STDialog extends StatefulWidget {
 }
 
 class _STDialogState extends State<STDialog> {
-  FocusNode focusNode = FocusNode();
+  FocusNode focusNode;
+  TextEditingController textEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.haveTextField) {
+      focusNode = FocusNode();
+      textEditingController = TextEditingController();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     double containerWidth;
+    double containerHeight =
+        screenHeight * STDialogConstant.defaultMaxHeightPercent;
 
     Image imageWidget;
     if (!isNullOrEmpty(widget.icon)) {
@@ -168,121 +181,96 @@ class _STDialogState extends State<STDialog> {
               final VoidCallback action = model.onItemTap;
               columnArray.add(
                 SizedBox(
-                    height: 44,
-                    child: TextButton(
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.transparent),
-                        ),
-                        onPressed: () {
-                          if (action != null) {
-                            action();
-                          }
-                        },
-                        child: Text(
-                          title,
-                          softWrap: true,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: STDialogConstant.defaultButtonTextColor,
-                            fontSize: 16,
-                            decoration: TextDecoration.none,
-                          ),
-                        ))),
+                  height: 44,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      overlayColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.transparent),
+                    ),
+                    onPressed: () {
+                      if (action != null) {
+                        action();
+                      }
+                    },
+                    child: Text(
+                      title,
+                      softWrap: true,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: STDialogConstant.defaultButtonTextColor,
+                        fontSize: 16,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ),
               );
             }
           } else {
             String buttonText = "我知道了";
             if (widget.haveTextField) {
               buttonText = "确定";
-              columnArray.add(SizedBox(
-                width: containerWidth - 30,
-                height: 36,
-                child: TextField(
-                  autofocus: true,
-                  focusNode: focusNode,
-                  decoration: const InputDecoration(
-                    hintText: "请输入",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 2.0,
+              columnArray.add(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 36),
+                    child: Theme(
+                      data: ThemeData(
+                          primaryColor: STDialogConstant.textFieldThemeColor),
+                      child: TextField(
+                        controller: textEditingController,
+                        autofocus: true,
+                        focusNode: focusNode,
+                        cursorColor: STDialogConstant.textFieldThemeColor,
+                        decoration: const InputDecoration(
+                          hintText: "请输入",
+                          hintStyle: TextStyle(
+                              color: STDialogConstant.textFieldThemeColor),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(
+                                color: STDialogConstant.textFieldThemeColor,
+                                width: 0.5),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ));
+              );
             }
             columnArray.add(const SizedBox(height: 16));
 
             columnArray.add(getLineWidget(containerWidth));
             if (widget.isDoubleButton) {
-              columnArray.add(Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: containerWidth / 2.0 - 1,
-                    child: TextButton(
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.transparent),
-                        ),
-                        onPressed: () {
-                          if (widget.onCancelTap != null) {
-                            widget.onCancelTap();
-                          }
-                        },
-                        child: const Text("取消",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: STDialogConstant.defaultButtonTextColor,
-                                fontSize: 16,
-                                decoration: TextDecoration.none))),
-                  ),
-                  Container(
-                    width: 1,
-                    height: 44,
-                    color: const Color.fromRGBO(239, 243, 249, 1),
-                  ),
-                  SizedBox(
-                      width: containerWidth / 2.0 - 1,
-                      child: TextButton(
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.transparent),
-                          ),
-                          onPressed: () {
-                            if (widget.onMakeSureTap != null) {
-                              widget.onMakeSureTap();
-                            }
-                          },
-                          child: const Text("确定",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      STDialogConstant.defaultButtonTextColor,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.none))))
-                ],
-              ));
+              columnArray.add(getDoubleButtons(containerWidth, widget.type));
             } else {
-              columnArray.add(TextButton(
+              columnArray.add(
+                TextButton(
                   style: ButtonStyle(
                     overlayColor: MaterialStateColor.resolveWith(
                         (states) => Colors.transparent),
                   ),
                   onPressed: () {
                     if (widget.onMakeSureTap != null) {
-                      widget.onMakeSureTap();
+                      widget.onMakeSureTap(widget.haveTextField
+                          ? textEditingController.text
+                          : "");
                     }
                   },
-                  child: Text(buttonText,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: STDialogConstant.defaultButtonTextColor,
-                          fontSize: 16,
-                          decoration: TextDecoration.none))));
+                  child: Text(
+                    buttonText,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: STDialogConstant.defaultButtonTextColor,
+                        fontSize: 16,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              );
             }
           }
         }
@@ -290,7 +278,7 @@ class _STDialogState extends State<STDialog> {
       case STDialogType.list:
         {
           containerWidth =
-              screenWidth * STDialogConstant.dialogDefaultWidthPercent;
+              screenWidth * STDialogConstant.listDefaultWidthPercent;
           columnArray = [
             const SizedBox(
               height: 16,
@@ -308,37 +296,28 @@ class _STDialogState extends State<STDialog> {
               messageWidget ?? Container(),
           ];
 
+          List<Widget> listViewList = [];
           for (int i = 0; i < widget.choiceList.length; i++) {
-            columnArray.add(getChoiceItemWidget(
-                widget.choiceList[i], containerWidth, widget.type));
+            listViewList.add(
+              getChoiceItemWidget(
+                  widget.choiceList[i], containerWidth, widget.type),
+            );
           }
-          columnArray.add(Padding(
-            padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(STDialogConstant.cornerRadius),
-                color: STDialogConstant.defaultButtonTextColor,
-              ),
-              width: containerWidth - 24,
-              height: 44,
-              child: TextButton(
-                onPressed: () {},
-                child: const Text("操作",
-                    style: TextStyle(
-                        backgroundColor:
-                            STDialogConstant.defaultButtonTextColor,
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w400)),
-              ),
-            ),
-          ));
+          columnArray.add(
+            Expanded(
+                child: ListView(
+              shrinkWrap: true,
+              children: listViewList,
+            )),
+          );
+          columnArray.add(getListMakeSureButton(containerWidth));
         }
         break;
 
       case STDialogType.dynamicList:
         {
+          containerWidth =
+              screenWidth * STDialogConstant.dynamicListDefaultWidthPercent;
           columnArray = [
             Column(
               children: [
@@ -353,38 +332,83 @@ class _STDialogState extends State<STDialog> {
               ],
             )
           ];
+          List<Widget> listViewList = [];
           for (int i = 0; i < widget.choiceList.length; i++) {
             List innerChoiceList = widget.choiceList[i];
-            List<Widget> innerRowArray = [];
+            List<Widget> innerListViewList = [];
             for (int j = 0; j < innerChoiceList.length; j++) {
-              innerRowArray.add(getChoiceItemWidget(
-                  innerChoiceList[j], containerWidth, widget.type));
+              innerListViewList.add(
+                getChoiceItemWidget(
+                    innerChoiceList[j], containerWidth, widget.type),
+              );
             }
-            columnArray.add(Column(
-              children: [
-                const SizedBox(height: 13),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: innerRowArray,
-                  ),
-                ),
-                const SizedBox(height: 13),
-                getLineWidget(containerWidth)
-              ],
+            listViewList.add(SizedBox(height: 6));
+
+            listViewList.add(SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: innerListViewList,
+              ),
             ));
+            listViewList.add(const SizedBox(height: 6));
+            listViewList.add(getLineWidget(containerWidth));
           }
+
+          columnArray.add(
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: listViewList,
+              ),
+            ),
+          );
+          columnArray.add(getListMakeSureButton(containerWidth));
         }
         break;
       case STDialogType.normal:
-        {}
+        {
+          containerWidth =
+              screenWidth * STDialogConstant.normalDefaultWidthPercent;
+          columnArray = [
+            Column(
+              children: [
+                if (!(imageWidget == null))
+                  Padding(
+                      padding: const EdgeInsets.only(top: 22.0),
+                      child: imageWidget),
+                const SizedBox(
+                  height: 16,
+                ),
+                if (!(titleWidget == null))
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: titleWidget,
+                  ),
+                if (!(messageWidget == null))
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: messageWidget,
+                  ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
+                  child: getDoubleButtons(containerWidth, widget.type),
+                ),
+              ],
+            )
+          ];
+        }
         break;
     }
 
-    return Center(
-      child: Container(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Container(
           width: containerWidth,
+          constraints: BoxConstraints(
+            maxHeight: containerHeight,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(STDialogConstant.cornerRadius),
             color: Colors.white,
@@ -399,7 +423,112 @@ class _STDialogState extends State<STDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: columnArray,
-          )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getListMakeSureButton(double containerWidth) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(STDialogConstant.cornerRadius),
+          color: STDialogConstant.defaultButtonTextColor,
+        ),
+        width: containerWidth - 24,
+        height: 44,
+        child: TextButton(
+          onPressed: () {},
+          child: const Text(
+            "操作",
+            style: TextStyle(
+                backgroundColor: STDialogConstant.defaultButtonTextColor,
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w400),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getDoubleButtons(double containerWidth, STDialogType type) {
+    bool isDialog = type == STDialogType.dialog;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: isDialog ? 0 : 10.0),
+          child: SizedBox(
+            width:
+                isDialog ? containerWidth / 2.0 - 1 : containerWidth / 2.0 - 20,
+            child: TextButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.transparent),
+                side: MaterialStateProperty.all(BorderSide(
+                    color: isDialog
+                        ? Colors.transparent
+                        : STDialogConstant.defaultButtonTextColor,
+                    width: 1)),
+              ),
+              onPressed: () {
+                if (widget.onCancelTap != null) {
+                  widget.onCancelTap();
+                }
+              },
+              child: const Text(
+                "取消",
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: STDialogConstant.defaultButtonTextColor,
+                    fontSize: 16,
+                    decoration: TextDecoration.none),
+              ),
+            ),
+          ),
+        ),
+        if (isDialog)
+          Container(
+            width: 1,
+            height: 44,
+            color: const Color.fromRGBO(239, 243, 249, 1),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: isDialog ? 0 : 10.0),
+          child: SizedBox(
+            width:
+                isDialog ? containerWidth / 2.0 - 1 : containerWidth / 2.0 - 20,
+            child: TextButton(
+              style: ButtonStyle(
+                  overlayColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.transparent),
+                  backgroundColor: MaterialStateColor.resolveWith((states) =>
+                      isDialog
+                          ? Colors.white
+                          : STDialogConstant.defaultButtonTextColor)),
+              onPressed: () {
+                if (widget.onMakeSureTap != null) {
+                  widget.onMakeSureTap(
+                      widget.haveTextField ? textEditingController.text : "");
+                }
+              },
+              child: Text(
+                "确定",
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: isDialog
+                        ? STDialogConstant.defaultButtonTextColor
+                        : Colors.white,
+                    fontSize: 16,
+                    decoration: TextDecoration.none),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -430,21 +559,25 @@ class _STDialogState extends State<STDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (!isNullOrEmpty(item.title))
-                    Text(item.title,
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.none,
-                            color: Colors.black)),
+                    Text(
+                      item.title,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.none,
+                          color: Colors.black),
+                    ),
                   if (!isNullOrEmpty(item.message))
-                    Text(item.message,
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.none,
-                            color: Colors.grey)),
+                    Text(
+                      item.message,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.none,
+                          color: Colors.grey),
+                    ),
                 ],
               )
             ],
@@ -462,13 +595,15 @@ class _STDialogState extends State<STDialog> {
             if (!isNullOrEmpty(item.icon))
               Image.asset(item.icon, fit: BoxFit.fitWidth),
             if (!isNullOrEmpty(item.title))
-              Text(item.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.none,
-                      color: Colors.black)),
+              Text(
+                item.title,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.none,
+                    color: Colors.black),
+              ),
           ],
         ),
       );
