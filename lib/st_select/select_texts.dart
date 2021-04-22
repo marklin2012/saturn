@@ -101,16 +101,12 @@ class _STSelectMenuState extends State<STSelectMenu> {
 
   void _buildupLists() {
     // Dart List直接赋值的话是浅拷贝，会导致传入的值都会发生改变
-    _initValue = List.generate(
-        widget.initValue.length, (index) => widget.initValue[index]).toList();
+    _initValue = List.from(widget.initValue);
     if (_selectedValues.isEmpty) {
-      _selectedValues = List.generate(
-          widget.initValue.length, (index) => widget.initValue[index]).toList();
+      _selectedValues = List.from(widget.initValue);
     }
     if (_listValues.isEmpty) {
-      _listValues = List.generate(
-              widget.listValues.length, (index) => widget.listValues[index])
-          .toList();
+      _listValues = List.from(widget.listValues);
     }
     for (int i = 0; i < _listValues.length; i++) {
       _columnNumber = i + 1;

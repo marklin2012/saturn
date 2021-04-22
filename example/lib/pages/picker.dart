@@ -21,14 +21,6 @@ class _PickerPageState extends State<PickerPage> {
       body: Center(
         child: Column(
           children: [
-            // CalendarDatePicker(
-            //   initialDate: DateTime.now(),
-            //   firstDate: DateTime.now().subtract(Duration(days: 1000)),
-            //   lastDate: DateTime.now().add(Duration(days: 1000)),
-            //   onDateChanged: (value) {
-            //     debugPrint('$value');
-            //   },
-            // ),
             SizedBox(height: 30),
             STPicker.date(
               minimumYear: 2012,
@@ -52,9 +44,21 @@ class _PickerPageState extends State<PickerPage> {
               },
             ),
             SizedBox(height: 30),
-            STPicker(),
+            STPicker(
+              onRangeDateTimeChanged: (List<DateTime> value) {
+                // 非Range取value的首个元素即可
+                // 日期的显示内部已完成
+                debugPrint('$value');
+              },
+            ),
             SizedBox(height: 30),
-            STPicker(isRange: true),
+            STPicker(
+              isRange: true,
+              onRangeDateTimeChanged: (List<DateTime> value) {
+                // Range首元素为开始日期，末元素为结束日期
+                debugPrint('$value');
+              },
+            ),
           ],
         ),
       ),

@@ -54,6 +54,10 @@ class STDatePicker extends StatelessWidget {
                           _selectedDate = value;
                         },
                         initialDateTime: initDateTime,
+                        maximumDate: maximumDate,
+                        minimumDate: minimumDate,
+                        minimumYear: minimumYear,
+                        maximumYear: maximunYear,
                       ),
                     ),
                   ],
