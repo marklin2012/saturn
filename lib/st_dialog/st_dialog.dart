@@ -63,32 +63,42 @@ class STDialog extends StatefulWidget {
     Function(String text) onMakeSureTap,
     STDialogType type = STDialogType.dialog,
   }) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        barrierColor: Colors.transparent,
-        builder: (context) {
-          final toast = STDialog(
-            width: width,
-            title: title,
-            message: message,
-            icon: icon,
-            buttonText: buttonText,
-            choiceList: choiceList,
-            isDoubleButton: isDoubleButton,
-            haveTextField: haveTextField,
-            onCancelTap: onCancelTap ??
-                () {
-                  STDialog.hide(context);
-                },
-            onMakeSureTap: onMakeSureTap ??
-                (text) {
-                  STDialog.hide(context);
-                },
-            type: type,
-          );
-          return toast;
-        });
+    final dialog = STDialog(
+      width: width,
+      title: title,
+      message: message,
+      icon: icon,
+      buttonText: buttonText,
+      choiceList: choiceList,
+      isDoubleButton: isDoubleButton,
+      haveTextField: haveTextField,
+      onCancelTap: onCancelTap ??
+          () {
+            STDialog.hide(context);
+          },
+      onMakeSureTap: onMakeSureTap ??
+          (text) {
+            STDialog.hide(context);
+          },
+      type: type,
+    );
+    if (type == STDialogType.dialog) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return dialog;
+          });
+    } else {
+      showModalBottomSheet(
+          context: context,
+          enableDrag: false,
+          isDismissible: false,
+          backgroundColor: Colors.transparent,
+          builder: (context) {
+            return dialog;
+          });
+    }
   }
 
   static void hide(
@@ -118,10 +128,7 @@ class _STDialogState extends State<STDialog> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
     double containerWidth;
-    double containerHeight =
-        screenHeight * STDialogConstant.defaultMaxHeightPercent;
 
     Image imageWidget;
     if (!isNullOrEmpty(widget.icon)) {
@@ -285,9 +292,11 @@ class _STDialogState extends State<STDialog> {
             ),
             if (imageWidget != null)
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   imageWidget,
                   Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [titleWidget, messageWidget],
                   )
                 ],
@@ -296,7 +305,7 @@ class _STDialogState extends State<STDialog> {
               messageWidget ?? Container(),
           ];
 
-          List<Widget> listViewList = [];
+          final List<Widget> listViewList = [];
           for (int i = 0; i < widget.choiceList.length; i++) {
             listViewList.add(
               getChoiceItemWidget(
@@ -320,6 +329,7 @@ class _STDialogState extends State<STDialog> {
               screenWidth * STDialogConstant.dynamicListDefaultWidthPercent;
           columnArray = [
             Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(
                   height: 16,
@@ -332,37 +342,27 @@ class _STDialogState extends State<STDialog> {
               ],
             )
           ];
-          List<Widget> listViewList = [];
           for (int i = 0; i < widget.choiceList.length; i++) {
-            List innerChoiceList = widget.choiceList[i];
-            List<Widget> innerListViewList = [];
+            final List innerChoiceList = widget.choiceList[i];
+            final List<Widget> innerListViewList = [];
             for (int j = 0; j < innerChoiceList.length; j++) {
               innerListViewList.add(
                 getChoiceItemWidget(
                     innerChoiceList[j], containerWidth, widget.type),
               );
             }
-            listViewList.add(SizedBox(height: 6));
+            columnArray.add(const SizedBox(height: 6));
 
-            listViewList.add(SingleChildScrollView(
+            columnArray.add(SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisSize: MainAxisSize.min,
                 children: innerListViewList,
               ),
             ));
-            listViewList.add(const SizedBox(height: 6));
-            listViewList.add(getLineWidget(containerWidth));
+            columnArray.add(const SizedBox(height: 6));
+            columnArray.add(getLineWidget(containerWidth));
           }
 
-          columnArray.add(
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: listViewList,
-              ),
-            ),
-          );
           columnArray.add(getListMakeSureButton(containerWidth));
         }
         break;
@@ -406,9 +406,6 @@ class _STDialogState extends State<STDialog> {
       body: Center(
         child: Container(
           width: containerWidth,
-          constraints: BoxConstraints(
-            maxHeight: containerHeight,
-          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(STDialogConstant.cornerRadius),
             color: Colors.white,
@@ -455,7 +452,7 @@ class _STDialogState extends State<STDialog> {
   }
 
   Widget getDoubleButtons(double containerWidth, STDialogType type) {
-    bool isDialog = type == STDialogType.dialog;
+    final bool isDialog = type == STDialogType.dialog;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -607,6 +604,8 @@ class _STDialogState extends State<STDialog> {
           ],
         ),
       );
+    } else {
+      return null;
     }
   }
 

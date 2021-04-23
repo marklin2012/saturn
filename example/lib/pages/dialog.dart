@@ -164,50 +164,6 @@ class DialogPage extends StatelessWidget {
                         icon: "assets/images/basketball_check.png",
                       )
                     ],
-                    [
-                      ChoiceItem(
-                        title: "好的",
-                        icon: "assets/images/basketball_check.png",
-                      ),
-                      ChoiceItem(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      )
-                    ],
-                    [
-                      ChoiceItem(
-                        title: "好的",
-                        icon: "assets/images/basketball_check.png",
-                      ),
-                      ChoiceItem(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      )
-                    ],
-                    [
-                      ChoiceItem(
-                        title: "好的",
-                        icon: "assets/images/basketball_check.png",
-                      ),
-                      ChoiceItem(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      )
-                    ],
-                    [
-                      ChoiceItem(
-                        title: "好的",
-                        icon: "assets/images/basketball_check.png",
-                      ),
-                      ChoiceItem(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      )
-                    ]
                   ]);
             },
           ),
