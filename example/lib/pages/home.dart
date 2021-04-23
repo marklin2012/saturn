@@ -13,6 +13,7 @@ import 'package:example/pages/stepper.dart';
 import 'package:example/pages/slider.dart';
 import 'package:example/pages/select.dart';
 import 'package:example/pages/picker.dart';
+import 'package:example/pages/steps.dart';
 
 import 'package:example/pages/loading.dart';
 import 'package:example/pages/alert.dart';
@@ -33,6 +34,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Icon', page: IconPage()),
   PageModel(name: 'Select', page: SelectPage()),
   PageModel(name: 'Picker', page: PickerPage()),
+  PageModel(name: 'Steps', page: StepsPage()),
 ];
 
 class HomePage extends StatelessWidget {
