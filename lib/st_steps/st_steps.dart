@@ -212,7 +212,7 @@ class _STStepsState extends State<STSteps> {
         _preWidget = Text('$_number', style: _defaultNumTextStyle);
       } else {
         _preWidget = Icon(
-          _items[index].iconData ?? STIcons.commonly_exception,
+          _items[index].iconData ?? STIcons.commonly_selected,
           size: _defaultNumIconWidth * 2 / 3,
           color: Colors.white,
         );
