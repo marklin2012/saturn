@@ -27,7 +27,8 @@ class ToastPage extends StatelessWidget {
             onPressed: () {
               STToast.show(
                   context: context,
-                  icon: "assets/images/basketball_check.png",
+                  icon: Image.asset("assets/images/basketball_check.png",
+                      fit: BoxFit.fitWidth),
                   message: "这是一个message这是一个message这是一个message这是一个message",
                   locationType: STToastLocationType.bottom,
                   closable: true);
@@ -40,7 +41,7 @@ class ToastPage extends StatelessWidget {
             onPressed: () {
               STToast.showLoading(
                   context: context,
-                  icon: "assets/images/basketball_check.png",
+                  icon: Icon(Icons.error_outline),
                   locationType: STToastLocationType.center);
             },
           ),
@@ -50,7 +51,8 @@ class ToastPage extends StatelessWidget {
             onPressed: () {
               STToast.show(
                   context: context,
-                  icon: "assets/images/basketball_check.png",
+                  icon: Image.asset("assets/images/basketball_check.png",
+                      fit: BoxFit.fitWidth),
                   message: "这是一个message这是一个message这是一个message这是一个message",
                   isIconUpText: true);
             },

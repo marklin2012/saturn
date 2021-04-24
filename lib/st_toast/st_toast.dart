@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'common.dart';
 
+import '../utils/string.dart';
+
 class STToast extends StatefulWidget {
   final String message;
-  final String icon;
+  final Widget icon;
   final bool isIconUpText;
   final bool haveIconAnimation;
   final STToastLocationType locationType;
@@ -29,7 +31,7 @@ class STToast extends StatefulWidget {
   static void show(
       {@required BuildContext context,
       @required String message,
-      String icon,
+      Widget icon,
       bool isIconUpText = false,
       STToastLocationType locationType = STToastLocationType.center,
       bool closable = false,
@@ -56,7 +58,7 @@ class STToast extends StatefulWidget {
 
   static void showLoading({
     @required BuildContext context,
-    String icon,
+    Widget icon,
     STToastLocationType locationType = STToastLocationType.center,
   }) {
     showDialog(
@@ -102,7 +104,7 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
       });
     }
 
-    if (!isNullOrEmpty(widget.icon) && widget.haveIconAnimation) {
+    if (!(widget.icon == null) && widget.haveIconAnimation) {
       controller = AnimationController(
           duration: const Duration(seconds: 2), vsync: this);
       controller.addStatusListener(
@@ -137,14 +139,11 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     }
 
     Widget imageWidget;
-    if (!isNullOrEmpty(widget.icon)) {
-      final Image innerImageWidget =
-          Image.asset(widget.icon, fit: BoxFit.fitWidth);
+    if (!(widget.icon == null)) {
       if (widget.haveIconAnimation) {
-        imageWidget =
-            RotationTransition(turns: controller, child: innerImageWidget);
+        imageWidget = RotationTransition(turns: controller, child: widget.icon);
       } else {
-        imageWidget = innerImageWidget;
+        imageWidget = widget.icon;
       }
     }
 
@@ -154,7 +153,7 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     );
 
     Widget returnWidget;
-    if (isNullOrEmpty(widget.icon)) {
+    if (widget.icon == null) {
       returnWidget = Padding(
           padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
           child: messageWidget);
@@ -212,14 +211,6 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
             child: returnWidget),
       ),
     );
-  }
-
-  bool isNullOrEmpty(String str) {
-    if (str == null || str.isEmpty) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override
