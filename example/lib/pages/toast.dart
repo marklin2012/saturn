@@ -41,7 +41,7 @@ class ToastPage extends StatelessWidget {
             onPressed: () {
               STToast.showLoading(
                   context: context,
-                  icon: Icon(Icons.error_outline),
+                  icon: Icon(Icons.error_outline, color: Colors.white),
                   locationType: STToastLocationType.center);
             },
           ),
