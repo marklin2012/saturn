@@ -12,9 +12,6 @@ class STSnackbar extends StatefulWidget {
   final String image;
   final IconData icon;
   final Color iconColor;
-  final STSnackbarLocationType locationType;
-  final double topPadding;
-  final double bottomPadding;
   final VoidCallback onButtonTap;
   final bool autoClose;
   final int disappearTime;
@@ -29,9 +26,6 @@ class STSnackbar extends StatefulWidget {
       this.image,
       this.icon,
       this.iconColor,
-      this.locationType,
-      this.topPadding,
-      this.bottomPadding,
       this.onButtonTap,
       this.autoClose,
       this.disappearTime})
@@ -47,16 +41,14 @@ class STSnackbar extends StatefulWidget {
       String image,
       IconData icon,
       Color iconColor = Colors.white,
-      STSnackbarLocationType locationType = STSnackbarLocationType.center,
-      double topPadding = STSnackbarConstant.defaultTopBottomPadding,
-      double bottomPadding = STSnackbarConstant.defaultTopBottomPadding,
       VoidCallback onButtonTap,
       bool autoClose,
       int disappearTime = STSnackbarConstant.defaultDisappearTime}) {
-    showDialog(
+    showModalBottomSheet(
         context: context,
-        barrierDismissible: false,
         barrierColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: false,
         builder: (context) {
           final snackbar = STSnackbar(
             title: title,
@@ -67,13 +59,11 @@ class STSnackbar extends StatefulWidget {
             image: image,
             icon: icon,
             iconColor: iconColor,
-            locationType: locationType,
-            topPadding: topPadding,
-            bottomPadding: bottomPadding,
             onButtonTap: onButtonTap,
             autoClose: autoClose,
             disappearTime: disappearTime,
           );
+
           return snackbar;
         });
   }
@@ -203,53 +193,37 @@ class _STSnackbarState extends State<STSnackbar> {
       );
     }
 
-    double curTopPadding = 0;
-    double curBottomPadding = 0;
-    AlignmentGeometry alignment;
-    switch (widget.locationType) {
-      case STSnackbarLocationType.top:
-        alignment = Alignment.topCenter;
-        curTopPadding = widget.topPadding;
-        break;
-      case STSnackbarLocationType.center:
-        alignment = Alignment.center;
-        break;
-      case STSnackbarLocationType.bottom:
-        alignment = Alignment.bottomCenter;
-        curBottomPadding = widget.bottomPadding;
-        break;
-    }
     return Align(
-        alignment: alignment,
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(0, curTopPadding, 0, curBottomPadding),
-            child: Container(
-              constraints: BoxConstraints(maxWidth: containerMaxWidth),
-              decoration: boxDecoration,
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+        alignment: Alignment.bottomCenter,
+        child: SafeArea(
+          child: Container(
+            constraints: BoxConstraints(maxWidth: containerMaxWidth),
+            decoration: boxDecoration,
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      if (imageWidget != null) imageWidget,
+                      if (imageWidget != null) const SizedBox(width: 14),
                       Expanded(
-                          child: Row(mainAxisSize: MainAxisSize.min, children: [
-                        if (imageWidget != null) imageWidget,
-                        if (imageWidget != null) const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (titleWidget != null) titleWidget,
-                                if (messageWidget != null) messageWidget
-                              ]),
-                        )
-                      ])),
-                      if (buttonWidget != null) buttonWidget
-                    ],
-                  )),
-            )));
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (titleWidget != null) titleWidget,
+                              if (messageWidget != null) messageWidget
+                            ]),
+                      )
+                    ])),
+                    if (buttonWidget != null) buttonWidget
+                  ],
+                )),
+          ),
+        ));
   }
 
   bool isNullOrEmpty(String str) {

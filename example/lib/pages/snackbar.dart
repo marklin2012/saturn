@@ -21,7 +21,6 @@ class SnackbarPage extends StatelessWidget {
               STSnackbar.show(
                 context: context,
                 title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
-                locationType: STSnackbarLocationType.top,
               );
             },
           ),
@@ -36,7 +35,6 @@ class SnackbarPage extends StatelessWidget {
                 context: context,
                 title: "你说是就是你说",
                 message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
-                locationType: STSnackbarLocationType.bottom,
               );
             },
           ),
