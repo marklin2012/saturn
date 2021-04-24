@@ -10,8 +10,6 @@ class STToast extends StatefulWidget {
   final bool isIconUpText;
   final bool haveIconAnimation;
   final STToastLocationType locationType;
-  final double topPadding;
-  final double bottomPadding;
   final bool closable;
   final bool autoClose;
   final int disappearTime;
@@ -23,8 +21,6 @@ class STToast extends StatefulWidget {
       this.isIconUpText,
       this.haveIconAnimation,
       this.locationType,
-      this.topPadding,
-      this.bottomPadding,
       this.closable,
       this.autoClose,
       this.disappearTime})
@@ -32,15 +28,12 @@ class STToast extends StatefulWidget {
 
   static void show(
       {@required BuildContext context,
-      String message,
+      @required String message,
       String icon,
       bool isIconUpText = false,
-      bool haveIconAnimation = false,
       STToastLocationType locationType = STToastLocationType.center,
-      double topPadding = STToastConstant.defaultTopBottomPadding,
-      double bottomPadding = STToastConstant.defaultTopBottomPadding,
       bool closable = false,
-      bool autoClose = false,
+      bool autoClose = true,
       int disappearTime = STToastConstant.defaultDisappearTime}) {
     showDialog(
         context: context,
@@ -51,13 +44,35 @@ class STToast extends StatefulWidget {
             message: message,
             icon: icon,
             isIconUpText: isIconUpText,
-            haveIconAnimation: haveIconAnimation,
+            haveIconAnimation: false,
             locationType: locationType,
-            topPadding: topPadding,
-            bottomPadding: bottomPadding,
             closable: closable,
             autoClose: autoClose,
             disappearTime: disappearTime,
+          );
+          return toast;
+        });
+  }
+
+  static void showLoading({
+    @required BuildContext context,
+    String icon,
+    STToastLocationType locationType = STToastLocationType.center,
+  }) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierColor: Colors.transparent,
+        builder: (context) {
+          final toast = STToast(
+            message: "",
+            icon: icon,
+            isIconUpText: false,
+            haveIconAnimation: true,
+            locationType: locationType,
+            closable: false,
+            autoClose: false,
+            disappearTime: STToastConstant.defaultDisappearTime,
           );
           return toast;
         });
@@ -176,26 +191,21 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
         }
       }
     }
-    double curTopPadding = 0;
-    double curBottomPadding = 0;
     AlignmentGeometry alignment;
     switch (widget.locationType) {
       case STToastLocationType.top:
         alignment = Alignment.topCenter;
-        curTopPadding = widget.topPadding;
         break;
       case STToastLocationType.center:
         alignment = Alignment.center;
         break;
       case STToastLocationType.bottom:
         alignment = Alignment.bottomCenter;
-        curBottomPadding = widget.bottomPadding;
         break;
     }
-    return Align(
-      alignment: alignment,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0, curTopPadding, 0, curBottomPadding),
+    return SafeArea(
+      child: Align(
+        alignment: alignment,
         child: Container(
             constraints: BoxConstraints(maxWidth: containerMaxWidth),
             decoration: boxDecoration,

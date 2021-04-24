@@ -11,8 +11,5 @@ class STToastConstant {
 
   static const defaultBackgroundColor = Color.fromRGBO(0, 0, 0, 0.8);
 
-  static const defaultTopBottomPadding = 14.0;
-
-  //
   static const defaultDisappearTime = 5;
 }
