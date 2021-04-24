@@ -55,6 +55,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
   String _startHintText;
   String _endHintText;
   bool _isHighlighted = false; // 是否高亮
+  bool _isShowStart = true; // range的时候弹出的picker是开始或者结束
   final List<DateTime> _selectedDateTimes = []..length = 2;
 
   final DateTime _defaultFirstDateTime = DateTime(2012, 4, 22);
@@ -82,67 +83,72 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      key: _touchCalKey,
-      margin: _margin,
-      height: _stCalendarInputHeight,
-      decoration: BoxDecoration(
-        color: _defaultBackgroundColor,
-        border: Border.all(
-            color:
-                _isHighlighted ? _borderHighlightedColor : _defaultBorderColor),
-        borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: _defaultLeftPadding,
-            child: GestureDetector(
-              onTap: () {
-                _isHighlighted = true;
-                setState(() {});
-                _show(STCalendarPickerType.start);
-              },
+    return GestureDetector(
+      onTap: () {
+        _isHighlighted = true;
+        setState(() {});
+        _show(_isStartOrEndDatePicker());
+      },
+      child: Container(
+        key: _touchCalKey,
+        margin: _margin,
+        height: _stCalendarInputHeight,
+        decoration: BoxDecoration(
+          color: _defaultBackgroundColor,
+          border: Border.all(
+              color: _isHighlighted
+                  ? _borderHighlightedColor
+                  : _defaultBorderColor),
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: _defaultLeftPadding,
               child: Text(_startHintText,
                   style: _getTextStyle(STCalendarPickerType.start)),
             ),
-          ),
-          if (widget.isRange)
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      right: _defaultMargin.right,
-                      left: 2 * _defaultMargin.left),
-                  child: const Icon(
-                    STIcons.direction_swapright,
-                    size: 16.0,
-                    color: Colors.grey,
+            if (widget.isRange)
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        right: _defaultMargin.right,
+                        left: 2 * _defaultMargin.left),
+                    child: const Icon(
+                      STIcons.direction_swapright,
+                      size: 16.0,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _isHighlighted = true;
-                    setState(() {});
-                    _show(STCalendarPickerType.end);
-                  },
-                  child: Text(_endHintText,
+                  Text(_endHintText,
                       style: _getTextStyle(STCalendarPickerType.end)),
-                ),
-              ],
+                ],
+              ),
+            const Padding(
+              padding: _defaultRightPadding,
+              child:
+                  Icon(STIcons.commonly_calendar, size: 20, color: Colors.grey),
             ),
-          const Padding(
-            padding: _defaultRightPadding,
-            child:
-                Icon(STIcons.commonly_calendar, size: 20, color: Colors.grey),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   void _show(STCalendarPickerType type) {
+    var _firstDate = widget.firstDate ?? _defaultFirstDateTime;
+    var _initialDate = widget.initialDate ?? DateTime.now();
+    if (widget.isRange &&
+        type == STCalendarPickerType.end &&
+        _selectedDateTimes.first != null) {
+      _firstDate = _selectedDateTimes.first.add(const Duration(days: 1));
+    }
+    // initialDate必须大于firstDate,这里做个特殊处理
+    if (_firstDate.isAfter(_initialDate)) {
+      _initialDate = _firstDate;
+    }
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
@@ -154,11 +160,12 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
           menu: Container(
             color: Colors.white,
             child: CalendarDatePicker(
-              initialDate: widget.initialDate ?? DateTime.now(),
-              firstDate: widget.firstDate ?? _defaultFirstDateTime,
+              initialDate: _initialDate,
+              firstDate: _firstDate,
               lastDate: widget.lastDate ?? _defaultLastDateTime,
               onDateChanged: (value) {
                 _dateChangedOpration(value, type);
+                Navigator.pop(context);
               },
             ),
           ),
@@ -166,6 +173,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
       },
     ).then((value) {
       _isHighlighted = false;
+      if (widget.isRange) _isShowStart = !_isShowStart;
       setState(() {});
     });
   }
@@ -195,5 +203,13 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
     } else {
       return _selectedTextStyle;
     }
+  }
+
+  // picker对应start或者end
+  STCalendarPickerType _isStartOrEndDatePicker() {
+    if (widget.isRange && _isShowStart == false) {
+      return STCalendarPickerType.end;
+    }
+    return STCalendarPickerType.start;
   }
 }
