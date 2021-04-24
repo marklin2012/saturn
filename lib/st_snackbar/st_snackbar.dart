@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:saturn/st_snackbar/common.dart';
 
+import '../utils/string.dart';
+
 class STSnackbar extends StatefulWidget {
   final String message;
   final String title;
@@ -224,14 +226,6 @@ class _STSnackbarState extends State<STSnackbar> {
                 )),
           ),
         ));
-  }
-
-  bool isNullOrEmpty(String str) {
-    if (str == null || str.isEmpty) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override

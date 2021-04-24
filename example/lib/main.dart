@@ -2,7 +2,6 @@ import 'package:example/pages/home.dart';
 import 'package:flutter/material.dart';
 
 import 'package:saturn/saturn.dart';
-import 'package:saturn/st_alert/st_alert.dart';
 
 void main() {
   runApp(MyApp());
