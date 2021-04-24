@@ -8,12 +8,11 @@ import '../utils/string.dart';
 class STSnackbar extends StatefulWidget {
   final String message;
   final String title;
+  final bool haveCloseButton;
   final String buttonText;
   final Color buttonTextColor;
   final bool buttonHaveBackground;
-  final String image;
-  final IconData icon;
-  final Color iconColor;
+  final Widget icon;
   final VoidCallback onButtonTap;
   final bool autoClose;
   final int disappearTime;
@@ -22,12 +21,11 @@ class STSnackbar extends StatefulWidget {
       {Key key,
       this.message,
       this.title,
+      this.haveCloseButton,
       this.buttonText,
       this.buttonTextColor,
       this.buttonHaveBackground,
-      this.image,
       this.icon,
-      this.iconColor,
       this.onButtonTap,
       this.autoClose,
       this.disappearTime})
@@ -37,12 +35,11 @@ class STSnackbar extends StatefulWidget {
       {@required BuildContext context,
       @required String title,
       String message,
+      bool haveCloseButton = true,
       String buttonText,
       Color buttonTextColor,
       bool buttonHaveBackground = false,
-      String image,
-      IconData icon,
-      Color iconColor = Colors.white,
+      Widget icon,
       VoidCallback onButtonTap,
       bool autoClose,
       int disappearTime = STSnackbarConstant.defaultDisappearTime}) {
@@ -55,12 +52,11 @@ class STSnackbar extends StatefulWidget {
           final snackbar = STSnackbar(
             title: title,
             message: message,
+            haveCloseButton: haveCloseButton,
             buttonText: buttonText,
             buttonTextColor: buttonTextColor,
             buttonHaveBackground: buttonHaveBackground,
-            image: image,
             icon: icon,
-            iconColor: iconColor,
             onButtonTap: onButtonTap,
             autoClose: autoClose,
             disappearTime: disappearTime,
@@ -134,7 +130,7 @@ class _STSnackbarState extends State<STSnackbar> {
         softWrap: true,
         style: const TextStyle(
             fontWeight: FontWeight.w400,
-            color: Colors.grey,
+            color: Colors.white,
             fontSize: STSnackbarConstant.messageFontSize,
             decoration: TextDecoration.none),
       );
@@ -151,48 +147,49 @@ class _STSnackbarState extends State<STSnackbar> {
       curButtonTextColor = widget.buttonTextColor;
     }
 
-    TextButton buttonWidget;
-    if (!isNullOrEmpty(widget.buttonText)) {
-      buttonWidget = TextButton(
-        onPressed: () {
-          if (widget.onButtonTap != null) {
-            widget.onButtonTap();
-          } else {
-            STSnackbar.hide(context);
-          }
-        },
-        child: Container(
-            padding: const EdgeInsets.fromLTRB(
-                STSnackbarConstant.textButtonPadding,
-                STSnackbarConstant.textButtonPadding,
-                STSnackbarConstant.textButtonPadding,
-                STSnackbarConstant.textButtonPadding),
-            decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(STSnackbarConstant.buttonCornerRadius),
-              color: widget.buttonHaveBackground
-                  ? STSnackbarConstant.blueColor
-                  : Colors.transparent,
-            ),
-            child: Text(widget.buttonText,
-                style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    color: curButtonTextColor,
-                    fontSize: 16,
-                    decoration: TextDecoration.none))),
-      );
-    }
-
-    Widget imageWidget;
-    if (widget.icon == null) {
-      if (!isNullOrEmpty(widget.image)) {
-        imageWidget = Image.asset(widget.image, fit: BoxFit.fitWidth);
+    Widget buttonWidget;
+    if (widget.haveCloseButton) {
+      if (!isNullOrEmpty(widget.buttonText)) {
+        buttonWidget = TextButton(
+          onPressed: () {
+            if (widget.onButtonTap != null) {
+              widget.onButtonTap();
+            } else {
+              STSnackbar.hide(context);
+            }
+          },
+          child: Container(
+              padding:
+                  const EdgeInsets.all(STSnackbarConstant.textButtonPadding),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                    STSnackbarConstant.buttonCornerRadius),
+                color: widget.buttonHaveBackground
+                    ? STSnackbarConstant.blueColor
+                    : Colors.transparent,
+              ),
+              child: Text(widget.buttonText,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: curButtonTextColor,
+                      fontSize: 16,
+                      decoration: TextDecoration.none))),
+        );
+      } else {
+        buttonWidget = IconButton(
+          icon: const Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            if (widget.onButtonTap != null) {
+              widget.onButtonTap();
+            } else {
+              STSnackbar.hide(context);
+            }
+          },
+        );
       }
-    } else {
-      imageWidget = Icon(
-        widget.icon,
-        color: widget.iconColor,
-      );
     }
 
     return SafeArea(
@@ -211,8 +208,8 @@ class _STSnackbarState extends State<STSnackbar> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (imageWidget != null) imageWidget,
-                      if (imageWidget != null) const SizedBox(width: 14),
+                      if (widget.icon != null) widget.icon,
+                      if (widget.icon != null) const SizedBox(width: 14),
                       Expanded(
                         child: Column(
                             mainAxisSize: MainAxisSize.min,
