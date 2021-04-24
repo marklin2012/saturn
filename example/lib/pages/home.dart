@@ -15,6 +15,7 @@ import 'package:example/pages/icons.dart';
 import 'package:example/pages/loading.dart';
 import 'package:example/pages/alert.dart';
 import 'package:example/pages/tooltip.dart';
+import 'package:example/pages/tag.dart';
 
 List<PageModel> _pages = [
   PageModel(name: 'Input', page: InputPage()),
@@ -30,6 +31,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Slider', page: SliderPage()),
   PageModel(name: 'Icon', page: IconPage()),
   PageModel(name: 'Select', page: SelectPage()),
+  PageModel(name: 'Tag', page: TagPage()),
 ];
 
 class HomePage extends StatelessWidget {
