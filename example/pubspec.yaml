@@ -46,6 +46,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/images/1.gif
+    - assets/images/icon_selected_20x20.png
+
     - assets/images/basketball_check.png
 
   fonts:
