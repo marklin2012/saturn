@@ -195,20 +195,22 @@ class _STSnackbarState extends State<STSnackbar> {
       );
     }
 
-    return Align(
+    return SafeArea(
+      child: Align(
         alignment: Alignment.bottomCenter,
-        child: SafeArea(
-          child: Container(
-            constraints: BoxConstraints(maxWidth: containerMaxWidth),
-            decoration: boxDecoration,
-            child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+        child: Container(
+          constraints: BoxConstraints(maxWidth: containerMaxWidth),
+          decoration: boxDecoration,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
                       if (imageWidget != null) imageWidget,
                       if (imageWidget != null) const SizedBox(width: 14),
                       Expanded(
@@ -220,12 +222,16 @@ class _STSnackbarState extends State<STSnackbar> {
                               if (messageWidget != null) messageWidget
                             ]),
                       )
-                    ])),
-                    if (buttonWidget != null) buttonWidget
-                  ],
-                )),
+                    ],
+                  ),
+                ),
+                if (buttonWidget != null) buttonWidget
+              ],
+            ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   @override
