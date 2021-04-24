@@ -1,21 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:saturn/st_icons/st_icons.dart';
-
-enum STStepsType { normal, number, icon, detail }
-
-class STStepItem {
-  const STStepItem({this.title, this.iconData, this.number, this.info});
-  final String title;
-  final IconData iconData;
-  final int number;
-  final String info;
-}
-
-class STRenderItem {
-  const STRenderItem({this.offset, this.size});
-  final Offset offset;
-  final Size size;
-}
+import 'package:saturn/st_steps/common.dart';
 
 const _defaultCircleWidth = 8.0;
 const _defaultNumIconWidth = 20.0;
@@ -31,18 +17,18 @@ const _defaultSelectColor = Color(0xFF095BF9);
 class STSteps extends StatefulWidget {
   const STSteps({
     Key key,
-    this.type = STStepsType.normal,
+    this.type = STStepsType.dot,
     this.margin,
-    this.items,
-    this.finishedIndex,
+    this.steps,
+    this.current,
     this.deatilHeight,
     this.detailWidth,
   }) : super(key: key);
 
   final STStepsType type;
   final EdgeInsets margin;
-  final List<STStepItem> items;
-  final int finishedIndex;
+  final List<STStepItem> steps;
+  final int current;
   final double deatilHeight; //type为detail,竖排需固定高度才能排版
   final double detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
 
@@ -52,12 +38,12 @@ class STSteps extends StatefulWidget {
 
 class _STStepsState extends State<STSteps> {
   STStepsType _type;
-  List<STStepItem> _items;
+  List<STStepItem> _steps;
   EdgeInsets _margin;
   List<GlobalKey> _golbalKeys;
   bool _isFindRender = false;
   List<STRenderItem> _renders;
-  int _finishedIndex;
+  int _current;
   double _detailHeight;
   double _detailWidth;
 
@@ -65,12 +51,12 @@ class _STStepsState extends State<STSteps> {
   void initState() {
     super.initState();
     _type = widget.type;
-    _items = List.from(widget.items);
+    _steps = List.from(widget.steps);
     _margin = widget.margin ?? _defaultMargin;
-    _finishedIndex = widget.finishedIndex ?? 1;
+    _current = widget.current ?? 1;
     _golbalKeys = <GlobalKey>[];
-    for (var i = 0; i < _items.length; i++) {
-      final _tempKey = GlobalKey(debugLabel: '${_items[i].title}+$i');
+    for (var i = 0; i < _steps.length; i++) {
+      final _tempKey = GlobalKey(debugLabel: '${_steps[i].title}+$i');
       _golbalKeys.add(_tempKey);
     }
 
@@ -95,8 +81,8 @@ class _STStepsState extends State<STSteps> {
   @override
   Widget build(BuildContext context) {
     switch (_type) {
-      case STStepsType.normal:
-        return buildNormal();
+      case STStepsType.dot:
+        return buildDot();
       case STStepsType.number:
       case STStepsType.icon:
         return buildNumberAndIcon();
@@ -108,10 +94,10 @@ class _STStepsState extends State<STSteps> {
 
   Widget buildDetail() {
     _detailHeight = widget.deatilHeight ??
-        (44.0 * _items.length + 30 * (_items.length - 1));
+        (44.0 * _steps.length + 30 * (_steps.length - 1));
     _detailWidth = widget.detailWidth ?? 100.0;
     final _stackWidgets = <Widget>[];
-    final _bgWidgtets = List.generate(_items.length, (index) {
+    final _bgWidgtets = List.generate(_steps.length, (index) {
       Widget _preWidget;
       if (_isFinished(index)) {
         _preWidget = const Icon(
@@ -120,7 +106,7 @@ class _STStepsState extends State<STSteps> {
           color: Colors.white,
         );
       } else {
-        final _number = _items[index].number ?? index + 1;
+        final _number = _steps[index].number ?? index + 1;
         _preWidget = Text('$_number', style: _defaultNumTextStyle);
       }
       return SizedBox(
@@ -145,7 +131,7 @@ class _STStepsState extends State<STSteps> {
                 SizedBox(
                   height: _defaultNumIconHeight,
                   child: Text(
-                    _items[index].title,
+                    _steps[index].title,
                     style: TextStyle(
                         fontSize: 14.0,
                         color: _isFinished(index)
@@ -156,7 +142,7 @@ class _STStepsState extends State<STSteps> {
                 SizedBox(
                   height: _defaultNumIconWidth,
                   child: Text(
-                    _items[index].info,
+                    _steps[index].info,
                     style: const TextStyle(
                         fontSize: 12.0, color: Color(0xFF888888)),
                   ),
@@ -174,7 +160,7 @@ class _STStepsState extends State<STSteps> {
       ),
     ));
     if (_isFindRender) {
-      for (var i = 0; i < _items.length - 1; i++) {
+      for (var i = 0; i < _steps.length - 1; i++) {
         final _top = _renders[i].offset.dy -
             _renders[0].offset.dy +
             _defaultNumIconWidth +
@@ -205,14 +191,14 @@ class _STStepsState extends State<STSteps> {
 
   Widget buildNumberAndIcon() {
     final _stackWidgets = <Widget>[];
-    final _bgWidgtets = List.generate(_items.length, (index) {
+    final _bgWidgtets = List.generate(_steps.length, (index) {
       Widget _preWidget;
       if (_type == STStepsType.number) {
-        final _number = _items[index].number ?? index + 1;
+        final _number = _steps[index].number ?? index + 1;
         _preWidget = Text('$_number', style: _defaultNumTextStyle);
       } else {
         _preWidget = Icon(
-          _items[index].iconData ?? STIcons.commonly_selected,
+          _steps[index].iconData ?? STIcons.commonly_selected,
           size: _defaultNumIconWidth * 2 / 3,
           color: Colors.white,
         );
@@ -232,7 +218,7 @@ class _STStepsState extends State<STSteps> {
           ),
           const SizedBox(width: 4),
           Text(
-            _items[index].title,
+            _steps[index].title,
             style: _isFinished(index)
                 ? _defaultSelectTextStyle
                 : _defaultTextStyle,
@@ -247,7 +233,7 @@ class _STStepsState extends State<STSteps> {
       ),
     ));
     if (_isFindRender) {
-      for (var i = 1; i < _items.length; i++) {
+      for (var i = 1; i < _steps.length; i++) {
         final _width = _renders[i].offset.dx -
             _renders[i - 1].offset.dx -
             _renders[i - 1].size.width -
@@ -276,22 +262,22 @@ class _STStepsState extends State<STSteps> {
     );
   }
 
-  Widget buildNormal() {
+  Widget buildDot() {
     final _stackWidgets = <Widget>[];
     final _titlesWidgets = List.generate(
-      _items.length,
+      _steps.length,
       (index) {
         var _crossAxisAlignment = CrossAxisAlignment.center;
         if (index == 0) {
           _crossAxisAlignment = CrossAxisAlignment.start;
-        } else if (index == _items.length - 1) {
+        } else if (index == _steps.length - 1) {
           _crossAxisAlignment = CrossAxisAlignment.end;
         }
         return Column(
           crossAxisAlignment: _crossAxisAlignment,
           children: [
             Text(
-              _items[index].title,
+              _steps[index].title,
               style: _isFinished(index)
                   ? _defaultSelectTextStyle
                   : _defaultTextStyle,
@@ -317,7 +303,7 @@ class _STStepsState extends State<STSteps> {
       ),
     ));
     if (_isFindRender) {
-      for (var i = 1; i < _items.length; i++) {
+      for (var i = 1; i < _steps.length; i++) {
         final _width = _renders[i].offset.dx -
             _renders[i - 1].offset.dx -
             _defaultCircleWidth * 2;
@@ -342,5 +328,5 @@ class _STStepsState extends State<STSteps> {
     );
   }
 
-  bool _isFinished(int index) => index < _finishedIndex;
+  bool _isFinished(int index) => index < _current;
 }

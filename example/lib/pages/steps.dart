@@ -29,8 +29,8 @@ class _StepsPageState extends State<StepsPage> {
         children: [
           SizedBox(height: 30),
           STSteps(
-            finishedIndex: 3,
-            items: [
+            current: 3,
+            steps: [
               STStepItem(title: '文字'),
               STStepItem(title: '文字文字'),
               STStepItem(title: '文字文字文字'),
@@ -40,8 +40,8 @@ class _StepsPageState extends State<StepsPage> {
           SizedBox(height: 30),
           STSteps(
             type: STStepsType.number,
-            finishedIndex: 2,
-            items: [
+            current: 2,
+            steps: [
               STStepItem(title: '文本'),
               STStepItem(title: '文本文本'),
               STStepItem(title: '文本文本'),
@@ -50,8 +50,8 @@ class _StepsPageState extends State<StepsPage> {
           SizedBox(height: 30),
           STSteps(
             type: STStepsType.icon,
-            finishedIndex: 1,
-            items: [
+            current: 1,
+            steps: [
               STStepItem(title: '文本文本'),
               STStepItem(title: '文本'),
               STStepItem(title: '文本文本'),
@@ -60,7 +60,7 @@ class _StepsPageState extends State<StepsPage> {
           SizedBox(height: 30),
           STSteps(
             type: STStepsType.detail,
-            items: [
+            steps: [
               STStepItem(title: '文本文本', info: '说明信息'),
               STStepItem(title: '文本文本', info: '说明信息'),
               STStepItem(title: '文本文本', info: '说明信息'),
