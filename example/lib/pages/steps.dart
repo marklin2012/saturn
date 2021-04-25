@@ -28,16 +28,6 @@ class _StepsPageState extends State<StepsPage> {
             ],
           ),
           SizedBox(height: 30),
-          Steps(
-            current: 3,
-            steps: [
-              STStepItem(title: '文字'),
-              STStepItem(title: '文字文'),
-              STStepItem(title: '文字文字文字文字文字'),
-              STStepItem(title: '文字'),
-            ],
-          ),
-          SizedBox(height: 30),
           STSteps(
             type: STStepsType.number,
             current: 2,

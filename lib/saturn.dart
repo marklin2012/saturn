@@ -16,7 +16,7 @@ export 'package:saturn/st_message/include.dart';
 export 'package:saturn/st_select/st_select.dart';
 export 'package:saturn/st_select/select_mix_item.dart';
 export 'package:saturn/st_picker/st_picker.dart';
-export 'package:saturn/st_steps/include.dart';
+export 'package:saturn/st_steps/steps_include.dart';
 
 /// A Calculator.
 class Calculator {
