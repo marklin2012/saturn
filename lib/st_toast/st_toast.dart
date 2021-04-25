@@ -110,7 +110,7 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
       });
     }
 
-    if (!(widget.icon == null) && widget.rotateAnimation) {
+    if ((widget.icon != null) && widget.rotateAnimation) {
       controller = AnimationController(
           duration: const Duration(seconds: 2), vsync: this);
       controller.addStatusListener(
