@@ -14,16 +14,6 @@ class _StepsPageState extends State<StepsPage> {
       appBar: AppBar(
         title: Text('Steps'),
       ),
-      // body: Center(
-      //   child: STSteps(
-      //     type: STStepsType.detail,
-      //     items: [
-      //       STStepItem(title: '文本文本', info: '说明信息'),
-      //       STStepItem(title: '文本文本', info: '说明信息'),
-      //       STStepItem(title: '文本文本', info: '说明信息'),
-      //     ],
-      //   ),
-      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -32,8 +22,18 @@ class _StepsPageState extends State<StepsPage> {
             current: 3,
             steps: [
               STStepItem(title: '文字'),
-              STStepItem(title: '文字文字'),
-              STStepItem(title: '文字文字文字'),
+              STStepItem(title: '文字文'),
+              STStepItem(title: '文字文字文字文字文字'),
+              STStepItem(title: '文字'),
+            ],
+          ),
+          SizedBox(height: 30),
+          Steps(
+            current: 3,
+            steps: [
+              STStepItem(title: '文字'),
+              STStepItem(title: '文字文'),
+              STStepItem(title: '文字文字文字文字文字'),
               STStepItem(title: '文字'),
             ],
           ),
@@ -44,7 +44,7 @@ class _StepsPageState extends State<StepsPage> {
             steps: [
               STStepItem(title: '文本'),
               STStepItem(title: '文本文本'),
-              STStepItem(title: '文本文本'),
+              STStepItem(title: '文本文本文本文本'),
             ],
           ),
           SizedBox(height: 30),
@@ -54,7 +54,7 @@ class _StepsPageState extends State<StepsPage> {
             steps: [
               STStepItem(title: '文本文本'),
               STStepItem(title: '文本'),
-              STStepItem(title: '文本文本'),
+              STStepItem(title: '文本文本文本文本'),
             ],
           ),
           SizedBox(height: 30),
