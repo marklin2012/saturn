@@ -30,7 +30,7 @@ class ToastPage extends StatelessWidget {
                   icon: Image.asset("assets/images/basketball_check.png",
                       fit: BoxFit.fitWidth),
                   message: "这是一个message这是一个message这是一个message这是一个message",
-                  locationType: STToastLocationType.bottom,
+                  locationType: STToastPosition.bottom,
                   closable: true);
               ;
             },
@@ -42,7 +42,7 @@ class ToastPage extends StatelessWidget {
               STToast.showLoading(
                   context: context,
                   icon: Icon(Icons.error_outline, color: Colors.white),
-                  locationType: STToastLocationType.center);
+                  locationType: STToastPosition.center);
             },
           ),
           FlatButton(

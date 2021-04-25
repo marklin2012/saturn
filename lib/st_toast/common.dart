@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum STToastLocationType { top, center, bottom }
+enum STToastPosition { top, center, bottom }
 
 class STToastConstant {
   static const maxWidthPercent = 0.9;
@@ -11,5 +11,5 @@ class STToastConstant {
 
   static const defaultBackgroundColor = Color.fromRGBO(0, 0, 0, 0.8);
 
-  static const defaultDisappearTime = 5;
+  static const defaultDisappearMilliseconds = 5000;
 }
