@@ -14,12 +14,12 @@ import 'package:example/pages/slider.dart';
 import 'package:example/pages/select.dart';
 import 'package:example/pages/picker.dart';
 import 'package:example/pages/steps.dart';
+import 'package:example/pages/cascader.dart';
 
 import 'package:example/pages/loading.dart';
 import 'package:example/pages/alert.dart';
 import 'package:example/pages/tooltip.dart';
 import 'package:example/pages/message.dart';
-import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
   PageModel(name: 'Input', page: InputPage()),
@@ -38,6 +38,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Select', page: SelectPage()),
   PageModel(name: 'Picker', page: PickerPage()),
   PageModel(name: 'Steps', page: StepsPage()),
+  PageModel(name: 'Cascader', page: CascaderPage()),
 ];
 
 class HomePage extends StatelessWidget {
