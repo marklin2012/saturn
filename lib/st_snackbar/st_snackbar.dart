@@ -8,41 +8,45 @@ import '../utils/string.dart';
 class STSnackbar extends StatefulWidget {
   final String message;
   final String title;
-  final bool haveCloseButton;
+  final bool hasCloseButton;
   final String buttonText;
   final Color buttonTextColor;
-  final bool buttonHaveBackground;
+  final bool isButtonHasBackground;
   final Widget icon;
   final VoidCallback onButtonTap;
   final bool autoClose;
-  final int disappearTime;
+  final int disappearMilliseconds;
+  final bool hasSafeArea;
 
   const STSnackbar(
       {Key key,
       this.message,
       this.title,
-      this.haveCloseButton,
+      this.hasCloseButton,
       this.buttonText,
       this.buttonTextColor,
-      this.buttonHaveBackground,
+      this.isButtonHasBackground,
       this.icon,
       this.onButtonTap,
       this.autoClose,
-      this.disappearTime})
+      this.disappearMilliseconds,
+      this.hasSafeArea})
       : super(key: key);
 
   static void show(
       {@required BuildContext context,
       @required String title,
       String message,
-      bool haveCloseButton = true,
+      bool hasCloseButton = true,
       String buttonText,
       Color buttonTextColor,
-      bool buttonHaveBackground = false,
+      bool isButtonHasBackground = false,
       Widget icon,
       VoidCallback onButtonTap,
       bool autoClose,
-      int disappearTime = STSnackbarConstant.defaultDisappearTime}) {
+      int disappearMilliseconds =
+          STSnackbarConstant.defaultDisappearMilliseconds,
+      bool hasSafeArea = true}) {
     showModalBottomSheet(
         context: context,
         barrierColor: Colors.transparent,
@@ -52,14 +56,15 @@ class STSnackbar extends StatefulWidget {
           final snackbar = STSnackbar(
             title: title,
             message: message,
-            haveCloseButton: haveCloseButton,
+            hasCloseButton: hasCloseButton,
             buttonText: buttonText,
             buttonTextColor: buttonTextColor,
-            buttonHaveBackground: buttonHaveBackground,
+            isButtonHasBackground: isButtonHasBackground,
             icon: icon,
             onButtonTap: onButtonTap,
             autoClose: autoClose,
-            disappearTime: disappearTime,
+            disappearMilliseconds: disappearMilliseconds,
+            hasSafeArea: hasSafeArea,
           );
 
           return snackbar;
@@ -93,7 +98,7 @@ class _STSnackbarState extends State<STSnackbar> {
     }
 
     if (isCurAutoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
         STSnackbar.hide(context);
       });
     }
@@ -138,7 +143,7 @@ class _STSnackbarState extends State<STSnackbar> {
 
     Color curButtonTextColor;
     if (widget.buttonTextColor == null) {
-      if (widget.buttonHaveBackground) {
+      if (widget.isButtonHasBackground) {
         curButtonTextColor = Colors.white;
       } else {
         curButtonTextColor = STSnackbarConstant.blueColor;
@@ -148,7 +153,7 @@ class _STSnackbarState extends State<STSnackbar> {
     }
 
     Widget buttonWidget;
-    if (widget.haveCloseButton) {
+    if (widget.hasCloseButton) {
       if (!isNullOrEmpty(widget.buttonText)) {
         buttonWidget = TextButton(
           onPressed: () {
@@ -164,7 +169,7 @@ class _STSnackbarState extends State<STSnackbar> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                     STSnackbarConstant.buttonCornerRadius),
-                color: widget.buttonHaveBackground
+                color: widget.isButtonHasBackground
                     ? STSnackbarConstant.blueColor
                     : Colors.transparent,
               ),
@@ -192,43 +197,47 @@ class _STSnackbarState extends State<STSnackbar> {
       }
     }
 
-    return SafeArea(
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          constraints: BoxConstraints(maxWidth: containerMaxWidth),
-          decoration: boxDecoration,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (widget.icon != null) widget.icon,
-                      if (widget.icon != null) const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (titleWidget != null) titleWidget,
-                              if (messageWidget != null) messageWidget
-                            ]),
-                      )
-                    ],
-                  ),
+    final Widget content = Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        constraints: BoxConstraints(maxWidth: containerMaxWidth),
+        decoration: boxDecoration,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.icon != null) widget.icon,
+                    if (widget.icon != null) const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (titleWidget != null) titleWidget,
+                            if (messageWidget != null) messageWidget
+                          ]),
+                    )
+                  ],
                 ),
-                if (buttonWidget != null) buttonWidget
-              ],
-            ),
+              ),
+              if (buttonWidget != null) buttonWidget
+            ],
           ),
         ),
       ),
     );
+
+    if (widget.hasSafeArea) {
+      return SafeArea(child: content);
+    } else {
+      return content;
+    }
   }
 
   @override
