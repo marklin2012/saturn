@@ -16,6 +16,7 @@ import 'package:example/pages/loading.dart';
 import 'package:example/pages/alert.dart';
 import 'package:example/pages/tooltip.dart';
 import 'package:example/pages/dialog.dart';
+import 'package:example/pages/message.dart';
 import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
@@ -26,6 +27,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Badge', page: BadgePage()),
   PageModel(name: 'tooltip', page: TooltipPage()),
   PageModel(name: 'Button', page: ButtonPage()),
+  PageModel(name: 'message', page: MessagePage()),
   PageModel(name: 'Switch', page: SwitchPage()),
   PageModel(name: 'Radio', page: RadioPage()),
   PageModel(name: 'Checkbox', page: CheckboxPage()),
