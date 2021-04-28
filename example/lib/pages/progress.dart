@@ -17,8 +17,32 @@ class ProgressPage extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.step,
+                width: 200,
+                height: 40,
+                stepCount: 9,
+                progress: 0.5,
+                color: Colors.blue,
+                isStepCircle: true,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.step,
+                width: 200,
+                height: 40,
+                stepCount: 9,
+                progress: 0.3,
+                color: Colors.blue,
+                isStepCircle: false,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.line,
                 width: 300,
-                lineWidth: 14.0,
+                height: 14.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -28,17 +52,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                 type: STProgressType.line,
                 width: 300,
-                lineWidth: 14.0,
-                progress: 0.5,
-                color: Colors.blue,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: STProgress(
-                type: STProgressType.line,
-                width: 300,
-                lineWidth: 20.0,
+                height: 20.0,
                 progress: 0.5,
                 color: Colors.blue,
                 showInnerProgress: true,
@@ -49,7 +63,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.line,
                   width: 300,
-                  lineWidth: 14.0,
+                  height: 14.0,
                   progress: 0.5,
                   color: Colors.green, //
                   trailingWidget: Icon(Icons.error_outline,
@@ -60,7 +74,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.line,
                   width: 300,
-                  lineWidth: 14.0,
+                  height: 14.0,
                   progress: 0.5,
                   color: Colors.orange,
                   trailingWidget: Icon(Icons.error_outline,
@@ -71,7 +85,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.line,
                   width: 300,
-                  lineWidth: 14.0,
+                  height: 14.0,
                   progress: 0.5,
                   color: Colors.red,
                   trailingWidget:
@@ -82,7 +96,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.line,
                   width: 300,
-                  lineWidth: 14.0,
+                  height: 14.0,
                   progress: 0.5,
                   color: Colors.blue,
                   trailingWidget: Text(
@@ -95,7 +109,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                 type: STProgressType.circular,
                 radius: 150,
-                lineWidth: 8.0,
+                height: 8.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -105,7 +119,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.circular,
                   radius: 150,
-                  lineWidth: 8.0,
+                  height: 8.0,
                   progress: 0.5,
                   color: Colors.blue,
                   centerWidget: Text(
@@ -118,7 +132,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.circular,
                   radius: 150,
-                  lineWidth: 8.0,
+                  height: 8.0,
                   progress: 0.5,
                   color: Colors.red,
                   centerWidget:
@@ -129,7 +143,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.circular,
                   radius: 150,
-                  lineWidth: 8.0,
+                  height: 8.0,
                   progress: 0.5,
                   color: Colors.blue,
                   isInstrument: true,
@@ -143,7 +157,7 @@ class ProgressPage extends StatelessWidget {
               child: STProgress(
                   type: STProgressType.circular,
                   radius: 150,
-                  lineWidth: 8.0,
+                  height: 8.0,
                   progress: 1,
                   color: Colors.green,
                   isInstrument: true,

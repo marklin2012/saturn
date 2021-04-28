@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'st_step_progress.dart';
 import 'common.dart';
 import 'percent_indicator/percent_indicator.dart';
 
 class STProgress extends StatefulWidget {
   final STProgressType type;
   final double width;
-  final double lineWidth;
+  final double height;
   final double radius;
   final double progress;
   final Color color;
@@ -14,19 +15,23 @@ class STProgress extends StatefulWidget {
   final Widget centerWidget;
   final bool showInnerProgress;
   final bool isInstrument;
+  final int stepCount;
+  final bool isStepCircle;
 
   const STProgress(
       {Key key,
       this.type,
       this.width,
-      this.lineWidth,
+      this.height,
       this.radius,
       this.progress,
       this.color,
       this.trailingWidget,
       this.centerWidget,
       this.showInnerProgress = false,
-      this.isInstrument = false})
+      this.isInstrument = false,
+      this.stepCount,
+      this.isStepCircle})
       : super(key: key);
 
   @override
@@ -42,7 +47,7 @@ class _STProgressState extends State<STProgress> {
         {
           content = LinearPercentIndicator(
             width: widget.width,
-            lineHeight: widget.lineWidth,
+            lineHeight: widget.height,
             percent: widget.progress,
             linearStrokeCap: LinearStrokeCap.roundAll,
             backgroundColor: STProgressConstant.defaultBackgroundColor,
@@ -53,7 +58,7 @@ class _STProgressState extends State<STProgress> {
                     '${widget.progress * 100}%',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: widget.lineWidth - 4,
+                      fontSize: widget.height - 4,
                     ),
                   )
                 : null,
@@ -61,13 +66,22 @@ class _STProgressState extends State<STProgress> {
         }
         break;
       case STProgressType.step:
-        {}
+        {
+          content = STStepProgress(
+            width: widget.width,
+            height: widget.height,
+            count: widget.stepCount,
+            progress: widget.progress,
+            progressColor: widget.color,
+            isCircle: widget.isStepCircle,
+          );
+        }
         break;
       case STProgressType.circular:
         {
           content = CircularPercentIndicator(
               radius: widget.radius,
-              lineWidth: widget.lineWidth,
+              lineWidth: widget.height,
               animation: true,
               percent: widget.progress,
               center: widget.centerWidget,
