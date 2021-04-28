@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils/string.dart';
 import 'common.dart';
 
 class ChoiceItem {
@@ -626,14 +627,6 @@ class _STDialogState extends State<STDialog> {
       } else {
         return false;
       }
-    }
-  }
-
-  bool isNullOrEmpty(String str) {
-    if (str == null || str.isEmpty) {
-      return true;
-    } else {
-      return false;
     }
   }
 }
