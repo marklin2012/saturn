@@ -6,19 +6,19 @@ class ChoiceItem {
   String title;
   String message;
   String icon;
-  bool isSelect;
+  bool isSelectItem;
   bool isAligmentCenter;
-  bool haveSeparateLine;
-  VoidCallback onItemTap;
+  bool hasSeparateLine;
+  VoidCallback onTap;
 
   ChoiceItem(
       {this.title,
       this.message,
       this.icon,
-      this.isSelect = false,
+      this.isSelectItem = false,
       this.isAligmentCenter = false,
-      this.haveSeparateLine = false,
-      this.onItemTap});
+      this.hasSeparateLine = false,
+      this.onTap});
 }
 
 class STDialog extends StatefulWidget {
@@ -29,7 +29,7 @@ class STDialog extends StatefulWidget {
   final String buttonText;
   final List choiceList;
   final bool isDoubleButton;
-  final bool haveTextField;
+  final bool hasTextField;
   final VoidCallback onCancelTap;
   final Function(String text) onMakeSureTap;
   final STDialogType type;
@@ -43,7 +43,7 @@ class STDialog extends StatefulWidget {
     this.buttonText,
     this.choiceList,
     this.isDoubleButton,
-    this.haveTextField,
+    this.hasTextField,
     this.onCancelTap,
     this.onMakeSureTap,
     this.type,
@@ -58,7 +58,7 @@ class STDialog extends StatefulWidget {
     String buttonText,
     List choiceList,
     bool isDoubleButton = false,
-    bool haveTextField = false,
+    bool hasTextField = false,
     VoidCallback onCancelTap,
     Function(String text) onMakeSureTap,
     STDialogType type = STDialogType.dialog,
@@ -71,7 +71,7 @@ class STDialog extends StatefulWidget {
       buttonText: buttonText,
       choiceList: choiceList,
       isDoubleButton: isDoubleButton,
-      haveTextField: haveTextField,
+      hasTextField: hasTextField,
       onCancelTap: onCancelTap ??
           () {
             STDialog.hide(context);
@@ -119,7 +119,7 @@ class _STDialogState extends State<STDialog> {
   void initState() {
     super.initState();
 
-    if (widget.haveTextField) {
+    if (widget.hasTextField) {
       focusNode = FocusNode();
       textEditingController = TextEditingController();
     }
@@ -185,7 +185,7 @@ class _STDialogState extends State<STDialog> {
 
               final ChoiceItem model = widget.choiceList[i];
               final String title = model.title;
-              final VoidCallback action = model.onItemTap;
+              final VoidCallback action = model.onTap;
               columnArray.add(
                 SizedBox(
                   height: 44,
@@ -215,7 +215,7 @@ class _STDialogState extends State<STDialog> {
             }
           } else {
             String buttonText = "我知道了";
-            if (widget.haveTextField) {
+            if (widget.hasTextField) {
               buttonText = "确定";
               columnArray.add(
                 Padding(
@@ -263,7 +263,7 @@ class _STDialogState extends State<STDialog> {
                   ),
                   onPressed: () {
                     if (widget.onMakeSureTap != null) {
-                      widget.onMakeSureTap(widget.haveTextField
+                      widget.onMakeSureTap(widget.hasTextField
                           ? textEditingController.text
                           : "");
                     }
@@ -412,7 +412,7 @@ class _STDialogState extends State<STDialog> {
             boxShadow: const [
               BoxShadow(
                   color: Colors.black26,
-                  offset: Offset(5.0, 5.0),
+                  offset: Offset(4.0, 4.0),
                   blurRadius: 5.0,
                   spreadRadius: 2.0),
             ],
@@ -491,7 +491,7 @@ class _STDialogState extends State<STDialog> {
           Container(
             width: 1,
             height: 44,
-            color: const Color.fromRGBO(239, 243, 249, 1),
+            color: STDialogConstant.defaultLineColor,
           ),
         Padding(
           padding: EdgeInsets.only(right: isDialog ? 0 : 10.0),
@@ -509,7 +509,7 @@ class _STDialogState extends State<STDialog> {
               onPressed: () {
                 if (widget.onMakeSureTap != null) {
                   widget.onMakeSureTap(
-                      widget.haveTextField ? textEditingController.text : "");
+                      widget.hasTextField ? textEditingController.text : "");
                 }
               },
               child: Text(
@@ -542,13 +542,13 @@ class _STDialogState extends State<STDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (!item.isAligmentCenter) const SizedBox(width: 24),
-              if (item.isSelect)
+              if (item.isSelectItem)
                 Radio(
                   value: 1,
                   groupValue: false,
                   onChanged: (value) {},
                 ),
-              if (item.isSelect) const SizedBox(width: 16),
+              if (item.isSelectItem) const SizedBox(width: 16),
               if (!isNullOrEmpty(item.icon))
                 Image.asset(item.icon, fit: BoxFit.fitWidth),
               Column(
@@ -579,8 +579,8 @@ class _STDialogState extends State<STDialog> {
               )
             ],
           ),
-          const SizedBox(height: 13),
-          if (item.haveSeparateLine) getLineWidget(width)
+          const SizedBox(height: 14),
+          if (item.hasSeparateLine) getLineWidget(width)
         ],
       );
     } else if (type == STDialogType.dynamicList) {
@@ -613,7 +613,7 @@ class _STDialogState extends State<STDialog> {
     return Container(
       width: containerWidth,
       height: 1,
-      color: const Color.fromRGBO(239, 243, 249, 1),
+      color: STDialogConstant.defaultLineColor,
     );
   }
 
