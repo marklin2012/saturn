@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'st_step_progress.dart';
 import 'common.dart';
 import 'percent_indicator/percent_indicator.dart';
+import 'st_step_progress.dart';
 
 class STProgress extends StatefulWidget {
   final STProgressType type;

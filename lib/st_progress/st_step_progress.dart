@@ -1,7 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:saturn/st_progress/percent_indicator/circular_percent_indicator.dart';
+
 import 'common.dart';
-import 'dart:math';
 
 class STStepProgress extends StatefulWidget {
   final double width;
@@ -80,21 +82,21 @@ class STStepProgressPainter extends CustomPainter {
     }
 
     double beginX = 0;
-    Paint progressPaint = Paint()
+    final Paint progressPaint = Paint()
       ..color = progressColor
       ..style = PaintingStyle.fill
       ..strokeCap = StrokeCap.butt
       ..strokeJoin = StrokeJoin.miter
       ..isAntiAlias = true;
 
-    Paint noProgressPaint = Paint()
+    final Paint noProgressPaint = Paint()
       ..color = STProgressConstant.defaultBackgroundColor
       ..style = PaintingStyle.fill
       ..strokeCap = StrokeCap.butt
       ..strokeJoin = StrokeJoin.miter
       ..isAntiAlias = true;
 
-    Radius cornerRadius = Radius.circular(2.0);
+    const Radius cornerRadius = Radius.circular(2.0);
 
     for (int i = 0; i < progressCount; i++) {
       if (isCircle) {
@@ -102,9 +104,9 @@ class STStepProgressPainter extends CustomPainter {
             Offset(beginX + radius, height / 2.0), radius, progressPaint);
         beginX += itemWidth + STProgressConstant.defaultSpace;
       } else {
-        double endX = beginX + itemWidth;
-        Offset beginPoint = Offset(beginX, 0);
-        Offset endPoint = Offset(endX, height);
+        final double endX = beginX + itemWidth;
+        final Offset beginPoint = Offset(beginX, 0);
+        final Offset endPoint = Offset(endX, height);
         canvas.drawRRect(
             RRect.fromRectAndRadius(
                 Rect.fromPoints(beginPoint, endPoint), cornerRadius),
@@ -116,7 +118,7 @@ class STStepProgressPainter extends CustomPainter {
       if (isCircle) {
         double progressMoreCos;
         progressMoreCos = (progressMoreWidth - radius).abs() / radius;
-        double progressMoreCosDegree = acos(progressMoreCos) * 180 / 3.14;
+        final double progressMoreCosDegree = acos(progressMoreCos) * 180 / 3.14;
         double progressDegree;
         double startDegree;
         double noProgressDegree;
@@ -131,7 +133,7 @@ class STStepProgressPainter extends CustomPainter {
           startDegree = 180 - progressMoreCosDegree;
         }
 
-        Path progressPath = Path()
+        final Path progressPath = Path()
           ..arcTo(
               Rect.fromCircle(
                   center: Offset(beginX + radius, height / 2.0),
@@ -140,7 +142,7 @@ class STStepProgressPainter extends CustomPainter {
               radians(progressDegree),
               false);
         canvas.drawPath(progressPath, progressPaint);
-        Path noProgressPath = Path()
+        final Path noProgressPath = Path()
           ..arcTo(
               Rect.fromCircle(
                   center: Offset(beginX + radius, height / 2.0),
@@ -177,12 +179,12 @@ class STStepProgressPainter extends CustomPainter {
             Offset(beginX + radius, height / 2.0), radius, noProgressPaint);
         beginX += itemWidth + STProgressConstant.defaultSpace;
       } else {
-        double endX = beginX + itemWidth;
-        Offset beginPoint = Offset(beginX, 0);
-        Offset endPoint = Offset(endX, height);
+        final double endX = beginX + itemWidth;
+        final Offset beginPoint = Offset(beginX, 0);
+        final Offset endPoint = Offset(endX, height);
         canvas.drawRRect(
-            RRect.fromRectAndRadius(
-                Rect.fromPoints(beginPoint, endPoint), Radius.circular(2.0)),
+            RRect.fromRectAndRadius(Rect.fromPoints(beginPoint, endPoint),
+                const Radius.circular(2.0)),
             noProgressPaint);
         beginX = endX + STProgressConstant.defaultSpace;
       }
