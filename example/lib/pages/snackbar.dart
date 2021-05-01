@@ -18,7 +18,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                 context: context,
                 title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
                 hasCloseButton: false,
@@ -32,7 +32,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                 context: context,
                 title: "你说是就是你说",
                 message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
@@ -47,7 +47,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                 context: context,
                 title: "你说是就是你说",
                 message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
@@ -63,7 +63,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                 context: context,
                 title: "你说是就是你说",
                 message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
@@ -80,7 +80,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                   context: context,
                   title: "你说是就是你说你说是就是你说",
                   hasCloseButton: true,
@@ -96,7 +96,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                   context: context,
                   title: "你说是就是你说你说是就是你说",
                   buttonText: "文字按钮",
@@ -112,7 +112,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                 context: context,
                 title: "你说是就是你说你说是就是你说",
                 buttonText: "文字按钮",
@@ -127,7 +127,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                   context: context,
                   title: "你说是就是你说你说是就是你说",
                   buttonText: "文字按钮",
@@ -142,7 +142,7 @@ class SnackbarPage extends StatelessWidget {
               // send();
               // SocketManage.send(textEditController.text);
 
-              STSnackbar.show(
+              STSnackbarSharedInstance().show(
                   context: context,
                   title: "你说是就是你说你说是就是你说",
                   message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
