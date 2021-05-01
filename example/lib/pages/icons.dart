@@ -14,7 +14,7 @@ class IconPage extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Icon(STIcons.direction_verticalalignbottom,
+              child: Icon(STIcons.commonly_videosound_half,
                   size: 24, color: Colors.cyan),
             ),
             Padding(
