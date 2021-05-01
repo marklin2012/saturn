@@ -39,7 +39,8 @@ class _SliderPageState extends State<SliderPage> {
                 STSlider(
                   axis: Axis.vertical,
                   value: _sliderValue,
-                  size: 300,
+                  mainSize: 300,
+                  dotSize: 12,
                   onChanged: (value) {
                     setState(() {
                       _sliderValue = value;
@@ -51,6 +52,7 @@ class _SliderPageState extends State<SliderPage> {
                   rangeValues: _sliderRangeValue,
                   minValue: 0,
                   maxValue: 1000,
+                  dotSize: 12,
                   onChangedRange: (value) {
                     setState(() {
                       _sliderRangeValue = value;
@@ -62,7 +64,8 @@ class _SliderPageState extends State<SliderPage> {
             SizedBox(height: 20),
             STSlider(
               value: _sliderValue,
-              size: 340,
+              mainSize: 340,
+              crossSize: 4,
               onChanged: (value) {
                 setState(() {
                   _sliderValue = value;
@@ -73,6 +76,7 @@ class _SliderPageState extends State<SliderPage> {
             STSlider(
               disabled: sliderDisabled,
               rangeValues: _sliderRangeValue,
+              crossSize: 4,
               minValue: 0,
               maxValue: 1000,
               onChangedRange: (value) {
