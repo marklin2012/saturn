@@ -5,110 +5,108 @@ import 'common.dart';
 class STTag extends StatelessWidget {
   final String text;
   final STTagType type;
-  final STTagCorner corner;
-  final STTagTextSizeType textSizeType;
-  final bool isBorder;
-  final bool needClose;
-  final VoidCallback onTap;
-  final VoidCallback onCloseTap;
+  final STTagShape shape;
+  final STTagSize size;
+  final Function(String) onTap;
+  final Function(String) onCloseTap;
 
-  const STTag(
-      {this.text,
-      this.type,
-      this.corner = STTagCorner.normal,
-      this.textSizeType,
-      this.isBorder = false,
-      this.needClose = false,
-      this.onTap,
-      this.onCloseTap});
+  const STTag({
+    @required this.text,
+    this.type,
+    this.shape = STTagShape.primary,
+    this.size = STTagSize.normal,
+    this.onTap,
+    this.onCloseTap,
+  });
+
+  Color colorFromType(STTagType type) {
+    switch (type) {
+      case STTagType.success:
+        return STTagConstant.colorSuccess;
+      case STTagType.error:
+        return STTagConstant.colorError;
+      case STTagType.warning:
+        return STTagConstant.colorWarnning;
+      default:
+        return STTagConstant.colorPrimary;
+    }
+  }
+
+  double fontSizeFromSize(STTagSize size) {
+    switch (size) {
+      case STTagSize.big:
+        return STTagConstant.bigTextFont;
+      case STTagSize.normal:
+        return STTagConstant.normalTextFont;
+      default:
+        return STTagConstant.smallTextFont;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor;
-    switch (type) {
-      case STTagType.normal:
-        {
-          backgroundColor = STTagConstant.colorNormal;
-        }
-        break;
-      case STTagType.success:
-        {
-          backgroundColor = STTagConstant.colorSuccess;
-        }
-        break;
-      case STTagType.failure:
-        {
-          backgroundColor = STTagConstant.colorFailure;
-        }
-        break;
-      case STTagType.warning:
-        {
-          backgroundColor = STTagConstant.colorWarnning;
-        }
-        break;
-    }
-
+    final Color backgroundColor = colorFromType(type);
+    final double textSize = fontSizeFromSize(size);
+    bool isBorder = false;
     BorderRadiusGeometry borderRadius;
-    switch (corner) {
-      case STTagCorner.normal:
+
+    switch (shape) {
+      case STTagShape.outline:
         {
           borderRadius = BorderRadius.circular(2.0);
+          isBorder = true;
         }
         break;
-      case STTagCorner.circle:
+      case STTagShape.roundRect:
         {
           borderRadius = BorderRadius.circular(20);
         }
         break;
-      case STTagCorner.rightHalf:
+      case STTagShape.rightRoundRect:
         {
           borderRadius =
               const BorderRadius.horizontal(right: Radius.elliptical(20, 20));
         }
         break;
-    }
-
-    double textSize;
-    switch (textSizeType) {
-      case STTagTextSizeType.big:
-        textSize = 18.0;
-        break;
-      case STTagTextSizeType.small:
-        textSize = 16.0;
-        break;
-      default:
-        textSize = 17.0;
+      default: // 主要的
+        {
+          borderRadius = BorderRadius.circular(2.0);
+        }
     }
 
     return Container(
-      height: 34,
       decoration: BoxDecoration(
           color: isBorder ? Colors.white : backgroundColor,
           borderRadius: borderRadius,
-          border: Border.all(color: backgroundColor, width: 0.5)),
+          border: Border.all(
+            color: backgroundColor,
+          )),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextButton(
-              onPressed: onTap,
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.resolveWith(
-                      (states) => EdgeInsets.zero)),
+          GestureDetector(
+              onTap: () {
+                if (onTap != null) {
+                  onTap(text);
+                }
+              },
               child: Text(text,
                   style: TextStyle(
                       fontSize: textSize,
+                      fontWeight: FontWeight.w400,
                       color: isBorder ? backgroundColor : Colors.white))),
-          if (needClose)
+          if (onCloseTap != null)
             GestureDetector(
                 onTap: () {
-                  onCloseTap();
+                  onCloseTap(text);
                 },
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 5),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
                   child: Icon(
                     Icons.close,
                     color: Colors.white,
-                    size: 20,
+                    size: textSize,
                   ),
                 ))
         ],
