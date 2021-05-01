@@ -21,7 +21,7 @@ class SnackbarPage extends StatelessWidget {
               STSnackbar.show(
                 context: context,
                 title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
-                haveCloseButton: false,
+                hasCloseButton: false,
               );
             },
           ),
@@ -36,7 +36,7 @@ class SnackbarPage extends StatelessWidget {
                 context: context,
                 title: "你说是就是你说",
                 message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
-                haveCloseButton: false,
+                hasCloseButton: false,
               );
             },
           ),
@@ -52,7 +52,7 @@ class SnackbarPage extends StatelessWidget {
                 title: "你说是就是你说",
                 message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
                 icon: Icon(Icons.error, color: Colors.white),
-                haveCloseButton: false,
+                hasCloseButton: false,
               );
             },
           ),
@@ -69,7 +69,7 @@ class SnackbarPage extends StatelessWidget {
                 message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
                 icon: Image.asset("assets/images/basketball_check.png",
                     fit: BoxFit.fitWidth),
-                haveCloseButton: false,
+                hasCloseButton: false,
               );
             },
           ),
@@ -83,7 +83,7 @@ class SnackbarPage extends StatelessWidget {
               STSnackbar.show(
                   context: context,
                   title: "你说是就是你说你说是就是你说",
-                  haveCloseButton: true,
+                  hasCloseButton: true,
                   onButtonTap: () {
                     print("好的");
                   });
@@ -116,7 +116,7 @@ class SnackbarPage extends StatelessWidget {
                 context: context,
                 title: "你说是就是你说你说是就是你说",
                 buttonText: "文字按钮",
-                buttonHaveBackground: true,
+                isButtonHasBackground: true,
               );
             },
           ),
@@ -131,7 +131,7 @@ class SnackbarPage extends StatelessWidget {
                   context: context,
                   title: "你说是就是你说你说是就是你说",
                   buttonText: "文字按钮",
-                  buttonHaveBackground: true,
+                  isButtonHasBackground: true,
                   icon: Icon(Icons.error, color: Colors.white));
             },
           ),
@@ -147,7 +147,7 @@ class SnackbarPage extends StatelessWidget {
                   title: "你说是就是你说你说是就是你说",
                   message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
                   buttonText: "文字按钮",
-                  buttonHaveBackground: true,
+                  isButtonHasBackground: true,
                   icon: Icon(Icons.error, color: Colors.white));
             },
           )
