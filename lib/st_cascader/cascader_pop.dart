@@ -11,16 +11,20 @@ const _defaultMargin = EdgeInsets.symmetric(horizontal: 16.0);
 
 class STCascaderPopItem {
   final String value;
+  final String key;
   final bool next;
 
-  const STCascaderPopItem({this.value, this.next});
+  const STCascaderPopItem({this.value, this.key, this.next});
 }
 
 class STCascaderPop extends StatefulWidget {
-  const STCascaderPop({Key key, this.items, this.onChanged}) : super(key: key);
+  const STCascaderPop(
+      {Key key, this.items, @required this.onChangedValue, this.onChangedKey})
+      : super(key: key);
 
   final List<STCascaderItem> items;
-  final ValueChanged<List<String>> onChanged;
+  final ValueChanged<List<String>> onChangedValue;
+  final ValueChanged<List<String>> onChangedKey;
 
   @override
   _STCascaderPopState createState() => _STCascaderPopState();
@@ -125,28 +129,32 @@ class _STCascaderPopState extends State<STCascaderPop> {
     return List.generate(values.length, (index) {
       final _value = values[index].value;
       final _next = values[index].items != null;
-      return STCascaderPopItem(value: _value, next: _next);
+      final _key = values[index].key;
+      return STCascaderPopItem(value: _value, key: _key, next: _next);
     }).toList();
   }
 
   void _onChanged() {
-    if (widget.onChanged != null) {
-      final _values = <String>[];
-      var i = 0;
-      var _temp = widget.items;
-      while (i < _selectedIndexs.length) {
-        if (_selectedIndexs[i] == null) {
-          break;
-        }
-        final _index = _selectedIndexs[i];
-        _values.add(_temp[_index].value);
-        if (_temp[_index].items == null) {
-          break;
-        }
-        _temp = _temp[_index].items;
-        i++;
+    final _values = <String>[];
+    final _keys = <String>[];
+    var i = 0;
+    var _temp = widget.items;
+    while (i < _selectedIndexs.length) {
+      if (_selectedIndexs[i] == null) {
+        break;
       }
-      widget.onChanged(_values);
+      final _index = _selectedIndexs[i];
+      _values.add(_temp[_index].value);
+      _keys.add(_temp[_index].key);
+      if (_temp[_index].items == null) {
+        break;
+      }
+      _temp = _temp[_index].items;
+      i++;
     }
+    if (widget.onChangedKey != null) {
+      widget.onChangedKey(_keys);
+    }
+    widget.onChangedValue(_values);
   }
 }

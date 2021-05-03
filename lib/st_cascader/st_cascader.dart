@@ -67,10 +67,12 @@ class _STCascaderState extends State<STCascader> {
               ),
               menu: STCascaderPop(
                 items: widget.items,
-                onChanged: (value) {
+                onChangedValue: (List<String> value) {
                   _oprationOnChanged(value);
+                },
+                onChangedKey: (List<String> keys) {
                   if (widget.onChanged != null) {
-                    widget.onChanged(value);
+                    widget.onChanged(keys);
                   }
                 },
               ),
