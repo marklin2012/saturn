@@ -31,7 +31,7 @@ class ProgressPage extends StatelessWidget {
                 width: 200,
                 height: 40,
                 stepCount: 9,
-                progress: 0.3,
+                progress: 2,
                 color: Colors.blue,
               ),
             ),

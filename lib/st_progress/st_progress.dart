@@ -17,11 +17,11 @@ class STProgress extends StatefulWidget {
 
   const STProgress({
     Key key,
+    @required this.progress,
     this.shape,
     this.width,
     this.height,
     this.radius,
-    this.progress,
     this.color,
     this.trailingWidget,
     this.centerWidget,
@@ -35,6 +35,15 @@ class STProgress extends StatefulWidget {
 class _STProgressState extends State<STProgress> {
   @override
   Widget build(BuildContext context) {
+    double curProgress;
+    if (widget.progress > 1) {
+      curProgress = 1;
+    } else if (widget.progress < 0) {
+      curProgress = 0;
+    } else {
+      curProgress = widget.progress;
+    }
+
     Widget content;
     switch (widget.shape) {
       case STProgressShape.line:
@@ -43,14 +52,14 @@ class _STProgressState extends State<STProgress> {
           content = LinearPercentIndicator(
             width: widget.width,
             lineHeight: widget.height,
-            percent: widget.progress,
+            percent: curProgress,
             linearStrokeCap: LinearStrokeCap.roundAll,
             backgroundColor: STProgressConstant.defaultBackgroundColor,
             progressColor: widget.color,
             trailing: widget.trailingWidget,
             widgetIndicator: widget.shape == STProgressShape.lineProgress
                 ? Text(
-                    '${widget.progress * 100}%',
+                    '${curProgress * 100}%',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: widget.height - 4,
@@ -67,7 +76,7 @@ class _STProgressState extends State<STProgress> {
             width: widget.width,
             height: widget.height,
             count: widget.stepCount,
-            progress: widget.progress,
+            progress: curProgress,
             progressColor: widget.color,
             isCircle: widget.shape == STProgressShape.stepCircle ? true : false,
           );
@@ -80,7 +89,7 @@ class _STProgressState extends State<STProgress> {
               radius: widget.radius,
               lineWidth: widget.height,
               animation: true,
-              percent: widget.progress,
+              percent: curProgress,
               center: widget.centerWidget,
               circularStrokeCap: CircularStrokeCap.round,
               progressColor: widget.color,
