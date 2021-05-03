@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:saturn/saturn.dart';
+import 'package:saturn/st_picker/st_cursor.dart';
 
 class PickerPage extends StatefulWidget {
   @override
@@ -21,6 +22,15 @@ class _PickerPageState extends State<PickerPage> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 30),
+            STCursor(
+              width: 4,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.purple,
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+            ),
             SizedBox(height: 30),
             STPicker.date(
               minimumYear: 2012,

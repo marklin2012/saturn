@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_icons/st_icons.dart';
+import 'package:saturn/st_picker/st_cursor.dart';
 import 'package:saturn/st_select/select_show_dialog.dart';
 
 enum STCalendarPickerType { start, end }
@@ -106,8 +107,22 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
           children: [
             Padding(
               padding: _defaultLeftPadding,
-              child: Text(_startHintText,
-                  style: _getTextStyle(STCalendarPickerType.start)),
+              child: Row(
+                children: [
+                  if (_isHighlighted &&
+                      _isShowStart &&
+                      _isSelectedDateTime(STCalendarPickerType.start) == false)
+                    const STCursor(),
+                  Text(_startHintText,
+                      style: _isSelectedDateTime(STCalendarPickerType.start)
+                          ? _selectedTextStyle
+                          : _defaultTextStyle),
+                  if (_isHighlighted &&
+                      _isShowStart &&
+                      _isSelectedDateTime(STCalendarPickerType.start) == true)
+                    const STCursor(),
+                ],
+              ),
             ),
             if (widget.isRange)
               Row(
@@ -122,8 +137,23 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
                       color: Colors.grey,
                     ),
                   ),
-                  Text(_endHintText,
-                      style: _getTextStyle(STCalendarPickerType.end)),
+                  Row(
+                    children: [
+                      if (_isHighlighted &&
+                          _isShowStart == false &&
+                          _isSelectedDateTime(STCalendarPickerType.end) ==
+                              false)
+                        const STCursor(),
+                      Text(_endHintText,
+                          style: _isSelectedDateTime(STCalendarPickerType.end)
+                              ? _selectedTextStyle
+                              : _defaultTextStyle),
+                      if (_isHighlighted &&
+                          _isShowStart == false &&
+                          _isSelectedDateTime(STCalendarPickerType.end) == true)
+                        const STCursor(),
+                    ],
+                  ),
                 ],
               ),
             const Padding(
@@ -143,7 +173,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
     if (widget.isRange &&
         type == STCalendarPickerType.end &&
         _selectedDateTimes.first != null) {
-      _firstDate = _selectedDateTimes.first.add(const Duration(days: 1));
+      _firstDate = _selectedDateTimes.first;
     }
     // initialDate必须大于firstDate,这里做个特殊处理
     if (_firstDate.isAfter(_initialDate)) {
@@ -192,16 +222,16 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
     setState(() {});
   }
 
-  TextStyle _getTextStyle(STCalendarPickerType type) {
+  bool _isSelectedDateTime(STCalendarPickerType type) {
     if (type == STCalendarPickerType.start &&
         (_startHintText == _defaultPlaceHolder ||
             _startHintText == _defaultStartHolder)) {
-      return _defaultTextStyle;
+      return false;
     } else if (type == STCalendarPickerType.end &&
         _endHintText == _defaultEndHolder) {
-      return _defaultTextStyle;
+      return false;
     } else {
-      return _selectedTextStyle;
+      return true;
     }
   }
 
