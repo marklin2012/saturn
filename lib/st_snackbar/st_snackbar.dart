@@ -5,21 +5,23 @@ import 'package:saturn/st_snackbar/common.dart';
 
 import '../utils/string.dart';
 
-class STSnackbarSharedInstance {
-  BuildContext _curContext;
-  OverlayEntry _curOverlayEntry;
+class STSnackbar extends StatefulWidget {
+  final String message;
+  final String title;
+  final bool hasCloseButton;
+  final String buttonText;
+  final Color buttonTextColor;
+  final bool isButtonHasBackground;
+  final Widget icon;
+  final VoidCallback onButtonTap;
+  final bool autoClose;
+  final int disappearMilliseconds;
+  final bool hasSafeArea;
 
-  factory STSnackbarSharedInstance() => _sharedInstance();
+  static BuildContext _curContext;
+  static OverlayEntry _curOverlayEntry;
 
-  static STSnackbarSharedInstance _instance;
-
-  STSnackbarSharedInstance._();
-
-  static STSnackbarSharedInstance _sharedInstance() {
-    return _instance ??= STSnackbarSharedInstance._();
-  }
-
-  void show(
+  static void show(
       {@required BuildContext context,
       @required String title,
       String message,
@@ -58,26 +60,12 @@ class STSnackbarSharedInstance {
     _curContext = context;
   }
 
-  void hide(
+  static void hide(
     BuildContext context,
   ) {
     _curOverlayEntry.remove();
     _curContext = null;
   }
-}
-
-class STSnackbar extends StatefulWidget {
-  final String message;
-  final String title;
-  final bool hasCloseButton;
-  final String buttonText;
-  final Color buttonTextColor;
-  final bool isButtonHasBackground;
-  final Widget icon;
-  final VoidCallback onButtonTap;
-  final bool autoClose;
-  final int disappearMilliseconds;
-  final bool hasSafeArea;
 
   const STSnackbar(
       {Key key,
@@ -116,7 +104,7 @@ class _STSnackbarState extends State<STSnackbar> {
 
     if (isCurAutoClose) {
       timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
-        STSnackbarSharedInstance().hide(context);
+        STSnackbar.hide(context);
       });
     }
   }
@@ -177,7 +165,7 @@ class _STSnackbarState extends State<STSnackbar> {
             if (widget.onButtonTap != null) {
               widget.onButtonTap();
             } else {
-              STSnackbarSharedInstance().hide(context);
+              STSnackbar.hide(context);
             }
           },
           child: Container(
@@ -203,7 +191,7 @@ class _STSnackbarState extends State<STSnackbar> {
             if (widget.onButtonTap != null) {
               widget.onButtonTap();
             } else {
-              STSnackbarSharedInstance().hide(context);
+              STSnackbar.hide(context);
             }
           },
           child: const Icon(
