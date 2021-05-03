@@ -5,7 +5,7 @@ import 'dart:math' as math;
 
 enum CircularStrokeCap { butt, round, square }
 
-enum ArcType { NORMAL, HALF, FULL, INSTRUMENT }
+enum ArcType { NORMAL, HALF, FULL, Gap }
 
 // ignore: must_be_immutable
 class CircularPercentIndicator extends StatefulWidget {
@@ -389,7 +389,7 @@ class CirclePainter extends CustomPainter {
             startAngleFixedMargin = 135 / fixedStartAngle;
           }
           break;
-        case ArcType.INSTRUMENT:
+        case ArcType.Gap:
           {
             fixedStartAngle = 210;
             startAngleFixedMargin = 175 / fixedStartAngle;
@@ -401,7 +401,7 @@ class CirclePainter extends CustomPainter {
     if (arcType == ArcType.HALF) {
       canvas.drawArc(rectForArc, radians(-90.0 + fixedStartAngle),
           radians(360 * startAngleFixedMargin), false, _paintBackground);
-    } else if (arcType == ArcType.INSTRUMENT) {
+    } else if (arcType == ArcType.Gap) {
       canvas.drawArc(rectForArc, radians(-90.0 + fixedStartAngle),
           radians(360 * startAngleFixedMargin), false, _paintBackground);
     } else {
@@ -467,7 +467,7 @@ class CirclePainter extends CustomPainter {
             startAngleFixedMargin = 135 / fixedStartAngle;
           }
           break;
-        case ArcType.INSTRUMENT:
+        case ArcType.Gap:
           {
             fixedStartAngle = 210;
             startAngleFixedMargin = 175 / fixedStartAngle;

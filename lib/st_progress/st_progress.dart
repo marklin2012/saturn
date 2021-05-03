@@ -5,7 +5,7 @@ import 'percent_indicator/percent_indicator.dart';
 import 'st_step_progress.dart';
 
 class STProgress extends StatefulWidget {
-  final STProgressType type;
+  final STProgressShape shape;
   final double width;
   final double height;
   final double radius;
@@ -13,26 +13,20 @@ class STProgress extends StatefulWidget {
   final Color color;
   final Widget trailingWidget;
   final Widget centerWidget;
-  final bool showInnerProgress;
-  final bool isInstrument;
   final int stepCount;
-  final bool isStepCircle;
 
-  const STProgress(
-      {Key key,
-      this.type,
-      this.width,
-      this.height,
-      this.radius,
-      this.progress,
-      this.color,
-      this.trailingWidget,
-      this.centerWidget,
-      this.showInnerProgress = false,
-      this.isInstrument = false,
-      this.stepCount,
-      this.isStepCircle})
-      : super(key: key);
+  const STProgress({
+    Key key,
+    this.shape,
+    this.width,
+    this.height,
+    this.radius,
+    this.progress,
+    this.color,
+    this.trailingWidget,
+    this.centerWidget,
+    this.stepCount,
+  }) : super(key: key);
 
   @override
   _STProgressState createState() => _STProgressState();
@@ -42,8 +36,9 @@ class _STProgressState extends State<STProgress> {
   @override
   Widget build(BuildContext context) {
     Widget content;
-    switch (widget.type) {
-      case STProgressType.line:
+    switch (widget.shape) {
+      case STProgressShape.line:
+      case STProgressShape.lineProgress:
         {
           content = LinearPercentIndicator(
             width: widget.width,
@@ -53,7 +48,7 @@ class _STProgressState extends State<STProgress> {
             backgroundColor: STProgressConstant.defaultBackgroundColor,
             progressColor: widget.color,
             trailing: widget.trailingWidget,
-            widgetIndicator: widget.showInnerProgress
+            widgetIndicator: widget.shape == STProgressShape.lineProgress
                 ? Text(
                     '${widget.progress * 100}%',
                     style: TextStyle(
@@ -65,7 +60,8 @@ class _STProgressState extends State<STProgress> {
           );
         }
         break;
-      case STProgressType.step:
+      case STProgressShape.stepRect:
+      case STProgressShape.stepCircle:
         {
           content = STStepProgress(
             width: widget.width,
@@ -73,11 +69,12 @@ class _STProgressState extends State<STProgress> {
             count: widget.stepCount,
             progress: widget.progress,
             progressColor: widget.color,
-            isCircle: widget.isStepCircle,
+            isCircle: widget.shape == STProgressShape.stepCircle ? true : false,
           );
         }
         break;
-      case STProgressType.circular:
+      case STProgressShape.circle:
+      case STProgressShape.circleGap:
         {
           content = CircularPercentIndicator(
               radius: widget.radius,
@@ -87,10 +84,12 @@ class _STProgressState extends State<STProgress> {
               center: widget.centerWidget,
               circularStrokeCap: CircularStrokeCap.round,
               progressColor: widget.color,
-              arcType:
-                  widget.isInstrument ? ArcType.INSTRUMENT : ArcType.NORMAL);
+              arcType: widget.shape == STProgressShape.circleGap
+                  ? ArcType.Gap
+                  : ArcType.NORMAL);
         }
         break;
+      default:
     }
     return content;
   }
