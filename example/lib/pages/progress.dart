@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 
-class ProgressPage extends StatelessWidget {
+class ProgressPage extends StatefulWidget {
+  @override
+  _ProgressPageState createState() => _ProgressPageState();
+}
+
+class _ProgressPageState extends State<ProgressPage> {
+  double _progress = 0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Inputs'),
+      ),
+      floatingActionButton: ElevatedButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          setState(() {
+            _progress += 0.1;
+          });
+        },
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -31,7 +45,7 @@ class ProgressPage extends StatelessWidget {
                 width: 200,
                 height: 40,
                 stepCount: 9,
-                progress: 2,
+                progress: _progress,
                 color: Colors.blue,
               ),
             ),
