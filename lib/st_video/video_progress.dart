@@ -10,12 +10,14 @@ class STVideoProgress extends StatelessWidget {
     this.inactiveColor = const Color(0xFFDCE8FF),
     this.value = 0,
     this.onChanged,
-    this.activeHeight,
+    this.activeHeight = 4.0,
+    this.dotSize = 12.0,
   }) : super(key: key);
 
-  final double width; // 整个的宽度
+  final double width; // slider的宽度
   final double height; //供外部对齐
   final double activeHeight; // 中间选中的高度
+  final double dotSize;
   final Color activeColor;
   final Color inactiveColor;
   final double value;
@@ -29,7 +31,8 @@ class STVideoProgress extends StatelessWidget {
       child: STSlider(
         showTip: false,
         mainSize: width,
-        crossSize: activeHeight,
+        dotSize: dotSize,
+        activeSize: activeHeight,
         activeColor: activeColor,
         inactiveColor: inactiveColor,
         value: value,

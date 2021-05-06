@@ -10,7 +10,9 @@ import 'package:saturn/st_video/video_sound.dart';
 enum STVideoRowType { single, two }
 
 const _defaultHeight = 240.0;
-const _defaultSingleBottomH = 18.0;
+const _defaultFix10 = 10.0;
+const _defaultFix12 = 12.0;
+const _defaultFix16 = 16.0;
 const _defaultTimeTextStyle = TextStyle(color: Colors.white, fontSize: 12.0);
 
 class STVideo extends StatefulWidget {
@@ -33,6 +35,7 @@ class STVideo extends StatefulWidget {
 class _STVideoState extends State<STVideo> {
   double _height;
   double _width;
+  double _progressWidth;
   EdgeInsets _margin;
   STVideoRowType _type;
   STVideoStatus _status;
@@ -57,6 +60,16 @@ class _STVideoState extends State<STVideo> {
   @override
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width - _margin.left - _margin.right;
+    _progressWidth = _width - _margin.left - _margin.right - 2 * _defaultFix12;
+    if (_type == STVideoRowType.single) {
+      _progressWidth = _width -
+          _margin.left -
+          _margin.right -
+          3 * _defaultFix12 -
+          3 * _defaultFix10 -
+          3 * _defaultFix16 -
+          60;
+    }
     return Container(
       margin: _margin,
       height: _height,
@@ -103,32 +116,19 @@ class _STVideoState extends State<STVideo> {
     Widget _bottom;
     double _bottomHeight;
     if (_type == STVideoRowType.single) {
-      _bottomHeight = 120.0;
+      _bottomHeight = 114.0;
       _bottom = Container(
         margin: _margin,
-        padding: const EdgeInsets.only(left: 12.0, right: 14.5),
+        padding:
+            const EdgeInsets.only(left: _defaultFix12, right: _defaultFix10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            GestureDetector(
-              onTap: () {
-                // 切换播放
-              },
-              child: _status == STVideoStatus.play
-                  ? const Icon(
-                      STIcons.direction_swapu_d,
-                      size: _defaultSingleBottomH,
-                      color: Colors.white,
-                    )
-                  : const Icon(
-                      STIcons.direction_caretright,
-                      size: _defaultSingleBottomH,
-                      color: Colors.white,
-                    ),
-            ),
+            _getPlayWidget(),
             STVideoProgress(
-              height: _defaultSingleBottomH,
+              height: _defaultFix16,
+              width: _progressWidth,
               value: _progressValue,
               onChanged: (double value) {
                 setState(() {
@@ -137,21 +137,13 @@ class _STVideoState extends State<STVideo> {
               },
             ),
             Container(
-              height: _defaultSingleBottomH,
-              alignment: Alignment.center,
+              padding: const EdgeInsets.only(
+                  left: _defaultFix12, right: _defaultFix10),
+              height: _defaultFix16,
+              alignment: Alignment.bottomCenter,
               child: Text(_timeStr, style: _defaultTimeTextStyle),
             ),
-            if (!_showChangeSound)
-              GestureDetector(
-                onTap: () {
-                  // 显示声音调整的组件
-                  setState(() {
-                    _showChangeSound = !_showChangeSound;
-                  });
-                },
-                child: VideoCommon()
-                    .getSoundIcon(_soundValue, Axis.vertical, Colors.white),
-              ),
+            if (!_showChangeSound) _getDefaultSoundIcon(),
             if (_showChangeSound)
               GestureDetector(
                 onTap: () {
@@ -171,16 +163,7 @@ class _STVideoState extends State<STVideo> {
                   },
                 ),
               ),
-            GestureDetector(
-              onTap: () {
-                // 切换全屏
-              },
-              child: const Icon(
-                STIcons.commonly_fullscreen,
-                size: _defaultSingleBottomH,
-                color: Colors.white,
-              ),
-            ),
+            _getFullScreen(),
           ],
         ),
       );
@@ -189,12 +172,12 @@ class _STVideoState extends State<STVideo> {
       _bottom = Container(
         margin: _margin,
         height: _bottomHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: _defaultFix12),
         child: Column(
           children: [
             STVideoProgress(
-              width: _width - 24.0 - _margin.left - _margin.right,
-              height: _defaultSingleBottomH,
+              width: _progressWidth,
+              height: _defaultFix16,
               value: _progressValue,
               onChanged: (double value) {
                 setState(() {
@@ -202,29 +185,13 @@ class _STVideoState extends State<STVideo> {
                 });
               },
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: _defaultFix10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // 切换播放
-                      },
-                      child: _status == STVideoStatus.play
-                          ? const Icon(
-                              STIcons.direction_swapu_d,
-                              size: _defaultSingleBottomH,
-                              color: Colors.white,
-                            )
-                          : const Icon(
-                              STIcons.direction_caretright,
-                              size: _defaultSingleBottomH,
-                              color: Colors.white,
-                            ),
-                    ),
-                    const SizedBox(width: 10.5),
+                    _getPlayWidget(),
                     GestureDetector(
                       onTap: () {
                         // 显示声音调整的组件
@@ -247,21 +214,11 @@ class _STVideoState extends State<STVideo> {
                 Row(
                   children: [
                     Container(
-                      height: _defaultSingleBottomH,
+                      height: _defaultFix16,
                       alignment: Alignment.center,
                       child: Text(_timeStr, style: _defaultTimeTextStyle),
                     ),
-                    const SizedBox(width: 10.5),
-                    GestureDetector(
-                      onTap: () {
-                        // 切换全屏
-                      },
-                      child: const Icon(
-                        STIcons.commonly_fullscreen,
-                        size: _defaultSingleBottomH,
-                        color: Colors.white,
-                      ),
-                    ),
+                    _getFullScreen(),
                   ],
                 ),
               ],
@@ -271,6 +228,75 @@ class _STVideoState extends State<STVideo> {
       );
     }
     return Positioned(
-        left: 0, right: 0, bottom: 10.0, height: _bottomHeight, child: _bottom);
+        left: 0,
+        right: 0,
+        bottom: _defaultFix10,
+        height: _bottomHeight,
+        child: _bottom);
+  }
+
+  Widget _getPlayWidget() {
+    return GestureDetector(
+      onTap: () {
+        // 切换播放
+        if (_status == STVideoStatus.play) {
+          _status = STVideoStatus.pause;
+          setState(() {});
+        } else if (_status == STVideoStatus.pause) {
+          _status = STVideoStatus.play;
+          setState(() {});
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.only(right: _defaultFix10),
+        height: _defaultFix16,
+        child: _getPlayIcon(),
+      ),
+    );
+  }
+
+  Widget _getPlayIcon() {
+    if (_status == STVideoStatus.play) {
+      return const Icon(
+        STIcons.direction_swapu_d,
+        size: _defaultFix16,
+        color: Colors.white,
+      );
+    } else {
+      return const Icon(
+        STIcons.direction_caretright,
+        size: _defaultFix16,
+        color: Colors.white,
+      );
+    }
+  }
+
+  Widget _getDefaultSoundIcon() {
+    return GestureDetector(
+      onTap: () {
+        // 显示声音调整的组件
+        setState(() {
+          _showChangeSound = !_showChangeSound;
+        });
+      },
+      child: VideoCommon()
+          .getSoundIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
+    );
+  }
+
+  Widget _getFullScreen() {
+    return GestureDetector(
+      onTap: () {
+        // 切换全屏
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: _defaultFix10),
+        child: const Icon(
+          STIcons.commonly_fullscreen,
+          size: _defaultFix16,
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 }

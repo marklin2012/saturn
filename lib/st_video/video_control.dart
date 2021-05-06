@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saturn/saturn.dart';
 import 'package:saturn/st_icons/st_icons.dart';
 
 enum STVideoStatus { play, pause, fail, loading }
@@ -32,7 +33,15 @@ class STVideoControl extends StatelessWidget {
     } else if (type == STVideoStatus.fail) {
       _child = Icon(STIcons.status_closecircle, size: 21, color: activeColor);
     } else {
-      _child = const CircularProgressIndicator();
+      _child = const STLoading(
+        icon: Icon(
+          STIcons.status_loading,
+          color: Colors.white,
+          size: 26,
+        ),
+        alwaysLoading: true,
+        text: '',
+      );
     }
     return Container(
       height: size.height,

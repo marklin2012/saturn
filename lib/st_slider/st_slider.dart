@@ -12,7 +12,7 @@ class STSliderConstant {
   static const horizontalWidth = 303.0;
   static const verticalHeight = 200.0;
   static const dotWidth = 18.0;
-  static const crossLength = 2.0;
+  static const activeSize = 2.0;
   static const borderRadius = BorderRadius.all(Radius.circular(2.0));
   static const showTipSize = 40.0;
   static const showTipVerticalOffset = 4.0;
@@ -21,7 +21,7 @@ class STSliderConstant {
 class STSlider extends StatefulWidget {
   final Axis axis; // 方向
   final double mainSize; // 当Axis为横轴时代表宽度，为竖轴是代表高度,主方向的宽高
-  final double crossSize; // 次方向的宽高
+  final double activeSize; // 选中的宽高
   final bool showTip; // 显示提示
   final TextStyle tipTextStyle; // 提示字体的样式
   final Color activeColor; // 选中颜色
@@ -55,7 +55,7 @@ class STSlider extends StatefulWidget {
     this.onChanged,
     this.onChangedRange,
     this.mainSize,
-    this.crossSize,
+    this.activeSize,
   }) : super(key: key);
 
   @override
@@ -74,10 +74,11 @@ class _STSliderState extends State<STSlider> {
   bool _secHighlighted = false;
 
   double _dotSize;
+  double _activeSize;
 
   double get _height {
     if (_isHorizontal) {
-      return widget.crossSize ?? STSliderConstant.crossLength;
+      return _activeSize;
     } else {
       return widget.mainSize ?? STSliderConstant.horizontalWidth;
     }
@@ -85,7 +86,7 @@ class _STSliderState extends State<STSlider> {
 
   double get _width {
     if (!_isHorizontal) {
-      return widget.crossSize ?? STSliderConstant.crossLength;
+      return _activeSize;
     } else {
       return widget.mainSize ?? STSliderConstant.verticalHeight;
     }
@@ -98,18 +99,24 @@ class _STSliderState extends State<STSlider> {
   @override
   void initState() {
     super.initState();
+    initValue();
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
-
-    _dotSize = widget.dotSize ?? STSliderConstant.dotWidth;
   }
 
   void _findRenderObject() {
     final RenderBox renderBox = _firstKey.currentContext.findRenderObject();
     // offset.dx , offset.dy 就是控件的左上角坐标
     _firstOffset = renderBox.localToGlobal(Offset.zero);
-    if (widget.rangeValues != null && widget.rangeValues.start != 0) {
+    if (widget.value != null && widget.value != 0) {
+      final temp = _firstOffset;
+      if (_isHorizontal) {
+        _firstOffset = Offset(temp.dx - widget.value * _width, temp.dy);
+      } else {
+        _firstOffset = Offset(temp.dx, temp.dy - widget.value * _height);
+      }
+    } else if (widget.rangeValues != null && widget.rangeValues.start != 0) {
       final temp = _firstOffset;
       if (_isHorizontal) {
         _firstOffset =
@@ -128,11 +135,12 @@ class _STSliderState extends State<STSlider> {
       _firstValue = widget.rangeValues.start;
       _secondValue = widget.rangeValues.end;
     }
+    _dotSize = widget.dotSize ?? STSliderConstant.dotWidth;
+    _activeSize = widget.activeSize ?? STSliderConstant.activeSize;
   }
 
   @override
   Widget build(BuildContext context) {
-    initValue();
     return Opacity(
       opacity: _disabled ? 0.2 : 1.0,
       // 供外部对齐使用
@@ -200,8 +208,8 @@ class _STSliderState extends State<STSlider> {
           alignment: Alignment.center,
         ),
         Positioned(
-          top: _isHorizontal ? _dotSize / 2 - 1 : 0.0,
-          left: _isHorizontal ? 0 : _dotSize / 2 - 1,
+          top: _isHorizontal ? (_dotSize - _activeSize) / 2 : 0.0,
+          left: _isHorizontal ? 0 : (_dotSize - _activeSize) / 2,
           child: _backgroundChild(),
         ),
         Positioned(
@@ -268,7 +276,6 @@ class _STSliderState extends State<STSlider> {
   Widget _activeChild() {
     return GestureDetector(
       onTapDown: (details) {
-        // debugPrint('active-${details.localPosition}');
         updateTapAction(details.localPosition);
       },
       child: Container(

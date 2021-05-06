@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_icons/st_icons.dart';
 
-const _defaultIconWidth = 18.0;
-
 class VideoCommon {
-  Widget getSoundIcon(double value, Axis axis, Color iconColor) {
+  Widget getSoundIcon(
+      double value, Axis axis, Color iconColor, double iconSize) {
     IconData _data;
     if (value == 0) {
       _data = axis == Axis.vertical
@@ -23,10 +22,6 @@ class VideoCommon {
           ? STIcons.commonly_videosound_small
           : STIcons.commonly_videosound_half;
     }
-    return Container(
-      alignment: Alignment.center,
-      height: _defaultIconWidth,
-      child: Icon(_data, size: _defaultIconWidth, color: iconColor),
-    );
+    return Icon(_data, size: iconSize, color: iconColor);
   }
 }
