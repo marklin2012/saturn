@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 
-enum STProgressShape {
-  line,
-  lineProgress,
+enum STProgressType {
+  primary,
+  percent,
   stepRect,
-  stepCircle,
+  stepDot,
   circle,
-  circleGap
+  dashboard,
+}
+
+enum STProgressStatus {
+  primary,
+  done,
+  warning,
+  error,
 }
 
 class STProgressConstant {

@@ -5,7 +5,8 @@ import 'percent_indicator/percent_indicator.dart';
 import 'st_step_progress.dart';
 
 class STProgress extends StatefulWidget {
-  final STProgressShape shape;
+  final STProgressType type;
+  final STProgressStatus status;
   final double width;
   final double height;
   final double radius;
@@ -17,11 +18,12 @@ class STProgress extends StatefulWidget {
 
   const STProgress({
     Key key,
-    @required this.progress,
-    this.shape,
+    this.progress = 0,
+    this.type = STProgressType.primary,
+    this.status = STProgressStatus.primary,
     this.width,
     this.height,
-    this.radius,
+    this.radius = 150,
     this.color,
     this.trailingWidget,
     this.centerWidget,
@@ -45,9 +47,9 @@ class _STProgressState extends State<STProgress> {
     }
 
     Widget content;
-    switch (widget.shape) {
-      case STProgressShape.line:
-      case STProgressShape.lineProgress:
+    switch (widget.type) {
+      case STProgressType.primary:
+      case STProgressType.percent:
         {
           content = LinearPercentIndicator(
             width: widget.width,
@@ -57,7 +59,7 @@ class _STProgressState extends State<STProgress> {
             backgroundColor: STProgressConstant.defaultBackgroundColor,
             progressColor: widget.color,
             trailing: widget.trailingWidget,
-            widgetIndicator: widget.shape == STProgressShape.lineProgress
+            widgetIndicator: widget.type == STProgressType.percent
                 ? Text(
                     '${curProgress * 100}%',
                     style: TextStyle(
@@ -69,8 +71,8 @@ class _STProgressState extends State<STProgress> {
           );
         }
         break;
-      case STProgressShape.stepRect:
-      case STProgressShape.stepCircle:
+      case STProgressType.stepRect:
+      case STProgressType.stepDot:
         {
           content = STStepProgress(
             width: widget.width,
@@ -78,12 +80,12 @@ class _STProgressState extends State<STProgress> {
             count: widget.stepCount,
             progress: curProgress,
             progressColor: widget.color,
-            isCircle: widget.shape == STProgressShape.stepCircle ? true : false,
+            isCircle: widget.type == STProgressType.stepDot ? true : false,
           );
         }
         break;
-      case STProgressShape.circle:
-      case STProgressShape.circleGap:
+      case STProgressType.circle:
+      case STProgressType.dashboard:
         {
           content = CircularPercentIndicator(
               radius: widget.radius,
@@ -93,7 +95,7 @@ class _STProgressState extends State<STProgress> {
               center: widget.centerWidget,
               circularStrokeCap: CircularStrokeCap.round,
               progressColor: widget.color,
-              arcType: widget.shape == STProgressShape.circleGap
+              arcType: widget.type == STProgressType.dashboard
                   ? ArcType.Gap
                   : ArcType.NORMAL);
         }

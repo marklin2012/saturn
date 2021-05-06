@@ -16,7 +16,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                shape: STProgressShape.stepCircle,
+                type: STProgressType.stepDot,
                 width: 200,
                 height: 40,
                 stepCount: 9,
@@ -27,7 +27,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                shape: STProgressShape.stepRect,
+                type: STProgressType.stepRect,
                 width: 200,
                 height: 40,
                 stepCount: 9,
@@ -38,7 +38,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                shape: STProgressShape.line,
+                type: STProgressType.primary,
                 width: 300,
                 height: 14.0,
                 progress: 0.5,
@@ -48,7 +48,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                shape: STProgressShape.lineProgress,
+                type: STProgressType.percent,
                 width: 300,
                 height: 20.0,
                 progress: 0.5,
@@ -58,7 +58,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.line,
+                  type: STProgressType.primary,
                   width: 300,
                   height: 14.0,
                   progress: 0.5,
@@ -69,7 +69,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.line,
+                  type: STProgressType.primary,
                   width: 300,
                   height: 14.0,
                   progress: 0.5,
@@ -80,7 +80,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.line,
+                  type: STProgressType.primary,
                   width: 300,
                   height: 14.0,
                   progress: 0.5,
@@ -91,7 +91,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.line,
+                  type: STProgressType.primary,
                   width: 300,
                   height: 14.0,
                   progress: 0.5,
@@ -104,7 +104,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                shape: STProgressShape.circle,
+                type: STProgressType.circle,
                 radius: 150,
                 height: 8.0,
                 progress: 0.5,
@@ -114,7 +114,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.circle,
+                  type: STProgressType.circle,
                   radius: 150,
                   height: 8.0,
                   progress: 0.5,
@@ -127,7 +127,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.circle,
+                  type: STProgressType.circle,
                   radius: 150,
                   height: 8.0,
                   progress: 0.5,
@@ -138,7 +138,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.circleGap,
+                  type: STProgressType.dashboard,
                   radius: 150,
                   height: 8.0,
                   progress: 0.5,
@@ -151,7 +151,7 @@ class ProgressPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  shape: STProgressShape.circleGap,
+                  type: STProgressType.dashboard,
                   radius: 150,
                   height: 8.0,
                   progress: 1,
