@@ -119,8 +119,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.circle,
-                radius: 150,
-                height: 8.0,
+                radius: 75,
+                lineWidth: 8.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -129,8 +129,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.circle,
-                  radius: 150,
-                  height: 8.0,
+                  radius: 75,
+                  lineWidth: 8.0,
                   progress: 0.5,
                   color: Colors.blue,
                   centerWidget: Text(
@@ -142,8 +142,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.circle,
-                  radius: 150,
-                  height: 8.0,
+                  radius: 75,
+                  lineWidth: 8.0,
                   progress: 0.5,
                   color: Colors.red,
                   centerWidget:
@@ -153,8 +153,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.dashboard,
-                  radius: 150,
-                  height: 8.0,
+                  radius: 75,
+                  lineWidth: 8.0,
                   progress: 0.5,
                   color: Colors.blue,
                   centerWidget: Text(
@@ -166,8 +166,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.dashboard,
-                  radius: 150,
-                  height: 8.0,
+                  radius: 75,
+                  lineWidth: 8.0,
                   progress: 1,
                   color: Colors.green,
                   centerWidget: Text(
