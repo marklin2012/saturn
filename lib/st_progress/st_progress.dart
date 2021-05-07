@@ -80,12 +80,11 @@ class _STProgressState extends State<STProgress> {
             count: widget.stepCount,
             progress: curProgress,
             progressColor: widget.color,
-            isCircle: widget.type == STProgressType.stepDot ? true : false,
+            isCircle: widget.type == STProgressType.stepDot,
           );
         }
         break;
-      case STProgressType.circle:
-      case STProgressType.dashboard:
+      default:
         {
           content = CircularPercentIndicator(
               radius: widget.radius,
@@ -96,11 +95,10 @@ class _STProgressState extends State<STProgress> {
               circularStrokeCap: CircularStrokeCap.round,
               progressColor: widget.color,
               arcType: widget.type == STProgressType.dashboard
-                  ? ArcType.Gap
+                  ? ArcType.GAP
                   : ArcType.NORMAL);
         }
         break;
-      default:
     }
     return content;
   }
