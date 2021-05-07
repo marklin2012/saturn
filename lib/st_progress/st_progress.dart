@@ -53,14 +53,22 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.primary:
       case STProgressType.percent:
         {
+          Color curProgressColor = widget.color;
+          Widget curTrailingWidget = widget.trailingWidget;
+          if (widget.type == STProgressType.primary &&
+              widget.status != STProgressStatus.primary) {
+            curProgressColor = colorFromProgressStatus(widget.status);
+            curTrailingWidget =
+                iconFromProgressStatus(widget.status, widget.height);
+          }
           content = LinearPercentIndicator(
             width: widget.width,
             lineHeight: widget.height,
             percent: curProgress,
             linearStrokeCap: LinearStrokeCap.roundAll,
             backgroundColor: STProgressConstant.defaultBackgroundColor,
-            progressColor: widget.color,
-            trailing: widget.trailingWidget,
+            progressColor: curProgressColor,
+            trailing: curTrailingWidget,
             widgetIndicator: widget.type == STProgressType.percent
                 ? Text(
                     '${curProgress * 100}%',
@@ -86,7 +94,8 @@ class _STProgressState extends State<STProgress> {
           );
         }
         break;
-      default:
+      case STProgressType.circle:
+      case STProgressType.dashboard:
         {
           content = CircularPercentIndicator(
               diameter: widget.radius * 2,
@@ -101,7 +110,46 @@ class _STProgressState extends State<STProgress> {
                   : ArcType.NORMAL);
         }
         break;
+      default:
+        content = Container();
+        break;
     }
     return content;
+  }
+
+  Color colorFromProgressStatus(STProgressStatus status) {
+    switch (status) {
+      case STProgressStatus.done:
+        return STProgressConstant.colorDone;
+      case STProgressStatus.warning:
+        return STProgressConstant.colorWarnning;
+      case STProgressStatus.error:
+        return STProgressConstant.colorError;
+      default:
+        return Colors.transparent;
+    }
+  }
+
+  Widget iconFromProgressStatus(STProgressStatus status, double iconWidth) {
+    IconData iconData;
+    final Color iconColor = colorFromProgressStatus(status);
+    switch (status) {
+      case STProgressStatus.error:
+        iconData = Icons.cancel;
+        break;
+      case STProgressStatus.warning:
+        iconData = Icons.info;
+        break;
+      case STProgressStatus.done:
+        iconData = Icons.check_circle;
+        break;
+      default:
+        iconData = Icons.info;
+    }
+    return Icon(
+      iconData,
+      size: iconWidth,
+      color: iconColor,
+    );
   }
 }

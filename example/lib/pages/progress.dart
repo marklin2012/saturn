@@ -53,6 +53,39 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.primary,
+                status: STProgressStatus.done,
+                width: 300,
+                height: 14.0,
+                progress: 0.5,
+                color: Colors.blue,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.primary,
+                status: STProgressStatus.error,
+                width: 300,
+                height: 14.0,
+                progress: 0.5,
+                color: Colors.blue,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.primary,
+                status: STProgressStatus.warning,
+                width: 300,
+                height: 14.0,
+                progress: 0.5,
+                color: Colors.blue,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.primary,
                 width: 300,
                 height: 14.0,
                 progress: 0.5,
