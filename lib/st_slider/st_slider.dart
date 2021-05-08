@@ -99,7 +99,6 @@ class _STSliderState extends State<STSlider> {
   @override
   void initState() {
     super.initState();
-    initValue();
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
@@ -141,6 +140,7 @@ class _STSliderState extends State<STSlider> {
 
   @override
   Widget build(BuildContext context) {
+    initValue();
     return Opacity(
       opacity: _disabled ? 0.2 : 1.0,
       // 供外部对齐使用

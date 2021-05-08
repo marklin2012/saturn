@@ -43,16 +43,25 @@ class STVideoControl extends StatelessWidget {
         text: '',
       );
     }
-    return Container(
-      height: size.height,
-      width: size.width,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-        border: bordered ? Border.all(color: activeColor) : null,
+    return GestureDetector(
+      onTap: () {
+        if (type == STVideoStatus.pause && onChanged != null) {
+          onChanged(STVideoStatus.play);
+        } else if (type == STVideoStatus.play && onChanged != null) {
+          onChanged(STVideoStatus.pause);
+        }
+      },
+      child: Container(
+        height: size.height,
+        width: size.width,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+          border: bordered ? Border.all(color: activeColor) : null,
+        ),
+        alignment: Alignment.center,
+        child: _child,
       ),
-      alignment: Alignment.center,
-      child: _child,
     );
   }
 }

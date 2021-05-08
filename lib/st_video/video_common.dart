@@ -24,4 +24,33 @@ class VideoCommon {
     }
     return Icon(_data, size: iconSize, color: iconColor);
   }
+
+  String getTimeString(Duration total, Duration current) {
+    final _totalStr = getTimeFromDuration(total);
+    final _currentStr = getTimeFromDuration(current);
+    return '$_currentStr/$_totalStr';
+  }
+
+  double getProgressValue(Duration total, Duration current) {
+    final _totalSeconds = total.inSeconds;
+    final _currentSeconds = current.inSeconds;
+    if (_currentSeconds == 0 || _totalSeconds == 0) {
+      return 0;
+    }
+    final value = (_currentSeconds / _totalSeconds).toDouble();
+    return value;
+  }
+
+  String getTimeFromDuration(Duration duration) {
+    final _hours = duration.inHours;
+    final _minutes = duration.inMinutes % 3600;
+    final _seconds = duration.inSeconds % 60;
+    final _minutesStr = _minutes < 10 ? '0$_minutes' : '$_minutes';
+    final _secondsStr = _seconds < 10 ? '0$_seconds' : '$_seconds';
+    if (_hours != 0) {
+      return '$_hours:$_minutesStr:$_secondsStr';
+    } else {
+      return '$_minutesStr:$_secondsStr';
+    }
+  }
 }
