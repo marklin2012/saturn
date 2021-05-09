@@ -56,7 +56,7 @@ class DialogPage extends StatelessWidget {
                   choiceList: [
                     ChoiceItem(
                         title: "选项一",
-                        onItemTap: () {
+                        onTap: () {
                           print("好的");
                         }),
                     ChoiceItem(title: "选项二"),
@@ -71,7 +71,7 @@ class DialogPage extends StatelessWidget {
                 context: context,
                 title: "标题标题",
                 message: "描述说明信息",
-                haveTextField: true,
+                hasTextField: true,
               );
             },
           ),
@@ -84,24 +84,24 @@ class DialogPage extends StatelessWidget {
                   title: "是不是",
                   icon: "assets/images/basketball_check.png",
                   message: "描述说明信息",
-                  haveTextField: true,
+                  hasTextField: true,
                   type: STDialogType.list,
                   choiceList: [
                     ChoiceItem(
                       title: "好的",
-                      haveSeparateLine: true,
+                      hasSeparateLine: true,
                       isAligmentCenter: true,
                     ),
                     ChoiceItem(
                         title: "是不是",
                         icon: "assets/images/basketball_check.png",
-                        haveSeparateLine: true,
+                        hasSeparateLine: true,
                         isAligmentCenter: true),
                     ChoiceItem(
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
-                        haveSeparateLine: true,
+                        hasSeparateLine: true,
                         isAligmentCenter: false),
                     ChoiceItem(
                       title: "好的",
@@ -126,7 +126,7 @@ class DialogPage extends StatelessWidget {
               STDialog.show(
                   context: context,
                   message: "描述说明信息",
-                  haveTextField: true,
+                  hasTextField: true,
                   type: STDialogType.dynamicList,
                   choiceList: [
                     [
