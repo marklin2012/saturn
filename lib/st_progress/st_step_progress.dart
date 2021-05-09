@@ -43,9 +43,14 @@ class STStepProgress extends StatefulWidget {
 class _STStepProgressState extends State<STStepProgress> {
   @override
   Widget build(BuildContext context) {
-    final double itemTotalWidth =
+    double itemTotalWidth =
         widget.width - (widget.count - 1) * STProgressConstant.defaultSpace;
-    final double itemWidth = itemTotalWidth / widget.count;
+    double itemWidth = itemTotalWidth / widget.count;
+    if (widget.height < itemWidth) {
+      itemWidth = widget.height;
+    }
+    itemTotalWidth = itemWidth * widget.count +
+        (widget.count - 1) * STProgressConstant.defaultSpace;
     final double progressWidthNoSpace = widget.progress * itemTotalWidth;
     final int progressCount =
         (progressWidthNoSpace / itemWidth * 1.0).truncate();

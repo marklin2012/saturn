@@ -9,8 +9,6 @@ class STProgress extends StatefulWidget {
   final STProgressStatus status;
   final double width;
   final double height;
-  final double radius;
-  final double lineWidth;
   final double progress;
   final Color color;
   final Widget trailingWidget;
@@ -22,10 +20,8 @@ class STProgress extends StatefulWidget {
     this.progress = 0,
     this.type = STProgressType.primary,
     this.status = STProgressStatus.primary,
-    this.width,
+    this.width = 150.0,
     this.height,
-    this.radius = 75,
-    this.lineWidth,
     this.color,
     this.trailingWidget,
     this.centerWidget,
@@ -98,8 +94,8 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.dashboard:
         {
           content = CircularPercentIndicator(
-              diameter: widget.radius * 2,
-              lineWidth: widget.lineWidth,
+              diameter: widget.width,
+              lineWidth: widget.height,
               animation: true,
               percent: curProgress,
               center: widget.centerWidget,

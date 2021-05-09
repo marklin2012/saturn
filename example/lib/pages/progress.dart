@@ -31,9 +31,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.stepDot,
-                width: 200,
                 height: 40,
-                stepCount: 9,
+                stepCount: 5,
                 progress: 0.6,
                 color: Colors.blue,
               ),
@@ -152,8 +151,7 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.circle,
-                radius: 75,
-                lineWidth: 8.0,
+                height: 8.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -162,8 +160,7 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.circle,
-                  radius: 75,
-                  lineWidth: 8.0,
+                  height: 8.0,
                   progress: 0.5,
                   color: Colors.blue,
                   centerWidget: Text(
@@ -175,8 +172,7 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.circle,
-                  radius: 75,
-                  lineWidth: 8.0,
+                  height: 8.0,
                   progress: 0.5,
                   color: Colors.red,
                   centerWidget:
@@ -186,8 +182,7 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.dashboard,
-                  radius: 75,
-                  lineWidth: 8.0,
+                  height: 8.0,
                   progress: 0.5,
                   color: Colors.blue,
                   centerWidget: Text(
@@ -199,8 +194,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                   type: STProgressType.dashboard,
-                  radius: 75,
-                  lineWidth: 8.0,
+                  width: 180,
+                  height: 12,
                   progress: 1,
                   color: Colors.green,
                   centerWidget: Text(
