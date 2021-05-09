@@ -7,7 +7,7 @@ import 'st_step_progress.dart';
 class STProgress extends StatefulWidget {
   final STProgressType type;
   final STProgressStatus status;
-  final double width;
+  final double size;
   final double height;
   final double progress;
   final Color color;
@@ -20,7 +20,7 @@ class STProgress extends StatefulWidget {
     this.progress = 0,
     this.type = STProgressType.primary,
     this.status = STProgressStatus.primary,
-    this.width = 150.0,
+    this.size = 150.0,
     this.height = 8.0,
     this.color = STProgressConstant.defaultBackgroundColor,
     this.trailingWidget,
@@ -58,7 +58,7 @@ class _STProgressState extends State<STProgress> {
                 iconFromProgressStatus(widget.status, widget.height);
           }
           content = LinearPercentIndicator(
-            width: widget.width,
+            width: widget.size,
             lineHeight: widget.height,
             percent: curProgress,
             linearStrokeCap: LinearStrokeCap.roundAll,
@@ -81,7 +81,7 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.stepDot:
         {
           content = STStepProgress(
-            width: widget.width,
+            width: widget.size,
             height: widget.height,
             count: widget.stepCount,
             progress: curProgress,
@@ -94,7 +94,7 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.dashboard:
         {
           content = CircularPercentIndicator(
-              diameter: widget.width,
+              diameter: widget.size,
               lineWidth: widget.height,
               animation: true,
               percent: curProgress,
