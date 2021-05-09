@@ -34,7 +34,7 @@ class STToast extends StatefulWidget {
     @required String message,
     Widget icon,
     bool isIconUpText = false,
-    STToastPosition locationType = STToastPosition.center,
+    STToastPosition position = STToastPosition.center,
     bool closable = false,
     bool autoClose = true,
     int disappearMilliseconds = STToastConstant.defaultDisappearMilliseconds,
@@ -50,7 +50,7 @@ class STToast extends StatefulWidget {
             icon: icon,
             isIconTop: isIconUpText,
             rotateAnimation: false,
-            position: locationType,
+            position: position,
             closable: closable,
             autoClose: autoClose,
             disappearMilliseconds: disappearMilliseconds,
@@ -63,7 +63,7 @@ class STToast extends StatefulWidget {
   static void showLoading({
     @required BuildContext context,
     Widget icon,
-    STToastPosition locationType = STToastPosition.center,
+    STToastPosition position = STToastPosition.center,
     bool hasSafeArea = true,
   }) {
     showDialog(
@@ -76,7 +76,7 @@ class STToast extends StatefulWidget {
             icon: icon,
             isIconTop: false,
             rotateAnimation: true,
-            position: locationType,
+            position: position,
             closable: false,
             autoClose: false,
             disappearMilliseconds: STToastConstant.defaultDisappearMilliseconds,
