@@ -21,11 +21,11 @@ class STProgress extends StatefulWidget {
     this.type = STProgressType.primary,
     this.status = STProgressStatus.primary,
     this.width = 150.0,
-    this.height,
-    this.color,
+    this.height = 8.0,
+    this.color = STProgressConstant.defaultBackgroundColor,
     this.trailingWidget,
     this.centerWidget,
-    this.stepCount,
+    this.stepCount = 10,
   }) : super(key: key);
 
   @override
