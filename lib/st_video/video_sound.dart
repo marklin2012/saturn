@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_slider/st_slider.dart';
-import 'package:saturn/st_video/video_common.dart';
+import 'package:saturn/st_video/video_util.dart';
 
 const _defaultSliderSize = 80.0;
 const _defaultSizeboxSize = 8.0;
@@ -39,8 +39,7 @@ class STVideoSound extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(right: _defaultSizeboxSize),
             alignment: Alignment.center,
-            child: VideoCommon()
-                .getSoundIcon(value, axis, iconColor, _defaultIconSize),
+            child: getVolumeIcon(value, axis, iconColor, _defaultIconSize),
           ),
           _getSlider(),
         ],
@@ -54,8 +53,7 @@ class STVideoSound extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: _defaultSizeboxSize),
             alignment: Alignment.center,
-            child: VideoCommon()
-                .getSoundIcon(value, axis, iconColor, _defaultIconSize),
+            child: getVolumeIcon(value, axis, iconColor, _defaultIconSize),
           ),
         ],
       );
