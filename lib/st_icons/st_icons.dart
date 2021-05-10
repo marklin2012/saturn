@@ -330,4 +330,10 @@ class STIcons {
       IconData(0xe897, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData commonly_videosound_small =
       IconData(0xe898, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData commonly_exitfullscreen =
+      IconData(0xe899, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData commonly_timeout =
+      IconData(0xe89a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData commonly_begin =
+      IconData(0xe89b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

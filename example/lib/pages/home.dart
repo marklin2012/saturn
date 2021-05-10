@@ -21,6 +21,9 @@ import 'package:example/pages/video.dart';
 import 'package:example/pages/loading.dart';
 import 'package:example/pages/alert.dart';
 import 'package:example/pages/tooltip.dart';
+import 'package:example/pages/toast.dart';
+import 'package:example/pages/snackbar.dart';
+import 'package:example/pages/tag.dart';
 import 'package:example/pages/message.dart';
 
 List<PageModel> _pages = [
@@ -30,6 +33,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Badge', page: BadgePage()),
   PageModel(name: 'tooltip', page: TooltipPage()),
   PageModel(name: 'Button', page: ButtonPage()),
+  PageModel(name: 'Toast', page: ToastPage()),
   PageModel(name: 'message', page: MessagePage()),
   PageModel(name: 'Switch', page: SwitchPage()),
   PageModel(name: 'Radio', page: RadioPage()),
@@ -37,12 +41,14 @@ List<PageModel> _pages = [
   PageModel(name: 'Stepper', page: StepperPage()),
   PageModel(name: 'Slider', page: SliderPage()),
   PageModel(name: 'Icon', page: IconPage()),
+  PageModel(name: 'Snackbar', page: SnackbarPage()),
   PageModel(name: 'Select', page: SelectPage()),
   PageModel(name: 'Picker', page: PickerPage()),
   PageModel(name: 'Steps', page: StepsPage()),
   PageModel(name: 'Cascader', page: CascaderPage()),
   PageModel(name: 'Card', page: CardPage()),
   PageModel(name: 'Video', page: VideoPage()),
+  PageModel(name: 'Tag', page: TagPage()),
 ];
 
 class HomePage extends StatelessWidget {

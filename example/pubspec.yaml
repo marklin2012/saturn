@@ -52,6 +52,7 @@ flutter:
     - assets/images/icon_selected_20x20.png
 
     - assets/images/basketball_check.png
+
   fonts:
     - family: STIcons
       fonts:

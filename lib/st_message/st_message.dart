@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import '../utils/string.dart';
 import 'common.dart';
 
-class STMessageSharedInstance {
-  BuildContext _curContext;
-  OverlayEntry _curOverlayEntry;
-  factory STMessageSharedInstance() => _sharedInstance();
+class STMessage extends StatefulWidget {
+  final String title;
+  final String message;
+  final Widget icon;
+  final Widget content;
+  final bool showShadow;
+  final bool autoClose;
+  final int disappearMilliseconds;
+  final STMessageLocation location;
 
-  static STMessageSharedInstance _instance;
+  static BuildContext _curContext;
+  static OverlayEntry _curOverlayEntry;
 
-  STMessageSharedInstance._();
-
-  static STMessageSharedInstance _sharedInstance() {
-    return _instance ??= STMessageSharedInstance._();
-  }
-
-  void show({
+  static void show({
     @required BuildContext context,
     String title,
     String message,
@@ -51,23 +51,12 @@ class STMessageSharedInstance {
     _curContext = context;
   }
 
-  void hide(
+  static void hide(
     BuildContext context,
   ) {
     _curOverlayEntry.remove();
     _curContext = null;
   }
-}
-
-class STMessage extends StatefulWidget {
-  final String title;
-  final String message;
-  final Widget icon;
-  final Widget content;
-  final bool showShadow;
-  final bool autoClose;
-  final int disappearMilliseconds;
-  final STMessageLocation location;
 
   const STMessage({
     Key key,
@@ -98,7 +87,7 @@ class _STMessageState extends State<STMessage> {
 
     if (widget.autoClose) {
       timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
-        STMessageSharedInstance().hide(context);
+        STMessage.hide(context);
       });
     }
 
