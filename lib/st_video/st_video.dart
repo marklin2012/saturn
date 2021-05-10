@@ -6,13 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_video/st_video_fullscreen.dart';
 import 'package:saturn/st_video/video_common.dart';
+import 'package:saturn/saturn.dart';
+import 'package:saturn/st_video/video_util.dart';
 import 'package:saturn/st_video/video_control.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
 
 import 'package:video_player/video_player.dart';
-
-enum STVideoRowType { single, two }
 
 enum STVideoPlayType { asset, network }
 
@@ -20,25 +20,28 @@ const _defaultHeight = 240.0;
 const _defaultFix10 = 10.0;
 const _defaultFix12 = 12.0;
 const _defaultFix16 = 16.0;
-const _defaultTimeTextStyle = TextStyle(color: Colors.white, fontSize: 12.0);
 const _defaultLiveString = 'Live';
+const _defaultTimeTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 12.0,
+);
 
 class STVideo extends StatefulWidget {
   const STVideo({
     Key key,
-    this.height,
+    this.height = _defaultHeight,
     this.margin,
     this.path,
-    this.type,
     this.isLive = false,
     this.playType = STVideoPlayType.network,
+    this.doubleControlRow = false,
   }) : super(key: key);
   final double height;
   final EdgeInsets margin;
   final String path;
-  final STVideoRowType type;
   final STVideoPlayType playType;
   final bool isLive;
+  final bool doubleControlRow; // 是否双行控制栏
 
   @override
   _STVideoState createState() => _STVideoState();
@@ -50,9 +53,8 @@ class _STVideoState extends State<STVideo> {
   double _progressWidth;
   EdgeInsets _margin;
   bool _showControl = true; // 是否显示控制层
-  STVideoRowType _type; // 底部单双排
-  bool _showChangeSound; // 是否显示声音调整
-  double _soundValue; // 声音控制
+  bool _showVolume; // 是否显示声音调整
+  double _volume; // 音量
 
   VideoPlayerController _playerController;
   Future _initializeVideoPlayerFuture;
@@ -65,11 +67,10 @@ class _STVideoState extends State<STVideo> {
   @override
   void initState() {
     super.initState();
-    _margin = widget.margin ?? const EdgeInsets.all(5);
-    _height = widget.height ?? _defaultHeight;
-    _type = widget.type ?? STVideoRowType.single;
-    _showChangeSound = false;
-    _soundValue = 0.5;
+    _margin = widget.margin ?? const EdgeInsets.all(4);
+    _height = widget.height;
+    _showVolume = false;
+    _volume = 0.5;
     _statusNotifier = ValueNotifier(STVideoStatus.loading);
     _progressNotifier = ValueNotifier(0);
     _timeNotifier = ValueNotifier('0:00/0:00');
@@ -85,14 +86,13 @@ class _STVideoState extends State<STVideo> {
     }
     _playerController.addListener(() {
       final _current = _playerController.value.position; // 当前进度
-      _timeNotifier.value = VideoCommon().getTimeString(_total, _current);
-      _progressNotifier.value =
-          VideoCommon().getProgressValue(_total, _current);
+      _timeNotifier.value = getTimeString(_total, _current);
+      _progressNotifier.value = getProgressValue(_total, _current);
     });
     _initializeVideoPlayerFuture = _playerController.initialize();
     _initializeVideoPlayerFuture.then((_) {
       _total = _playerController.value.duration; // 总时长
-      _playerController.setVolume(_soundValue);
+      _playerController.setVolume(_volume);
       setState(() {
         _statusNotifier.value = STVideoStatus.pause;
       });
@@ -109,7 +109,7 @@ class _STVideoState extends State<STVideo> {
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width - _margin.left - _margin.right;
     _progressWidth = _width - _margin.left - _margin.right - 2 * _defaultFix12;
-    if (_type == STVideoRowType.single) {
+    if (!widget.doubleControlRow) {
       _progressWidth = _width -
           _margin.left -
           _margin.right -
@@ -197,7 +197,7 @@ class _STVideoState extends State<STVideo> {
   Widget _getBottomWidget() {
     Widget _bottom;
     double _bottomHeight;
-    if (_type == STVideoRowType.single) {
+    if (!widget.doubleControlRow) {
       _bottomHeight = 114.0;
       _bottom = Container(
         margin: _margin,
@@ -216,23 +216,23 @@ class _STVideoState extends State<STVideo> {
               alignment: Alignment.bottomCenter,
               child: _getTimeTextWidget(),
             ),
-            if (!_showChangeSound) _getDefaultSoundIcon(),
-            if (_showChangeSound)
+            if (!_showVolume) _getDefaultSoundIcon(),
+            if (_showVolume)
               GestureDetector(
                 onTap: () {
                   // 显示声音调整的组件
                   setState(() {
-                    _showChangeSound = !_showChangeSound;
+                    _showVolume = !_showVolume;
                   });
                 },
                 child: STVideoSound(
                   axis: Axis.vertical,
-                  value: _soundValue,
+                  value: _volume,
                   iconColor: Colors.white,
                   onChanged: (double value) {
                     setState(() {
-                      _soundValue = value;
-                      _playerController.setVolume(1.0 - _soundValue);
+                      _volume = value;
+                      _playerController.setVolume(1.0 - _volume);
                     });
                   },
                 ),
@@ -261,15 +261,15 @@ class _STVideoState extends State<STVideo> {
                       onTap: () {
                         // 显示声音调整的组件
                         setState(() {
-                          _showChangeSound = !_showChangeSound;
+                          _showVolume = !_showVolume;
                         });
                       },
                       child: STVideoSound(
-                        value: _soundValue,
+                        value: _volume,
                         iconColor: Colors.white,
                         onChanged: (double value) {
                           setState(() {
-                            _soundValue = value;
+                            _volume = value;
                           });
                         },
                       ),
@@ -392,11 +392,10 @@ class _STVideoState extends State<STVideo> {
       onTap: () {
         // 显示声音调整的组件
         setState(() {
-          _showChangeSound = !_showChangeSound;
+          _showVolume = !_showVolume;
         });
       },
-      child: VideoCommon()
-          .getSoundIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
+      child: getVolumeIcon(_volume, Axis.vertical, Colors.white, 16.0),
     );
   }
 
@@ -415,8 +414,8 @@ class _STVideoState extends State<STVideo> {
                   playerController: _playerController,
                   isLive: widget.isLive,
                   progressValue: _progressNotifier.value,
-                  showChangeSound: _showChangeSound,
-                  soundValue: _soundValue,
+                  showChangeSound: _showVolume,
+                  soundValue: _volume,
                   timeStr: _timeNotifier.value,
                   videoStatus: _statusNotifier.value,
                   showControl: _showControl,

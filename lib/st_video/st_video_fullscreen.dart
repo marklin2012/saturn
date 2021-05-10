@@ -6,6 +6,7 @@ import 'package:saturn/st_video/video_common.dart';
 import 'package:saturn/st_video/video_control.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
+import 'package:saturn/st_video/video_util.dart';
 
 import 'package:video_player/video_player.dart';
 
@@ -71,9 +72,8 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
 
     widget.playerController.addListener(() {
       final _current = widget.playerController.value.position; // 当前进度
-      _timeNotifier.value = VideoCommon().getTimeString(_total, _current);
-      _progressNotifier.value =
-          VideoCommon().getProgressValue(_total, _current);
+      _timeNotifier.value = getTimeString(_total, _current);
+      _progressNotifier.value = getProgressValue(_total, _current);
     });
   }
 
@@ -294,8 +294,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
           _showChangeSound = !_showChangeSound;
         });
       },
-      child: VideoCommon()
-          .getSoundIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
+      child: getVolumeIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
     );
   }
 
