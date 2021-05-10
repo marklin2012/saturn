@@ -27,9 +27,9 @@ class STVideoControl extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _child;
     if (type == STVideoStatus.play) {
-      _child = Icon(STIcons.status_playcircle, size: 27, color: activeColor);
+      _child = Icon(STIcons.status_timeout, size: 27, color: activeColor);
     } else if (type == STVideoStatus.pause) {
-      _child = Icon(STIcons.status_pluscircle, size: 27, color: activeColor);
+      _child = Icon(STIcons.status_playcircle, size: 27, color: activeColor);
     } else if (type == STVideoStatus.fail) {
       _child = Icon(STIcons.status_closecircle, size: 21, color: activeColor);
     } else {

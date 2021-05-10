@@ -1,20 +1,27 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:saturn/saturn.dart';
+import 'package:flutter/services.dart';
+
+import 'package:saturn/st_icons/st_icons.dart';
+import 'package:saturn/st_video/st_video_fullscreen.dart';
 import 'package:saturn/st_video/video_common.dart';
 import 'package:saturn/st_video/video_control.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
+
 import 'package:video_player/video_player.dart';
 
 enum STVideoRowType { single, two }
+
+enum STVideoPlayType { asset, network }
 
 const _defaultHeight = 240.0;
 const _defaultFix10 = 10.0;
 const _defaultFix12 = 12.0;
 const _defaultFix16 = 16.0;
 const _defaultTimeTextStyle = TextStyle(color: Colors.white, fontSize: 12.0);
+const _defaultLiveString = 'Live';
 
 class STVideo extends StatefulWidget {
   const STVideo({
@@ -23,11 +30,15 @@ class STVideo extends StatefulWidget {
     this.margin,
     this.path,
     this.type,
+    this.isLive = false,
+    this.playType = STVideoPlayType.network,
   }) : super(key: key);
   final double height;
   final EdgeInsets margin;
   final String path;
   final STVideoRowType type;
+  final STVideoPlayType playType;
+  final bool isLive;
 
   @override
   _STVideoState createState() => _STVideoState();
@@ -63,14 +74,21 @@ class _STVideoState extends State<STVideo> {
     _progressNotifier = ValueNotifier(0);
     _timeNotifier = ValueNotifier('0:00/0:00');
 
-    _playerController = VideoPlayerController.network(widget.path);
+    switch (widget.playType) {
+      case STVideoPlayType.asset:
+        _playerController = VideoPlayerController.asset(widget.path);
+        break;
+      case STVideoPlayType.network:
+        _playerController = VideoPlayerController.network(widget.path);
+        break;
+      default:
+    }
     _playerController.addListener(() {
       final _current = _playerController.value.position; // 当前进度
       _timeNotifier.value = VideoCommon().getTimeString(_total, _current);
       _progressNotifier.value =
           VideoCommon().getProgressValue(_total, _current);
     });
-    _playerController.setLooping(true);
     _initializeVideoPlayerFuture = _playerController.initialize();
     _initializeVideoPlayerFuture.then((_) {
       _total = _playerController.value.duration; // 总时长
@@ -114,32 +132,35 @@ class _STVideoState extends State<STVideo> {
   }
 
   Widget _getVideoWidget() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _showControl = !_showControl;
-        });
-      },
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0x88000000),
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-        height: _height,
-        width: _width,
-        child: FutureBuilder(
-          future: _initializeVideoPlayerFuture,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) debugPrint(snapshot.error);
-            if (snapshot.connectionState == ConnectionState.done) {
-              return AspectRatio(
-                aspectRatio: _playerController.value.aspectRatio,
-                child: VideoPlayer(_playerController),
-              );
-            } else {
-              return const Opacity(opacity: 1.0);
-            }
-          },
+    return Hero(
+      tag: STVideoConst.videoHeroTag,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _showControl = !_showControl;
+          });
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Color(0x88000000),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          height: _height,
+          width: _width,
+          child: FutureBuilder(
+            future: _initializeVideoPlayerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) debugPrint(snapshot.error);
+              if (snapshot.connectionState == ConnectionState.done) {
+                return AspectRatio(
+                  aspectRatio: _playerController.value.aspectRatio,
+                  child: VideoPlayer(_playerController),
+                );
+              } else {
+                return const Opacity(opacity: 1.0);
+              }
+            },
+          ),
         ),
       ),
     );
@@ -305,13 +326,13 @@ class _STVideoState extends State<STVideo> {
       builder: (context, STVideoStatus value, child) {
         if (value == STVideoStatus.play) {
           return const Icon(
-            STIcons.direction_caretright,
+            STIcons.commonly_timeout,
             size: _defaultFix16,
             color: Colors.white,
           );
         } else {
           return const Icon(
-            STIcons.direction_swapu_d,
+            STIcons.commonly_begin,
             size: _defaultFix16,
             color: Colors.white,
           );
@@ -341,12 +362,29 @@ class _STVideoState extends State<STVideo> {
   }
 
   Widget _getTimeTextWidget() {
-    return ValueListenableBuilder(
-      valueListenable: _timeNotifier,
-      builder: (context, String value, child) {
-        return Text(value, style: _defaultTimeTextStyle);
-      },
-    );
+    if (widget.isLive) {
+      return Row(
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            padding: const EdgeInsets.only(right: 4),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(3)),
+            ),
+          ),
+          const Text(_defaultLiveString, style: _defaultTimeTextStyle),
+        ],
+      );
+    } else {
+      return ValueListenableBuilder(
+        valueListenable: _timeNotifier,
+        builder: (context, String value, child) {
+          return Text(value, style: _defaultTimeTextStyle);
+        },
+      );
+    }
   }
 
   Widget _getDefaultSoundIcon() {
@@ -366,6 +404,27 @@ class _STVideoState extends State<STVideo> {
     return GestureDetector(
       onTap: () {
         // 切换全屏
+        SystemChrome.setPreferredOrientations(
+            [DeviceOrientation.landscapeLeft]);
+
+        Future.delayed(const Duration(milliseconds: 500), () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return STVideoFullScreen(
+                  playerController: _playerController,
+                  isLive: widget.isLive,
+                  progressValue: _progressNotifier.value,
+                  showChangeSound: _showChangeSound,
+                  soundValue: _soundValue,
+                  timeStr: _timeNotifier.value,
+                  videoStatus: _statusNotifier.value,
+                  showControl: _showControl,
+                );
+              },
+            ),
+          );
+        });
       },
       child: Container(
         padding: const EdgeInsets.only(left: _defaultFix10),

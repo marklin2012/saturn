@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_icons/st_icons.dart';
 
+class STVideoConst {
+  static const videoHeroTag = 'STVideoPlayer';
+}
+
 class VideoCommon {
   Widget getSoundIcon(
       double value, Axis axis, Color iconColor, double iconSize) {
@@ -43,7 +47,7 @@ class VideoCommon {
 
   String getTimeFromDuration(Duration duration) {
     final _hours = duration.inHours;
-    final _minutes = duration.inMinutes % 3600;
+    final _minutes = duration.inMinutes % 60;
     final _seconds = duration.inSeconds % 60;
     final _minutesStr = _minutes < 10 ? '0$_minutes' : '$_minutes';
     final _secondsStr = _seconds < 10 ? '0$_seconds' : '$_seconds';
