@@ -360,13 +360,16 @@ class _STSliderState extends State<STSlider> {
     } else {
       return Draggable(
         axis: widget.axis,
-        feedback: Container(
-          alignment: Alignment.center,
-          width: _dotSize,
-          height: _dotSize,
-          decoration: BoxDecoration(
-            color: widget.dotColor,
-            shape: BoxShape.circle,
+        feedback: Opacity(
+          opacity: 0.0,
+          child: Container(
+            alignment: Alignment.center,
+            width: _dotSize,
+            height: _dotSize,
+            decoration: BoxDecoration(
+              color: widget.dotColor,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
         onDragStarted: () {
@@ -379,7 +382,15 @@ class _STSliderState extends State<STSlider> {
         },
         onDragEnd: (details) {
           // debugPrint('${details.offset}-$_firstOffset');
-          updateDragAction(details.offset, dotType);
+          if (dotType == STSliderDotType.start) {
+            _firHighlighted = false;
+          } else {
+            _secHighlighted = false;
+          }
+          setState(() {});
+        },
+        onDragUpdate: (details) {
+          updateDragAction(details.localPosition, dotType);
         },
         child: Container(
           key: dotType == STSliderDotType.start ? _firstKey : null,
@@ -445,15 +456,6 @@ class _STSliderState extends State<STSlider> {
       }
       widget.onChangedRange(RangeValues(_firstValue, _secondValue));
     }
-
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (dotType == STSliderDotType.start) {
-        _firHighlighted = false;
-      } else {
-        _secHighlighted = false;
-      }
-      setState(() {});
-    });
   }
 
   void updateTapAction(Offset positon) {
