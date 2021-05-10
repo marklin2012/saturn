@@ -294,8 +294,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
           _showChangeSound = !_showChangeSound;
         });
       },
-      child: VideoCommon()
-          .getSoundIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
+      child: getVolumeIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
     );
   }
 
