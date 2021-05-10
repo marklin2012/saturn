@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_video/st_video_fullscreen.dart';
-import 'package:saturn/st_video/video_common.dart';
-import 'package:saturn/saturn.dart';
 import 'package:saturn/st_video/video_util.dart';
 import 'package:saturn/st_video/video_control.dart';
 import 'package:saturn/st_video/video_progress.dart';

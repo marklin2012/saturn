@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
-import 'package:saturn/st_video/video_common.dart';
 import 'package:saturn/st_video/video_control.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
