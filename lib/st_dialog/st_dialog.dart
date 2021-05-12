@@ -29,26 +29,28 @@ class STDialog extends StatefulWidget {
   final String icon;
   final String buttonText;
   final List choiceList;
-  final bool isDoubleButton;
+  final bool hasCancelButton;
   final bool hasTextField;
   final VoidCallback onCancelTap;
-  final Function(String text) onMakeSureTap;
+  final Function(String text, List selectArr) onMakeSureTap;
   final STDialogType type;
+  final bool closable;
 
-  const STDialog({
-    Key key,
-    this.width,
-    this.title,
-    this.message,
-    this.icon,
-    this.buttonText,
-    this.choiceList,
-    this.isDoubleButton,
-    this.hasTextField,
-    this.onCancelTap,
-    this.onMakeSureTap,
-    this.type,
-  }) : super(key: key);
+  const STDialog(
+      {Key key,
+      this.width,
+      this.title,
+      this.message,
+      this.icon,
+      this.buttonText,
+      this.choiceList,
+      this.hasCancelButton,
+      this.hasTextField,
+      this.onCancelTap,
+      this.onMakeSureTap,
+      this.type,
+      this.closable})
+      : super(key: key);
 
   static void show({
     @required BuildContext context,
@@ -58,11 +60,12 @@ class STDialog extends StatefulWidget {
     String icon,
     String buttonText,
     List choiceList,
-    bool isDoubleButton = false,
+    bool hasCancelButton = false,
     bool hasTextField = false,
     VoidCallback onCancelTap,
-    Function(String text) onMakeSureTap,
+    Function(String text, List selectArr) onMakeSureTap,
     STDialogType type = STDialogType.dialog,
+    bool closable = true,
   }) {
     final dialog = STDialog(
       width: width,
@@ -71,17 +74,18 @@ class STDialog extends StatefulWidget {
       icon: icon,
       buttonText: buttonText,
       choiceList: choiceList,
-      isDoubleButton: isDoubleButton,
+      hasCancelButton: hasCancelButton,
       hasTextField: hasTextField,
-      onCancelTap: onCancelTap ??
-          () {
-            STDialog.hide(context);
-          },
-      onMakeSureTap: onMakeSureTap ??
-          (text) {
-            STDialog.hide(context);
-          },
+      onCancelTap: () {
+        if (onCancelTap != null) onCancelTap();
+        if (closable) STDialog.hide(context);
+      },
+      onMakeSureTap: (text, selectArr) {
+        if (onMakeSureTap != null) onMakeSureTap(text, selectArr);
+        if (closable) STDialog.hide(context);
+      },
       type: type,
+      closable: closable,
     );
     if (type == STDialogType.dialog) {
       showDialog(
@@ -115,6 +119,7 @@ class STDialog extends StatefulWidget {
 class _STDialogState extends State<STDialog> {
   FocusNode focusNode;
   TextEditingController textEditingController;
+  List selectedList = [];
 
   @override
   void initState() {
@@ -199,6 +204,9 @@ class _STDialogState extends State<STDialog> {
                       if (action != null) {
                         action();
                       }
+                      if (widget.closable) {
+                        STDialog.hide(context);
+                      }
                     },
                     child: Text(
                       title,
@@ -253,8 +261,10 @@ class _STDialogState extends State<STDialog> {
             columnArray.add(const SizedBox(height: 16));
 
             columnArray.add(getLineWidget(containerWidth));
-            if (widget.isDoubleButton) {
-              columnArray.add(getDoubleButtons(containerWidth, widget.type));
+            if (widget.hasCancelButton) {
+              columnArray.add(widget.hasCancelButton
+                  ? getProcessButtons(containerWidth)
+                  : getProcessButton(containerWidth));
             } else {
               columnArray.add(
                 TextButton(
@@ -264,9 +274,9 @@ class _STDialogState extends State<STDialog> {
                   ),
                   onPressed: () {
                     if (widget.onMakeSureTap != null) {
-                      widget.onMakeSureTap(widget.hasTextField
-                          ? textEditingController.text
-                          : "");
+                      widget.onMakeSureTap(
+                          widget.hasTextField ? textEditingController.text : "",
+                          []);
                     }
                   },
                   child: Text(
@@ -310,7 +320,7 @@ class _STDialogState extends State<STDialog> {
           for (int i = 0; i < widget.choiceList.length; i++) {
             listViewList.add(
               getChoiceItemWidget(
-                  widget.choiceList[i], containerWidth, widget.type),
+                  widget.choiceList[i], i, containerWidth, widget.type),
             );
           }
           columnArray.add(
@@ -320,7 +330,11 @@ class _STDialogState extends State<STDialog> {
               children: listViewList,
             )),
           );
-          columnArray.add(getListMakeSureButton(containerWidth));
+          columnArray.add(widget.hasCancelButton
+              ? getProcessButtons(containerWidth)
+              : getProcessButton(containerWidth));
+          if (widget.hasCancelButton)
+            columnArray.add(const SizedBox(height: 16));
         }
         break;
 
@@ -349,7 +363,7 @@ class _STDialogState extends State<STDialog> {
             for (int j = 0; j < innerChoiceList.length; j++) {
               innerListViewList.add(
                 getChoiceItemWidget(
-                    innerChoiceList[j], containerWidth, widget.type),
+                    innerChoiceList[j], j, containerWidth, widget.type),
               );
             }
             columnArray.add(const SizedBox(height: 6));
@@ -364,7 +378,11 @@ class _STDialogState extends State<STDialog> {
             columnArray.add(getLineWidget(containerWidth));
           }
 
-          columnArray.add(getListMakeSureButton(containerWidth));
+          columnArray.add(widget.hasCancelButton
+              ? getProcessButtons(containerWidth)
+              : getProcessButton(containerWidth));
+          if (widget.hasCancelButton)
+            columnArray.add(const SizedBox(height: 16));
         }
         break;
       case STDialogType.normal:
@@ -393,7 +411,9 @@ class _STDialogState extends State<STDialog> {
                   ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
-                  child: getDoubleButtons(containerWidth, widget.type),
+                  child: widget.hasCancelButton
+                      ? getProcessButtons(containerWidth)
+                      : getProcessButton(containerWidth),
                 ),
               ],
             )
@@ -427,7 +447,7 @@ class _STDialogState extends State<STDialog> {
     );
   }
 
-  Widget getListMakeSureButton(double containerWidth) {
+  Widget getProcessButton(double containerWidth) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
       child: Container(
@@ -438,7 +458,15 @@ class _STDialogState extends State<STDialog> {
         width: containerWidth - 24,
         height: 44,
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            if (widget.onMakeSureTap != null) {
+              if (widget.type == STDialogType.list) {
+                widget.onMakeSureTap("", selectedList);
+              } else {
+                widget.onMakeSureTap("", []);
+              }
+            }
+          },
           child: const Text(
             "操作",
             style: TextStyle(
@@ -452,8 +480,8 @@ class _STDialogState extends State<STDialog> {
     );
   }
 
-  Widget getDoubleButtons(double containerWidth, STDialogType type) {
-    final bool isDialog = type == STDialogType.dialog;
+  Widget getProcessButtons(double containerWidth) {
+    final bool isDialog = widget.type == STDialogType.dialog;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -509,8 +537,11 @@ class _STDialogState extends State<STDialog> {
                           : STDialogConstant.defaultButtonTextColor)),
               onPressed: () {
                 if (widget.onMakeSureTap != null) {
-                  widget.onMakeSureTap(
-                      widget.hasTextField ? textEditingController.text : "");
+                  if (widget.type == STDialogType.list) {
+                    widget.onMakeSureTap("", selectedList);
+                  } else {
+                    widget.onMakeSureTap("", []);
+                  }
                 }
               },
               child: Text(
@@ -530,9 +561,11 @@ class _STDialogState extends State<STDialog> {
     );
   }
 
-  Widget getChoiceItemWidget(ChoiceItem item, double width, STDialogType type) {
+  Widget getChoiceItemWidget(
+      ChoiceItem item, int index, double width, STDialogType type) {
+    Widget content;
     if (type == STDialogType.list) {
-      return Column(
+      content = Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: item.isAligmentCenter
             ? CrossAxisAlignment.center
@@ -585,7 +618,7 @@ class _STDialogState extends State<STDialog> {
         ],
       );
     } else if (type == STDialogType.dynamicList) {
-      return Padding(
+      content = Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -605,9 +638,24 @@ class _STDialogState extends State<STDialog> {
           ],
         ),
       );
-    } else {
-      return null;
     }
+
+    if (content != null) {
+      return GestureDetector(
+        onTap: () {
+          if (item.onTap != null) item.onTap();
+          if (type == STDialogType.list) {
+            if (selectedList.contains(index)) {
+              selectedList.remove(index);
+            } else {
+              selectedList.add(index);
+            }
+          }
+        },
+        child: content,
+      );
+    }
+    return content;
   }
 
   Widget getLineWidget(double containerWidth) {

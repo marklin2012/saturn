@@ -30,7 +30,7 @@ class DialogPage extends StatelessWidget {
                 context: context,
                 title: "标题标题",
                 message: "描述说明信息",
-                isDoubleButton: true,
+                hasCancelButton: true,
               );
             },
           ),
@@ -85,6 +85,7 @@ class DialogPage extends StatelessWidget {
                   icon: "assets/images/basketball_check.png",
                   message: "描述说明信息",
                   hasTextField: true,
+                  hasCancelButton: true,
                   type: STDialogType.list,
                   choiceList: [
                     ChoiceItem(
@@ -131,9 +132,11 @@ class DialogPage extends StatelessWidget {
                   choiceList: [
                     [
                       ChoiceItem(
-                        title: "好的",
-                        icon: "assets/images/basketball_check.png",
-                      ),
+                          title: "好的",
+                          icon: "assets/images/basketball_check.png",
+                          onTap: () {
+                            print("好的");
+                          }),
                       ChoiceItem(
                         title: "是不是",
                         icon: "assets/images/basketball_check.png",
