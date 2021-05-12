@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum STDialogType { dialog, list, dynamicList, normal }
+enum STDialogType { custom, list, dynamicList, normal }
 
 class STDialogConstant {
   static const double titleFontSize = 18.0;
@@ -8,7 +8,7 @@ class STDialogConstant {
 
   static const double cornerRadius = 8.0;
 
-  static const double dialogDefaultWidthPercent = 0.7;
+  static const double customDefaultWidthPercent = 0.7;
   static const double listDefaultWidthPercent = 0.9;
   static const double dynamicListDefaultWidthPercent = 0.9;
   static const double normalDefaultWidthPercent = 0.7;

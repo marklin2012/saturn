@@ -64,7 +64,7 @@ class STDialog extends StatefulWidget {
     bool hasTextField = false,
     VoidCallback onCancelTap,
     Function(String text, List selectArr) onMakeSureTap,
-    STDialogType type = STDialogType.dialog,
+    STDialogType type = STDialogType.custom,
     bool closable = true,
   }) {
     final dialog = STDialog(
@@ -87,7 +87,7 @@ class STDialog extends StatefulWidget {
       type: type,
       closable: closable,
     );
-    if (type == STDialogType.dialog) {
+    if (type == STDialogType.custom) {
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -168,10 +168,10 @@ class _STDialogState extends State<STDialog> {
 
     List<Widget> columnArray;
     switch (widget.type) {
-      case STDialogType.dialog:
+      case STDialogType.custom:
         {
           containerWidth =
-              screenWidth * STDialogConstant.dialogDefaultWidthPercent;
+              screenWidth * STDialogConstant.customDefaultWidthPercent;
           columnArray = [
             const SizedBox(
               height: 16,
@@ -194,6 +194,7 @@ class _STDialogState extends State<STDialog> {
               final VoidCallback action = model.onTap;
               columnArray.add(
                 SizedBox(
+                  width: containerWidth,
                   height: 44,
                   child: TextButton(
                     style: ButtonStyle(
@@ -262,12 +263,11 @@ class _STDialogState extends State<STDialog> {
 
             columnArray.add(getLineWidget(containerWidth));
             if (widget.hasCancelButton) {
-              columnArray.add(widget.hasCancelButton
-                  ? getProcessButtons(containerWidth)
-                  : getProcessButton(containerWidth));
+              columnArray.add(getProcessButtons(containerWidth));
             } else {
-              columnArray.add(
-                TextButton(
+              columnArray.add(SizedBox(
+                width: containerWidth,
+                child: TextButton(
                   style: ButtonStyle(
                     overlayColor: MaterialStateColor.resolveWith(
                         (states) => Colors.transparent),
@@ -288,7 +288,7 @@ class _STDialogState extends State<STDialog> {
                         decoration: TextDecoration.none),
                   ),
                 ),
-              );
+              ));
             }
           }
         }
@@ -481,7 +481,7 @@ class _STDialogState extends State<STDialog> {
   }
 
   Widget getProcessButtons(double containerWidth) {
-    final bool isDialog = widget.type == STDialogType.dialog;
+    final bool isDialog = widget.type == STDialogType.custom;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -565,57 +565,61 @@ class _STDialogState extends State<STDialog> {
       ChoiceItem item, int index, double width, STDialogType type) {
     Widget content;
     if (type == STDialogType.list) {
-      content = Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: item.isAligmentCenter
-            ? CrossAxisAlignment.center
-            : CrossAxisAlignment.start,
-        children: [
-          if (!item.isAligmentCenter) const SizedBox(height: 13),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (!item.isAligmentCenter) const SizedBox(width: 24),
-              if (item.isSelectItem)
-                Radio(
-                  value: 1,
-                  groupValue: false,
-                  onChanged: (value) {},
-                ),
-              if (item.isSelectItem) const SizedBox(width: 16),
-              if (!isNullOrEmpty(item.icon))
-                Image.asset(item.icon, fit: BoxFit.fitWidth),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!isNullOrEmpty(item.title))
-                    Text(
-                      item.title,
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          decoration: TextDecoration.none,
-                          color: Colors.black),
-                    ),
-                  if (!isNullOrEmpty(item.message))
-                    Text(
-                      item.message,
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          decoration: TextDecoration.none,
-                          color: Colors.grey),
-                    ),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(height: 14),
-          if (item.hasSeparateLine) getLineWidget(width)
-        ],
+      content = Container(
+        color: Colors.transparent,
+        width: width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: item.isAligmentCenter
+              ? CrossAxisAlignment.center
+              : CrossAxisAlignment.start,
+          children: [
+            if (!item.isAligmentCenter) const SizedBox(height: 13),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!item.isAligmentCenter) const SizedBox(width: 24),
+                if (item.isSelectItem)
+                  Radio(
+                    value: 1,
+                    groupValue: false,
+                    onChanged: (value) {},
+                  ),
+                if (item.isSelectItem) const SizedBox(width: 16),
+                if (!isNullOrEmpty(item.icon))
+                  Image.asset(item.icon, fit: BoxFit.fitWidth),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!isNullOrEmpty(item.title))
+                      Text(
+                        item.title,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.none,
+                            color: Colors.black),
+                      ),
+                    if (!isNullOrEmpty(item.message))
+                      Text(
+                        item.message,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.none,
+                            color: Colors.grey),
+                      ),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 14),
+            if (item.hasSeparateLine) getLineWidget(width)
+          ],
+        ),
       );
     } else if (type == STDialogType.dynamicList) {
       content = Padding(

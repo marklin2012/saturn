@@ -179,6 +179,7 @@ class DialogPage extends StatelessWidget {
                   icon: "assets/images/basketball_check.png",
                   message: "描述说明信息",
                   title: "这是一个标题",
+                  hasCancelButton: true,
                   type: STDialogType.normal);
             },
           ),
