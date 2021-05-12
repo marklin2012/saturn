@@ -7,7 +7,7 @@ class ChoiceItem {
   String title;
   String message;
   String icon;
-  bool isSelectItem;
+  bool isRadio;
   bool isAligmentCenter;
   bool hasSeparateLine;
   VoidCallback onTap;
@@ -16,7 +16,7 @@ class ChoiceItem {
       {this.title,
       this.message,
       this.icon,
-      this.isSelectItem = false,
+      this.isRadio = false,
       this.isAligmentCenter = false,
       this.hasSeparateLine = false,
       this.onTap});
@@ -27,7 +27,8 @@ class STDialog extends StatefulWidget {
   final String title;
   final String message;
   final String icon;
-  final String buttonText;
+  final String makeSureText;
+  final String cancelText;
   final List choiceList;
   final bool hasCancelButton;
   final bool hasTextField;
@@ -35,6 +36,9 @@ class STDialog extends StatefulWidget {
   final Function(String text, List selectArr) onMakeSureTap;
   final STDialogType type;
   final bool closable;
+  final Color selectedColor;
+  final bool showSelectColor;
+  final bool isSingleSelect;
 
   const STDialog(
       {Key key,
@@ -42,14 +46,18 @@ class STDialog extends StatefulWidget {
       this.title,
       this.message,
       this.icon,
-      this.buttonText,
+      this.makeSureText,
+      this.cancelText,
       this.choiceList,
       this.hasCancelButton,
       this.hasTextField,
       this.onCancelTap,
       this.onMakeSureTap,
       this.type,
-      this.closable})
+      this.closable,
+      this.selectedColor,
+      this.showSelectColor,
+      this.isSingleSelect})
       : super(key: key);
 
   static void show({
@@ -58,7 +66,8 @@ class STDialog extends StatefulWidget {
     String title,
     String message,
     String icon,
-    String buttonText,
+    String makeSureText = "确定",
+    String cancelText = "取消",
     List choiceList,
     bool hasCancelButton = false,
     bool hasTextField = false,
@@ -66,13 +75,17 @@ class STDialog extends StatefulWidget {
     Function(String text, List selectArr) onMakeSureTap,
     STDialogType type = STDialogType.custom,
     bool closable = true,
+    Color selectedColor = Colors.black12,
+    bool showSelectColor = true,
+    bool isSingleSelect = false,
   }) {
     final dialog = STDialog(
       width: width,
       title: title,
       message: message,
       icon: icon,
-      buttonText: buttonText,
+      makeSureText: makeSureText,
+      cancelText: cancelText,
       choiceList: choiceList,
       hasCancelButton: hasCancelButton,
       hasTextField: hasTextField,
@@ -86,6 +99,9 @@ class STDialog extends StatefulWidget {
       },
       type: type,
       closable: closable,
+      selectedColor: selectedColor,
+      showSelectColor: showSelectColor,
+      isSingleSelect: isSingleSelect,
     );
     if (type == STDialogType.custom) {
       showDialog(
@@ -224,9 +240,7 @@ class _STDialogState extends State<STDialog> {
               );
             }
           } else {
-            String buttonText = "我知道了";
             if (widget.hasTextField) {
-              buttonText = "确定";
               columnArray.add(
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -280,7 +294,7 @@ class _STDialogState extends State<STDialog> {
                     }
                   },
                   child: Text(
-                    buttonText,
+                    widget.makeSureText,
                     style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: STDialogConstant.defaultButtonTextColor,
@@ -505,9 +519,9 @@ class _STDialogState extends State<STDialog> {
                   widget.onCancelTap();
                 }
               },
-              child: const Text(
-                "取消",
-                style: TextStyle(
+              child: Text(
+                widget.cancelText,
+                style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     color: STDialogConstant.defaultButtonTextColor,
                     fontSize: 16,
@@ -565,8 +579,11 @@ class _STDialogState extends State<STDialog> {
       ChoiceItem item, int index, double width, STDialogType type) {
     Widget content;
     if (type == STDialogType.list) {
+      final bool isSelected = selectedList.contains(index);
       content = Container(
-        color: Colors.transparent,
+        color: (widget.showSelectColor && isSelected && !item.isRadio)
+            ? widget.selectedColor
+            : Colors.transparent,
         width: width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -579,13 +596,13 @@ class _STDialogState extends State<STDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (!item.isAligmentCenter) const SizedBox(width: 24),
-                if (item.isSelectItem)
+                if (item.isRadio)
                   Radio(
-                    value: 1,
-                    groupValue: false,
-                    onChanged: (value) {},
+                    value: index,
+                    groupValue: isSelected ? 1 : 0,
+                    onChanged: null,
                   ),
-                if (item.isSelectItem) const SizedBox(width: 16),
+                if (item.isRadio) const SizedBox(width: 16),
                 if (!isNullOrEmpty(item.icon))
                   Image.asset(item.icon, fit: BoxFit.fitWidth),
                 Column(
@@ -649,11 +666,18 @@ class _STDialogState extends State<STDialog> {
         onTap: () {
           if (item.onTap != null) item.onTap();
           if (type == STDialogType.list) {
-            if (selectedList.contains(index)) {
-              selectedList.remove(index);
-            } else {
+            if (widget.isSingleSelect) {
+              selectedList.clear();
               selectedList.add(index);
+            } else {
+              if (selectedList.contains(index)) {
+                selectedList.remove(index);
+              } else {
+                selectedList.add(index);
+              }
             }
+
+            setState(() {});
           }
         },
         child: content,

@@ -86,12 +86,19 @@ class DialogPage extends StatelessWidget {
                   message: "描述说明信息",
                   hasTextField: true,
                   hasCancelButton: true,
+                  isSingleSelect: false,
                   type: STDialogType.list,
                   choiceList: [
                     ChoiceItem(
                       title: "好的",
                       hasSeparateLine: true,
                       isAligmentCenter: true,
+                    ),
+                    ChoiceItem(
+                      title: "好的",
+                      hasSeparateLine: true,
+                      isAligmentCenter: false,
+                      isRadio: true,
                     ),
                     ChoiceItem(
                         title: "是不是",
