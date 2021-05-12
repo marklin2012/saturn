@@ -2,6 +2,7 @@ import 'package:example/pages/checkbox.dart';
 import 'package:example/pages/select.dart';
 import 'package:example/pages/slider.dart';
 import 'package:example/pages/stepper.dart';
+import 'package:example/pages/tabbar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/models/page_model.dart';
@@ -39,6 +40,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Snackbar', page: SnackbarPage()),
   PageModel(name: 'Select', page: SelectPage()),
   PageModel(name: 'Tag', page: TagPage()),
+  PageModel(name: 'Tabbar', page: TabbarPage()),
 ];
 
 class HomePage extends StatelessWidget {
