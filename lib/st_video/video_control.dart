@@ -27,17 +27,17 @@ class STVideoControl extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _child;
     if (type == STVideoStatus.play) {
-      _child = Icon(STIcons.status_timeout, size: 27, color: activeColor);
+      _child = Icon(STIcons.status_timeout, size: 33, color: activeColor);
     } else if (type == STVideoStatus.pause) {
-      _child = Icon(STIcons.status_playcircle, size: 27, color: activeColor);
+      _child = Icon(STIcons.status_playcircle, size: 33, color: activeColor);
     } else if (type == STVideoStatus.fail) {
-      _child = Icon(STIcons.status_closecircle, size: 21, color: activeColor);
+      _child = Icon(STIcons.status_closecircle, size: 27, color: activeColor);
     } else {
       _child = const STLoading(
         icon: Icon(
           STIcons.status_loading,
           color: Colors.white,
-          size: 26,
+          size: 33,
         ),
         alwaysLoading: true,
         text: '',
@@ -54,11 +54,11 @@ class STVideoControl extends StatelessWidget {
       child: Container(
         height: size.height,
         width: size.width,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-          border: bordered ? Border.all(color: activeColor) : null,
-        ),
+        // decoration: BoxDecoration(
+        //   color: backgroundColor,
+        //   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        //   border: bordered ? Border.all(color: activeColor) : null,
+        // ),
         alignment: Alignment.center,
         child: _child,
       ),

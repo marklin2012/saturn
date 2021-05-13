@@ -16,12 +16,11 @@ class _VideoPageState extends State<VideoPage> {
       body: Column(
         children: [
           SizedBox(height: 20),
-          STVideo(
-            path:
-                'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4',
-          ),
-          // SizedBox(height: 20),
-          // STVideo(type: STVideoRowType.two),
+          // STVideo.network(
+          //     url:
+          //         'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4'),
+
+          STVideo.asset(path: 'assets/video/showtime.mp4'),
         ],
       ),
     );

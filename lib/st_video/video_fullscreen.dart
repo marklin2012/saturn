@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_video/video_control.dart';
+import 'package:saturn/st_video/video_debounce.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
 import 'package:saturn/st_video/video_util.dart';
@@ -53,6 +54,8 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
   double _safeHeight;
   bool _showControl; // 是否显示控制层
 
+  bool _isOvered; // 是否结束
+
   @override
   void initState() {
     super.initState();
@@ -70,9 +73,14 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
     _timeNotifier = ValueNotifier(_timeStr);
 
     widget.playerController.addListener(() {
-      final _current = widget.playerController.value.position; // 当前进度
-      _timeNotifier.value = getTimeString(_total, _current);
-      _progressNotifier.value = getProgressValue(_total, _current);
+      if (widget.playerController.value.isPlaying) {
+        final _current = widget.playerController.value.position; // 当前进度
+        _timeNotifier.value = getTimeString(_total, _current);
+        _progressNotifier.value = getProgressValue(_total, _current);
+      } else {
+        _isOvered = true;
+        _statusNotifier.value = STVideoStatus.pause;
+      }
     });
   }
 
@@ -87,6 +95,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
     _safeWidth = mq.size.width - mq.padding.left - mq.padding.right;
     _safeHeight = mq.size.height - mq.padding.top - mq.padding.bottom;
 
+    _autoHide();
     return SafeArea(
       child: Container(
         color: Colors.black,
@@ -95,9 +104,9 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _showControl = !_showControl;
-                  });
+                  _showControl = !_showControl;
+                  setState(() {});
+                  if (_showControl) _autoHide();
                 },
                 child: Hero(
                   tag: STVideoConst.videoHeroTag,
@@ -133,9 +142,13 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
                 if (_statusNotifier.value == STVideoStatus.pause) {
                   widget.playerController.pause();
                 } else if (_statusNotifier.value == STVideoStatus.play) {
+                  if (_isOvered) {
+                    widget.playerController.seekTo(const Duration());
+                  }
                   widget.playerController.play();
                 }
               });
+              _autoHide();
             },
           ),
         );
@@ -173,6 +186,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
                   setState(() {
                     _showChangeSound = !_showChangeSound;
                   });
+                  _autoHide();
                 },
                 child: STVideoSound(
                   axis: Axis.vertical,
@@ -183,6 +197,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
                       _soundValue = value;
                       widget.playerController.setVolume(1.0 - _soundValue);
                     });
+                    _autoHide();
                   },
                 ),
               ),
@@ -202,8 +217,12 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
           widget.playerController.pause();
         } else if (_statusNotifier.value == STVideoStatus.pause) {
           _statusNotifier.value = STVideoStatus.play;
+          if (_isOvered) {
+            widget.playerController.seekTo(const Duration());
+          }
           widget.playerController.play();
         }
+        _autoHide();
       },
       child: Container(
         padding: const EdgeInsets.only(right: _defaultFix10),
@@ -253,6 +272,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
               widget.playerController.seekTo(
                   Duration(seconds: (changeValue * _total.inSeconds).toInt()));
             });
+            _autoHide();
           },
         );
       },
@@ -292,6 +312,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
         setState(() {
           _showChangeSound = !_showChangeSound;
         });
+        _autoHide();
       },
       child: getVolumeIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
     );
@@ -315,5 +336,15 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
         ),
       ),
     );
+  }
+
+  // 自动隐藏
+  void _autoHide() {
+    STDebounce().debounce(() {
+      if (_showControl) {
+        _showControl = false;
+        setState(() {});
+      }
+    });
   }
 }
