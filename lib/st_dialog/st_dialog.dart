@@ -90,12 +90,12 @@ class STDialog extends StatefulWidget {
       hasCancelButton: hasCancelButton,
       hasTextField: hasTextField,
       onCancelTap: () {
-        if (onCancelTap != null) onCancelTap();
         if (closable) STDialog.hide(context);
+        if (onCancelTap != null) onCancelTap();
       },
       onMakeSureTap: (text, selectArr) {
-        if (onMakeSureTap != null) onMakeSureTap(text, selectArr);
         if (closable) STDialog.hide(context);
+        if (onMakeSureTap != null) onMakeSureTap(text, selectArr);
       },
       type: type,
       closable: closable,
@@ -114,7 +114,7 @@ class STDialog extends StatefulWidget {
       showModalBottomSheet(
           context: context,
           enableDrag: false,
-          isDismissible: false,
+          isDismissible: closable,
           backgroundColor: Colors.transparent,
           builder: (context) {
             return dialog;
@@ -150,6 +150,8 @@ class _STDialogState extends State<STDialog> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     double containerWidth;
 
     Image imageWidget;
@@ -218,11 +220,11 @@ class _STDialogState extends State<STDialog> {
                           (states) => Colors.transparent),
                     ),
                     onPressed: () {
-                      if (action != null) {
-                        action();
-                      }
                       if (widget.closable) {
                         STDialog.hide(context);
+                      }
+                      if (action != null) {
+                        action();
                       }
                     },
                     child: Text(
@@ -437,28 +439,44 @@ class _STDialogState extends State<STDialog> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-        child: Container(
-          width: containerWidth,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(STDialogConstant.cornerRadius),
-            color: Colors.white,
-            boxShadow: const [
-              BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(4.0, 4.0),
-                  blurRadius: 5.0,
-                  spreadRadius: 2.0),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: columnArray,
-          ),
-        ),
-      ),
-    );
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                if (widget.closable) {
+                  STDialog.hide(context);
+                }
+              },
+              child: Container(
+                width: screenWidth,
+                height: screenHeight,
+                color: Colors.transparent,
+              ),
+            ),
+            Center(
+              child: Container(
+                width: containerWidth,
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.circular(STDialogConstant.cornerRadius),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(4.0, 4.0),
+                        blurRadius: 5.0,
+                        spreadRadius: 2.0),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: columnArray,
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 
   Widget getProcessButton(double containerWidth) {
