@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_video/video_fullscreen.dart';
-import 'package:saturn/st_video/video_debounce.dart';
 import 'package:saturn/st_video/video_util.dart';
 import 'package:saturn/st_video/video_control.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
+import 'package:saturn/utils/debounce.dart';
 
 import 'package:video_player/video_player.dart';
 
