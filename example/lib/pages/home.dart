@@ -20,9 +20,11 @@ import 'package:example/pages/toast.dart';
 import 'package:example/pages/snackbar.dart';
 import 'package:example/pages/tag.dart';
 import 'package:example/pages/message.dart';
+import 'package:example/pages/progress.dart';
 import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
+  PageModel(name: 'Progress', page: ProgressPage()),
   PageModel(name: 'Input', page: InputPage()),
   PageModel(name: 'Loading', page: LoadingPage()),
   PageModel(name: 'Alert', page: AlertPage()),
