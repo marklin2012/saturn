@@ -61,7 +61,7 @@ class _STVideoBaseState extends State<STVideoBase> {
   ValueNotifier<String> _timeNotifier; // 监听时间显示
   Duration _total = const Duration();
 
-  bool _isOvered; // 是否结束
+  bool _isOvered = false; // 是否结束
 
   @override
   void initState() {
@@ -84,15 +84,14 @@ class _STVideoBaseState extends State<STVideoBase> {
       default:
     }
     _playerController.addListener(() {
-      if (_playerController.value.isPlaying) {
-        // 当前进度
-        final _current = _playerController.value.position;
-        _timeNotifier.value = getTimeString(_total, _current);
-        _progressNotifier.value = getProgressValue(_total, _current);
-      } else {
-        _isOvered = true;
+      // 当前进度
+      final _current = _playerController.value.position;
+      _timeNotifier.value = getTimeString(_total, _current);
+      _progressNotifier.value = getProgressValue(_total, _current);
+      if (!_playerController.value.isPlaying) {
         _statusNotifier.value = STVideoStatus.pause;
       }
+      _isOvered = _current == _total;
     });
     _initializeVideoPlayerFuture = _playerController.initialize();
     _initializeVideoPlayerFuture.then((_) {

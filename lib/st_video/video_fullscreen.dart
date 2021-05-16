@@ -54,7 +54,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
   double _safeHeight;
   bool _showControl; // 是否显示控制层
 
-  bool _isOvered; // 是否结束
+  bool _isOvered = false; // 是否结束
 
   @override
   void initState() {
@@ -73,12 +73,11 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
     _timeNotifier = ValueNotifier(_timeStr);
 
     widget.playerController.addListener(() {
-      if (widget.playerController.value.isPlaying) {
-        final _current = widget.playerController.value.position; // 当前进度
-        _timeNotifier.value = getTimeString(_total, _current);
-        _progressNotifier.value = getProgressValue(_total, _current);
-      } else {
-        _isOvered = true;
+      final _current = widget.playerController.value.position; // 当前进度
+      _timeNotifier.value = getTimeString(_total, _current);
+      _progressNotifier.value = getProgressValue(_total, _current);
+      _isOvered = _current == _total;
+      if (!widget.playerController.value.isPlaying) {
         _statusNotifier.value = STVideoStatus.pause;
       }
     });
