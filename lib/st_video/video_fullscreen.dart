@@ -3,16 +3,17 @@ import 'package:flutter/services.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_video/video_control.dart';
-import 'package:saturn/utils/debounce.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
 import 'package:saturn/st_video/video_util.dart';
+import 'package:saturn/utils/debounce.dart';
 
 import 'package:video_player/video_player.dart';
 
 const _defaultFix10 = 10.0;
 const _defaultFix12 = 12.0;
 const _defaultFix16 = 16.0;
+const _defaultStatusSize = 40.0;
 const _defaultTimeTextStyle = TextStyle(
     color: Colors.white, fontSize: 12.0, decoration: TextDecoration.none);
 const _defaultLiveString = 'Live';
@@ -124,17 +125,14 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
   }
 
   Widget _getStatusWidget() {
-    const _size = Size(80, 60);
     return ValueListenableBuilder(
       valueListenable: _statusNotifier,
       builder: (context, STVideoStatus value, child) {
         return Positioned(
-          left: (_safeWidth - _size.width) / 2,
-          top: (_safeHeight - _size.height) / 2,
+          left: (_safeWidth - _defaultStatusSize) / 2,
+          top: (_safeHeight - _defaultStatusSize) / 2,
           child: STVideoControl(
-            type: value,
-            bordered: true,
-            backgroundColor: const Color(0x88000000),
+            status: value,
             onChanged: (STVideoStatus status) {
               setState(() {
                 _statusNotifier.value = status;

@@ -16,6 +16,7 @@ enum STVideoPlayType { asset, network }
 const _defaultFix10 = 10.0;
 const _defaultFix12 = 12.0;
 const _defaultFix16 = 16.0;
+const _defaultStatusSize = 40.0;
 const _defaultLiveString = 'Live';
 const _defaultTimeTextStyle = TextStyle(
   color: Colors.white,
@@ -174,17 +175,15 @@ class _STVideoBaseState extends State<STVideoBase> {
   }
 
   Widget _getStatusWidget() {
-    const _size = Size(80, 60);
     return ValueListenableBuilder(
       valueListenable: _statusNotifier,
       builder: (context, STVideoStatus value, child) {
         return Positioned(
-          left: (_width - _size.width) / 2,
-          top: (_height - _size.height) / 2,
+          left: (_width - _defaultStatusSize) / 2,
+          top: (_height - _defaultStatusSize) / 2,
           child: STVideoControl(
-            type: value,
-            bordered: true,
-            backgroundColor: const Color(0x88000000),
+            status: value,
+            doubleControlRow: widget.doubleControlRow,
             onChanged: (STVideoStatus status) {
               setState(() {
                 _statusNotifier.value = status;

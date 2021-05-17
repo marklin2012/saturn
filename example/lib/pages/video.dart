@@ -20,7 +20,10 @@ class _VideoPageState extends State<VideoPage> {
           //     url:
           //         'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4'),
 
-          STVideo.asset(path: 'assets/video/showtime.mp4'),
+          STVideo.asset(
+            path: 'assets/video/showtime.mp4',
+            doubleControlRow: true,
+          ),
         ],
       ),
     );
