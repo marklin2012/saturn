@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-enum STDialogType { custom, list, dynamicList, normal }
+enum STDialogType {
+  custom,
+  list,
+  dynamicList,
+  normal,
+}
 
 class STDialogConstant {
   static const double titleFontSize = 18.0;

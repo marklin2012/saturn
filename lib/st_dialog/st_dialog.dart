@@ -1,35 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_dialog/st_dialog_option.dart';
 
 import '../utils/string.dart';
 import 'common.dart';
-
-class ChoiceItem {
-  String title;
-  String message;
-  String icon;
-  bool isRadio;
-  bool isAligmentCenter;
-  bool hasSeparateLine;
-  VoidCallback onTap;
-
-  ChoiceItem(
-      {this.title,
-      this.message,
-      this.icon,
-      this.isRadio = false,
-      this.isAligmentCenter = false,
-      this.hasSeparateLine = false,
-      this.onTap});
-}
 
 class STDialog extends StatefulWidget {
   final int width;
   final String title;
   final String message;
   final String icon;
-  final String makeSureText;
-  final String cancelText;
-  final List choiceList;
+  final String confirmTitle;
+  final String cancelTitle;
+  final List options;
   final bool hasCancelButton;
   final bool hasTextField;
   final VoidCallback onCancelTap;
@@ -46,9 +28,9 @@ class STDialog extends StatefulWidget {
       this.title,
       this.message,
       this.icon,
-      this.makeSureText,
-      this.cancelText,
-      this.choiceList,
+      this.confirmTitle,
+      this.cancelTitle,
+      this.options,
       this.hasCancelButton,
       this.hasTextField,
       this.onCancelTap,
@@ -68,7 +50,7 @@ class STDialog extends StatefulWidget {
     String icon,
     String makeSureText = "确定",
     String cancelText = "取消",
-    List choiceList,
+    List options,
     bool hasCancelButton = false,
     bool hasTextField = false,
     VoidCallback onCancelTap,
@@ -84,9 +66,9 @@ class STDialog extends StatefulWidget {
       title: title,
       message: message,
       icon: icon,
-      makeSureText: makeSureText,
-      cancelText: cancelText,
-      choiceList: choiceList,
+      confirmTitle: makeSureText,
+      cancelTitle: cancelText,
+      options: options,
       hasCancelButton: hasCancelButton,
       hasTextField: hasTextField,
       onCancelTap: () {
@@ -201,13 +183,13 @@ class _STDialogState extends State<STDialog> {
             messageWidget,
           ];
 
-          if (!isEmptyArray(widget.choiceList)) {
+          if (!isEmptyArray(widget.options)) {
             columnArray.add(const SizedBox(height: 16));
 
-            for (int i = 0; i < widget.choiceList.length; i++) {
+            for (int i = 0; i < widget.options.length; i++) {
               columnArray.add(getLineWidget(containerWidth));
 
-              final ChoiceItem model = widget.choiceList[i];
+              final STDialogOption model = widget.options[i];
               final String title = model.title;
               final VoidCallback action = model.onTap;
               columnArray.add(
@@ -296,7 +278,7 @@ class _STDialogState extends State<STDialog> {
                     }
                   },
                   child: Text(
-                    widget.makeSureText,
+                    widget.confirmTitle,
                     style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: STDialogConstant.defaultButtonTextColor,
@@ -333,10 +315,10 @@ class _STDialogState extends State<STDialog> {
           ];
 
           final List<Widget> listViewList = [];
-          for (int i = 0; i < widget.choiceList.length; i++) {
+          for (int i = 0; i < widget.options.length; i++) {
             listViewList.add(
               getChoiceItemWidget(
-                  widget.choiceList[i], i, containerWidth, widget.type),
+                  widget.options[i], i, containerWidth, widget.type),
             );
           }
           columnArray.add(
@@ -373,8 +355,8 @@ class _STDialogState extends State<STDialog> {
               ],
             )
           ];
-          for (int i = 0; i < widget.choiceList.length; i++) {
-            final List innerChoiceList = widget.choiceList[i];
+          for (int i = 0; i < widget.options.length; i++) {
+            final List innerChoiceList = widget.options[i];
             final List<Widget> innerListViewList = [];
             for (int j = 0; j < innerChoiceList.length; j++) {
               innerListViewList.add(
@@ -538,7 +520,7 @@ class _STDialogState extends State<STDialog> {
                 }
               },
               child: Text(
-                widget.cancelText,
+                widget.cancelTitle,
                 style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     color: STDialogConstant.defaultButtonTextColor,
@@ -594,7 +576,7 @@ class _STDialogState extends State<STDialog> {
   }
 
   Widget getChoiceItemWidget(
-      ChoiceItem item, int index, double width, STDialogType type) {
+      STDialogOption item, int index, double width, STDialogType type) {
     Widget content;
     if (type == STDialogType.list) {
       final bool isSelected = selectedList.contains(index);

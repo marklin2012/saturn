@@ -58,8 +58,8 @@ class DialogPage extends StatelessWidget {
                   context: context,
                   title: "标题标题",
                   message: "描述说明信息",
-                  choiceList: [
-                    ChoiceItem(
+                  options: [
+                    STDialogOption(
                       title: "选项一",
                       onTap: () {
                         STToast.show(
@@ -69,7 +69,7 @@ class DialogPage extends StatelessWidget {
                             autoClose: true);
                       },
                     ),
-                    ChoiceItem(title: "选项二"),
+                    STDialogOption(title: "选项二"),
                   ]);
             },
           ),
@@ -98,38 +98,38 @@ class DialogPage extends StatelessWidget {
                   hasCancelButton: true,
                   isSingleSelect: false,
                   type: STDialogType.list,
-                  choiceList: [
-                    ChoiceItem(
+                  options: [
+                    STDialogOption(
                       title: "好的",
                       hasSeparateLine: true,
                       isAligmentCenter: true,
                     ),
-                    ChoiceItem(
+                    STDialogOption(
                       title: "好的",
                       hasSeparateLine: true,
                       isAligmentCenter: false,
                       isRadio: true,
                     ),
-                    ChoiceItem(
+                    STDialogOption(
                         title: "是不是",
                         icon: "assets/images/basketball_check.png",
                         hasSeparateLine: true,
                         isAligmentCenter: true),
-                    ChoiceItem(
+                    STDialogOption(
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
                         hasSeparateLine: true,
                         isAligmentCenter: false),
-                    ChoiceItem(
+                    STDialogOption(
                       title: "好的",
                       icon: "assets/images/basketball_check.png",
                     ),
-                    ChoiceItem(
+                    STDialogOption(
                       title: "是不是",
                       icon: "assets/images/basketball_check.png",
                     ),
-                    ChoiceItem(
+                    STDialogOption(
                       title: "不好",
                       message: "描述说明信息",
                       icon: "assets/images/basketball_check.png",
@@ -146,39 +146,39 @@ class DialogPage extends StatelessWidget {
                   message: "描述说明信息",
                   hasTextField: true,
                   type: STDialogType.dynamicList,
-                  choiceList: [
+                  options: [
                     [
-                      ChoiceItem(
+                      STDialogOption(
                           title: "好的",
                           icon: "assets/images/basketball_check.png",
                           onTap: () {
                             print("好的");
                           }),
-                      ChoiceItem(
+                      STDialogOption(
                         title: "是不是",
                         icon: "assets/images/basketball_check.png",
                       ),
-                      ChoiceItem(
+                      STDialogOption(
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
                       ),
-                      ChoiceItem(
+                      STDialogOption(
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
                       ),
-                      ChoiceItem(
+                      STDialogOption(
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
                       ),
-                      ChoiceItem(
+                      STDialogOption(
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
                       ),
-                      ChoiceItem(
+                      STDialogOption(
                         title: "不好",
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
