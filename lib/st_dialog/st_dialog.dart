@@ -42,14 +42,14 @@ class STDialog extends StatefulWidget {
     String title,
     String message,
     String icon,
-    String makeSureText = "确定",
-    String cancelText = "取消",
+    String confirmTitle = "确定",
+    String cancelTitle = "确定",
     List options,
-    bool hasCancelButton = false,
+    bool hasCancelButton = true,
     bool hasConfirmButton = false,
     bool hasTextField = false,
     VoidCallback onCancelTap,
-    Function(String text, List selectArr) onMakeSureTap,
+    Function(String text, List selectArr) onConfirmTap,
     bool closable = true,
   }) {
     final dialog = STDialog(
@@ -57,8 +57,8 @@ class STDialog extends StatefulWidget {
       title: title,
       message: message,
       icon: icon,
-      confirmTitle: makeSureText,
-      cancelTitle: cancelText,
+      confirmTitle: confirmTitle,
+      cancelTitle: cancelTitle,
       options: options,
       hasCancelButton: hasCancelButton,
       hasConfirmButton: hasConfirmButton,
@@ -69,7 +69,7 @@ class STDialog extends StatefulWidget {
       },
       onConfirmTap: (text, selectArr) {
         if (closable) STDialog.hide(context);
-        if (onMakeSureTap != null) onMakeSureTap(text, selectArr);
+        if (onConfirmTap != null) onConfirmTap(text, selectArr);
       },
       closable: closable,
     );
@@ -156,110 +156,14 @@ class _STDialogState extends State<STDialog> {
       messageWidget,
     ];
 
-    if (!isEmptyArray(widget.options)) {
+    addTextFieldToColumn(columnArray);
+
+    addOptionsToColumn(containerWidth, columnArray);
+
+    if (widget.hasCancelButton || widget.hasConfirmButton) {
       columnArray.add(const SizedBox(height: 16));
-
-      for (int i = 0; i < widget.options.length; i++) {
-        columnArray.add(getLineWidget(containerWidth));
-
-        final STDialogOption model = widget.options[i];
-        final String title = model.title;
-        final VoidCallback action = model.onTap;
-        columnArray.add(
-          SizedBox(
-            width: containerWidth,
-            height: 44,
-            child: TextButton(
-              style: ButtonStyle(
-                overlayColor: MaterialStateColor.resolveWith(
-                    (states) => Colors.transparent),
-              ),
-              onPressed: () {
-                if (widget.closable) {
-                  STDialog.hide(context);
-                }
-                if (action != null) {
-                  action();
-                }
-              },
-              child: Text(
-                title,
-                softWrap: true,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: STDialogConstant.defaultButtonTextColor,
-                  fontSize: 16,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-    } else {
-      if (widget.hasTextField) {
-        columnArray.add(
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 36),
-              child: Theme(
-                data: ThemeData(
-                    primaryColor: STDialogConstant.textFieldThemeColor),
-                child: TextField(
-                  controller: textEditingController,
-                  autofocus: true,
-                  focusNode: focusNode,
-                  cursorColor: STDialogConstant.textFieldThemeColor,
-                  decoration: const InputDecoration(
-                    hintText: "请输入",
-                    hintStyle:
-                        TextStyle(color: STDialogConstant.textFieldThemeColor),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 6, horizontal: 14),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(
-                          color: STDialogConstant.textFieldThemeColor,
-                          width: 0.5),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-      columnArray.add(const SizedBox(height: 16));
-
       columnArray.add(getLineWidget(containerWidth));
-      if (widget.hasCancelButton) {
-        columnArray.add(getProcessButtons(containerWidth));
-      } else {
-        columnArray.add(SizedBox(
-          width: containerWidth,
-          child: TextButton(
-            style: ButtonStyle(
-              overlayColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.transparent),
-            ),
-            onPressed: () {
-              if (widget.onConfirmTap != null) {
-                widget.onConfirmTap(
-                    widget.hasTextField ? textEditingController.text : "", []);
-              }
-            },
-            child: Text(
-              widget.confirmTitle,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: STDialogConstant.defaultButtonTextColor,
-                  fontSize: 16,
-                  decoration: TextDecoration.none),
-            ),
-          ),
-        ));
-      }
+      columnArray.add(getBottomButtons(containerWidth));
     }
 
     return Scaffold(
@@ -303,42 +207,92 @@ class _STDialogState extends State<STDialog> {
         ));
   }
 
-  Widget getProcessButton(double containerWidth) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(STDialogConstant.cornerRadius),
-          color: STDialogConstant.defaultButtonTextColor,
-        ),
-        width: containerWidth - 24,
-        height: 44,
-        child: TextButton(
-          onPressed: () {
-            if (widget.onConfirmTap != null) {
-              widget.onConfirmTap("", []);
-            }
-          },
-          child: const Text(
-            "操作",
-            style: TextStyle(
-                backgroundColor: STDialogConstant.defaultButtonTextColor,
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400),
+  void addTextFieldToColumn(List<Widget> columnArray) {
+    if (widget.hasTextField) {
+      columnArray.add(
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 36),
+            child: Theme(
+              data:
+                  ThemeData(primaryColor: STDialogConstant.textFieldThemeColor),
+              child: TextField(
+                controller: textEditingController,
+                autofocus: true,
+                focusNode: focusNode,
+                cursorColor: STDialogConstant.textFieldThemeColor,
+                decoration: const InputDecoration(
+                  hintText: "请输入",
+                  hintStyle:
+                      TextStyle(color: STDialogConstant.textFieldThemeColor),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    borderSide: BorderSide(
+                        color: STDialogConstant.textFieldThemeColor,
+                        width: 0.5),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
-  Widget getProcessButtons(double containerWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 0),
-          child: SizedBox(
+  void addOptionsToColumn(double containerWidth, List<Widget> columnArray) {
+    if (isEmptyArray(widget.options)) return;
+    columnArray.add(const SizedBox(height: 16));
+
+    for (int i = 0; i < widget.options.length; i++) {
+      columnArray.add(getLineWidget(containerWidth));
+
+      final STDialogOption model = widget.options[i];
+      final String title = model.title;
+      final VoidCallback action = model.onTap;
+      columnArray.add(
+        SizedBox(
+          width: containerWidth,
+          height: 44,
+          child: TextButton(
+            style: ButtonStyle(
+              overlayColor: MaterialStateColor.resolveWith(
+                  (states) => Colors.transparent),
+            ),
+            onPressed: () {
+              if (widget.closable) {
+                STDialog.hide(context);
+              }
+              if (action != null) {
+                action();
+              }
+            },
+            child: Text(
+              title,
+              softWrap: true,
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                color: STDialogConstant.defaultButtonTextColor,
+                fontSize: 16,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget getBottomButtons(double containerWidth) {
+    if (!widget.hasCancelButton && !widget.hasConfirmButton) return null;
+    if (widget.hasCancelButton && widget.hasConfirmButton) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
             width: containerWidth / 2.0 - 1,
             child: TextButton(
               style: ButtonStyle(
@@ -362,15 +316,12 @@ class _STDialogState extends State<STDialog> {
               ),
             ),
           ),
-        ),
-        Container(
-          width: 1,
-          height: 44,
-          color: STDialogConstant.defaultLineColor,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 0),
-          child: SizedBox(
+          Container(
+            width: 1,
+            height: 44,
+            color: STDialogConstant.defaultLineColor,
+          ),
+          SizedBox(
             width: containerWidth / 2.0 - 1,
             child: TextButton(
               style: ButtonStyle(
@@ -380,12 +331,14 @@ class _STDialogState extends State<STDialog> {
                       MaterialStateColor.resolveWith((states) => Colors.white)),
               onPressed: () {
                 if (widget.onConfirmTap != null) {
-                  widget.onConfirmTap("", []);
+                  widget.onConfirmTap(
+                      widget.hasTextField ? textEditingController.text : "",
+                      []);
                 }
               },
-              child: const Text(
-                "确定",
-                style: TextStyle(
+              child: Text(
+                widget.confirmTitle,
+                style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     color: STDialogConstant.defaultButtonTextColor,
                     fontSize: 16,
@@ -393,9 +346,39 @@ class _STDialogState extends State<STDialog> {
               ),
             ),
           ),
-        )
-      ],
-    );
+        ],
+      );
+    } else {
+      String text;
+      if (widget.hasCancelButton) text = widget.cancelTitle;
+      if (widget.hasConfirmButton) text = widget.confirmTitle;
+      return SizedBox(
+        width: containerWidth,
+        child: TextButton(
+          style: ButtonStyle(
+            overlayColor:
+                MaterialStateColor.resolveWith((states) => Colors.transparent),
+          ),
+          onPressed: () {
+            if (widget.hasConfirmButton && widget.onConfirmTap != null) {
+              widget.onConfirmTap(
+                  widget.hasTextField ? textEditingController.text : "", []);
+            }
+            if (widget.hasCancelButton && widget.onCancelTap != null) {
+              widget.onCancelTap();
+            }
+          },
+          child: Text(
+            text,
+            style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                color: STDialogConstant.defaultButtonTextColor,
+                fontSize: 16,
+                decoration: TextDecoration.none),
+          ),
+        ),
+      );
+    }
   }
 
   Widget getLineWidget(double containerWidth) {

@@ -19,7 +19,8 @@ class DialogPage extends StatelessWidget {
                   context: context,
                   title: "标题标题",
                   message: "描述说明信息",
-                  onMakeSureTap: (text, list) {
+                  hasCancelButton: true,
+                  onCancelTap: () {
                     STToast.show(
                         context: context,
                         message: "这是一个message这是一个message这是一个message这是一个message",
@@ -32,11 +33,12 @@ class DialogPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
-                context: context,
-                title: "标题标题",
-                message: "描述说明信息",
-                hasCancelButton: true,
-              );
+                  context: context,
+                  title: "标题标题",
+                  message: "描述说明信息",
+                  cancelTitle: "取消",
+                  hasCancelButton: true,
+                  hasConfirmButton: true);
             },
           ),
           FlatButton(
@@ -58,6 +60,8 @@ class DialogPage extends StatelessWidget {
                   context: context,
                   title: "标题标题",
                   message: "描述说明信息",
+                  hasCancelButton: false,
+                  hasConfirmButton: false,
                   options: [
                     STDialogOption(
                       title: "选项一",
@@ -78,11 +82,15 @@ class DialogPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
-                context: context,
-                title: "标题标题",
-                message: "描述说明信息",
-                hasTextField: true,
-              );
+                  context: context,
+                  title: "标题标题",
+                  message: "描述说明信息",
+                  cancelTitle: "取消",
+                  hasTextField: true,
+                  hasConfirmButton: true,
+                  onConfirmTap: (text, arr) {
+                    print(text);
+                  });
             },
           ),
         ],
