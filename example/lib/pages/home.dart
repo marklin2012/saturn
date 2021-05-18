@@ -20,6 +20,7 @@ import 'package:example/pages/toast.dart';
 import 'package:example/pages/snackbar.dart';
 import 'package:example/pages/tag.dart';
 import 'package:example/pages/message.dart';
+import 'package:example/pages/actionSheet.dart';
 import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
@@ -27,6 +28,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Loading', page: LoadingPage()),
   PageModel(name: 'Alert', page: AlertPage()),
   PageModel(name: 'Dialog', page: DialogPage()),
+  PageModel(name: 'ActionSheet', page: ActionSheetPage()),
   PageModel(name: 'Badge', page: BadgePage()),
   PageModel(name: 'tooltip', page: TooltipPage()),
   PageModel(name: 'Button', page: ButtonPage()),
