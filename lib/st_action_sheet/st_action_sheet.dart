@@ -13,11 +13,13 @@ class STActionSheet extends StatefulWidget {
   final String cancelTitle;
   final List options;
   final bool hasCancelButton;
+  final bool hasConfirmButton;
   final bool hasTextField;
   final VoidCallback onCancelTap;
-  final Function(String text, List selectArr) onMakeSureTap;
+  final Function(String text, List selectArr) onConfirmTap;
   final STActionSheetDirectionType directionType;
   final bool closable;
+  final bool canSelect;
   final Color selectedColor;
   final bool showSelectColor;
   final bool isSingleSelect;
@@ -32,11 +34,13 @@ class STActionSheet extends StatefulWidget {
       this.cancelTitle,
       this.options,
       this.hasCancelButton,
+      this.hasConfirmButton,
       this.hasTextField,
       this.onCancelTap,
-      this.onMakeSureTap,
+      this.onConfirmTap,
       this.directionType,
       this.closable,
+      this.canSelect,
       this.selectedColor,
       this.showSelectColor,
       this.isSingleSelect})
@@ -48,40 +52,44 @@ class STActionSheet extends StatefulWidget {
     String title,
     String message,
     String icon,
-    String makeSureText = "确定",
-    String cancelText = "取消",
+    String confirmTitle = "确定",
+    String cancelTitle = "确定",
     List options,
-    bool hasCancelButton = false,
+    bool hasCancelButton = true,
+    bool hasConfirmButton = false,
     bool hasTextField = false,
     VoidCallback onCancelTap,
-    Function(String text, List selectArr) onMakeSureTap,
+    Function(String text, List selectArr) onConfirmTap,
     STActionSheetDirectionType directionType =
         STActionSheetDirectionType.vertical,
     bool closable = true,
+    bool canSelect = true,
     Color selectedColor = Colors.black12,
     bool showSelectColor = true,
     bool isSingleSelect = false,
   }) {
-    final dialog = STActionSheet(
+    final actionSheet = STActionSheet(
       width: width,
       title: title,
       message: message,
       icon: icon,
-      confirmTitle: makeSureText,
-      cancelTitle: cancelText,
+      confirmTitle: confirmTitle,
+      cancelTitle: cancelTitle,
       options: options,
       hasCancelButton: hasCancelButton,
+      hasConfirmButton: hasConfirmButton,
       hasTextField: hasTextField,
       onCancelTap: () {
         if (closable) STActionSheet.hide(context);
         if (onCancelTap != null) onCancelTap();
       },
-      onMakeSureTap: (text, selectArr) {
+      onConfirmTap: (text, selectArr) {
         if (closable) STActionSheet.hide(context);
-        if (onMakeSureTap != null) onMakeSureTap(text, selectArr);
+        if (onConfirmTap != null) onConfirmTap(text, selectArr);
       },
       directionType: directionType,
       closable: closable,
+      canSelect: canSelect,
       selectedColor: selectedColor,
       showSelectColor: showSelectColor,
       isSingleSelect: isSingleSelect,
@@ -92,7 +100,7 @@ class STActionSheet extends StatefulWidget {
         isDismissible: closable,
         backgroundColor: Colors.transparent,
         builder: (context) {
-          return dialog;
+          return actionSheet;
         });
   }
 
@@ -162,8 +170,8 @@ class _STActionSheetState extends State<STActionSheet> {
     switch (widget.directionType) {
       case STActionSheetDirectionType.vertical:
         {
-          containerWidth =
-              screenWidth * STActionSheetConstant.listDefaultWidthPercent;
+          containerWidth = screenWidth *
+              STActionSheetConstant.verticalListDefaultWidthPercent;
           columnArray = [
             const SizedBox(
               height: 16,
@@ -197,18 +205,15 @@ class _STActionSheetState extends State<STActionSheet> {
               children: listViewList,
             )),
           );
-          columnArray.add(widget.hasCancelButton
-              ? getProcessButtons(containerWidth)
-              : getProcessButton(containerWidth));
-          if (widget.hasCancelButton)
-            columnArray.add(const SizedBox(height: 16));
+
+          addBottomButtonToColumn(containerWidth, columnArray);
         }
         break;
 
       case STActionSheetDirectionType.horizontal:
         {
           containerWidth = screenWidth *
-              STActionSheetConstant.dynamicListDefaultWidthPercent;
+              STActionSheetConstant.horizontalListDefaultWidthPercent;
           columnArray = [
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -245,11 +250,7 @@ class _STActionSheetState extends State<STActionSheet> {
             columnArray.add(getLineWidget(containerWidth));
           }
 
-          columnArray.add(widget.hasCancelButton
-              ? getProcessButtons(containerWidth)
-              : getProcessButton(containerWidth));
-          if (widget.hasCancelButton)
-            columnArray.add(const SizedBox(height: 16));
+          addBottomButtonToColumn(containerWidth, columnArray);
         }
         break;
     }
@@ -295,107 +296,129 @@ class _STActionSheetState extends State<STActionSheet> {
         ));
   }
 
-  Widget getProcessButton(double containerWidth) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius:
-              BorderRadius.circular(STActionSheetConstant.cornerRadius),
-          color: STActionSheetConstant.defaultButtonTextColor,
-        ),
-        width: containerWidth - 24,
-        height: 44,
-        child: TextButton(
-          onPressed: () {
-            if (widget.onMakeSureTap != null) {
-              if (widget.directionType == STActionSheetDirectionType.vertical) {
-                widget.onMakeSureTap("", selectedList);
-              }
-            }
-          },
-          child: const Text(
-            "操作",
-            style: TextStyle(
-                backgroundColor: STActionSheetConstant.defaultButtonTextColor,
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400),
-          ),
-        ),
-      ),
-    );
+  void addBottomButtonToColumn(
+      double containerWidth, List<Widget> columnArray) {
+    if (widget.hasCancelButton && widget.hasConfirmButton) {
+      columnArray.add(const SizedBox(height: 16));
+    }
+    if (widget.hasCancelButton || widget.hasConfirmButton) {
+      columnArray.add(getBottomButtons(containerWidth));
+    }
+    if (widget.hasCancelButton && widget.hasConfirmButton) {
+      columnArray.add(const SizedBox(height: 16));
+    }
   }
 
-  Widget getProcessButtons(double containerWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 10.0),
-          child: SizedBox(
-            width: containerWidth / 2.0 - 20,
-            child: TextButton(
-              style: ButtonStyle(
-                overlayColor: MaterialStateColor.resolveWith(
-                    (states) => Colors.transparent),
-                side: MaterialStateProperty.all(BorderSide(
-                    color: STActionSheetConstant.defaultButtonTextColor,
-                    width: 1)),
+  Widget getBottomButtons(double containerWidth) {
+    if (!widget.hasConfirmButton && !widget.hasCancelButton) return null;
+    if (widget.hasConfirmButton && widget.hasCancelButton) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: SizedBox(
+              width: containerWidth / 2.0 - 20,
+              child: TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.transparent),
+                  side: MaterialStateProperty.all(const BorderSide(
+                      color: STActionSheetConstant.defaultButtonTextColor,
+                      width: 1)),
+                ),
+                onPressed: () {
+                  if (widget.onCancelTap != null) {
+                    widget.onCancelTap();
+                  }
+                },
+                child: Text(
+                  widget.cancelTitle,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: STActionSheetConstant.defaultButtonTextColor,
+                      fontSize: 16,
+                      decoration: TextDecoration.none),
+                ),
               ),
-              onPressed: () {
-                if (widget.onCancelTap != null) {
-                  widget.onCancelTap();
-                }
-              },
-              child: Text(
-                widget.cancelTitle,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    color: STActionSheetConstant.defaultButtonTextColor,
-                    fontSize: 16,
-                    decoration: TextDecoration.none),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: SizedBox(
+              width: containerWidth / 2.0 - 20,
+              child: TextButton(
+                style: ButtonStyle(
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.transparent),
+                    backgroundColor: MaterialStateColor.resolveWith((states) =>
+                        STActionSheetConstant.defaultButtonTextColor)),
+                onPressed: () {
+                  if (widget.onConfirmTap != null) {
+                    widget.onConfirmTap("", selectedList);
+                  }
+                },
+                child: Text(
+                  widget.confirmTitle,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: 16,
+                      decoration: TextDecoration.none),
+                ),
               ),
+            ),
+          )
+        ],
+      );
+    } else {
+      String text;
+      if (widget.hasCancelButton) text = widget.cancelTitle;
+      if (widget.hasConfirmButton) text = widget.confirmTitle;
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius:
+                BorderRadius.circular(STActionSheetConstant.cornerRadius),
+            color: STActionSheetConstant.defaultButtonTextColor,
+          ),
+          width: containerWidth - 24,
+          height: 44,
+          child: TextButton(
+            onPressed: () {
+              if (widget.hasConfirmButton && widget.onConfirmTap != null) {
+                widget.onConfirmTap("", selectedList);
+              }
+              if (widget.hasCancelButton && widget.onCancelTap != null) {
+                widget.onCancelTap();
+              }
+            },
+            child: Text(
+              text,
+              style: const TextStyle(
+                  backgroundColor: STActionSheetConstant.defaultButtonTextColor,
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w400),
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SizedBox(
-            width: containerWidth / 2.0 - 20,
-            child: TextButton(
-              style: ButtonStyle(
-                  overlayColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.transparent),
-                  backgroundColor: MaterialStateColor.resolveWith((states) =>
-                      STActionSheetConstant.defaultButtonTextColor)),
-              onPressed: () {
-                if (widget.onMakeSureTap != null) {
-                  widget.onMakeSureTap("", selectedList);
-                }
-              },
-              child: const Text(
-                "确定",
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                    fontSize: 16,
-                    decoration: TextDecoration.none),
-              ),
-            ),
-          ),
-        )
-      ],
-    );
+      );
+    }
   }
 
   Widget getChoiceItemWidget(STActionSheetOption item, int index, double width,
       STActionSheetDirectionType directionType) {
     Widget content;
+    final bool isSelected = selectedList.contains(index);
+
     if (directionType == STActionSheetDirectionType.vertical) {
-      final bool isSelected = selectedList.contains(index);
       content = Container(
-        color: (widget.showSelectColor && isSelected && !item.isRadio)
+        color: (widget.showSelectColor &&
+                isSelected &&
+                !item.isRadio &&
+                widget.canSelect)
             ? widget.selectedColor
             : Colors.transparent,
         width: width,
@@ -453,24 +476,32 @@ class _STActionSheetState extends State<STActionSheet> {
         ),
       );
     } else if (directionType == STActionSheetDirectionType.horizontal) {
-      content = Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (!isNullOrEmpty(item.icon))
-              Image.asset(item.icon, fit: BoxFit.fitWidth),
-            if (!isNullOrEmpty(item.title))
-              Text(
-                item.title,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    decoration: TextDecoration.none,
-                    color: Colors.black),
-              ),
-          ],
+      content = Container(
+        color: (widget.showSelectColor &&
+                isSelected &&
+                !item.isRadio &&
+                widget.canSelect)
+            ? widget.selectedColor
+            : Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (!isNullOrEmpty(item.icon))
+                Image.asset(item.icon, fit: BoxFit.fitWidth),
+              if (!isNullOrEmpty(item.title))
+                Text(
+                  item.title,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      decoration: TextDecoration.none,
+                      color: Colors.black),
+                ),
+            ],
+          ),
         ),
       );
     }
@@ -478,8 +509,7 @@ class _STActionSheetState extends State<STActionSheet> {
     if (content != null) {
       return GestureDetector(
         onTap: () {
-          if (item.onTap != null) item.onTap();
-          if (directionType == STActionSheetDirectionType.vertical) {
+          if (widget.canSelect) {
             if (widget.isSingleSelect) {
               selectedList.clear();
               selectedList.add(index);
@@ -490,8 +520,9 @@ class _STActionSheetState extends State<STActionSheet> {
                 selectedList.add(index);
               }
             }
-
             setState(() {});
+          } else {
+            if (item.onTap != null) item.onTap();
           }
         },
         child: content,

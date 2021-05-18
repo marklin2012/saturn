@@ -8,10 +8,8 @@ class STActionSheetConstant {
 
   static const double cornerRadius = 8.0;
 
-  static const double customDefaultWidthPercent = 0.7;
-  static const double listDefaultWidthPercent = 0.9;
-  static const double dynamicListDefaultWidthPercent = 0.9;
-  static const double normalDefaultWidthPercent = 0.7;
+  static const double verticalListDefaultWidthPercent = 0.9;
+  static const double horizontalListDefaultWidthPercent = 0.9;
   static const double defaultMaxHeightPercent = 0.5;
 
   static const double defaultTopBottomPadding = 16.0;
