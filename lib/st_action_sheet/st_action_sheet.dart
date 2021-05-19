@@ -14,7 +14,6 @@ class STActionSheet extends StatefulWidget {
   final List options;
   final bool hasCancelButton;
   final bool hasConfirmButton;
-  final bool hasTextField;
   final VoidCallback onCancelTap;
   final Function(String text, List selectArr) onConfirmTap;
   final STActionSheetDirectionType directionType;
@@ -23,6 +22,7 @@ class STActionSheet extends StatefulWidget {
   final Color selectedColor;
   final bool showSelectColor;
   final bool isSingleSelect;
+  final bool isOptionAligmentCenter;
 
   const STActionSheet(
       {Key key,
@@ -35,7 +35,6 @@ class STActionSheet extends StatefulWidget {
       this.options,
       this.hasCancelButton,
       this.hasConfirmButton,
-      this.hasTextField,
       this.onCancelTap,
       this.onConfirmTap,
       this.directionType,
@@ -43,7 +42,8 @@ class STActionSheet extends StatefulWidget {
       this.canSelect,
       this.selectedColor,
       this.showSelectColor,
-      this.isSingleSelect})
+      this.isSingleSelect,
+      this.isOptionAligmentCenter})
       : super(key: key);
 
   static void show({
@@ -57,7 +57,6 @@ class STActionSheet extends StatefulWidget {
     List options,
     bool hasCancelButton = true,
     bool hasConfirmButton = false,
-    bool hasTextField = false,
     VoidCallback onCancelTap,
     Function(String text, List selectArr) onConfirmTap,
     STActionSheetDirectionType directionType =
@@ -67,6 +66,7 @@ class STActionSheet extends StatefulWidget {
     Color selectedColor = Colors.black12,
     bool showSelectColor = true,
     bool isSingleSelect = false,
+    bool isOptionAligmentCenter = false,
   }) {
     final actionSheet = STActionSheet(
       width: width,
@@ -78,7 +78,6 @@ class STActionSheet extends StatefulWidget {
       options: options,
       hasCancelButton: hasCancelButton,
       hasConfirmButton: hasConfirmButton,
-      hasTextField: hasTextField,
       onCancelTap: () {
         if (closable) STActionSheet.hide(context);
         if (onCancelTap != null) onCancelTap();
@@ -93,6 +92,7 @@ class STActionSheet extends StatefulWidget {
       selectedColor: selectedColor,
       showSelectColor: showSelectColor,
       isSingleSelect: isSingleSelect,
+      isOptionAligmentCenter: isOptionAligmentCenter,
     );
     showModalBottomSheet(
         context: context,
@@ -115,18 +115,11 @@ class STActionSheet extends StatefulWidget {
 }
 
 class _STActionSheetState extends State<STActionSheet> {
-  FocusNode focusNode;
-  TextEditingController textEditingController;
   List selectedList = [];
 
   @override
   void initState() {
     super.initState();
-
-    if (widget.hasTextField) {
-      focusNode = FocusNode();
-      textEditingController = TextEditingController();
-    }
   }
 
   @override
@@ -247,7 +240,13 @@ class _STActionSheetState extends State<STActionSheet> {
               ),
             ));
             columnArray.add(const SizedBox(height: 6));
-            columnArray.add(getLineWidget(containerWidth));
+            if (i == widget.options.length - 1 &&
+                !widget.hasCancelButton &&
+                !widget.hasConfirmButton) {
+              columnArray.add(const SizedBox(height: 16));
+            } else {
+              columnArray.add(getLineWidget(containerWidth));
+            }
           }
 
           addBottomButtonToColumn(containerWidth, columnArray);
@@ -424,15 +423,15 @@ class _STActionSheetState extends State<STActionSheet> {
         width: width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: item.isAligmentCenter
+          crossAxisAlignment: widget.isOptionAligmentCenter
               ? CrossAxisAlignment.center
               : CrossAxisAlignment.start,
           children: [
-            if (!item.isAligmentCenter) const SizedBox(height: 13),
+            if (!widget.isOptionAligmentCenter) const SizedBox(height: 13),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (!item.isAligmentCenter) const SizedBox(width: 24),
+                if (!widget.isOptionAligmentCenter) const SizedBox(width: 24),
                 if (item.isRadio)
                   Radio(
                     value: index,
@@ -471,7 +470,7 @@ class _STActionSheetState extends State<STActionSheet> {
               ],
             ),
             const SizedBox(height: 14),
-            if (item.hasSeparateLine) getLineWidget(width)
+            getLineWidget(width)
           ],
         ),
       );

@@ -20,34 +20,29 @@ class ActionSheetPage extends StatelessWidget {
                   title: "是不是",
                   icon: "assets/images/basketball_check.png",
                   message: "描述说明信息",
-                  hasTextField: true,
-                  hasCancelButton: true,
+                  hasCancelButton: false,
+                  hasConfirmButton: false,
                   canSelect: false,
                   isSingleSelect: false,
                   directionType: STActionSheetDirectionType.vertical,
+                  isOptionAligmentCenter: true,
                   options: [
                     STActionSheetOption(
                       title: "好的",
-                      hasSeparateLine: true,
-                      isAligmentCenter: true,
                     ),
                     STActionSheetOption(
                       title: "好的",
-                      hasSeparateLine: true,
-                      isAligmentCenter: false,
                       isRadio: true,
                     ),
                     STActionSheetOption(
-                        title: "是不是",
-                        icon: "assets/images/basketball_check.png",
-                        hasSeparateLine: true,
-                        isAligmentCenter: true),
+                      title: "是不是",
+                      icon: "assets/images/basketball_check.png",
+                    ),
                     STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                        hasSeparateLine: true,
-                        isAligmentCenter: false),
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
                     STActionSheetOption(
                       title: "好的",
                       icon: "assets/images/basketball_check.png",
@@ -73,33 +68,27 @@ class ActionSheetPage extends StatelessWidget {
                   title: "是不是",
                   icon: "assets/images/basketball_check.png",
                   message: "描述说明信息",
-                  hasTextField: true,
                   hasCancelButton: true,
                   isSingleSelect: true,
                   directionType: STActionSheetDirectionType.vertical,
+                  isOptionAligmentCenter: false,
                   options: [
                     STActionSheetOption(
                       title: "好的",
-                      hasSeparateLine: true,
-                      isAligmentCenter: true,
                     ),
                     STActionSheetOption(
                       title: "好的",
-                      hasSeparateLine: true,
-                      isAligmentCenter: false,
                       isRadio: true,
                     ),
                     STActionSheetOption(
-                        title: "是不是",
-                        icon: "assets/images/basketball_check.png",
-                        hasSeparateLine: true,
-                        isAligmentCenter: true),
+                      title: "是不是",
+                      icon: "assets/images/basketball_check.png",
+                    ),
                     STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                        hasSeparateLine: true,
-                        isAligmentCenter: false),
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
                     STActionSheetOption(
                       title: "好的",
                       icon: "assets/images/basketball_check.png",
@@ -125,33 +114,26 @@ class ActionSheetPage extends StatelessWidget {
                   title: "是不是",
                   icon: "assets/images/basketball_check.png",
                   message: "描述说明信息",
-                  hasTextField: true,
                   hasCancelButton: true,
                   isSingleSelect: false,
                   directionType: STActionSheetDirectionType.vertical,
                   options: [
                     STActionSheetOption(
                       title: "好的",
-                      hasSeparateLine: true,
-                      isAligmentCenter: true,
                     ),
                     STActionSheetOption(
                       title: "好的",
-                      hasSeparateLine: true,
-                      isAligmentCenter: false,
                       isRadio: true,
                     ),
                     STActionSheetOption(
-                        title: "是不是",
-                        icon: "assets/images/basketball_check.png",
-                        hasSeparateLine: true,
-                        isAligmentCenter: true),
+                      title: "是不是",
+                      icon: "assets/images/basketball_check.png",
+                    ),
                     STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                        hasSeparateLine: true,
-                        isAligmentCenter: false),
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
                     STActionSheetOption(
                       title: "好的",
                       icon: "assets/images/basketball_check.png",
@@ -228,8 +210,8 @@ class ActionSheetPage extends StatelessWidget {
               STActionSheet.show(
                   context: context,
                   message: "描述说明信息",
-                  hasCancelButton: true,
-                  hasConfirmButton: true,
+                  hasCancelButton: false,
+                  hasConfirmButton: false,
                   isSingleSelect: true,
                   cancelTitle: "取消",
                   directionType: STActionSheetDirectionType.horizontal,
@@ -273,6 +255,18 @@ class ActionSheetPage extends StatelessWidget {
                         message: "描述说明信息",
                         icon: "assets/images/basketball_check.png",
                       )
+                    ],
+                    [
+                      STActionSheetOption(
+                          title: "好的",
+                          icon: "assets/images/basketball_check.png",
+                          onTap: () {
+                            print("好的");
+                          }),
+                      STActionSheetOption(
+                        title: "是不是",
+                        icon: "assets/images/basketball_check.png",
+                      ),
                     ],
                   ]);
             },
