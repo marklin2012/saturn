@@ -5,3 +5,7 @@ bool isNullOrEmpty(String str) {
     return false;
   }
 }
+
+bool isNotEmpty(String str) {
+  return !isNullOrEmpty(str);
+}

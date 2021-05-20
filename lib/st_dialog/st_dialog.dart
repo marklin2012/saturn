@@ -8,7 +8,7 @@ class STDialog extends StatefulWidget {
   final int width;
   final String title;
   final String message;
-  final String icon;
+  final Widget icon;
   final String confirmTitle;
   final String cancelTitle;
   final List options;
@@ -41,7 +41,7 @@ class STDialog extends StatefulWidget {
     int width,
     String title,
     String message,
-    String icon,
+    Widget icon,
     String confirmTitle = "确定",
     String cancelTitle = "确定",
     List options,
@@ -113,13 +113,8 @@ class _STDialogState extends State<STDialog> {
 
     double containerWidth;
 
-    Image imageWidget;
-    if (!isNullOrEmpty(widget.icon)) {
-      imageWidget = Image.asset(widget.icon, fit: BoxFit.fitWidth);
-    }
-
     Text titleWidget;
-    if (!isNullOrEmpty(widget.title)) {
+    if (isNotEmpty(widget.title)) {
       titleWidget = Text(widget.title,
           softWrap: true,
           style: const TextStyle(
@@ -130,7 +125,7 @@ class _STDialogState extends State<STDialog> {
     }
 
     Text messageWidget;
-    if (!isNullOrEmpty(widget.message)) {
+    if (isNotEmpty(widget.message)) {
       messageWidget = Text(
         widget.message,
         softWrap: true,
@@ -149,7 +144,7 @@ class _STDialogState extends State<STDialog> {
       const SizedBox(
         height: 16,
       ),
-      imageWidget ?? (titleWidget ?? Container()),
+      widget.icon ?? (titleWidget ?? Container()),
       const SizedBox(
         height: 4,
       ),

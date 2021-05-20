@@ -47,7 +47,8 @@ class DialogPage extends StatelessWidget {
             onPressed: () {
               STDialog.show(
                 context: context,
-                icon: "assets/images/basketball_check.png",
+                icon: Image.asset("assets/images/basketball_check.png",
+                    fit: BoxFit.fitWidth),
                 message: "描述说明信息",
               );
             },

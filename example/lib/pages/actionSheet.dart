@@ -18,7 +18,8 @@ class ActionSheetPage extends StatelessWidget {
               STActionSheet.show(
                   context: context,
                   title: "是不是",
-                  icon: "assets/images/basketball_check.png",
+                  icon: Image.asset("assets/images/basketball_check.png",
+                      fit: BoxFit.fitWidth),
                   message: "描述说明信息",
                   hasCancelButton: false,
                   hasConfirmButton: false,
@@ -66,7 +67,8 @@ class ActionSheetPage extends StatelessWidget {
               STActionSheet.show(
                   context: context,
                   title: "是不是",
-                  icon: "assets/images/basketball_check.png",
+                  icon: Image.asset("assets/images/basketball_check.png",
+                      fit: BoxFit.fitWidth),
                   message: "描述说明信息",
                   hasCancelButton: true,
                   isSingleSelect: true,
@@ -112,7 +114,8 @@ class ActionSheetPage extends StatelessWidget {
               STActionSheet.show(
                   context: context,
                   title: "是不是",
-                  icon: "assets/images/basketball_check.png",
+                  icon: Image.asset("assets/images/basketball_check.png",
+                      fit: BoxFit.fitWidth),
                   message: "描述说明信息",
                   hasCancelButton: true,
                   isSingleSelect: false,

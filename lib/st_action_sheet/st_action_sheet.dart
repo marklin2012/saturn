@@ -8,7 +8,7 @@ class STActionSheet extends StatefulWidget {
   final int width;
   final String title;
   final String message;
-  final String icon;
+  final Widget icon;
   final String confirmTitle;
   final String cancelTitle;
   final List options;
@@ -51,7 +51,7 @@ class STActionSheet extends StatefulWidget {
     int width,
     String title,
     String message,
-    String icon,
+    Widget icon,
     String confirmTitle = "确定",
     String cancelTitle = "确定",
     List options,
@@ -129,13 +129,8 @@ class _STActionSheetState extends State<STActionSheet> {
 
     double containerWidth;
 
-    Image imageWidget;
-    if (!isNullOrEmpty(widget.icon)) {
-      imageWidget = Image.asset(widget.icon, fit: BoxFit.fitWidth);
-    }
-
     Text titleWidget;
-    if (!isNullOrEmpty(widget.title)) {
+    if (isNotEmpty(widget.title)) {
       titleWidget = Text(widget.title,
           softWrap: true,
           style: const TextStyle(
@@ -146,7 +141,7 @@ class _STActionSheetState extends State<STActionSheet> {
     }
 
     Text messageWidget;
-    if (!isNullOrEmpty(widget.message)) {
+    if (isNotEmpty(widget.message)) {
       messageWidget = Text(
         widget.message,
         softWrap: true,
@@ -169,11 +164,11 @@ class _STActionSheetState extends State<STActionSheet> {
             const SizedBox(
               height: 16,
             ),
-            if (imageWidget != null)
+            if (widget.icon != null)
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  imageWidget,
+                  widget.icon,
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [titleWidget, messageWidget],
@@ -439,13 +434,13 @@ class _STActionSheetState extends State<STActionSheet> {
                     onChanged: null,
                   ),
                 if (item.isRadio) const SizedBox(width: 16),
-                if (!isNullOrEmpty(item.icon))
+                if (isNotEmpty(item.icon))
                   Image.asset(item.icon, fit: BoxFit.fitWidth),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (!isNullOrEmpty(item.title))
+                    if (isNotEmpty(item.title))
                       Text(
                         item.title,
                         textAlign: TextAlign.left,
@@ -455,7 +450,7 @@ class _STActionSheetState extends State<STActionSheet> {
                             decoration: TextDecoration.none,
                             color: Colors.black),
                       ),
-                    if (!isNullOrEmpty(item.message))
+                    if (isNotEmpty(item.message))
                       Text(
                         item.message,
                         textAlign: TextAlign.left,
@@ -487,9 +482,9 @@ class _STActionSheetState extends State<STActionSheet> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (!isNullOrEmpty(item.icon))
+              if (isNotEmpty(item.icon))
                 Image.asset(item.icon, fit: BoxFit.fitWidth),
-              if (!isNullOrEmpty(item.title))
+              if (isNotEmpty(item.title))
                 Text(
                   item.title,
                   textAlign: TextAlign.left,
