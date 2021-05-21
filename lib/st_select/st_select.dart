@@ -26,25 +26,25 @@ class STSelect extends StatelessWidget {
   }) : super(key: key);
 
   final STSelectTypes types; // 不同的样式
-  final EdgeInsets margin; // 混合选择器的内嵌
-  final STSelectMixItem initMixValue; // 混合选择器的初始值
-  final List<STSelectMixItem> mixListValues; // 混合选择器的所有数据
-  final Function(STSelectMixItem) onChangedMixValue; //混合选择器选中后的回调
-  final Widget child; // 文本选择器的触发组件
-  final String title; // 文本选择器的标题
-  final List<String> initTextsValue; // 文本选择器的初始值
-  //文本选择器的所有数据，有几个list对应几个选择器
+  final EdgeInsets margin; // 混合样式的外边距
+  final STSelectMixItem initMixValue; // 混合样式的初始值
+  final List<STSelectMixItem> mixListValues; // 混合样式的所有数据
+  final Function(STSelectMixItem) onChangedMixValue; //混合样式选中后的回调
+  final Widget child; // 文本样式的触发组件
+  final String title; // 文本样式的标题
+  final List<String> initTextsValue; // 文本样式的初始值
+  //文本样式的数据集，子List对应行数
   final List<List<String>> textsListValues;
-  //文本选择器选中后的回调，按下标对应选中的结果
-  final Function(List<String> value) onChangedTextsValue;
-  final List<String> initUnits; // 文本选择器的单位集合
+  //文本样式选中后的回调，按下标对应选中的结果
+  final Function(List<String>) onChangedTextsValue;
+  final List<String> initUnits; // 文本样式的单位集合
   final bool looping; //数据是否循环
 
   @override
   Widget build(BuildContext context) {
     if (types == STSelectTypes.mix) {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+        margin: margin,
         child: STSelectMix(
           key: key,
           initValue: initMixValue,

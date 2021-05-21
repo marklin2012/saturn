@@ -21,8 +21,8 @@ class STSliderConstant {
 class STSlider extends StatefulWidget {
   final Axis axis; // 方向
   final double mainSize; // 当Axis为横轴时代表宽度，为竖轴是代表高度,主方向的宽高
-  final double activeSize; // 选中的宽高
-  final bool showTip; // 显示提示
+  final double activeSize; // 线条的宽高
+  final bool showTip; // 是否显示提示
   final TextStyle tipTextStyle; // 提示字体的样式
   final Color activeColor; // 选中颜色
   final Color inactiveColor; // 未选中的颜色
@@ -48,7 +48,7 @@ class STSlider extends StatefulWidget {
     this.disabled = false,
     this.axis = Axis.horizontal,
     this.showTip = true,
-    this.tipTextStyle = const TextStyle(color: Colors.white, fontSize: 16),
+    this.tipTextStyle = const TextStyle(color: Colors.white, fontSize: 16.0),
     this.value = 0,
     this.rangeValues,
     this.textStyle = const TextStyle(color: Color(0xFF000000), fontSize: 14.0),

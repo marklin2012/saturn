@@ -20,7 +20,6 @@ class STStatefulSteps extends StatefulWidget {
     this.margin,
     this.steps,
     this.current,
-    this.deatilHeight,
     this.detailWidth,
     this.type = STStepsType.dot,
   }) : super(key: key);
@@ -29,7 +28,6 @@ class STStatefulSteps extends StatefulWidget {
   final EdgeInsets margin;
   final List<STStepItem> steps;
   final int current;
-  final double deatilHeight; //type为detail,竖排需固定高度才能排版
   final double detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
 
   @override
@@ -86,8 +84,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
   }
 
   Widget buildDetail() {
-    final _detailHeight = widget.deatilHeight ??
-        (44.0 * _steps.length + 30 * (_steps.length - 1));
+    final _detailHeight = 44.0 * _steps.length + 30 * (_steps.length - 1);
     final _detailWidth = widget.detailWidth ?? 100.0;
     final _stackWidgets = <Widget>[];
     final _bgWidgtets = List.generate(_steps.length, (index) {

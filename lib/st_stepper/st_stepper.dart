@@ -14,7 +14,7 @@ class STStepper extends StatefulWidget {
     this.value = 0,
     this.disabled = false,
     this.borderColor = const Color(0xFFDFE2E7),
-    this.textStyle,
+    this.textStyle = const TextStyle(color: Color(0xFF000000), fontSize: 14.0),
     this.minValue = 0,
     this.maxValue = 99,
   }) : super(key: key);
@@ -28,8 +28,6 @@ class _STStepperState extends State<STStepper> {
   final double _defaultAllWidth = 88.0;
   final double _textWidth = 40.0;
   final double _height = 24.0;
-  final TextStyle _textStyle =
-      const TextStyle(color: Color(0xFF000000), fontSize: 14.0);
 
   @override
   void initState() {
@@ -72,7 +70,7 @@ class _STStepperState extends State<STStepper> {
               ),
               child: Text(
                 '$_count',
-                style: widget.textStyle ?? _textStyle,
+                style: widget.textStyle,
               ),
             ),
             STStepperItem(

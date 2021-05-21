@@ -15,22 +15,20 @@ const _defaultColor = Color(0xFFDFE2E7);
 const _defaultSelectColor = Color(0xFF095BF9);
 
 class STSteps extends StatelessWidget {
-  const STSteps(
-      {Key key,
-      this.type = STStepsType.dot,
-      this.margin = _defaultMargin,
-      this.steps,
-      this.current = 1,
-      this.deatilHeight,
-      this.detailWidth})
-      : assert(steps.length > 1),
+  const STSteps({
+    Key key,
+    this.type = STStepsType.dot,
+    this.margin = _defaultMargin,
+    this.steps,
+    this.current = 1,
+    this.detailWidth,
+  })  : assert(steps.length > 1),
         super(key: key);
 
   final STStepsType type;
   final EdgeInsets margin;
   final List<STStepItem> steps;
   final int current;
-  final double deatilHeight; //type为detail,竖排需固定高度才能排版
   final double detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
 
   @override
@@ -62,7 +60,6 @@ class STSteps extends StatelessWidget {
       margin: margin,
       steps: steps,
       detailWidth: detailWidth,
-      deatilHeight: deatilHeight,
     );
   }
 
