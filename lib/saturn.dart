@@ -15,9 +15,7 @@ export 'package:saturn/st_slider/st_slider.dart';
 export 'package:saturn/st_icons/st_icons.dart';
 export 'package:saturn/st_snackbar/include.dart';
 export 'package:saturn/st_message/include.dart';
-export 'package:saturn/st_select/st_select.dart';
-export 'package:saturn/st_select/select_mix_item.dart';
-
+export 'package:saturn/st_select/include.dart';
 export 'package:saturn/st_picker/st_picker.dart';
 export 'package:saturn/st_steps/steps_include.dart';
 export 'package:saturn/st_cascader/cascader_include.dart';
