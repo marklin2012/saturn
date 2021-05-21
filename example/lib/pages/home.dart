@@ -6,12 +6,22 @@ import 'package:example/pages/tabbar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/models/page_model.dart';
+import 'package:example/pages/input.dart';
+import 'package:example/pages/icons.dart';
+
 import 'package:example/pages/badge.dart';
 import 'package:example/pages/button.dart';
-import 'package:example/pages/input.dart';
 import 'package:example/pages/radio.dart';
 import 'package:example/pages/switch.dart';
-import 'package:example/pages/icons.dart';
+import 'package:example/pages/checkbox.dart';
+import 'package:example/pages/stepper.dart';
+import 'package:example/pages/slider.dart';
+import 'package:example/pages/select.dart';
+import 'package:example/pages/picker.dart';
+import 'package:example/pages/steps.dart';
+import 'package:example/pages/cascader.dart';
+import 'package:example/pages/card.dart';
+import 'package:example/pages/video.dart';
 
 import 'package:example/pages/loading.dart';
 import 'package:example/pages/alert.dart';
@@ -41,6 +51,11 @@ List<PageModel> _pages = [
   PageModel(name: 'Icon', page: IconPage()),
   PageModel(name: 'Snackbar', page: SnackbarPage()),
   PageModel(name: 'Select', page: SelectPage()),
+  PageModel(name: 'Picker', page: PickerPage()),
+  PageModel(name: 'Steps', page: StepsPage()),
+  PageModel(name: 'Cascader', page: CascaderPage()),
+  PageModel(name: 'Card', page: CardPage()),
+  PageModel(name: 'Video', page: VideoPage()),
   PageModel(name: 'Tag', page: TagPage()),
   PageModel(name: 'Tabbar', page: TabbarPage()),
 ];

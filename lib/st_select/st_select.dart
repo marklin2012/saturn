@@ -21,6 +21,8 @@ class STSelect extends StatelessWidget {
     this.initTextsValue,
     this.textsListValues,
     this.onChangedTextsValue,
+    this.initUnits,
+    this.looping = false,
   }) : super(key: key);
 
   final STSelectTypes types; // 不同的样式
@@ -34,7 +36,9 @@ class STSelect extends StatelessWidget {
   //文本选择器的所有数据，有几个list对应几个选择器
   final List<List<String>> textsListValues;
   //文本选择器选中后的回调，按下标对应选中的结果
-  final Function(List<String>) onChangedTextsValue;
+  final Function(List<String> value) onChangedTextsValue;
+  final List<String> initUnits; // 文本选择器的单位集合
+  final bool looping; //数据是否循环
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +46,7 @@ class STSelect extends StatelessWidget {
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16.0),
         child: STSelectMix(
+          key: key,
           initValue: initMixValue,
           items: mixListValues,
           onChanged: (STSelectMixItem value) {
@@ -53,9 +58,12 @@ class STSelect extends StatelessWidget {
       );
     } else {
       return STSelectTexts(
+        key: key,
         title: title,
         initValue: initTextsValue,
+        initUnits: initUnits,
         listValues: textsListValues,
+        looping: looping,
         onChanged: (value) {
           if (onChangedTextsValue != null) {
             onChangedTextsValue(value);

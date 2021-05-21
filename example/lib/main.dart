@@ -1,5 +1,6 @@
 import 'package:example/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:saturn/saturn.dart';
 
@@ -14,6 +15,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localeListResolutionCallback: (locales, supportedLocales) {
+        return Locale('zh');
+      },
+      localeResolutionCallback: (locale, supportedLocales) {
+        return Locale('zh');
+      },
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('zh', 'CH'),
+        const Locale('en', 'US'),
+      ],
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

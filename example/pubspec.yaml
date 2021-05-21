@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -48,8 +50,8 @@ flutter:
   assets:
     - assets/images/1.gif
     - assets/images/icon_selected_20x20.png
-
     - assets/images/basketball_check.png
+    - assets/video/showtime.mp4
 
   fonts:
     - family: STIcons

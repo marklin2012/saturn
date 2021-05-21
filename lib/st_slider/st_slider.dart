@@ -12,7 +12,7 @@ class STSliderConstant {
   static const horizontalWidth = 303.0;
   static const verticalHeight = 200.0;
   static const dotWidth = 18.0;
-  static const crossLength = 2.0;
+  static const activeSize = 2.0;
   static const borderRadius = BorderRadius.all(Radius.circular(2.0));
   static const showTipSize = 40.0;
   static const showTipVerticalOffset = 4.0;
@@ -20,11 +20,14 @@ class STSliderConstant {
 
 class STSlider extends StatefulWidget {
   final Axis axis; // 方向
-  final double size; // 当Axis为横轴时代表宽度，为竖轴是代表高度
+  final double mainSize; // 当Axis为横轴时代表宽度，为竖轴是代表高度,主方向的宽高
+  final double activeSize; // 选中的宽高
   final bool showTip; // 显示提示
   final TextStyle tipTextStyle; // 提示字体的样式
   final Color activeColor; // 选中颜色
   final Color inactiveColor; // 未选中的颜色
+  final Color dotColor; // 圆点颜色
+  final double dotSize; // 圆点大小
   final int minValue; // 最小值
   final int maxValue; // 最大值
   final TextStyle textStyle; // 开始结束文本风格
@@ -38,6 +41,8 @@ class STSlider extends StatefulWidget {
     Key key,
     this.activeColor = const Color(0xFF095BF9),
     this.inactiveColor = const Color(0xFFDCE8FF),
+    this.dotColor = const Color(0xFF095BF9),
+    this.dotSize,
     this.minValue,
     this.maxValue,
     this.disabled = false,
@@ -49,7 +54,8 @@ class STSlider extends StatefulWidget {
     this.textStyle = const TextStyle(color: Color(0xFF000000), fontSize: 14.0),
     this.onChanged,
     this.onChangedRange,
-    this.size,
+    this.mainSize,
+    this.activeSize,
   }) : super(key: key);
 
   @override
@@ -67,19 +73,22 @@ class _STSliderState extends State<STSlider> {
   bool _firHighlighted = false;
   bool _secHighlighted = false;
 
+  double _dotSize;
+  double _activeSize;
+
   double get _height {
     if (_isHorizontal) {
-      return STSliderConstant.crossLength;
+      return _activeSize;
     } else {
-      return widget.size ?? STSliderConstant.horizontalWidth;
+      return widget.mainSize ?? STSliderConstant.horizontalWidth;
     }
   }
 
   double get _width {
     if (!_isHorizontal) {
-      return STSliderConstant.crossLength;
+      return _activeSize;
     } else {
-      return widget.size ?? STSliderConstant.verticalHeight;
+      return widget.mainSize ?? STSliderConstant.verticalHeight;
     }
   }
 
@@ -99,7 +108,14 @@ class _STSliderState extends State<STSlider> {
     final RenderBox renderBox = _firstKey.currentContext.findRenderObject();
     // offset.dx , offset.dy 就是控件的左上角坐标
     _firstOffset = renderBox.localToGlobal(Offset.zero);
-    if (widget.rangeValues != null && widget.rangeValues.start != 0) {
+    if (widget.value != null && widget.value != 0) {
+      final temp = _firstOffset;
+      if (_isHorizontal) {
+        _firstOffset = Offset(temp.dx - widget.value * _width, temp.dy);
+      } else {
+        _firstOffset = Offset(temp.dx, temp.dy - widget.value * _height);
+      }
+    } else if (widget.rangeValues != null && widget.rangeValues.start != 0) {
       final temp = _firstOffset;
       if (_isHorizontal) {
         _firstOffset =
@@ -118,6 +134,8 @@ class _STSliderState extends State<STSlider> {
       _firstValue = widget.rangeValues.start;
       _secondValue = widget.rangeValues.end;
     }
+    _dotSize = widget.dotSize ?? STSliderConstant.dotWidth;
+    _activeSize = widget.activeSize ?? STSliderConstant.activeSize;
   }
 
   @override
@@ -125,7 +143,20 @@ class _STSliderState extends State<STSlider> {
     initValue();
     return Opacity(
       opacity: _disabled ? 0.2 : 1.0,
-      child: _getOpacityChild(),
+      // 供外部对齐使用
+      child: SizedBox(
+        height: _isHorizontal
+            ? (widget.rangeValues == null
+                ? _dotSize
+                : _dotSize + STSliderConstant.dotWidth)
+            : _height,
+        width: _isHorizontal
+            ? _width
+            : (widget.rangeValues == null
+                ? _dotSize
+                : _dotSize + STSliderConstant.showTipSize),
+        child: _getOpacityChild(),
+      ),
     );
   }
 
@@ -134,7 +165,7 @@ class _STSliderState extends State<STSlider> {
       return Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.minValue != null)
                 Text('${widget.minValue}', style: widget.textStyle),
@@ -147,19 +178,17 @@ class _STSliderState extends State<STSlider> {
       );
     } else {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _getStackChild(),
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.minValue != null)
                 Text('${widget.minValue}', style: widget.textStyle),
               if (widget.maxValue != null)
-                SizedBox(height: _height - STSliderConstant.dotWidth * 2),
-              if (widget.maxValue != null)
                 Text('${widget.maxValue}', style: widget.textStyle),
             ],
-          )
+          ),
         ],
       );
     }
@@ -174,13 +203,13 @@ class _STSliderState extends State<STSlider> {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: _isHorizontal ? STSliderConstant.dotWidth : _height,
-          width: _isHorizontal ? _width : STSliderConstant.dotWidth,
+          height: _isHorizontal ? _dotSize : _height,
+          width: _isHorizontal ? _width : _dotSize,
           alignment: Alignment.center,
         ),
         Positioned(
-          top: _isHorizontal ? STSliderConstant.dotWidth / 2 - 1 : 0.0,
-          left: _isHorizontal ? 0 : STSliderConstant.dotWidth / 2 - 1,
+          top: _isHorizontal ? (_dotSize - _activeSize) / 2 : 0.0,
+          left: _isHorizontal ? 0 : (_dotSize - _activeSize) / 2,
           child: _backgroundChild(),
         ),
         Positioned(
@@ -247,7 +276,6 @@ class _STSliderState extends State<STSlider> {
   Widget _activeChild() {
     return GestureDetector(
       onTapDown: (details) {
-        // debugPrint('active-${details.localPosition}');
         updateTapAction(details.localPosition);
       },
       child: Container(
@@ -260,55 +288,55 @@ class _STSliderState extends State<STSlider> {
 
   double _getActiveChildHeight() {
     if (widget.rangeValues == null) {
-      if (_isHorizontal) return STSliderConstant.crossLength;
+      if (_isHorizontal) return _height;
       return _firstValue * _height;
     } else {
-      if (_isHorizontal) return STSliderConstant.crossLength;
+      if (_isHorizontal) return _height;
       return (_secondValue - _firstValue) * _height;
     }
   }
 
   double _getActiveChildWidth() {
     if (widget.rangeValues == null) {
-      if (!_isHorizontal) return STSliderConstant.crossLength;
+      if (!_isHorizontal) return _width;
       return _firstValue * _width;
     } else {
-      if (!_isHorizontal) return STSliderConstant.crossLength;
+      if (!_isHorizontal) return _width;
       return (_secondValue - _firstValue) * _width;
     }
   }
 
   double _getActiveLeft() {
     if (widget.rangeValues == null) {
-      return _isHorizontal ? 0 : STSliderConstant.dotWidth / 2;
+      return _isHorizontal ? 0 : (_dotSize - _width) / 2;
     } else {
-      if (!_isHorizontal) return STSliderConstant.dotWidth / 2;
+      if (!_isHorizontal) return (_dotSize - _width) / 2;
       return _getDotPostionLeft(_firstValue);
     }
   }
 
   double _getActiveTop() {
     if (widget.rangeValues == null) {
-      return _isHorizontal ? STSliderConstant.dotWidth / 2 : 0;
+      return _isHorizontal ? (_dotSize - _height) / 2 : 0;
     } else {
-      if (_isHorizontal) return STSliderConstant.dotWidth / 2;
+      if (_isHorizontal) return (_dotSize - _height) / 2;
       return _getDotPositonTop(_firstValue);
     }
   }
 
   double _getDotPostionLeft(double value) {
     if (!_isHorizontal) return 0;
-    return value * _width - STSliderConstant.dotWidth / 2;
+    return value * _width - _dotSize / 2;
   }
 
   double _getDotPositonTop(double value) {
     if (_isHorizontal) return 0;
-    return value * _height - STSliderConstant.dotWidth / 2;
+    return value * _height - _dotSize / 2;
   }
 
   double _getTipPostionLeft(double value) {
     return _getDotPostionLeft(value) -
-        (STSliderConstant.showTipSize - STSliderConstant.dotWidth) / 2;
+        (STSliderConstant.showTipSize - _dotSize) / 2;
   }
 
   double _getTipPositonTop(double value) {
@@ -322,23 +350,26 @@ class _STSliderState extends State<STSlider> {
       return Container(
         key: dotType == STSliderDotType.start ? _firstKey : null,
         alignment: Alignment.center,
-        width: STSliderConstant.dotWidth,
-        height: STSliderConstant.dotWidth,
+        width: _dotSize,
+        height: _dotSize,
         decoration: BoxDecoration(
-          color: widget.activeColor,
+          color: widget.dotColor,
           shape: BoxShape.circle,
         ),
       );
     } else {
       return Draggable(
         axis: widget.axis,
-        feedback: Container(
-          alignment: Alignment.center,
-          width: STSliderConstant.dotWidth,
-          height: STSliderConstant.dotWidth,
-          decoration: BoxDecoration(
-            color: widget.activeColor,
-            shape: BoxShape.circle,
+        feedback: Opacity(
+          opacity: 0.0,
+          child: Container(
+            alignment: Alignment.center,
+            width: _dotSize,
+            height: _dotSize,
+            decoration: BoxDecoration(
+              color: widget.dotColor,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
         onDragStarted: () {
@@ -351,15 +382,23 @@ class _STSliderState extends State<STSlider> {
         },
         onDragEnd: (details) {
           // debugPrint('${details.offset}-$_firstOffset');
-          updateDragAction(details.offset, dotType);
+          if (dotType == STSliderDotType.start) {
+            _firHighlighted = false;
+          } else {
+            _secHighlighted = false;
+          }
+          setState(() {});
+        },
+        onDragUpdate: (details) {
+          updateDragAction(details.localPosition, dotType);
         },
         child: Container(
           key: dotType == STSliderDotType.start ? _firstKey : null,
           alignment: Alignment.center,
-          width: STSliderConstant.dotWidth,
-          height: STSliderConstant.dotWidth,
+          width: _dotSize,
+          height: _dotSize,
           decoration: BoxDecoration(
-            color: widget.activeColor,
+            color: widget.dotColor,
             shape: BoxShape.circle,
           ),
         ),
@@ -417,15 +456,6 @@ class _STSliderState extends State<STSlider> {
       }
       widget.onChangedRange(RangeValues(_firstValue, _secondValue));
     }
-
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (dotType == STSliderDotType.start) {
-        _firHighlighted = false;
-      } else {
-        _secHighlighted = false;
-      }
-      setState(() {});
-    });
   }
 
   void updateTapAction(Offset positon) {
