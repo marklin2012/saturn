@@ -1,3 +1,8 @@
+import 'package:example/pages/checkbox.dart';
+import 'package:example/pages/select.dart';
+import 'package:example/pages/slider.dart';
+import 'package:example/pages/stepper.dart';
+import 'package:example/pages/tabbar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/models/page_model.dart';
@@ -25,8 +30,11 @@ import 'package:example/pages/toast.dart';
 import 'package:example/pages/snackbar.dart';
 import 'package:example/pages/tag.dart';
 import 'package:example/pages/message.dart';
+import 'package:example/pages/progress.dart';
+import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
+  PageModel(name: 'Progress', page: ProgressPage()),
   PageModel(name: 'Input', page: InputPage()),
   PageModel(name: 'Loading', page: LoadingPage()),
   PageModel(name: 'Alert', page: AlertPage()),
@@ -49,6 +57,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Card', page: CardPage()),
   PageModel(name: 'Video', page: VideoPage()),
   PageModel(name: 'Tag', page: TagPage()),
+  PageModel(name: 'Tabbar', page: TabbarPage()),
 ];
 
 class HomePage extends StatelessWidget {
