@@ -89,7 +89,7 @@ class DialogPage extends StatelessWidget {
                   cancelTitle: "取消",
                   hasTextField: true,
                   hasConfirmButton: true,
-                  onConfirmTap: (text, arr) {
+                  onConfirmTap: (text) {
                     print(text);
                   });
             },
