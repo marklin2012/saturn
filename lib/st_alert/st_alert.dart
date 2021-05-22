@@ -6,7 +6,6 @@ import 'common.dart';
 
 class STAlert extends StatefulWidget {
   final double width;
-  final String icon;
   final String message;
   final String description;
   final String closeText;
@@ -26,7 +25,6 @@ class STAlert extends StatefulWidget {
     @required this.autoClose,
     @required this.closable,
     this.width = STAlertConstant.defaultWidth,
-    this.icon,
     this.description,
     this.closeText,
     this.onCloseTap,
@@ -66,7 +64,6 @@ class STAlert extends StatefulWidget {
             autoClose: autoClose,
             description: description,
             width: width,
-            icon: icon,
             closable: closable,
             closeText: closeText,
             onCloseTap: onCloseTap,
