@@ -218,7 +218,7 @@ class ActionSheetPage extends StatelessWidget {
                   isSingleSelect: true,
                   cancelTitle: "取消",
                   directionType: STActionSheetDirectionType.horizontal,
-                  onConfirmTap: (text, selectArr) {
+                  onConfirmTap: (selectArr) {
                     print(selectArr);
                   },
                   options: [
@@ -279,54 +279,67 @@ class ActionSheetPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STActionSheet.show(
-                  context: context,
-                  message: "描述说明信息",
-                  hasCancelButton: true,
-                  hasConfirmButton: true,
-                  cancelTitle: "取消",
-                  directionType: STActionSheetDirectionType.horizontal,
-                  onConfirmTap: (text, selectArr) {
-                    print(selectArr);
-                  },
-                  options: [
-                    [
-                      STActionSheetOption(
-                          title: "好的",
-                          icon: "assets/images/basketball_check.png",
-                          onTap: () {
-                            print("好的");
-                          }),
-                      STActionSheetOption(
-                        title: "是不是",
+                context: context,
+                message: "描述说明信息",
+                hasCancelButton: true,
+                hasConfirmButton: true,
+                cancelTitle: "取消",
+                directionType: STActionSheetDirectionType.horizontal,
+                onConfirmTap: (selectArr) {
+                  print(selectArr);
+                },
+                options: [
+                  [
+                    STActionSheetOption(
+                        title: "好的",
                         icon: "assets/images/basketball_check.png",
-                      ),
-                      STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
+                        onTap: () {
+                          print("好的");
+                        }),
+                    STActionSheetOption(
+                      title: "是不是",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                    STActionSheetOption(
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                    STActionSheetOption(
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                    STActionSheetOption(
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                    STActionSheetOption(
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                    STActionSheetOption(
+                      title: "不好",
+                      message: "描述说明信息",
+                      icon: "assets/images/basketball_check.png",
+                    )
+                  ],
+                  [
+                    STActionSheetOption(
+                        title: "好的",
                         icon: "assets/images/basketball_check.png",
-                      ),
-                      STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      ),
-                      STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      ),
-                      STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      ),
-                      STActionSheetOption(
-                        title: "不好",
-                        message: "描述说明信息",
-                        icon: "assets/images/basketball_check.png",
-                      )
-                    ],
-                  ]);
+                        onTap: () {
+                          print("好的");
+                        }),
+                    STActionSheetOption(
+                      title: "是不是",
+                      icon: "assets/images/basketball_check.png",
+                    ),
+                  ]
+                ],
+              );
             },
           ),
         ],

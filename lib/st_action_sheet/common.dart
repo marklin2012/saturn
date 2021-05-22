@@ -18,3 +18,13 @@ class STActionSheetConstant {
   static const Color textFieldThemeColor = Color.fromRGBO(187, 187, 187, 0.5);
   static const Color defaultLineColor = Color.fromRGBO(239, 243, 249, 1);
 }
+
+class STActionSheetInterface {
+  Widget getLineWidget(double containerWidth) {
+    return Container(
+      width: containerWidth,
+      height: 1,
+      color: STActionSheetConstant.defaultLineColor,
+    );
+  }
+}
