@@ -8,7 +8,7 @@ class SliderPage extends StatefulWidget {
 }
 
 class _SliderPageState extends State<SliderPage> {
-  double _sliderValue = 0;
+  double _sliderValue = 0.5;
   RangeValues _sliderRangeValue = RangeValues(0.2, 0.5);
   bool sliderDisabled = false;
   @override
@@ -17,7 +17,8 @@ class _SliderPageState extends State<SliderPage> {
       appBar: AppBar(
         title: Text('slider'),
       ),
-      body: Center(
+      body: Container(
+        color: Colors.grey,
         child: Column(
           children: [
             SizedBox(height: 10),
@@ -39,7 +40,10 @@ class _SliderPageState extends State<SliderPage> {
                 STSlider(
                   axis: Axis.vertical,
                   value: _sliderValue,
-                  size: 300,
+                  mainSize: 300,
+                  dotSize: 12,
+                  activeSize: 4,
+                  inactiveColor: Colors.white,
                   onChanged: (value) {
                     setState(() {
                       _sliderValue = value;
@@ -51,6 +55,9 @@ class _SliderPageState extends State<SliderPage> {
                   rangeValues: _sliderRangeValue,
                   minValue: 0,
                   maxValue: 1000,
+                  dotSize: 12,
+                  activeSize: 4,
+                  inactiveColor: Colors.white,
                   onChangedRange: (value) {
                     setState(() {
                       _sliderRangeValue = value;
@@ -62,7 +69,10 @@ class _SliderPageState extends State<SliderPage> {
             SizedBox(height: 20),
             STSlider(
               value: _sliderValue,
-              size: 340,
+              mainSize: 340,
+              activeSize: 4,
+              dotSize: 12,
+              inactiveColor: Colors.white,
               onChanged: (value) {
                 setState(() {
                   _sliderValue = value;
@@ -73,8 +83,11 @@ class _SliderPageState extends State<SliderPage> {
             STSlider(
               disabled: sliderDisabled,
               rangeValues: _sliderRangeValue,
+              dotSize: 12,
+              activeSize: 4,
               minValue: 0,
               maxValue: 1000,
+              inactiveColor: Colors.white,
               onChangedRange: (value) {
                 setState(() {
                   _sliderRangeValue = value;
