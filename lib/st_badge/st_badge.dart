@@ -25,7 +25,7 @@ class STBadge extends StatelessWidget {
   static const _maxHeight = 16.0;
   static const _dotWidth = 10.0;
   static const _badgefontSize = 12.0;
-  static const _defaultPadding = EdgeInsets.fromLTRB(3, 1, 3, 1);
+  static const _defaultPadding = EdgeInsets.fromLTRB(4, 2, 4, 2);
 
   @override
   Widget build(BuildContext context) {

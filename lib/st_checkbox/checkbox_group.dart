@@ -19,8 +19,8 @@ class STCheckboxGroup extends StatefulWidget {
   const STCheckboxGroup({
     Key key,
     this.onChanged,
-    this.margin = const EdgeInsets.symmetric(horizontal: 10),
-    this.padding = const EdgeInsets.all(5.0),
+    this.margin = const EdgeInsets.symmetric(horizontal: 8.0),
+    this.padding = const EdgeInsets.all(4.0),
     this.items,
     this.axis = Axis.horizontal,
     this.selecteds,
