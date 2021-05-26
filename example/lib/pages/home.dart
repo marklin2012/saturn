@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+
 import 'package:example/pages/checkbox.dart';
 import 'package:example/pages/select.dart';
 import 'package:example/pages/slider.dart';
 import 'package:example/pages/stepper.dart';
 import 'package:example/pages/tabbar.dart';
-import 'package:flutter/material.dart';
 
 import 'package:example/models/page_model.dart';
 import 'package:example/pages/input.dart';
@@ -13,10 +14,6 @@ import 'package:example/pages/badge.dart';
 import 'package:example/pages/button.dart';
 import 'package:example/pages/radio.dart';
 import 'package:example/pages/switch.dart';
-import 'package:example/pages/checkbox.dart';
-import 'package:example/pages/stepper.dart';
-import 'package:example/pages/slider.dart';
-import 'package:example/pages/select.dart';
 import 'package:example/pages/picker.dart';
 import 'package:example/pages/steps.dart';
 import 'package:example/pages/cascader.dart';
@@ -33,7 +30,6 @@ import 'package:example/pages/tag.dart';
 import 'package:example/pages/message.dart';
 import 'package:example/pages/actionSheet.dart';
 import 'package:example/pages/progress.dart';
-import 'package:flutter/material.dart';
 
 List<PageModel> _pages = [
   PageModel(name: 'Progress', page: ProgressPage()),

@@ -61,6 +61,7 @@ class STVideo extends StatelessWidget {
     return STVideoBase(
       key: key,
       height: height,
+      margin: margin,
       path: playType == STVideoPlayType.asset ? path : url,
       playType: playType,
       isLive: isLive,

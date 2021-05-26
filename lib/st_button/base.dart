@@ -124,7 +124,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
               child: Container(
                 width: width ?? widthFromButtonSize(size),
                 decoration: _decoration,
-                padding: edgeInsetsFromButtonSize(size),
+                padding: padding ?? edgeInsetsFromButtonSize(size),
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

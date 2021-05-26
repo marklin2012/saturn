@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_checkbox/checkbox_single.dart';
 
-class BoxItem {
+class STBoxItem {
   final String title;
   final bool disabled;
 
-  BoxItem({this.title, this.disabled = false});
-}
-
-enum BoxDirection {
-  horizontal,
-  vertical,
+  STBoxItem({this.title, this.disabled = false});
 }
 
 class STCheckboxGroup extends StatefulWidget {
-  final List<BoxItem> items;
+  final List<STBoxItem> items;
   final List<String> selecteds;
   final ValueChanged<List<String>> onChanged;
   final EdgeInsets margin;
   final EdgeInsets padding;
-  final BoxDirection direction;
+  final Axis axis;
 
   const STCheckboxGroup({
     Key key,
     this.onChanged,
-    this.margin = const EdgeInsets.symmetric(horizontal: 10),
-    this.padding = const EdgeInsets.all(5.0),
+    this.margin = const EdgeInsets.symmetric(horizontal: 8.0),
+    this.padding = const EdgeInsets.all(4.0),
     this.items,
-    this.direction = BoxDirection.horizontal,
+    this.axis = Axis.horizontal,
     this.selecteds,
   }) : super(key: key);
 
@@ -39,11 +34,11 @@ class _STCheckboxGroupState extends State<STCheckboxGroup> {
   List<STCheckBox> _list;
   List<String> _values;
   List<String> _selecteds;
-  List<BoxItem> _items;
+  List<STBoxItem> _items;
 
   void initOriginBox() {
     _values = <String>[];
-    _items = <BoxItem>[];
+    _items = <STBoxItem>[];
     // 过滤一遍title，保证无重复
     for (final item in widget.items) {
       if (!_values.contains(item.title)) {
@@ -95,7 +90,7 @@ class _STCheckboxGroupState extends State<STCheckboxGroup> {
   }
 
   Widget _getSubWidget() {
-    if (widget.direction == BoxDirection.horizontal) {
+    if (widget.axis == Axis.horizontal) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: _list,

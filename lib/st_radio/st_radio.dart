@@ -29,7 +29,7 @@ class STRadio<T> extends StatelessWidget {
     this.externalDiameter = 24.0,
     this.space = 12.0,
     this.textStyle = const TextStyle(color: Color(0xFF000000), fontSize: 17.0),
-    this.padding = const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   bool get _selected => value == groupValue;

@@ -16,7 +16,7 @@ class STCheckBox extends StatelessWidget {
 
   const STCheckBox({
     Key key,
-    this.value,
+    this.value = false,
     this.onChanged,
     this.activeColor = const Color(0xFF095BF9),
     this.borderColor = const Color(0xFF888888),
@@ -24,7 +24,7 @@ class STCheckBox extends StatelessWidget {
     this.disabled = false,
     this.space = 12.0,
     this.textStyle = const TextStyle(color: Color(0xFF000000), fontSize: 17.0),
-    this.padding = const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+    this.padding = const EdgeInsets.all(8.0),
     this.iconColor = const Color(0xFFFFFFFF),
     this.boxWidth = 24.0,
     this.radius = 4.0,
