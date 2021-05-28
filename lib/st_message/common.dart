@@ -10,5 +10,5 @@ class STMessageConstant {
   static const messageFontSize = 16.0;
   static const explainFontSize = 14.0;
 
-  static const defaultDisappearMilliseconds = 5000;
+  static const defaultDisappearMilliseconds = 3000;
 }

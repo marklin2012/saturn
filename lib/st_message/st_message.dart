@@ -25,7 +25,7 @@ class STMessage extends StatefulWidget {
     Widget icon,
     Widget content,
     bool showShadow = true,
-    bool autoClose = false,
+    bool autoClose = true,
     int disappearMilliseconds = STMessageConstant.defaultDisappearMilliseconds,
     STMessageLocation location = STMessageLocation.top,
   }) {
