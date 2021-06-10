@@ -69,14 +69,6 @@ abstract class STButtonInterface {
     }
   }
 
-  double widthFromButtonSize(STButtonSize size) {
-    if (size == STButtonSize.small) {
-      return STButtonConstant.smallWidth;
-    } else {
-      return STButtonConstant.bigWidth;
-    }
-  }
-
   double spaceFromButtonSize(STButtonSize size) {
     if (size == STButtonSize.small) {
       return STButtonConstant.smallSpace;

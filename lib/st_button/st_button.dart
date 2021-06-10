@@ -27,7 +27,6 @@ class STButton extends StatelessWidget {
   final bool loading;
   final bool circle;
   final double height;
-  final double width;
   final double radius;
   final Color backgroundColor;
   final Color borderColor;
@@ -43,7 +42,6 @@ class STButton extends StatelessWidget {
       this.size = STButtonSize.large,
       this.type = STButtonType.primary,
       this.height,
-      this.width,
       this.radius,
       this.backgroundColor,
       this.borderColor,
@@ -57,7 +55,6 @@ class STButton extends StatelessWidget {
   const STButton.icon(
       {Key key,
       @required this.icon,
-      this.width,
       this.padding,
       this.textStyle,
       this.size,
@@ -88,7 +85,6 @@ class STButton extends StatelessWidget {
       disabled: disabled,
       loading: loading,
       height: height,
-      width: width,
       radius: radius,
       circle: circle,
       backgroundColor: backgroundColor,
