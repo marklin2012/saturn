@@ -9,20 +9,16 @@ class ButtonPage extends StatefulWidget {
 }
 
 class _ButtonPageState extends State<ButtonPage> {
-  int _counter = 0;
   bool _loading = false;
   bool _disabled = true;
+  ValueNotifier<int> _counterNoti;
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    _counterNoti.value++;
   }
 
   void _reduceCounter() {
-    setState(() {
-      _counter--;
-    });
+    _counterNoti.value--;
   }
 
   void _showLoading() {
@@ -45,6 +41,12 @@ class _ButtonPageState extends State<ButtonPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _counterNoti = ValueNotifier(0);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -53,11 +55,16 @@ class _ButtonPageState extends State<ButtonPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              '$_counter',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ValueListenableBuilder(
+              valueListenable: _counterNoti,
+              builder: (context, int value, child) {
+                return Text('$value');
+              },
             ),
+            SizedBox(height: 5),
+            STButton(),
             SizedBox(height: 5),
             // 主按钮
             STButton(
@@ -66,7 +73,6 @@ class _ButtonPageState extends State<ButtonPage> {
               text: '主按钮',
             ),
             SizedBox(height: 5),
-            // 主按钮
             STButton(
               text: '图标按钮',
               icon: Icon(

@@ -11,7 +11,6 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final TextStyle textStyle; // 文本的style样式
   final VoidCallback onTap;
   final double height;
-  final double width;
   final double radius;
   final Color backgroundColor;
   final Color borderColor;
@@ -30,7 +29,6 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       this.textStyle,
       this.onTap,
       this.height,
-      this.width,
       this.radius,
       this.backgroundColor,
       this.padding,
@@ -103,47 +101,40 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           onTap: excOnTap(),
           onTapDown: (details) {
             // 加载的过程或者不可用的状态下不可点击
-            if (_state == STButtonState.loading ||
-                disabled == true ||
-                onTap == null) {
+            if (_state == STButtonState.loading || disabled == true) {
               return;
             }
             _curState.value = STButtonState.highlighted;
           },
-          onTapCancel: () {
-            if (disabled == false && onTap != null) {
+          onTapUp: (details) {
+            if (disabled == false) {
               _curState.value = _lastState;
             }
           },
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: height ?? heightFromButtonSize(size),
-            ),
-            child: Opacity(
-              opacity: opacityFromButtonState(stateValue),
-              child: Container(
-                width: width ?? widthFromButtonSize(size),
-                decoration: _decoration,
-                padding: padding ?? edgeInsetsFromButtonSize(size),
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (_icon != null) _icon,
-                    if (!circle && text != null)
-                      SizedBox(
-                        width: spaceFromButtonSize(size),
-                      ),
-                    if (!circle && text != null)
-                      Text(
-                        text ?? 'button',
-                        style: textStyle ??
-                            TextStyle(
-                              color: textColorFromButton(type),
-                            ),
-                      )
-                  ],
-                ),
+          child: Opacity(
+            opacity: opacityFromButtonState(stateValue),
+            child: Container(
+              decoration: _decoration,
+              height: height ?? heightFromButtonSize(size),
+              padding: padding ?? edgeInsetsFromButtonSize(size),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (_icon != null) _icon,
+                  if (!circle && _icon != null)
+                    SizedBox(
+                      width: spaceFromButtonSize(size),
+                    ),
+                  if (!circle)
+                    Text(
+                      text ?? 'button',
+                      style: textStyle ??
+                          TextStyle(
+                            color: textColorFromButton(type),
+                          ),
+                    )
+                ],
               ),
             ),
           ),
