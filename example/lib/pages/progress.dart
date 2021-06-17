@@ -31,7 +31,6 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.stepDot,
-                height: 40,
                 stepCount: 5,
                 progress: 0.6,
                 color: Colors.blue,
@@ -42,7 +41,6 @@ class _ProgressPageState extends State<ProgressPage> {
               child: STProgress(
                 type: STProgressType.stepRect,
                 size: 200,
-                height: 40,
                 stepCount: 9,
                 progress: _progress,
                 color: Colors.blue,
@@ -54,7 +52,6 @@ class _ProgressPageState extends State<ProgressPage> {
                 type: STProgressType.primary,
                 status: STProgressStatus.done,
                 size: 300,
-                height: 14.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -65,7 +62,6 @@ class _ProgressPageState extends State<ProgressPage> {
                 type: STProgressType.primary,
                 status: STProgressStatus.error,
                 size: 300,
-                height: 14.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -76,7 +72,6 @@ class _ProgressPageState extends State<ProgressPage> {
                 type: STProgressType.primary,
                 status: STProgressStatus.warning,
                 size: 300,
-                height: 14.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -86,7 +81,6 @@ class _ProgressPageState extends State<ProgressPage> {
               child: STProgress(
                 type: STProgressType.primary,
                 size: 300,
-                height: 14.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -96,7 +90,6 @@ class _ProgressPageState extends State<ProgressPage> {
               child: STProgress(
                 type: STProgressType.percent,
                 size: 300,
-                height: 20.0,
                 progress: 0.5,
                 color: Colors.blue,
               ),

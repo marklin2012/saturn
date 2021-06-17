@@ -21,7 +21,7 @@ class STProgress extends StatefulWidget {
     this.type = STProgressType.primary,
     this.status = STProgressStatus.primary,
     this.size = 150.0,
-    this.height = 8.0,
+    this.height,
     this.color = STProgressConstant.defaultBackgroundColor,
     this.trailingWidget,
     this.centerWidget,
@@ -44,22 +44,30 @@ class _STProgressState extends State<STProgress> {
       curProgress = widget.progress;
     }
 
+    double curHeight = widget.height;
     Widget content;
     switch (widget.type) {
       case STProgressType.primary:
       case STProgressType.percent:
         {
+          if (curHeight == null) {
+            if (widget.type == STProgressType.primary) {
+              curHeight = 8.0;
+            } else {
+              curHeight = 24.0;
+            }
+          }
           Color curProgressColor = widget.color;
           Widget curTrailingWidget = widget.trailingWidget;
           if (widget.type == STProgressType.primary &&
               widget.status != STProgressStatus.primary) {
             curProgressColor = colorFromProgressStatus(widget.status);
             curTrailingWidget =
-                iconFromProgressStatus(widget.status, widget.height);
+                iconFromProgressStatus(widget.status, curHeight);
           }
           content = LinearPercentIndicator(
             width: widget.size,
-            lineHeight: widget.height,
+            lineHeight: curHeight,
             percent: curProgress,
             linearStrokeCap: LinearStrokeCap.roundAll,
             backgroundColor: STProgressConstant.defaultBackgroundColor,
@@ -70,7 +78,7 @@ class _STProgressState extends State<STProgress> {
                     '${curProgress * 100}%',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: widget.height - 4,
+                      fontSize: curHeight - 4,
                     ),
                   )
                 : null,
@@ -80,9 +88,16 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.stepRect:
       case STProgressType.stepDot:
         {
+          if (curHeight == null) {
+            if (widget.type == STProgressType.stepRect) {
+              curHeight = 24.0;
+            } else {
+              curHeight = 12.0;
+            }
+          }
           content = STStepProgress(
             width: widget.size,
-            height: widget.height,
+            height: curHeight,
             count: widget.stepCount,
             progress: curProgress,
             progressColor: widget.color,
@@ -93,9 +108,10 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.circle:
       case STProgressType.dashboard:
         {
+          curHeight ??= 8.0;
           content = CircularPercentIndicator(
               diameter: widget.size,
-              lineWidth: widget.height,
+              lineWidth: curHeight,
               animation: true,
               percent: curProgress,
               center: widget.centerWidget,
