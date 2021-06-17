@@ -117,12 +117,19 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.dashboard:
         {
           curHeight ??= 8.0;
+          Widget curCenterWidget = widget.centerWidget;
+          if (curCenterWidget == null && widget.type == STProgressType.circle) {
+            curCenterWidget = Text(
+              '${(curProgress * 100).toInt()}%',
+              style: TextStyle(fontSize: curHeight * 2.0),
+            );
+          }
           content = CircularPercentIndicator(
               diameter: widget.size,
               lineWidth: curHeight,
               animation: true,
               percent: curProgress,
-              center: widget.centerWidget,
+              center: curCenterWidget,
               circularStrokeCap: CircularStrokeCap.round,
               progressColor: widget.color,
               arcType: widget.type == STProgressType.dashboard
