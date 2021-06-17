@@ -53,7 +53,8 @@ class _STStepProgressState extends State<STStepProgress> {
     }
     itemTotalWidth = itemWidth * widget.count +
         (widget.count - 1) * STProgressConstant.defaultSpace;
-    final double progressWidthNoSpace = widget.progress * itemTotalWidth;
+    final double progressWidthNoSpace =
+        widget.progress * itemWidth * widget.count;
     final int progressCount =
         (progressWidthNoSpace / itemWidth * 1.0).truncate();
     final double progressWidth =
