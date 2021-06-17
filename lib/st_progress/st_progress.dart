@@ -59,12 +59,20 @@ class _STProgressState extends State<STProgress> {
           }
           Color curProgressColor = widget.color;
           Widget curTrailingWidget = widget.trailingWidget;
-          if (widget.type == STProgressType.primary &&
-              widget.status != STProgressStatus.primary) {
-            curProgressColor = colorFromProgressStatus(widget.status);
-            curTrailingWidget =
-                iconFromProgressStatus(widget.status, curHeight);
+
+          if (widget.type == STProgressType.primary) {
+            if (widget.status != STProgressStatus.primary) {
+              curProgressColor = colorFromProgressStatus(widget.status);
+              curTrailingWidget =
+                  iconFromProgressStatus(widget.status, curHeight);
+            } else {
+              curTrailingWidget ??= Text(
+                '${(curProgress * 100).toInt()}%',
+                style: TextStyle(fontSize: curHeight),
+              );
+            }
           }
+
           content = LinearPercentIndicator(
             width: widget.size,
             lineHeight: curHeight,
@@ -75,7 +83,7 @@ class _STProgressState extends State<STProgress> {
             trailing: curTrailingWidget,
             widgetIndicator: widget.type == STProgressType.percent
                 ? Text(
-                    '${curProgress * 100}%',
+                    '${(curProgress * 100).toInt()}%',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: curHeight - 4,
