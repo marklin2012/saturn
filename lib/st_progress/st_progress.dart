@@ -44,31 +44,42 @@ class _STProgressState extends State<STProgress> {
       curProgress = widget.progress;
     }
 
+    Color curProgressColor = widget.color;
+
+    if (widget.status != STProgressStatus.primary) {
+      curProgressColor = colorFromProgressStatus(widget.status);
+    }
     double curHeight = widget.height;
     Widget content;
+    Widget curTrailingWidget = widget.trailingWidget;
+
     switch (widget.type) {
       case STProgressType.primary:
       case STProgressType.percent:
         {
-          if (curHeight == null) {
-            if (widget.type == STProgressType.primary) {
-              curHeight = 8.0;
-            } else {
-              curHeight = 24.0;
-            }
-          }
-          Color curProgressColor = widget.color;
-          Widget curTrailingWidget = widget.trailingWidget;
-
+          Widget curIndicatorWidget;
+          bool curIsTextIndicator = true;
           if (widget.type == STProgressType.primary) {
+            curHeight ??= 8.0;
             if (widget.status != STProgressStatus.primary) {
-              curProgressColor = colorFromProgressStatus(widget.status);
               curTrailingWidget =
-                  iconFromProgressStatus(widget.status, curHeight);
+                  iconFromProgressStatus(widget.status, curHeight, false);
             } else {
               curTrailingWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
                 style: TextStyle(fontSize: curHeight),
+              );
+            }
+          } else {
+            curHeight ??= 24.0;
+            if (widget.status != STProgressStatus.primary) {
+              curIndicatorWidget =
+                  iconFromProgressStatus(widget.status, curHeight, true);
+              curIsTextIndicator = false;
+            } else {
+              curIndicatorWidget ??= Text(
+                '${(curProgress * 100).toInt()}%',
+                style: TextStyle(color: Colors.white, fontSize: curHeight - 4),
               );
             }
           }
@@ -81,15 +92,8 @@ class _STProgressState extends State<STProgress> {
             backgroundColor: STProgressConstant.defaultBackgroundColor,
             progressColor: curProgressColor,
             trailing: curTrailingWidget,
-            widgetIndicator: widget.type == STProgressType.percent
-                ? Text(
-                    '${(curProgress * 100).toInt()}%',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: curHeight - 4,
-                    ),
-                  )
-                : null,
+            widgetIndicator: curIndicatorWidget,
+            isTextIndicator: curIsTextIndicator,
           );
         }
         break;
@@ -103,14 +107,23 @@ class _STProgressState extends State<STProgress> {
               curHeight = 12.0;
             }
           }
+          if (widget.status != STProgressStatus.primary) {
+            curTrailingWidget =
+                iconFromProgressStatus(widget.status, curHeight, false);
+          } else {
+            curTrailingWidget ??= Text(
+              '${(curProgress * 100).toInt()}%',
+              style: TextStyle(fontSize: curHeight),
+            );
+          }
           content = STStepProgress(
             width: widget.size,
             height: curHeight,
             count: widget.stepCount,
             progress: curProgress,
-            progressColor: widget.color,
+            progressColor: curProgressColor,
             isCircle: widget.type == STProgressType.stepDot,
-            trailingWidget: widget.trailingWidget,
+            trailingWidget: curTrailingWidget,
           );
         }
         break;
@@ -119,12 +132,47 @@ class _STProgressState extends State<STProgress> {
         {
           curHeight ??= 8.0;
           Widget curCenterWidget = widget.centerWidget;
-          if (curCenterWidget == null && widget.type == STProgressType.circle) {
-            curCenterWidget = Text(
-              '${(curProgress * 100).toInt()}%',
-              style: TextStyle(fontSize: curHeight * 2.0),
-            );
+
+          if (widget.type == STProgressType.circle) {
+            if (widget.status != STProgressStatus.primary) {
+              curCenterWidget =
+                  iconFromProgressStatus(widget.status, widget.size / 4, false);
+            } else {
+              curCenterWidget ??= Text(
+                '${(curProgress * 100).toInt()}%',
+                style: TextStyle(fontSize: curHeight * 2.0),
+              );
+            }
+          } else {
+            String centerText = "";
+            switch (widget.status) {
+              case STProgressStatus.done:
+                {
+                  centerText = "Done";
+                }
+                break;
+              case STProgressStatus.warning:
+                {
+                  centerText = "Warning";
+                }
+                break;
+              case STProgressStatus.error:
+                {
+                  centerText = "Error";
+                }
+                break;
+              default:
+                centerText = "";
+            }
+            if (widget.status != STProgressStatus.primary) {
+              curCenterWidget = Text(
+                centerText,
+                style: TextStyle(
+                    fontSize: curHeight * 2.0, color: curProgressColor),
+              );
+            }
           }
+
           content = CircularPercentIndicator(
               diameter: widget.size,
               lineWidth: curHeight,
@@ -132,7 +180,7 @@ class _STProgressState extends State<STProgress> {
               percent: curProgress,
               center: curCenterWidget,
               circularStrokeCap: CircularStrokeCap.round,
-              progressColor: widget.color,
+              progressColor: curProgressColor,
               arcType: widget.type == STProgressType.dashboard
                   ? ArcType.GAP
                   : ArcType.NORMAL);
@@ -158,21 +206,23 @@ class _STProgressState extends State<STProgress> {
     }
   }
 
-  Widget iconFromProgressStatus(STProgressStatus status, double iconWidth) {
+  Widget iconFromProgressStatus(
+      STProgressStatus status, double iconWidth, bool isOutline) {
     IconData iconData;
-    final Color iconColor = colorFromProgressStatus(status);
+    final Color iconColor =
+        isOutline ? Colors.white : colorFromProgressStatus(status);
     switch (status) {
       case STProgressStatus.error:
-        iconData = Icons.cancel;
+        iconData = isOutline ? Icons.cancel_sharp : Icons.cancel;
         break;
       case STProgressStatus.warning:
-        iconData = Icons.info;
+        iconData = isOutline ? Icons.info_outline : Icons.info;
         break;
       case STProgressStatus.done:
-        iconData = Icons.check_circle;
+        iconData = isOutline ? Icons.check_circle_outline : Icons.check_circle;
         break;
       default:
-        iconData = Icons.info;
+        iconData = isOutline ? Icons.info_outline : Icons.info;
     }
     return Icon(
       iconData,

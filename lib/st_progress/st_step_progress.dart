@@ -59,13 +59,6 @@ class _STStepProgressState extends State<STStepProgress> {
     final double progressWidth =
         progressCount * STProgressConstant.defaultSpace + progressWidthNoSpace;
 
-    Widget curTrailingWidget = widget.trailingWidget;
-    curTrailingWidget ??= Text('${(widget.progress * 100).toInt()}%',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: widget.height,
-        ));
-
     return Stack(
       children: [
         CustomPaint(
@@ -92,7 +85,7 @@ class _STStepProgressState extends State<STStepProgress> {
         ),
         Padding(
             padding: EdgeInsets.only(left: itemTotalWidth + 5),
-            child: curTrailingWidget)
+            child: widget.trailingWidget)
       ],
     );
   }
