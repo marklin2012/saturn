@@ -22,7 +22,7 @@ class STProgress extends StatefulWidget {
     this.status = STProgressStatus.primary,
     this.size = 150.0,
     this.height,
-    this.color = STProgressConstant.defaultBackgroundColor,
+    this.color,
     this.trailingWidget,
     this.centerWidget,
     this.stepCount = 10,
@@ -44,10 +44,22 @@ class _STProgressState extends State<STProgress> {
       curProgress = widget.progress;
     }
 
+    STProgressStatus curStatus = widget.status;
+    //如果没有传入颜色和控件，且progress>=1，显示默认done状态
+    if (curProgress == 1 &&
+        widget.color == null &&
+        widget.trailingWidget == null &&
+        widget.centerWidget == null) {
+      curStatus = STProgressStatus.done;
+    }
+
     Color curProgressColor = widget.color;
 
-    if (widget.status != STProgressStatus.primary) {
-      curProgressColor = colorFromProgressStatus(widget.status);
+    if (curStatus != STProgressStatus.primary) {
+      curProgressColor = colorFromProgressStatus(curStatus);
+    }
+    {
+      curProgressColor ??= colorFromProgressStatus(curStatus);
     }
     double curHeight = widget.height;
     Widget content;
@@ -61,9 +73,9 @@ class _STProgressState extends State<STProgress> {
           bool curIsTextIndicator = true;
           if (widget.type == STProgressType.primary) {
             curHeight ??= 8.0;
-            if (widget.status != STProgressStatus.primary) {
+            if (curStatus != STProgressStatus.primary) {
               curTrailingWidget =
-                  iconFromProgressStatus(widget.status, curHeight, false);
+                  iconFromProgressStatus(curStatus, curHeight, false);
             } else {
               curTrailingWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
@@ -72,9 +84,9 @@ class _STProgressState extends State<STProgress> {
             }
           } else {
             curHeight ??= 24.0;
-            if (widget.status != STProgressStatus.primary) {
+            if (curStatus != STProgressStatus.primary) {
               curIndicatorWidget =
-                  iconFromProgressStatus(widget.status, curHeight, true);
+                  iconFromProgressStatus(curStatus, curHeight, true);
               curIsTextIndicator = false;
             } else {
               curIndicatorWidget ??= Text(
@@ -107,9 +119,9 @@ class _STProgressState extends State<STProgress> {
               curHeight = 12.0;
             }
           }
-          if (widget.status != STProgressStatus.primary) {
+          if (curStatus != STProgressStatus.primary) {
             curTrailingWidget =
-                iconFromProgressStatus(widget.status, curHeight, false);
+                iconFromProgressStatus(curStatus, curHeight, false);
           } else {
             curTrailingWidget ??= Text(
               '${(curProgress * 100).toInt()}%',
@@ -134,9 +146,9 @@ class _STProgressState extends State<STProgress> {
           Widget curCenterWidget = widget.centerWidget;
 
           if (widget.type == STProgressType.circle) {
-            if (widget.status != STProgressStatus.primary) {
+            if (curStatus != STProgressStatus.primary) {
               curCenterWidget =
-                  iconFromProgressStatus(widget.status, widget.size / 4, false);
+                  iconFromProgressStatus(curStatus, widget.size / 4, false);
             } else {
               curCenterWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
@@ -145,7 +157,7 @@ class _STProgressState extends State<STProgress> {
             }
           } else {
             String centerText = "";
-            switch (widget.status) {
+            switch (curStatus) {
               case STProgressStatus.done:
                 {
                   centerText = "Done";
@@ -164,7 +176,7 @@ class _STProgressState extends State<STProgress> {
               default:
                 centerText = "";
             }
-            if (widget.status != STProgressStatus.primary) {
+            if (curStatus != STProgressStatus.primary) {
               curCenterWidget = Text(
                 centerText,
                 style: TextStyle(
@@ -201,6 +213,8 @@ class _STProgressState extends State<STProgress> {
         return STProgressConstant.colorWarnning;
       case STProgressStatus.error:
         return STProgressConstant.colorError;
+      case STProgressStatus.primary:
+        return STProgressConstant.colorPrimary;
       default:
         return Colors.transparent;
     }

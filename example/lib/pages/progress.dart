@@ -32,6 +32,14 @@ class _ProgressPageState extends State<ProgressPage> {
               child: STProgress(
                 type: STProgressType.primary,
                 size: 300,
+                progress: 1,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.primary,
+                size: 300,
                 progress: 0.5,
                 color: Colors.blue,
               ),
@@ -108,16 +116,14 @@ class _ProgressPageState extends State<ProgressPage> {
             ),
 
             //circle
-            // Padding(
-            //   padding: const EdgeInsets.all(12.0),
-            //   child: STProgress(
-            //       type: STProgressType.stepDot,
-            //       stepCount: 5,
-            //       progress: 0.6,
-            //       color: Colors.blue,
-            //       trailingWidget: Icon(Icons.east_outlined,
-            //           size: 20.0, color: Colors.green)),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.stepDot,
+                stepCount: 5,
+                progress: 1,
+              ),
+            ),
 
             Padding(
               padding: const EdgeInsets.all(12.0),
