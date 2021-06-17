@@ -110,6 +110,7 @@ class _STProgressState extends State<STProgress> {
             progress: curProgress,
             progressColor: widget.color,
             isCircle: widget.type == STProgressType.stepDot,
+            trailingWidget: widget.trailingWidget,
           );
         }
         break;

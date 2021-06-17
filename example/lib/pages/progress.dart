@@ -39,6 +39,27 @@ class _ProgressPageState extends State<ProgressPage> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
+                type: STProgressType.stepDot,
+                stepCount: 5,
+                progress: 0.6,
+                color: Colors.blue,
+                trailingWidget: new Container(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.stepRect,
+                size: 200,
+                stepCount: 9,
+                progress: _progress,
+                color: Colors.blue,
+                trailingWidget: new Container(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
                 type: STProgressType.stepRect,
                 size: 200,
                 stepCount: 9,
