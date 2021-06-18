@@ -80,7 +80,7 @@ class _ProgressPageState extends State<ProgressPage> {
               child: STProgress(
                 type: STProgressType.percent,
                 size: 200,
-                progress: 0.8,
+                progress: 0.95,
                 color: Colors.blue,
               ),
             ),

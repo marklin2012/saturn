@@ -85,11 +85,12 @@ class _STProgressState extends State<STProgress> {
             curHeight ??= 24.0;
             if (curStatus != STProgressStatus.primary) {
               curIndicatorWidget =
-                  iconFromProgressStatus(curStatus, curHeight, true);
+                  iconFromProgressStatus(curStatus, curHeight * 2 / 3, true);
             } else {
               curIndicatorWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
-                style: TextStyle(color: Colors.white, fontSize: curHeight - 4),
+                style: TextStyle(
+                    color: Colors.white, fontSize: curHeight * 2 / 3 - 4),
               );
             }
           }
