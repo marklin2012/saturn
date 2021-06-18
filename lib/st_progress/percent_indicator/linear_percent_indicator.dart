@@ -79,8 +79,6 @@ class LinearPercentIndicator extends StatefulWidget {
   /// Display a widget indicator at the end of the progress. It only works when `animation` is true
   final Widget widgetIndicator;
 
-  final bool isTextIndicator;
-
   LinearPercentIndicator({
     Key key,
     this.fillColor = Colors.transparent,
@@ -107,7 +105,6 @@ class LinearPercentIndicator extends StatefulWidget {
     this.restartAnimation = false,
     this.onAnimationEnd,
     this.widgetIndicator,
-    this.isTextIndicator = true,
   }) : super(key: key) {
     if (linearGradient != null && progressColor != null) {
       throw ArgumentError(
@@ -264,12 +261,7 @@ class _LinearPercentIndicatorState extends State<LinearPercentIndicator>
               _containerWidth > 0 &&
               _indicatorWidth > 0)
             Positioned(
-              right: widget.isRTL ? percentPositionedHorizontal : null,
-              left: !widget.isRTL
-                  ? (widget.isTextIndicator
-                      ? percentPositionedHorizontal - _indicatorHeight - 5
-                      : percentPositionedHorizontal - 10)
-                  : null, //修改
+              left: percentPositionedHorizontal - _indicatorWidth + 10,
               top: (_containerHeight - _indicatorHeight) / 2.0, //修改
               child: widget.widgetIndicator,
             ),

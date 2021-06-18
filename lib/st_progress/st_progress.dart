@@ -70,7 +70,6 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.percent:
         {
           Widget curIndicatorWidget;
-          bool curIsTextIndicator = true;
           if (widget.type == STProgressType.primary) {
             curHeight ??= 8.0;
             if (curStatus != STProgressStatus.primary) {
@@ -87,7 +86,6 @@ class _STProgressState extends State<STProgress> {
             if (curStatus != STProgressStatus.primary) {
               curIndicatorWidget =
                   iconFromProgressStatus(curStatus, curHeight, true);
-              curIsTextIndicator = false;
             } else {
               curIndicatorWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
@@ -105,7 +103,6 @@ class _STProgressState extends State<STProgress> {
             progressColor: curProgressColor,
             trailing: curTrailingWidget,
             widgetIndicator: curIndicatorWidget,
-            isTextIndicator: curIsTextIndicator,
           );
         }
         break;

@@ -79,8 +79,8 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.percent,
-                size: 300,
-                progress: 0.5,
+                size: 200,
+                progress: 0.8,
                 color: Colors.blue,
               ),
             ),
@@ -89,8 +89,8 @@ class _ProgressPageState extends State<ProgressPage> {
               child: STProgress(
                 type: STProgressType.percent,
                 status: STProgressStatus.error,
-                size: 300,
-                progress: 0.5,
+                size: 200,
+                progress: 0.3,
                 color: Colors.blue,
               ),
             ),
@@ -116,6 +116,14 @@ class _ProgressPageState extends State<ProgressPage> {
             ),
 
             //circle
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: STProgress(
+                type: STProgressType.stepDot,
+                stepCount: 5,
+                progress: 1,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
@@ -205,7 +213,7 @@ class _ProgressPageState extends State<ProgressPage> {
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.stepRect,
-                size: 200,
+                size: 100,
                 stepCount: 9,
                 progress: 0.2,
                 color: Colors.blue,
