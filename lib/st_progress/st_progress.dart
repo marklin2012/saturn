@@ -227,7 +227,7 @@ class _STProgressState extends State<STProgress> {
         isOutline ? Colors.white : colorFromProgressStatus(status);
     switch (status) {
       case STProgressStatus.error:
-        iconData = isOutline ? Icons.cancel_sharp : Icons.cancel;
+        iconData = isOutline ? Icons.cancel_outlined : Icons.cancel;
         break;
       case STProgressStatus.warning:
         iconData = isOutline ? Icons.info_outline : Icons.info;
