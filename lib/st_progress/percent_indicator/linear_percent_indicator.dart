@@ -261,10 +261,7 @@ class _LinearPercentIndicatorState extends State<LinearPercentIndicator>
               _containerWidth > 0 &&
               _indicatorWidth > 0)
             Positioned(
-              right: widget.isRTL ? percentPositionedHorizontal : null,
-              left: !widget.isRTL
-                  ? percentPositionedHorizontal - _indicatorHeight - 5
-                  : null, //修改
+              left: percentPositionedHorizontal - _indicatorWidth * 1 / 3,
               top: (_containerHeight - _indicatorHeight) / 2.0, //修改
               child: widget.widgetIndicator,
             ),

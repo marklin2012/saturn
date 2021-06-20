@@ -27,6 +27,7 @@ class STStepProgress extends StatefulWidget {
   final double progress;
   final Color progressColor;
   final bool isCircle;
+  final Widget trailingWidget;
 
   const STStepProgress(
       {this.width,
@@ -34,7 +35,8 @@ class STStepProgress extends StatefulWidget {
       this.count,
       this.progress,
       this.progressColor,
-      this.isCircle = false});
+      this.isCircle = false,
+      this.trailingWidget});
 
   @override
   _STStepProgressState createState() => _STStepProgressState();
@@ -51,11 +53,13 @@ class _STStepProgressState extends State<STStepProgress> {
     }
     itemTotalWidth = itemWidth * widget.count +
         (widget.count - 1) * STProgressConstant.defaultSpace;
-    final double progressWidthNoSpace = widget.progress * itemTotalWidth;
+    final double progressWidthNoSpace =
+        widget.progress * itemWidth * widget.count;
     final int progressCount =
         (progressWidthNoSpace / itemWidth * 1.0).truncate();
     final double progressWidth =
         progressCount * STProgressConstant.defaultSpace + progressWidthNoSpace;
+
     return Stack(
       children: [
         CustomPaint(
@@ -79,7 +83,10 @@ class _STStepProgressState extends State<STStepProgress> {
               isCircle: widget.isCircle,
             ),
           ),
-        )
+        ),
+        Padding(
+            padding: EdgeInsets.only(left: itemTotalWidth + 5),
+            child: widget.trailingWidget)
       ],
     );
   }
