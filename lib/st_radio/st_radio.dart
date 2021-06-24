@@ -7,7 +7,7 @@ class STRadio<T> extends StatelessWidget {
   final Color activeColor; // 内部颜色
   final Color backgroundColor; // 背景颜色
   final Color borderColor; // 边框颜色
-  final String text;
+  final String text; // 文本内容
   final bool disabled;
   final double internalDiameter; // 内径
   final double externalDiameter; // 外径
@@ -17,13 +17,13 @@ class STRadio<T> extends StatelessWidget {
 
   const STRadio({
     Key key,
-    this.value,
-    this.groupValue,
+    @required this.value,
+    @required this.groupValue,
+    this.text,
     this.onChanged,
     this.activeColor = const Color(0xFFFFFFFF),
     this.backgroundColor = const Color(0xFF095BF9),
     this.borderColor = const Color(0xFF888888),
-    this.text,
     this.disabled = false,
     this.internalDiameter = 12.0,
     this.externalDiameter = 24.0,

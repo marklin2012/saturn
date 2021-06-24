@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:saturn/st_cascader/cascader_item.dart';
 import 'package:saturn/st_cascader/cascader_pop.dart';
 import 'package:saturn/st_select/select_show_dialog.dart';
 
-const _defaultContentHeight = 262.0;
 const _defaultHolderString = '请选择';
 const _defaultHolderTextStyle =
     TextStyle(color: Color(0xFFBBBBBB), fontSize: 16);
@@ -11,10 +12,11 @@ const _defaultTextStyle = TextStyle(color: Color(0xFF000000), fontSize: 16);
 const _defaultSelectColor = Color(0xFF095BF9);
 
 class STCascader extends StatefulWidget {
-  final double verticalOffset;
-  final List<String> initValue;
+  final double verticalOffset; // 弹出的视图距离触发内容的垂直方向偏移量
+  final List<String> initValue; // 初始值
   final ValueChanged<List<String>> onChanged;
-  final List<STCascaderItem> items;
+  final List<STCascaderItem> items; // 内容集
+  final double height; // 触发内容的高度
 
   const STCascader({
     Key key,
@@ -22,6 +24,7 @@ class STCascader extends StatefulWidget {
     this.initValue,
     this.onChanged,
     this.items,
+    this.height = 48.0,
   })  : assert(items.length > 0),
         super(key: key);
 
@@ -60,10 +63,13 @@ class _STCascaderState extends State<STCascader> {
           barrierColor: Colors.transparent,
           context: context,
           builder: (context) {
+            final kIsWeb = _getIsWeb();
             return ShowSelectDialog(
               offset: Offset(
                 _originPoint.dx,
-                _originPoint.dy + widget.verticalOffset,
+                _originPoint.dy +
+                    widget.verticalOffset +
+                    (kIsWeb ? widget.height : 0),
               ),
               menu: STCascaderPop(
                 items: widget.items,
@@ -76,7 +82,6 @@ class _STCascaderState extends State<STCascader> {
                   }
                 },
               ),
-              height: _defaultContentHeight,
             );
           },
         ).then((value) {
@@ -86,7 +91,7 @@ class _STCascaderState extends State<STCascader> {
       },
       child: Container(
         key: _selectKey,
-        height: 48.0,
+        height: widget.height,
         margin: const EdgeInsets.symmetric(horizontal: 16.0),
         decoration: BoxDecoration(
           border: Border.all(color: _defaultSelectColor),
@@ -133,5 +138,20 @@ class _STCascaderState extends State<STCascader> {
     } else {
       return _defaultTextStyle;
     }
+  }
+
+  // 判断是否在Web上，Web上需要计算本身的高度
+  bool _getIsWeb() {
+    var kisWeb = false;
+    try {
+      if (Platform.isAndroid || Platform.isIOS) {
+        kisWeb = false;
+      } else {
+        kisWeb = true;
+      }
+    } catch (e) {
+      kisWeb = true;
+    }
+    return kisWeb;
   }
 }
