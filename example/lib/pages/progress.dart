@@ -262,14 +262,11 @@ class _ProgressPageState extends State<ProgressPage> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: STProgress(
-                  type: STProgressType.dashboard,
-                  height: 8.0,
-                  progress: 0.5,
-                  color: Colors.blue,
-                  centerWidget: Text(
-                    "10S",
-                    style: const TextStyle(fontSize: 16.0),
-                  )),
+                type: STProgressType.dashboard,
+                height: 8.0,
+                progress: 0.5,
+                color: Colors.blue,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
