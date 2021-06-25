@@ -16,6 +16,16 @@ class ToastPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STToast.show(
+                context: context,
+                message: "这是一个message这是一个message这是一个message这是一个message",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("文字"),
+            color: Colors.blue,
+            onPressed: () {
+              STToast.show(
                   context: context,
                   message: "这是一个message这是一个message这是一个message这是一个message",
                   autoClose: true);

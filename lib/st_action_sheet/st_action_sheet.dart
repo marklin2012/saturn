@@ -55,7 +55,7 @@ class STActionSheet extends StatefulWidget {
     Widget icon,
     String confirmTitle = "确定",
     String cancelTitle = "确定",
-    List options,
+    List options = const [],
     bool hasCancelButton = true,
     bool hasConfirmButton = false,
     VoidCallback onCancelTap,
@@ -178,12 +178,15 @@ class _STActionSheetState extends State<STActionSheet>
                   widget.icon,
                   Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [titleWidget, messageWidget],
+                    children: [
+                      if (titleWidget != null) titleWidget,
+                      if (messageWidget != null) messageWidget
+                    ],
                   )
                 ],
-              )
-            else
-              messageWidget ?? Container(),
+              ),
+            if (widget.icon == null && titleWidget != null) titleWidget,
+            if (widget.icon == null && messageWidget != null) messageWidget,
           ];
 
           final List<Widget> listViewList = [];

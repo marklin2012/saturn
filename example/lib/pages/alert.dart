@@ -15,9 +15,16 @@ class AlertPage extends StatelessWidget {
             child: Text("文字"),
             color: Colors.blue,
             onPressed: () {
-              // send();
-              // SocketManage.send(textEditController.text);
-
+              STAlert.show(
+                context: context,
+                message: "你说是就是",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("文字"),
+            color: Colors.blue,
+            onPressed: () {
               STAlert.show(
                   context: context,
                   type: STAlertType.success,
@@ -28,7 +35,7 @@ class AlertPage extends StatelessWidget {
                   onCloseTap: () {
                     print('好的');
                   },
-                  disappearMilliseconds: 2);
+                  disappearMilliseconds: 2000);
             },
           ),
           FlatButton(

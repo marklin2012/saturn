@@ -19,6 +19,15 @@ class MessagePage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STMessage.show(
+                context: context,
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("单行文字图片"),
+            color: Colors.blue,
+            onPressed: () {
+              STMessage.show(
                   context: context,
                   message: "这是文本信息",
                   icon: imageWidget,

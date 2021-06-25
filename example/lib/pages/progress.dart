@@ -29,6 +29,10 @@ class _ProgressPageState extends State<ProgressPage> {
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(12.0),
+              child: STProgress(),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
               child: STProgress(
                 type: STProgressType.primary,
                 size: 300,

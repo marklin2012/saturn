@@ -148,7 +148,7 @@ class _STDialogState extends State<STDialog> {
       const SizedBox(
         height: 4,
       ),
-      messageWidget,
+      if (messageWidget != null) messageWidget,
     ];
 
     if (widget.hasTextField) {

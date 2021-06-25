@@ -16,6 +16,15 @@ class ActionSheetPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STActionSheet.show(
+                context: context,
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("list vertical 不许选择"),
+            color: Colors.blue,
+            onPressed: () {
+              STActionSheet.show(
                   context: context,
                   title: "是不是",
                   icon: Image.asset("assets/images/basketball_check.png",
