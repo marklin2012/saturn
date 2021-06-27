@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_picker/st_cursor.dart';
 import 'package:saturn/st_select/select_show_dialog.dart';
+import 'package:saturn/utils/include.dart';
 
 enum STCalendarPickerType { start, end }
 
@@ -184,8 +185,11 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
       context: context,
       builder: (context) {
         return ShowSelectDialog(
-          offset: Offset(_touchCalPoints.dx + _margin.left,
-              _touchCalPoints.dy + _offsetVertical),
+          offset: Offset(
+              _touchCalPoints.dx + _margin.left,
+              _touchCalPoints.dy +
+                  _offsetVertical +
+                  (getIsWeb() ? _stCalendarInputHeight : 0)),
           height: _defaultCalenderHeight,
           menu: Container(
             color: Colors.white,
