@@ -57,7 +57,7 @@ class AlertPage extends StatelessWidget {
                   onCloseTap: () {
                     print('好的');
                   },
-                  disappearMilliseconds: 3);
+                  disappearMilliseconds: 3000);
             },
           ),
           FlatButton(
@@ -77,7 +77,7 @@ class AlertPage extends StatelessWidget {
                   autoClose: false,
                   showIcon: false,
                   width: 250,
-                  disappearMilliseconds: 3);
+                  disappearMilliseconds: 3000);
             },
           ),
           FlatButton(
@@ -102,7 +102,7 @@ class AlertPage extends StatelessWidget {
                     STAlert.hide(context);
                     print("好的");
                   },
-                  disappearMilliseconds: 3);
+                  disappearMilliseconds: 3000);
             },
           ),
         ],
