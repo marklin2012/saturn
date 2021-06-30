@@ -1,3 +1,4 @@
+import 'package:example/pages/menu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/pages/checkbox.dart';
@@ -34,6 +35,7 @@ import 'package:example/pages/progress.dart';
 List<PageModel> _pages = [
   PageModel(name: 'Progress', page: ProgressPage()),
   PageModel(name: 'Input', page: InputPage()),
+  PageModel(name: 'Menu', page: MenuPage()),
   PageModel(name: 'Loading', page: LoadingPage()),
   PageModel(name: 'Alert', page: AlertPage()),
   PageModel(name: 'Dialog', page: DialogPage()),
