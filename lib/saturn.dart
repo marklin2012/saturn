@@ -28,6 +28,7 @@ export 'package:saturn/utils/include.dart';
 export 'package:saturn/st_progress/include.dart';
 export 'package:saturn/st_tag/include.dart';
 export 'package:saturn/st_tabbar.dart/st_tabbar.dart';
+export 'package:saturn/st_menu/include.dart';
 
 /// A Calculator.
 class Calculator {
