@@ -16,6 +16,16 @@ class DialogPage extends StatelessWidget {
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
+                context: context,
+                title: "标题标题",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("文字"),
+            color: Colors.blue,
+            onPressed: () {
+              STDialog.show(
                   context: context,
                   title: "标题标题",
                   message: "描述说明信息",

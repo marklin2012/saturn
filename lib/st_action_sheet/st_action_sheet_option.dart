@@ -6,7 +6,7 @@ import 'common.dart';
 class STActionSheetOption {
   String title;
   String message;
-  String icon;
+  Widget icon;
   bool isRadio;
   VoidCallback onTap;
 
@@ -81,8 +81,7 @@ class STActionSheetOptionWidget extends StatelessWidget
                     onChanged: null,
                   ),
                 if (actionSheetOption.isRadio) const SizedBox(width: 16),
-                if (isNotEmpty(actionSheetOption.icon))
-                  Image.asset(actionSheetOption.icon, fit: BoxFit.fitWidth),
+                if (actionSheetOption.icon != null) actionSheetOption.icon,
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,8 +128,7 @@ class STActionSheetOptionWidget extends StatelessWidget
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (isNotEmpty(actionSheetOption.icon))
-                Image.asset(actionSheetOption.icon, fit: BoxFit.fitWidth),
+              if (actionSheetOption.icon != null) actionSheetOption.icon,
               if (isNotEmpty(actionSheetOption.title))
                 Text(
                   actionSheetOption.title,

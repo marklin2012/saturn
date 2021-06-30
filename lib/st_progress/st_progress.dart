@@ -172,13 +172,19 @@ class _STProgressState extends State<STProgress> {
                 }
                 break;
               default:
-                centerText = "";
+                centerText = '${(curProgress * 100).toInt()}%';
             }
             if (curStatus != STProgressStatus.primary) {
               curCenterWidget = Text(
                 centerText,
                 style: TextStyle(
                     fontSize: curHeight * 2.0, color: curProgressColor),
+              );
+            } else {
+              curCenterWidget ??= Text(
+                centerText,
+                style:
+                    TextStyle(fontSize: curHeight * 2.0, color: Colors.black),
               );
             }
           }

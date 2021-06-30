@@ -39,7 +39,7 @@ class STAlertConstant {
   static const defaultRightIcon = "assets/images/basketball_check.png";
 
   //
-  static const defaultDisappearTime = 5;
+  static const defaultDisappearMilliseconds = 3000;
 }
 
 abstract class STAlertInterface {

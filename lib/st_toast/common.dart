@@ -11,5 +11,5 @@ class STToastConstant {
 
   static const defaultBackgroundColor = Color.fromRGBO(0, 0, 0, 0.8);
 
-  static const defaultDisappearMilliseconds = 5000;
+  static const defaultDisappearMilliseconds = 3000;
 }

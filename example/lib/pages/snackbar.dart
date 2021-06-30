@@ -21,6 +21,19 @@ class SnackbarPage extends StatelessWidget {
               STSnackbar.show(
                 context: context,
                 title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("标题"),
+            color: Colors.blue,
+            onPressed: () {
+              // send();
+              // SocketManage.send(textEditController.text);
+
+              STSnackbar.show(
+                context: context,
+                title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
                 hasCloseButton: false,
               );
             },

@@ -14,7 +14,7 @@ class STAlert extends StatefulWidget {
   final bool showIcon;
   final bool autoClose;
   final bool closable;
-  final int disappearTime;
+  final int disappearMilliseconds;
 
   final VoidCallback onCloseTap;
 
@@ -30,7 +30,7 @@ class STAlert extends StatefulWidget {
     this.description,
     this.closeText,
     this.onCloseTap,
-    this.disappearTime,
+    this.disappearMilliseconds,
   }) : super(
           key: key,
         );
@@ -47,7 +47,8 @@ class STAlert extends StatefulWidget {
       String description,
       String closeText,
       VoidCallback onCloseTap,
-      int disappearTime = STAlertConstant.defaultDisappearTime}) {
+      int disappearMilliseconds =
+          STAlertConstant.defaultDisappearMilliseconds}) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -70,7 +71,7 @@ class STAlert extends StatefulWidget {
             closable: closable,
             closeText: closeText,
             onCloseTap: onCloseTap,
-            disappearTime: disappearTime,
+            disappearMilliseconds: disappearMilliseconds,
           );
 
           if (closable) {
@@ -104,7 +105,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
     super.initState();
 
     if (widget.autoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearTime * 1000), () {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
         STAlert.hide(context);
       });
     }

@@ -15,9 +15,16 @@ class AlertPage extends StatelessWidget {
             child: Text("文字"),
             color: Colors.blue,
             onPressed: () {
-              // send();
-              // SocketManage.send(textEditController.text);
-
+              STAlert.show(
+                context: context,
+                message: "你说是就是",
+              );
+            },
+          ),
+          FlatButton(
+            child: Text("文字"),
+            color: Colors.blue,
+            onPressed: () {
               STAlert.show(
                   context: context,
                   type: STAlertType.success,
@@ -28,7 +35,7 @@ class AlertPage extends StatelessWidget {
                   onCloseTap: () {
                     print('好的');
                   },
-                  disappearTime: 2);
+                  disappearMilliseconds: 2000);
             },
           ),
           FlatButton(
@@ -50,7 +57,7 @@ class AlertPage extends StatelessWidget {
                   onCloseTap: () {
                     print('好的');
                   },
-                  disappearTime: 3);
+                  disappearMilliseconds: 3000);
             },
           ),
           FlatButton(
@@ -70,7 +77,7 @@ class AlertPage extends StatelessWidget {
                   autoClose: false,
                   showIcon: false,
                   width: 250,
-                  disappearTime: 3);
+                  disappearMilliseconds: 3000);
             },
           ),
           FlatButton(
@@ -95,7 +102,7 @@ class AlertPage extends StatelessWidget {
                     STAlert.hide(context);
                     print("好的");
                   },
-                  disappearTime: 3);
+                  disappearMilliseconds: 3000);
             },
           ),
         ],

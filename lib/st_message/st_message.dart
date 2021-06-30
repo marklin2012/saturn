@@ -166,16 +166,17 @@ class _STMessageState extends State<STMessage> {
                                 Padding(
                                     padding: iconTitlePadding,
                                     child: widget.icon),
-                              if (!isNullOrEmpty(widget.title))
-                                Expanded(child: titleWidget)
-                              else
+                              if (titleWidget != null)
+                                Expanded(child: titleWidget),
+                              if (titleWidget == null && messageWidget != null)
                                 Expanded(child: messageWidget)
                             ],
                           ),
                         ),
                       ],
                     ),
-                    if (!isNullOrEmpty(widget.title)) messageWidget,
+                    if (titleWidget != null && messageWidget != null)
+                      messageWidget,
                   ],
                 ),
               ),
