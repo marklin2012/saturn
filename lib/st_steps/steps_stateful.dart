@@ -49,7 +49,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
     _type = widget.type;
     _steps = List.from(widget.steps);
     _margin = widget.margin ?? _defaultMargin;
-    _current = widget.current ?? 1;
+    _current = widget.current ?? 0;
     _golbalKeys = <GlobalKey>[];
     for (var i = 0; i < _steps.length; i++) {
       final _tempKey = GlobalKey(debugLabel: '${_steps[i].title}+$i');
@@ -224,11 +224,13 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
         final _width = _renders[i].offset.dx -
             _renders[i - 1].offset.dx -
             _defaultCircleWidth * 2;
-        final _left = _renders[i - 1].offset.dx - _defaultCircleWidth / 2;
+        final _left = _renders[i - 1].offset.dx - _defaultCircleWidth;
         final _temp = Positioned(
           left: _left,
           bottom: (_defaultCircleWidth - 2) / 2,
           child: Container(
+            margin:
+                const EdgeInsets.symmetric(horizontal: _defaultCircleWidth / 2),
             height: 2,
             width: _width,
             color: _isFinished(i) ? _defaultSelectColor : _defaultColor,
@@ -245,5 +247,5 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
     );
   }
 
-  bool _isFinished(int index) => index < _current;
+  bool _isFinished(int index) => index <= _current;
 }

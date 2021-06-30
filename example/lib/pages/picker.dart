@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:saturn/saturn.dart';
-import 'package:saturn/st_picker/st_cursor.dart';
 
 class PickerPage extends StatefulWidget {
   @override
@@ -32,7 +31,7 @@ class _PickerPageState extends State<PickerPage> {
               ),
             ),
             SizedBox(height: 30),
-            STPicker.date(
+            STDatePicker(
               minimumYear: 2012,
               maximunYear: 2025,
               initDateTime: _selectedTime,
@@ -44,7 +43,7 @@ class _PickerPageState extends State<PickerPage> {
               child: Text(_datePickerStr),
             ),
             SizedBox(height: 30),
-            STPicker.time(
+            STTimePicker(
               child: Text(_timePickerStr),
               initDuration: _duration,
               onTimerDurationChanged: (value) {
@@ -54,17 +53,17 @@ class _PickerPageState extends State<PickerPage> {
               },
             ),
             SizedBox(height: 30),
-            STPicker(
-              onRangeDateTimeChanged: (List<DateTime> value) {
+            STCalendarPicker(
+              onChanged: (List<DateTime> value) {
                 // 非Range取value的首个元素即可
                 // 日期的显示内部已完成
                 debugPrint('$value');
               },
             ),
             SizedBox(height: 30),
-            STPicker(
+            STCalendarPicker(
               isRange: true,
-              onRangeDateTimeChanged: (List<DateTime> value) {
+              onChanged: (List<DateTime> value) {
                 // Range首元素为开始日期，末元素为结束日期
                 debugPrint('$value');
               },
