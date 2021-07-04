@@ -8,7 +8,7 @@ class STBadge extends StatelessWidget {
   final Color backgroundColor; // 自定义的颜色
   final bool dot; // 是否小红点
   final STBadgePosition position; // 显示在的位置
-  final EdgeInsets padding; // 整个widget的内嵌
+  final EdgeInsets padding; // 数字提示的内嵌
 
   const STBadge({
     Key key,
@@ -25,7 +25,11 @@ class STBadge extends StatelessWidget {
   static const _maxHeight = 16.0;
   static const _dotWidth = 10.0;
   static const _badgefontSize = 12.0;
-  static const _defaultPadding = EdgeInsets.fromLTRB(4, 2, 4, 2);
+  static const _defaultStyle = TextStyle(
+      color: Colors.white,
+      fontSize: _badgefontSize,
+      fontWeight: FontWeight.w400);
+  static const _defaultPadding = EdgeInsets.symmetric(horizontal: 4);
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +71,14 @@ class STBadge extends StatelessWidget {
           borderRadius: BorderRadius.circular(_maxHeight / 2),
         ),
         padding: padding,
-        child: Text(
-          _getValue(),
-          style: const TextStyle(color: Colors.white, fontSize: _badgefontSize),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _getValue(),
+              style: _defaultStyle,
+            )
+          ],
         ),
       );
     }
