@@ -82,8 +82,10 @@ abstract class STButtonInterface {
     }
   }
 
-  EdgeInsets edgeInsetsFromButtonSize(STButtonSize size) {
-    if (size == STButtonSize.small) {
+  EdgeInsets edgeInsetsFromButtonSize(STButtonSize size, STButtonType type) {
+    if (type == STButtonType.text) {
+      return const EdgeInsets.all(0);
+    } else if (size == STButtonSize.small) {
       return STButtonConstant.smallEdgetInset;
     } else {
       return STButtonConstant.bigEdgetInset;

@@ -30,7 +30,12 @@ class _CardPageState extends State<CardPage> {
         children: [
           SizedBox(height: 10),
           STCard(
-            backgroundColor: Colors.red,
+            type: STCardType.basic,
+            title: '卡片名称',
+            opration: STButton(
+              type: STButtonType.text,
+              text: '操作按钮',
+            ),
             child: _child,
           ),
           SizedBox(height: 10),
@@ -38,7 +43,10 @@ class _CardPageState extends State<CardPage> {
             type: STCardType.basic,
             shadowed: true,
             title: '体育界大佬',
-            opration: TextButton(onPressed: () {}, child: Text('操作按钮')),
+            opration: STButton(
+              type: STButtonType.text,
+              text: '操作按钮',
+            ),
             child: Container(
               padding: EdgeInsets.all(10),
               child: Column(
@@ -53,7 +61,10 @@ class _CardPageState extends State<CardPage> {
           SizedBox(height: 10),
           STCard(
             type: STCardType.icon,
-            opration: TextButton(onPressed: () {}, child: Text('操作按钮')),
+            opration: STButton(
+              type: STButtonType.text,
+              text: '操作按钮',
+            ),
           ),
         ],
       ),
