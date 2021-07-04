@@ -74,6 +74,13 @@ class _ButtonPageState extends State<ButtonPage> {
             ),
             SizedBox(height: 5),
             STButton(
+              size: STButtonSize.small,
+              onTap: _reduceCounter,
+              loading: _loading,
+              text: '主按钮',
+            ),
+            SizedBox(height: 5),
+            STButton(
               text: '图标按钮',
               icon: Icon(
                 Icons.star,
@@ -99,7 +106,17 @@ class _ButtonPageState extends State<ButtonPage> {
             STButton.icon(
               icon: Icon(
                 Icons.star,
+                color: Colors.red,
+                // size: 15,
+              ),
+              size: STButtonSize.small,
+            ),
+            SizedBox(height: 5),
+            STButton.icon(
+              icon: Icon(
+                Icons.star,
                 color: Colors.white,
+                // size: 20,
               ),
               disabled: _disabled,
               onTap: _incrementCounter,

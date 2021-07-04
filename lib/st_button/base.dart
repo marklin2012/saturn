@@ -115,7 +115,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
             opacity: opacityFromButtonState(stateValue),
             child: Container(
               decoration: _decoration,
-              height: height ?? heightFromButtonSize(size),
+              height: height ?? heightFromButtonSize(size, circle: circle),
               padding: padding ?? edgeInsetsFromButtonSize(size),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

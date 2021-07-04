@@ -12,15 +12,16 @@ enum STButtonState {
 
 // 按钮相关常量
 class STButtonConstant {
-  static const bigWidth = 172.0; // 大按钮的宽度
-  static const smallWidth = 84.0; // 小按钮的宽度
   static const bigHeight = 38.0; // 大按钮的最小高度
-  static const smallHeight = 24.0; // 小按钮的最小高度
+  static const smallHeight = 30.0; // 小按钮的最小高度
+  static const circleBigHeight = 44.0; // 图标大按钮的高度
+  static const circleSmallHeight = 32.0; // 图标小按钮的高度
   static const smallSpace = 4.0; // 小按钮中的间距以及圆角
   static const bigSpace = 8.0; // 大按钮中的间距以及圆角
-  static const bigEdgetInset = EdgeInsets.fromLTRB(16, 6, 16, 6); // 大按钮内容的inset
+  static const bigEdgetInset =
+      EdgeInsets.symmetric(horizontal: 16); // 大按钮内容的inset
   static const smallEdgetInset =
-      EdgeInsets.fromLTRB(12, 3, 12, 3); // 小按钮内容的inset
+      EdgeInsets.symmetric(horizontal: 12); // 小按钮内容的inset
   static const iconWidth = 44.0; // 图形按钮的宽度
   static const iconPadding = EdgeInsets.all(10); // 图形按钮的padding,图形与外部内容的inset
 }
@@ -61,11 +62,15 @@ abstract class STButtonInterface {
     }
   }
 
-  double heightFromButtonSize(STButtonSize size) {
+  double heightFromButtonSize(STButtonSize size, {bool circle = false}) {
     if (size == STButtonSize.small) {
-      return STButtonConstant.smallHeight;
+      return circle
+          ? STButtonConstant.circleSmallHeight
+          : STButtonConstant.smallHeight;
     } else {
-      return STButtonConstant.bigHeight;
+      return circle
+          ? STButtonConstant.circleBigHeight
+          : STButtonConstant.bigHeight;
     }
   }
 
