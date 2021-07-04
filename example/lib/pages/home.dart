@@ -45,7 +45,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Input', page: InputPage()),
   PageModel(name: 'Loading', page: LoadingPage()),
   PageModel(name: 'Menu', page: MenuPage()),
-  PageModel(name: 'message', page: MessagePage()),
+  PageModel(name: 'Message', page: MessagePage()),
   PageModel(name: 'Picker', page: PickerPage()),
   PageModel(name: 'Progress', page: ProgressPage()),
   PageModel(name: 'Radio', page: RadioPage()),
