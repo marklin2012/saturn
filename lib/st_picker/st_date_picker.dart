@@ -96,7 +96,7 @@ class STDatePicker extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
               if (onDateTimeChanged != null) {
-                onDateTimeChanged(_selectedDate);
+                onDateTimeChanged(_selectedDate ?? DateTime.now());
               }
             },
             child: const Text(
