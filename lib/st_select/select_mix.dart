@@ -99,13 +99,12 @@ class _STSelectMixState extends State<STSelectMix> {
   Widget _getMenu() {
     return Container(
       decoration: const BoxDecoration(
+        color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
         boxShadow: [
           BoxShadow(
-            blurRadius: 2,
-            spreadRadius: 1,
+            blurRadius: 5,
             color: Color(0x88888888),
-            offset: Offset(1, 2),
           ),
         ],
       ),
@@ -125,7 +124,6 @@ class _STSelectMixState extends State<STSelectMix> {
             child: Container(
               height: 41.0,
               alignment: Alignment.center,
-              color: const Color(0xFFFFFFFF),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
