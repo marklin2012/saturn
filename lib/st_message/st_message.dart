@@ -134,9 +134,9 @@ class _STMessageState extends State<STMessage> {
       );
     }
 
-    Widget currentIconWidget = widget.icon;
-    if (currentIconWidget == null && widget.type != STMessageType.none) {
-      currentIconWidget = iconFromAlertType(widget.type);
+    Widget iconWidget = widget.icon;
+    if (iconWidget == null && widget.type != STMessageType.none) {
+      iconWidget = iconFromAlertType(widget.type);
     }
 
     return SafeArea(
@@ -171,10 +171,10 @@ class _STMessageState extends State<STMessage> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (currentIconWidget != null)
+                              if (iconWidget != null)
                                 Padding(
                                     padding: iconTitlePadding,
-                                    child: currentIconWidget),
+                                    child: iconWidget),
                               if (titleWidget != null)
                                 Expanded(child: titleWidget),
                               if (titleWidget == null && messageWidget != null)
