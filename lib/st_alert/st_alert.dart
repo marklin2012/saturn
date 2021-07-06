@@ -169,7 +169,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
             children: [
               if (widget.showIcon)
                 Padding(
-                  padding: const EdgeInsets.only(top: 4, right: 12.0),
+                  padding: const EdgeInsets.only(right: 12.0),
                   child: iconFromAlertType(widget.type),
                 ),
               Expanded(
@@ -240,15 +240,15 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
     Color iconColor;
     switch (type) {
       case STAlertType.success:
-        iconData = Icons.check;
+        iconData = Icons.check_circle;
         iconColor = STAlertConstant.colorSuccess;
         break;
       case STAlertType.error:
-        iconData = Icons.error;
+        iconData = Icons.cancel;
         iconColor = STAlertConstant.colorError;
         break;
       case STAlertType.warning:
-        iconData = Icons.info;
+        iconData = Icons.error;
         iconColor = STAlertConstant.colorWarnning;
         break;
       default:
