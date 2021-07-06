@@ -11,6 +11,50 @@ class AlertPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          STAlert(
+              type: STAlertType.info,
+              showIcon: false,
+              autoClose: false,
+              closable: false,
+              width: 200,
+              disappearMilliseconds: 2000,
+              message: "你说是就是"),
+          STAlert(
+              type: STAlertType.success,
+              message: "你说是就是",
+              showIcon: false,
+              autoClose: false,
+              closable: false,
+              width: 250,
+              onCloseTap: () {
+                print('好的');
+              },
+              disappearMilliseconds: 2000),
+          STAlert(
+              type: STAlertType.error,
+              message: "你说是就是",
+              description:
+                  "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+              showIcon: true,
+              autoClose: false,
+              closable: false,
+              width: 250,
+              disappearMilliseconds: 3000),
+          STAlert(
+              type: STAlertType.warning,
+              message: "你说是就是",
+              description:
+                  "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+              autoClose: false,
+              showIcon: true,
+              closeText: "关闭",
+              closable: true,
+              width: 250,
+              onCloseTap: () {
+                STAlert.hide(context);
+                print("好的");
+              },
+              disappearMilliseconds: 3000),
           FlatButton(
             child: Text("文字"),
             color: Colors.blue,
