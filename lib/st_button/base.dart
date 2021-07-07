@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:saturn/st_button/common.dart';
+import 'package:saturn/st_button/st_activity_indicator.dart';
 import 'package:saturn/st_button/st_button.dart';
 
 // ignore: must_be_immutable
@@ -89,13 +90,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
         _icon = icon;
         // 当状态为Loading且外部没有设置时，内部直接给定一个Loading的过程
         if (stateValue == STButtonState.loading && _icon == null) {
-          _icon = const SizedBox(
-            width: 24.0,
-            height: 24.0,
-            child: CupertinoActivityIndicator(
-              radius: 12.0,
-            ),
-          );
+          _icon = const STActivityIndicator();
         }
         return GestureDetector(
           onTap: excOnTap(),
