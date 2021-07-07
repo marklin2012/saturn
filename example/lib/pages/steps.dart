@@ -19,7 +19,7 @@ class _StepsPageState extends State<StepsPage> {
         children: [
           SizedBox(height: 30),
           STSteps(
-            current: 3,
+            current: 4,
             steps: [
               STStepItem(title: '文字'),
               STStepItem(title: '文字文'),

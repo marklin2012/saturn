@@ -20,7 +20,7 @@ class STSteps extends StatelessWidget {
     this.type = STStepsType.dot,
     this.margin = _defaultMargin,
     this.steps,
-    this.current = 1,
+    this.current = 0,
     this.detailWidth,
   })  : assert(steps.length > 1),
         super(key: key);
@@ -131,5 +131,5 @@ class STSteps extends StatelessWidget {
     );
   }
 
-  bool _isFinished(int index) => index < current;
+  bool _isFinished(int index) => index <= current;
 }

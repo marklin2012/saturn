@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+const _defaultContentHeight = 262.0;
+
 class ShowSelectDialog extends Dialog {
   final Widget menu;
   final Offset offset; // dx代表左右的间距，dy代表距离顶部的偏移量
-  final double height;
+  final double height; // 内部的高度
 
   const ShowSelectDialog({
-    this.height,
+    this.height = _defaultContentHeight,
     Key key,
     this.menu,
     this.offset,
