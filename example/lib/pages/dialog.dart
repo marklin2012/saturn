@@ -12,7 +12,7 @@ class DialogPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           FlatButton(
-            child: Text("文字"),
+            child: Text("基本文字"),
             color: Colors.blue,
             onPressed: () {
               STDialog.show(
@@ -32,9 +32,7 @@ class DialogPage extends StatelessWidget {
                   hasCancelButton: true,
                   onCancelTap: () {
                     STToast.show(
-                        context: context,
-                        message: "这是一个message这是一个message这是一个message这是一个message",
-                        autoClose: true);
+                        context: context, message: "这是一测试", autoClose: true);
                   });
             },
           ),
