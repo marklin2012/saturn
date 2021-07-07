@@ -32,7 +32,10 @@ class _RadioPageState extends State<RadioPage> {
   Widget _buildSTRadio() {
     return Column(
       children: [
-        // Text('Saturn的Radio'),
+        _buildEditable(),
+        SizedBox(height: 10),
+        Text('Saturn的Radio'),
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -99,7 +102,6 @@ class _RadioPageState extends State<RadioPage> {
                   _radioGroupValue = value;
                 });
               },
-              activeColor: Colors.red,
             ),
             Radio(
               value: '数学',
