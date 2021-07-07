@@ -6,7 +6,7 @@ class ActionSheetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inputs'),
+        title: Text('ActionSheet'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

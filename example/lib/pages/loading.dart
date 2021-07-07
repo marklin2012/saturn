@@ -11,7 +11,7 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inputs'),
+        title: Text('Loading'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -9,7 +9,7 @@ class MessagePage extends StatelessWidget {
     Icon iconWidget = Icon(Icons.error_outline);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Inputs'),
+          title: Text('Message'),
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,

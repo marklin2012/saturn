@@ -6,7 +6,7 @@ class DialogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inputs'),
+        title: Text('Dialog'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

@@ -6,7 +6,7 @@ class AlertPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inputs'),
+        title: Text('Alert'),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
