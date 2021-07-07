@@ -20,6 +20,8 @@ class MessagePage extends StatelessWidget {
             onPressed: () {
               STMessage.show(
                 context: context,
+                title: '这是标题',
+                icon: Icon(STIcons.commonly_user),
               );
             },
           ),
@@ -53,7 +55,7 @@ class MessagePage extends StatelessWidget {
             },
           ),
           FlatButton(
-            child: Text("标题文字图片"),
+            child: Text("标题文字图片剧中"),
             color: Colors.blue,
             onPressed: () {
               STMessage.show(

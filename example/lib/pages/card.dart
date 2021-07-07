@@ -15,7 +15,8 @@ class _CardPageState extends State<CardPage> {
         itemCount: 10,
         itemBuilder: (context, index) {
           return Container(
-            alignment: Alignment.center,
+            padding: EdgeInsets.only(left: 16),
+            alignment: Alignment.centerLeft,
             height: 48.0,
             child: Text('列表内容$index'),
           );
@@ -48,12 +49,41 @@ class _CardPageState extends State<CardPage> {
               text: '操作按钮',
             ),
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(8),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('科比'),
-                  SizedBox(height: 10),
-                  Text('乔丹'),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 8,
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: Text('列表内容1'),
+                  ),
+                  SizedBox(height: 12),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 8,
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: Text('列表内容2'),
+                  ),
+                  SizedBox(height: 12),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 8,
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: Text('列表内容3'),
+                  ),
+                  SizedBox(height: 12),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 8,
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: Text('列表内容4'),
+                  ),
                 ],
               ),
             ),
