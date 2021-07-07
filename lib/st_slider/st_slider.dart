@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:saturn/st_slider/painter_background_tip.dart';
 import 'package:saturn/st_slider/num_utils.dart';
+import 'package:saturn/utils/bounding.dart';
 
 enum STSliderDotType {
   start,
@@ -182,6 +183,7 @@ class _STSliderState extends State<STSlider> {
           _getStackChild(),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (widget.minValue != null)
                 Text('${widget.minValue}', style: widget.textStyle),
@@ -227,7 +229,7 @@ class _STSliderState extends State<STSlider> {
             left: _getTipPostionLeft(_firstValue),
             top: _getTipPositonTop(_firstValue),
             child: SliderTipPaint(
-              size: STSliderConstant.showTipSize,
+              tipStr: _calculateValue(_firstValue),
               child: Text(
                 _calculateValue(_firstValue),
                 style: widget.tipTextStyle,
@@ -245,7 +247,7 @@ class _STSliderState extends State<STSlider> {
             left: _getTipPostionLeft(_secondValue),
             top: _getTipPositonTop(_secondValue),
             child: SliderTipPaint(
-              size: STSliderConstant.showTipSize,
+              tipStr: _calculateValue(_secondValue),
               child: Text(
                 _calculateValue(_secondValue),
                 style: widget.tipTextStyle,
@@ -281,7 +283,10 @@ class _STSliderState extends State<STSlider> {
       child: Container(
         height: _getActiveChildHeight(),
         width: _getActiveChildWidth(),
-        color: widget.activeColor,
+        decoration: BoxDecoration(
+          color: widget.activeColor,
+          borderRadius: STSliderConstant.borderRadius,
+        ),
       ),
     );
   }
@@ -311,7 +316,7 @@ class _STSliderState extends State<STSlider> {
       return _isHorizontal ? 0 : (_dotSize - _width) / 2;
     } else {
       if (!_isHorizontal) return (_dotSize - _width) / 2;
-      return _getDotPostionLeft(_firstValue);
+      return _getDotPostionLeft(_firstValue) + 2; // _处理圆角问题
     }
   }
 
@@ -320,7 +325,7 @@ class _STSliderState extends State<STSlider> {
       return _isHorizontal ? (_dotSize - _height) / 2 : 0;
     } else {
       if (_isHorizontal) return (_dotSize - _height) / 2;
-      return _getDotPositonTop(_firstValue);
+      return _getDotPositonTop(_firstValue) + 2; // _处理圆角问题
     }
   }
 
@@ -335,8 +340,11 @@ class _STSliderState extends State<STSlider> {
   }
 
   double _getTipPostionLeft(double value) {
-    return _getDotPostionLeft(value) -
-        (STSliderConstant.showTipSize - _dotSize) / 2;
+    final _width =
+        boundingTextSize(context, _calculateValue(value), widget.tipTextStyle)
+                .width +
+            16.0;
+    return _getDotPostionLeft(value) - (_width - _dotSize) / 2;
   }
 
   double _getTipPositonTop(double value) {

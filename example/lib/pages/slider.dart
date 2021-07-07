@@ -17,8 +17,7 @@ class _SliderPageState extends State<SliderPage> {
       appBar: AppBar(
         title: Text('slider'),
       ),
-      body: Container(
-        color: Colors.grey,
+      body: Center(
         child: Column(
           children: [
             SizedBox(height: 10),
