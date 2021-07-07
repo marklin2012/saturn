@@ -18,8 +18,8 @@ class _RadioPageState extends State<RadioPage> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 20),
-            _buildEditable(),
+            // SizedBox(height: 20),
+            // _buildEditable(),
             SizedBox(height: 20),
             _buildSTRadio(),
           ],
@@ -32,9 +32,9 @@ class _RadioPageState extends State<RadioPage> {
   Widget _buildSTRadio() {
     return Column(
       children: [
-        Text('Saturn的Radio'),
+        // Text('Saturn的Radio'),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             STRadio(
               value: '语文',
@@ -45,7 +45,6 @@ class _RadioPageState extends State<RadioPage> {
                   _radioGroupValue = value;
                 });
               },
-              activeColor: Colors.red,
             ),
             STRadio(
               value: '数学',
@@ -56,7 +55,6 @@ class _RadioPageState extends State<RadioPage> {
                   _radioGroupValue = value;
                 });
               },
-              backgroundColor: Colors.red,
             ),
             STRadio(
               value: '英语',
@@ -67,7 +65,6 @@ class _RadioPageState extends State<RadioPage> {
                   _radioGroupValue = value;
                 });
               },
-              borderColor: Colors.green,
             ),
             STRadio(
               value: '物理',
@@ -79,7 +76,6 @@ class _RadioPageState extends State<RadioPage> {
                   _radioGroupValue = value;
                 });
               },
-              borderColor: Colors.green,
             ),
           ],
         )
