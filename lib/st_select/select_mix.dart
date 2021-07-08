@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:saturn/st_select/select_mix_item.dart';
 import 'package:saturn/st_select/select_show_dialog.dart';
 
+const _defaultBorderColor = Color(0xFFC4C5C7);
+
 class STSelectMix extends StatefulWidget {
   final STSelectMixItem initValue;
   final List<STSelectMixItem> items;
@@ -69,7 +71,9 @@ class _STSelectMixState extends State<STSelectMix> {
         key: _selectKey,
         height: 48.0,
         decoration: BoxDecoration(
-          border: Border.all(color: widget.selectedColor),
+          border: Border.all(
+              color:
+                  _showSelected ? widget.selectedColor : _defaultBorderColor),
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         ),
         child: Row(
@@ -87,8 +91,8 @@ class _STSelectMixState extends State<STSelectMix> {
             Container(
               padding: const EdgeInsets.fromLTRB(0, 0, 13, 0),
               child: _showSelected
-                  ? const Icon(Icons.arrow_drop_down)
-                  : const Icon(Icons.arrow_drop_up),
+                  ? const Icon(Icons.arrow_drop_up)
+                  : const Icon(Icons.arrow_drop_down),
             ),
           ],
         ),
@@ -124,6 +128,7 @@ class _STSelectMixState extends State<STSelectMix> {
             child: Container(
               height: 41.0,
               alignment: Alignment.center,
+              decoration: const BoxDecoration(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -149,7 +154,7 @@ class _STSelectMixState extends State<STSelectMix> {
                   Container(
                     padding: const EdgeInsets.only(right: 18.0),
                     child: _isSelected
-                        ? const Icon(Icons.check, color: Color(0xFF095BF9))
+                        ? Icon(Icons.check, color: widget.selectedColor)
                         : null,
                   ),
                 ],
@@ -176,7 +181,7 @@ class _STSelectMixState extends State<STSelectMix> {
     if (data.disabled) {
       return const Color(0xFFC4C5C7);
     } else if (isSelected) {
-      return const Color(0xFF095BF9);
+      return widget.selectedColor;
     } else {
       return const Color(0xFF000000);
     }
