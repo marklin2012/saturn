@@ -13,6 +13,7 @@ class ToastPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 20),
               STToast(
                 type: STToastType.none,
                 position: STToastPosition.center,
@@ -23,6 +24,7 @@ class ToastPage extends StatelessWidget {
                 hasSafeArea: true,
                 message: "这是一条文字提示",
               ),
+              SizedBox(height: 20),
               STToast(
                 type: STToastType.none,
                 closable: false,
@@ -40,6 +42,7 @@ class ToastPage extends StatelessWidget {
                 message: "带图标的文字提示",
                 position: STToastPosition.bottom,
               ),
+              SizedBox(height: 20),
               STToast(
                 type: STToastType.success,
                 closable: false,
@@ -52,6 +55,7 @@ class ToastPage extends StatelessWidget {
                 message: "成功文字信息",
                 position: STToastPosition.bottom,
               ),
+              SizedBox(height: 20),
               STToast(
                 type: STToastType.warning,
                 closable: false,
@@ -64,6 +68,7 @@ class ToastPage extends StatelessWidget {
                 message: "失败文字信息",
                 position: STToastPosition.bottom,
               ),
+              SizedBox(height: 20),
               STToast(
                 type: STToastType.error,
                 closable: false,
@@ -76,6 +81,24 @@ class ToastPage extends StatelessWidget {
                 message: "错误文字信息",
                 position: STToastPosition.bottom,
               ),
+              SizedBox(height: 20),
+              STToast(
+                type: STToastType.none,
+                icon: Icon(
+                  Icons.info_outline,
+                  size: STToastConstant.iconWidth,
+                  color: Colors.white,
+                ),
+                closable: false,
+                autoClose: false,
+                hasSafeArea: true,
+                rotateAnimation: true,
+                disappearMilliseconds:
+                    STToastConstant.defaultDisappearMilliseconds,
+                isIconTop: true,
+                position: STToastPosition.bottom,
+              ),
+              SizedBox(height: 20),
               FlatButton(
                 child: Text("文字"),
                 color: Colors.blue,
