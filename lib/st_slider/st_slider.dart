@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:saturn/st_slider/painter_background_tip.dart';
@@ -17,6 +19,7 @@ class STSliderConstant {
   static const borderRadius = BorderRadius.all(Radius.circular(2.0));
   static const showTipSize = 40.0;
   static const showTipVerticalOffset = 4.0;
+  static const disabledColor = Color(0xFFDFE2E7);
 }
 
 class STSlider extends StatefulWidget {
@@ -142,22 +145,18 @@ class _STSliderState extends State<STSlider> {
   @override
   Widget build(BuildContext context) {
     initValue();
-    return Opacity(
-      opacity: _disabled ? 0.2 : 1.0,
-      // 供外部对齐使用
-      child: SizedBox(
-        height: _isHorizontal
-            ? (widget.rangeValues == null
-                ? _dotSize
-                : _dotSize + STSliderConstant.dotWidth)
-            : _height,
-        width: _isHorizontal
-            ? _width
-            : (widget.rangeValues == null
-                ? _dotSize
-                : _dotSize + STSliderConstant.showTipSize),
-        child: _getOpacityChild(),
-      ),
+    return SizedBox(
+      height: _isHorizontal
+          ? (widget.rangeValues == null
+              ? _dotSize
+              : _dotSize + STSliderConstant.dotWidth)
+          : _height,
+      width: _isHorizontal
+          ? _width
+          : (widget.rangeValues == null
+              ? _dotSize
+              : _dotSize + STSliderConstant.showTipSize),
+      child: _getOpacityChild(),
     );
   }
 
@@ -169,9 +168,15 @@ class _STSliderState extends State<STSlider> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.minValue != null)
-                Text('${widget.minValue}', style: widget.textStyle),
+                Text('${widget.minValue}',
+                    style: _disabled
+                        ? const TextStyle(color: STSliderConstant.disabledColor)
+                        : widget.textStyle),
               if (widget.maxValue != null)
-                Text('${widget.maxValue}', style: widget.textStyle),
+                Text('${widget.maxValue}',
+                    style: _disabled
+                        ? const TextStyle(color: STSliderConstant.disabledColor)
+                        : widget.textStyle),
             ],
           ),
           _getStackChild(),
@@ -186,9 +191,15 @@ class _STSliderState extends State<STSlider> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (widget.minValue != null)
-                Text('${widget.minValue}', style: widget.textStyle),
+                Text('${widget.minValue}',
+                    style: _disabled
+                        ? const TextStyle(color: STSliderConstant.disabledColor)
+                        : widget.textStyle),
               if (widget.maxValue != null)
-                Text('${widget.maxValue}', style: widget.textStyle),
+                Text('${widget.maxValue}',
+                    style: _disabled
+                        ? const TextStyle(color: STSliderConstant.disabledColor)
+                        : widget.textStyle),
             ],
           ),
         ],
@@ -268,7 +279,8 @@ class _STSliderState extends State<STSlider> {
         width: _width,
         height: _height,
         decoration: BoxDecoration(
-          color: widget.inactiveColor,
+          color:
+              _disabled ? STSliderConstant.disabledColor : widget.inactiveColor,
           borderRadius: STSliderConstant.borderRadius,
         ),
       ),
@@ -284,7 +296,8 @@ class _STSliderState extends State<STSlider> {
         height: _getActiveChildHeight(),
         width: _getActiveChildWidth(),
         decoration: BoxDecoration(
-          color: widget.activeColor,
+          color:
+              _disabled ? STSliderConstant.disabledColor : widget.activeColor,
           borderRadius: STSliderConstant.borderRadius,
         ),
       ),
@@ -354,14 +367,14 @@ class _STSliderState extends State<STSlider> {
   }
 
   Widget _getDot(double value, STSliderDotType dotType) {
-    if (widget.disabled) {
+    if (_disabled) {
       return Container(
         key: dotType == STSliderDotType.start ? _firstKey : null,
         alignment: Alignment.center,
         width: _dotSize,
         height: _dotSize,
         decoration: BoxDecoration(
-          color: widget.dotColor,
+          color: _disabled ? STSliderConstant.disabledColor : widget.dotColor,
           shape: BoxShape.circle,
         ),
       );
@@ -415,7 +428,7 @@ class _STSliderState extends State<STSlider> {
   }
 
   void updateDragAction(Offset positon, STSliderDotType dotType) {
-    if (widget.disabled) return;
+    if (_disabled) return;
     if (dotType == STSliderDotType.start) {
       if (_isHorizontal) {
         if (positon.dx <= _firstOffset.dx) {
@@ -467,7 +480,7 @@ class _STSliderState extends State<STSlider> {
   }
 
   void updateTapAction(Offset positon) {
-    if (widget.rangeValues != null || widget.disabled) return;
+    if (widget.rangeValues != null || _disabled) return;
     if (_isHorizontal) {
       _firstValue = positon.dx / _width;
     } else {
