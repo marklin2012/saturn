@@ -34,7 +34,6 @@ class _StepperPageState extends State<StepperPage> {
             SizedBox(height: 5),
             STStepper(
               value: 2,
-              minValue: 1,
               maxValue: 5,
             ),
           ],
