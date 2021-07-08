@@ -150,7 +150,7 @@ class _STMessageState extends State<STMessage> {
             boxShadow: [
               BoxShadow(
                   color:
-                      widget.showShadow ? Colors.black26 : Colors.transparent,
+                      widget.showShadow ? Colors.black12 : Colors.transparent,
                   offset: containerShadowOffset,
                   blurRadius: 5.0,
                   spreadRadius: 2.0),
@@ -158,7 +158,7 @@ class _STMessageState extends State<STMessage> {
           ),
           child: widget.content ??
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,6 +184,8 @@ class _STMessageState extends State<STMessage> {
                         ),
                       ],
                     ),
+                    if (titleWidget != null && messageWidget != null)
+                      const SizedBox(height: 2),
                     if (titleWidget != null && messageWidget != null)
                       messageWidget,
                   ],

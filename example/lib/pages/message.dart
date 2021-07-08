@@ -8,6 +8,7 @@ class MessagePage extends StatelessWidget {
         width: 24.0, height: 24.0, fit: BoxFit.contain);
     Icon iconWidget = Icon(Icons.error_outline);
     return Scaffold(
+        backgroundColor: Colors.yellow,
         appBar: AppBar(
           title: Text('Message'),
         ),
@@ -16,55 +17,62 @@ class MessagePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 20),
               STMessage(
                 message: "这是文本信息",
                 icon: imageWidget,
-                showShadow: false,
+                showShadow: true,
                 autoClose: false,
                 disappearMilliseconds: 3000,
                 location: STMessageLocation.top,
               ),
+              SizedBox(height: 20),
               STMessage(
                 title: "标题标题",
                 message: "好的好的信息好的信息好的信息好的信息好的信息好的信息好的信息好的信息",
                 icon: imageWidget,
-                showShadow: false,
+                showShadow: true,
                 autoClose: false,
                 disappearMilliseconds: 3000,
                 location: STMessageLocation.top,
               ),
+              SizedBox(height: 20),
               STMessage(
                 message: "这是文本信息",
                 type: STMessageType.error,
-                showShadow: false,
+                showShadow: true,
                 autoClose: false,
                 disappearMilliseconds: 3000,
                 location: STMessageLocation.top,
               ),
+              SizedBox(height: 20),
               STMessage(
                 message: "这是文本信息",
                 type: STMessageType.info,
-                showShadow: false,
+                showShadow: true,
                 autoClose: false,
                 disappearMilliseconds: 3000,
                 location: STMessageLocation.top,
               ),
+              SizedBox(height: 20),
               STMessage(
                 message: "这是文本信息",
                 type: STMessageType.warning,
-                showShadow: false,
+                showShadow: true,
                 autoClose: false,
                 disappearMilliseconds: 3000,
                 location: STMessageLocation.top,
               ),
+              SizedBox(height: 20),
               STMessage(
                 message: "这是文本信息",
                 type: STMessageType.success,
-                showShadow: false,
+                showShadow: true,
                 autoClose: false,
                 disappearMilliseconds: 3000,
                 location: STMessageLocation.top,
               ),
+              SizedBox(height: 20),
               FlatButton(
                 child: Text("单行文字图片"),
                 color: Colors.blue,
@@ -74,6 +82,7 @@ class MessagePage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
                 child: Text("单行文字图片"),
                 color: Colors.blue,
@@ -82,10 +91,11 @@ class MessagePage extends StatelessWidget {
                       context: context,
                       message: "这是文本信息",
                       icon: imageWidget,
-                      showShadow: false,
+                      showShadow: true,
                       autoClose: true);
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
                 child: Text("多行文字图片"),
                 color: Colors.blue,
@@ -103,6 +113,7 @@ class MessagePage extends StatelessWidget {
                   });
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
                 child: Text("标题文字图片"),
                 color: Colors.blue,
@@ -115,6 +126,7 @@ class MessagePage extends StatelessWidget {
                       showShadow: false);
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
                 child: Text("传入widget"),
                 color: Colors.blue,
