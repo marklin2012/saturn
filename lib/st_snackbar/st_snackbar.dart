@@ -140,7 +140,7 @@ class _STSnackbarState extends State<STSnackbar> {
         softWrap: true,
         style: const TextStyle(
             fontWeight: FontWeight.w400,
-            color: Colors.white,
+            color: STSnackbarConstant.defaultMessageColor,
             fontSize: STSnackbarConstant.messageFontSize,
             decoration: TextDecoration.none),
       );
