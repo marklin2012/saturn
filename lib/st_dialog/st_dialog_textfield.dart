@@ -12,7 +12,7 @@ class STDialogTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 36),
         child: Theme(
