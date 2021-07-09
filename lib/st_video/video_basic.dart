@@ -13,6 +13,7 @@ import 'package:video_player/video_player.dart';
 
 enum STVideoPlayType { asset, network }
 
+const _defaultFix8 = 8.0;
 const _defaultFix10 = 10.0;
 const _defaultFix12 = 12.0;
 const _defaultFix16 = 16.0;
@@ -142,6 +143,7 @@ class _STVideoBaseState extends State<STVideoBase> {
     return Hero(
       tag: STVideoConst.videoHeroTag,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           setState(() {
             _showControl = !_showControl;
@@ -217,7 +219,7 @@ class _STVideoBaseState extends State<STVideoBase> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _getPlayWidget(),
+            // _getPlayWidget(),
             _getProgressWidget(),
             Container(
               padding: const EdgeInsets.only(
@@ -229,6 +231,7 @@ class _STVideoBaseState extends State<STVideoBase> {
             if (!_showVolume) _getDefaultSoundIcon(),
             if (_showVolume)
               GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () {
                   // 显示声音调整的组件
                   setState(() {
@@ -262,7 +265,7 @@ class _STVideoBaseState extends State<STVideoBase> {
         child: Column(
           children: [
             _getProgressWidget(),
-            const SizedBox(height: _defaultFix10),
+            const SizedBox(height: _defaultFix8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -270,6 +273,7 @@ class _STVideoBaseState extends State<STVideoBase> {
                   children: [
                     _getPlayWidget(),
                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
                         // 显示声音调整的组件
                         setState(() {
@@ -309,13 +313,14 @@ class _STVideoBaseState extends State<STVideoBase> {
     return Positioned(
         left: 0,
         right: 0,
-        bottom: _defaultFix10,
+        bottom: _defaultFix8,
         height: _bottomHeight,
         child: _bottom);
   }
 
   Widget _getPlayWidget() {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         // 切换播放
         if (_statusNotifier.value == STVideoStatus.play) {
@@ -408,6 +413,7 @@ class _STVideoBaseState extends State<STVideoBase> {
 
   Widget _getDefaultSoundIcon() {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         // 显示声音调整的组件
         setState(() {
@@ -421,6 +427,7 @@ class _STVideoBaseState extends State<STVideoBase> {
 
   Widget _getFullScreen() {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         // 切换全屏
         SystemChrome.setPreferredOrientations(

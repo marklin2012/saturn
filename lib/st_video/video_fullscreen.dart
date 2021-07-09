@@ -166,7 +166,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _getPlayWidget(),
+            // _getPlayWidget(),
             _getProgressWidget(),
             Container(
               padding: const EdgeInsets.only(
