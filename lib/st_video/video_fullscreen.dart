@@ -205,50 +205,50 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
     );
   }
 
-  Widget _getPlayWidget() {
-    return GestureDetector(
-      onTap: () {
-        // 切换播放
-        if (_statusNotifier.value == STVideoStatus.play) {
-          _statusNotifier.value = STVideoStatus.pause;
-          widget.playerController.pause();
-        } else if (_statusNotifier.value == STVideoStatus.pause) {
-          _statusNotifier.value = STVideoStatus.play;
-          if (_isOvered) {
-            widget.playerController.seekTo(const Duration());
-          }
-          widget.playerController.play();
-        }
-        _autoHide();
-      },
-      child: Container(
-        padding: const EdgeInsets.only(right: _defaultFix10),
-        height: _defaultFix16,
-        child: _getPlayIcon(),
-      ),
-    );
-  }
+  // Widget _getPlayWidget() {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       // 切换播放
+  //       if (_statusNotifier.value == STVideoStatus.play) {
+  //         _statusNotifier.value = STVideoStatus.pause;
+  //         widget.playerController.pause();
+  //       } else if (_statusNotifier.value == STVideoStatus.pause) {
+  //         _statusNotifier.value = STVideoStatus.play;
+  //         if (_isOvered) {
+  //           widget.playerController.seekTo(const Duration());
+  //         }
+  //         widget.playerController.play();
+  //       }
+  //       _autoHide();
+  //     },
+  //     child: Container(
+  //       padding: const EdgeInsets.only(right: _defaultFix10),
+  //       height: _defaultFix16,
+  //       child: _getPlayIcon(),
+  //     ),
+  //   );
+  // }
 
-  Widget _getPlayIcon() {
-    return ValueListenableBuilder(
-      valueListenable: _statusNotifier,
-      builder: (context, STVideoStatus value, child) {
-        if (value == STVideoStatus.play) {
-          return const Icon(
-            STIcons.commonly_timeout,
-            size: _defaultFix16,
-            color: Colors.white,
-          );
-        } else {
-          return const Icon(
-            STIcons.commonly_begin,
-            size: _defaultFix16,
-            color: Colors.white,
-          );
-        }
-      },
-    );
-  }
+  // Widget _getPlayIcon() {
+  //   return ValueListenableBuilder(
+  //     valueListenable: _statusNotifier,
+  //     builder: (context, STVideoStatus value, child) {
+  //       if (value == STVideoStatus.play) {
+  //         return const Icon(
+  //           STIcons.commonly_timeout,
+  //           size: _defaultFix16,
+  //           color: Colors.white,
+  //         );
+  //       } else {
+  //         return const Icon(
+  //           STIcons.commonly_begin,
+  //           size: _defaultFix16,
+  //           color: Colors.white,
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
 
   Widget _getProgressWidget() {
     final _progressWidth = _safeWidth -
