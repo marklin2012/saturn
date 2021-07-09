@@ -178,33 +178,40 @@ class _STSelectMenuState extends State<STSelectMenu> {
             height: STSelectTextsConst._selectTextsHeight -
                 STSelectTextsConst._selectTitleHeight,
             width: _width / _columnNumber - _unitWidth,
-            child: CupertinoPicker(
-              itemExtent: STSelectTextsConst._pickerItemExtent,
-              selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
-                capLeftEdge: false,
-                capRightEdge: false,
+            child: CupertinoTheme(
+              data: const CupertinoThemeData(
+                textTheme: CupertinoTextThemeData(
+                  textStyle: STSelectTextsConst._textStyle,
+                  pickerTextStyle: STSelectTextsConst._unitTextStyle,
+                ),
               ),
-              scrollController: FixedExtentScrollController(
-                initialItem: _initItem,
+              child: CupertinoPicker(
+                itemExtent: STSelectTextsConst._pickerItemExtent,
+                selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
+                  capLeftEdge: false,
+                  capRightEdge: false,
+                ),
+                scrollController: FixedExtentScrollController(
+                  initialItem: _initItem,
+                ),
+                useMagnifier: true,
+                looping: widget.looping,
+                onSelectedItemChanged: (int index) {
+                  _selectedValues[number] = _titles[index];
+                },
+                children: List.generate(_titles.length, (index) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    height: STSelectTextsConst._pickerItemExtent,
+                    alignment: _initUnit != null
+                        ? Alignment.centerRight
+                        : Alignment.center,
+                    child: Text(
+                      _titles[index],
+                    ),
+                  );
+                }).toList(),
               ),
-              useMagnifier: true,
-              looping: widget.looping,
-              onSelectedItemChanged: (int index) {
-                _selectedValues[number] = _titles[index];
-              },
-              children: List.generate(_titles.length, (index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  height: STSelectTextsConst._pickerItemExtent,
-                  alignment: _initUnit != null
-                      ? Alignment.centerRight
-                      : Alignment.center,
-                  child: Text(
-                    _titles[index],
-                    style: STSelectTextsConst._textStyle,
-                  ),
-                );
-              }).toList(),
             ),
           ),
           if (_initUnit != null)
