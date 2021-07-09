@@ -136,27 +136,36 @@ class _STActionSheetState extends State<STActionSheet>
 
     double containerWidth;
 
-    Text titleWidget;
+    Widget titleWidget;
     if (isNotEmpty(widget.title)) {
-      titleWidget = Text(widget.title,
+      titleWidget = Padding(
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+        child: Text(
+          widget.title,
           softWrap: true,
+          textAlign: TextAlign.center,
           style: const TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.black,
               fontSize: STActionSheetConstant.titleFontSize,
-              decoration: TextDecoration.none));
+              decoration: TextDecoration.none),
+        ),
+      );
     }
 
-    Text messageWidget;
+    Widget messageWidget;
     if (isNotEmpty(widget.message)) {
-      messageWidget = Text(
-        widget.message,
-        softWrap: true,
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          color: Colors.black,
-          fontSize: STActionSheetConstant.messageFontSize,
-          decoration: TextDecoration.none,
+      messageWidget = Padding(
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+        child: Text(
+          widget.message,
+          softWrap: true,
+          style: const TextStyle(
+            fontWeight: FontWeight.w400,
+            color: STActionSheetConstant.messageColor,
+            fontSize: STActionSheetConstant.messageFontSize,
+            decoration: TextDecoration.none,
+          ),
         ),
       );
     }
@@ -177,7 +186,7 @@ class _STActionSheetState extends State<STActionSheet>
                 children: [
                   widget.icon,
                   Column(
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (titleWidget != null) titleWidget,
                       if (messageWidget != null) messageWidget
@@ -230,8 +239,22 @@ class _STActionSheetState extends State<STActionSheet>
                 const SizedBox(
                   height: 16,
                 ),
-                if (!(titleWidget == null)) titleWidget,
-                if (!(messageWidget == null)) messageWidget,
+                if (widget.icon != null)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      widget.icon,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (titleWidget != null) titleWidget,
+                          if (messageWidget != null) messageWidget
+                        ],
+                      )
+                    ],
+                  ),
+                if (widget.icon == null && titleWidget != null) titleWidget,
+                if (widget.icon == null && messageWidget != null) messageWidget,
                 const SizedBox(
                   height: 16,
                 ),

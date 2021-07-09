@@ -69,19 +69,24 @@ class STActionSheetOptionWidget extends StatelessWidget
               ? CrossAxisAlignment.center
               : CrossAxisAlignment.start,
           children: [
-            if (!isOptionAligmentCenter) const SizedBox(height: 13),
+            const SizedBox(height: 13),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (!isOptionAligmentCenter) const SizedBox(width: 24),
+                if (!isOptionAligmentCenter) const SizedBox(width: 20),
                 if (actionSheetOption.isRadio)
-                  Radio(
-                    value: verticalIndex,
-                    groupValue: isSelected ? 1 : 0,
-                    onChanged: null,
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: Radio(
+                      value: verticalIndex,
+                      groupValue: isSelected ? 1 : 0,
+                      onChanged: null,
+                    ),
                   ),
-                if (actionSheetOption.isRadio) const SizedBox(width: 16),
+                if (actionSheetOption.isRadio) const SizedBox(width: 10),
                 if (actionSheetOption.icon != null) actionSheetOption.icon,
+                if (actionSheetOption.icon != null) const SizedBox(width: 10),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
