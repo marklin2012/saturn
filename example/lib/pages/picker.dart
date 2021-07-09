@@ -23,12 +23,8 @@ class _PickerPageState extends State<PickerPage> {
           children: [
             SizedBox(height: 30),
             STCursor(
-              width: 4,
+              width: 2,
               height: 30,
-              decoration: BoxDecoration(
-                color: Colors.purple,
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-              ),
             ),
             SizedBox(height: 30),
             STDatePicker(
