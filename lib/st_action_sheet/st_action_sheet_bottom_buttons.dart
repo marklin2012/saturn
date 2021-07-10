@@ -33,7 +33,7 @@ class STActionSheetBottomButtons extends StatelessWidget {
               child: TextButton(
                 style: ButtonStyle(
                   overlayColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.transparent),
+                      (states) => STActionSheetConstant.butttonHighlightColor),
                   side: MaterialStateProperty.all(const BorderSide(
                       color: STActionSheetConstant.defaultButtonTextColor,
                       width: 1)),
@@ -60,8 +60,8 @@ class STActionSheetBottomButtons extends StatelessWidget {
               width: containerWidth / 2.0 - 20,
               child: TextButton(
                 style: ButtonStyle(
-                    overlayColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.transparent),
+                    overlayColor: MaterialStateColor.resolveWith((states) =>
+                        STActionSheetConstant.butttonHighlightColor),
                     backgroundColor: MaterialStateColor.resolveWith((states) =>
                         STActionSheetConstant.defaultButtonTextColor)),
                 onPressed: () {
@@ -97,6 +97,11 @@ class STActionSheetBottomButtons extends StatelessWidget {
           width: containerWidth - 24,
           height: 44,
           child: TextButton(
+            style: ButtonStyle(
+                overlayColor: MaterialStateColor.resolveWith(
+                    (states) => STActionSheetConstant.butttonHighlightColor),
+                backgroundColor: MaterialStateColor.resolveWith(
+                    (states) => STActionSheetConstant.defaultButtonTextColor)),
             onPressed: () {
               if (hasConfirmButton && onConfirmTap != null) {
                 onConfirmTap();
