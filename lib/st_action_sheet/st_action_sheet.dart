@@ -138,34 +138,28 @@ class _STActionSheetState extends State<STActionSheet>
 
     Widget titleWidget;
     if (isNotEmpty(widget.title)) {
-      titleWidget = Padding(
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-        child: Text(
-          widget.title,
-          softWrap: true,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-              fontSize: STActionSheetConstant.titleFontSize,
-              decoration: TextDecoration.none),
-        ),
+      titleWidget = Text(
+        widget.title,
+        softWrap: true,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            fontSize: STActionSheetConstant.titleFontSize,
+            decoration: TextDecoration.none),
       );
     }
 
     Widget messageWidget;
     if (isNotEmpty(widget.message)) {
-      messageWidget = Padding(
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-        child: Text(
-          widget.message,
-          softWrap: true,
-          style: const TextStyle(
-            fontWeight: FontWeight.w400,
-            color: STActionSheetConstant.messageColor,
-            fontSize: STActionSheetConstant.messageFontSize,
-            decoration: TextDecoration.none,
-          ),
+      messageWidget = Text(
+        widget.message,
+        softWrap: true,
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          color: STActionSheetConstant.messageColor,
+          fontSize: STActionSheetConstant.messageFontSize,
+          decoration: TextDecoration.none,
         ),
       );
     }
@@ -184,7 +178,13 @@ class _STActionSheetState extends State<STActionSheet>
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const SizedBox(
+                    width: 20,
+                  ),
                   widget.icon,
+                  const SizedBox(
+                    width: 12,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -194,8 +194,14 @@ class _STActionSheetState extends State<STActionSheet>
                   )
                 ],
               ),
-            if (widget.icon == null && titleWidget != null) titleWidget,
-            if (widget.icon == null && messageWidget != null) messageWidget,
+            if (widget.icon == null && titleWidget != null)
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                  child: titleWidget),
+            if (widget.icon == null && messageWidget != null)
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                  child: messageWidget),
           ];
 
           final List<Widget> listViewList = [];
@@ -243,8 +249,15 @@ class _STActionSheetState extends State<STActionSheet>
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
                       widget.icon,
+                      const SizedBox(
+                        width: 12,
+                      ),
                       Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (titleWidget != null) titleWidget,
@@ -337,6 +350,10 @@ class _STActionSheetState extends State<STActionSheet>
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment:
+                      (titleWidget != null && messageWidget != null)
+                          ? CrossAxisAlignment.start
+                          : CrossAxisAlignment.center,
                   children: columnArray,
                 ),
               ),
@@ -351,17 +368,23 @@ class _STActionSheetState extends State<STActionSheet>
       columnArray.add(const SizedBox(height: 16));
     }
     if (widget.hasCancelButton || widget.hasConfirmButton) {
-      columnArray.add(STActionSheetBottomButtons(
-        hasCancelButton: widget.hasCancelButton,
-        hasConfirmButton: widget.hasConfirmButton,
-        cancelTitle: widget.cancelTitle,
-        confirmTitle: widget.confirmTitle,
-        onCancelTap: widget.onCancelTap,
-        onConfirmTap: () {
-          widget.onConfirmTap(selectedList);
-        },
-        containerWidth: containerWidth,
-      ));
+      columnArray.add(
+        Center(
+          child: Center(
+            child: STActionSheetBottomButtons(
+              hasCancelButton: widget.hasCancelButton,
+              hasConfirmButton: widget.hasConfirmButton,
+              cancelTitle: widget.cancelTitle,
+              confirmTitle: widget.confirmTitle,
+              onCancelTap: widget.onCancelTap,
+              onConfirmTap: () {
+                widget.onConfirmTap(selectedList);
+              },
+              containerWidth: containerWidth,
+            ),
+          ),
+        ),
+      );
     }
     if (widget.hasCancelButton && widget.hasConfirmButton) {
       columnArray.add(const SizedBox(height: 16));

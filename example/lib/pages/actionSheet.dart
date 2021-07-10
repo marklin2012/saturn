@@ -160,7 +160,7 @@ class ActionSheetPage extends StatelessWidget {
             onPressed: () {
               STActionSheet.show(
                   context: context,
-                  icon: Icon(Icons.info, color: Colors.blue),
+                  icon: Icon(Icons.article, color: Colors.blue),
                   title: "这是一个标题",
                   message: "文字说明信息",
                   hasCancelButton: false,
@@ -427,7 +427,12 @@ class ActionSheetPage extends StatelessWidget {
             onPressed: () {
               STActionSheet.show(
                 context: context,
-                icon: Icon(Icons.info, color: Colors.blue),
+                icon: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: Image.asset("assets/images/basketball_check.png",
+                      fit: BoxFit.fitWidth),
+                ),
                 title: "这是一个标题",
                 message: "文字说明信息",
                 hasCancelButton: true,
