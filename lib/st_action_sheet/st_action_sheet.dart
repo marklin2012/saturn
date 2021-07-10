@@ -24,6 +24,7 @@ class STActionSheet extends StatefulWidget {
   final bool showSelectColor;
   final bool isSingleSelect;
   final bool isOptionAligmentCenter;
+  final double listHeight;
 
   const STActionSheet(
       {Key key,
@@ -44,7 +45,8 @@ class STActionSheet extends StatefulWidget {
       this.selectedColor,
       this.showSelectColor,
       this.isSingleSelect,
-      this.isOptionAligmentCenter})
+      this.isOptionAligmentCenter,
+      this.listHeight})
       : super(key: key);
 
   static void show({
@@ -68,6 +70,7 @@ class STActionSheet extends StatefulWidget {
     bool showSelectColor = true,
     bool isSingleSelect = false,
     bool isOptionAligmentCenter = false,
+    double listHeight = 200,
   }) {
     final actionSheet = STActionSheet(
       width: width,
@@ -94,6 +97,7 @@ class STActionSheet extends StatefulWidget {
       showSelectColor: showSelectColor,
       isSingleSelect: isSingleSelect,
       isOptionAligmentCenter: isOptionAligmentCenter,
+      listHeight: listHeight,
     );
     showModalBottomSheet(
         context: context,
@@ -222,13 +226,20 @@ class _STActionSheetState extends State<STActionSheet>
                 },
                 isOptionAligmentCenter: widget.isOptionAligmentCenter));
           }
-          columnArray.add(
-            Expanded(
-                child: ListView(
-              shrinkWrap: true,
-              children: listViewList,
-            )),
-          );
+          columnArray.add(SizedBox(
+            height: widget.listHeight,
+            child: SingleChildScrollView(
+              child: Column(
+                children: listViewList,
+              ),
+            ),
+          )
+
+              // ListView(
+              //   shrinkWrap: true,
+              //   children: listViewList,
+              // ),
+              );
 
           addBottomButtonToColumn(containerWidth, columnArray);
         }

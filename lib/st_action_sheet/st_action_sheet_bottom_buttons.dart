@@ -87,7 +87,7 @@ class STActionSheetBottomButtons extends StatelessWidget {
       if (hasCancelButton) text = cancelTitle;
       if (hasConfirmButton) text = confirmTitle;
       return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
         child: Container(
           decoration: BoxDecoration(
             borderRadius:

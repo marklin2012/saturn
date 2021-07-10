@@ -48,6 +48,12 @@ class ActionSheetPage extends StatelessWidget {
                     STActionSheetOption(
                       title: "选项五",
                     ),
+                    STActionSheetOption(
+                      title: "选项四",
+                    ),
+                    STActionSheetOption(
+                      title: "选项五",
+                    ),
                     // STActionSheetOption(
                     //   title: "好的",
                     //   isRadio: true,
@@ -349,7 +355,7 @@ class ActionSheetPage extends StatelessWidget {
                   context: context,
                   message: "描述说明信息",
                   hasCancelButton: false,
-                  hasConfirmButton: false,
+                  hasConfirmButton: true,
                   canSelect: true,
                   isSingleSelect: true,
                   cancelTitle: "取消",
