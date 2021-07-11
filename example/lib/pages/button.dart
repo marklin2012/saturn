@@ -92,7 +92,7 @@ class _ButtonPageState extends State<ButtonPage> {
             children: [
               STButton.icon(
                 icon: Icon(
-                  Icons.star,
+                  Icons.star_border,
                   color: Colors.red,
                 ),
                 size: STButtonSize.small,
@@ -107,19 +107,18 @@ class _ButtonPageState extends State<ButtonPage> {
               ),
               STButton.icon(
                 backgroundColor: STColor.assistRed,
-                icon: Icon(Icons.assignment_late_outlined, color: Colors.white),
+                icon: Icon(
+                  Icons.assignment_late_outlined,
+                  color: Colors.black,
+                ),
               ),
-              STButton(
-                text: '成功',
-                type: STButtonType.success,
-                onTap: _reduceCounter,
-                loading: _loading,
-              ),
-              STButton(
-                text: '警告',
-                type: STButtonType.danger,
-                onTap: _reduceCounter,
-                loading: _loading,
+              STButton.icon(
+                icon: Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.transparent,
+                size: STButtonSize.small,
               ),
             ],
           ),
@@ -146,7 +145,24 @@ class _ButtonPageState extends State<ButtonPage> {
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              STButton(
+                text: '成功',
+                type: STButtonType.success,
+                onTap: _reduceCounter,
+                loading: _loading,
+              ),
+              STButton(
+                text: '警告',
+                type: STButtonType.danger,
+                onTap: _reduceCounter,
+                loading: _loading,
+              ),
               STButton(
                 type: STButtonType.outline,
                 text: 'success outline',
@@ -154,7 +170,7 @@ class _ButtonPageState extends State<ButtonPage> {
                 textStyle: TextStyle(color: STColor.assistGreen),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
