@@ -99,8 +99,11 @@ class STActionSheet extends StatefulWidget {
       isOptionAligmentCenter: isOptionAligmentCenter,
       listHeight: listHeight,
     );
-    showDialog(
+    showModalBottomSheet(
         context: context,
+        enableDrag: false,
+        isDismissible: closable,
+        backgroundColor: Colors.transparent,
         builder: (context) {
           return actionSheet;
         });
