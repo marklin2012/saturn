@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:saturn/st_button/st_button.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_video/video_fullscreen.dart';
@@ -17,7 +18,7 @@ const _defaultFix8 = 8.0;
 const _defaultFix10 = 10.0;
 const _defaultFix12 = 12.0;
 const _defaultFix16 = 16.0;
-const _defaultStatusSize = 40.0;
+const _defaultStatusSize = 44.0;
 const _defaultLiveString = 'Live';
 const _defaultTimeTextStyle = TextStyle(
   color: Colors.white,
@@ -68,7 +69,7 @@ class _STVideoBaseState extends State<STVideoBase> {
   @override
   void initState() {
     super.initState();
-    _margin = widget.margin ?? const EdgeInsets.all(4);
+    _margin = widget.margin ?? const EdgeInsets.all(4.0);
     _height = widget.height;
     _showVolume = false;
     _volume = 0.5;
@@ -184,6 +185,7 @@ class _STVideoBaseState extends State<STVideoBase> {
           left: (_width - _defaultStatusSize) / 2,
           top: (_height - _defaultStatusSize) / 2,
           child: STVideoControl(
+            size: _defaultStatusSize,
             status: value,
             doubleControlRow: widget.doubleControlRow,
             onChanged: (STVideoStatus status) {
@@ -210,58 +212,49 @@ class _STVideoBaseState extends State<STVideoBase> {
     Widget _bottom;
     double _bottomHeight;
     if (!widget.doubleControlRow) {
-      _bottomHeight = 114.0;
+      _bottomHeight = 102.0;
       _bottom = Container(
-        margin: _margin,
-        padding:
-            const EdgeInsets.only(left: _defaultFix12, right: _defaultFix10),
+        height: _bottomHeight,
+        padding: const EdgeInsets.only(left: _defaultFix12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // _getPlayWidget(),
             _getProgressWidget(),
             Container(
-              padding: const EdgeInsets.only(
-                  left: _defaultFix12, right: _defaultFix10),
               height: _defaultFix16,
               alignment: Alignment.bottomCenter,
               child: _getTimeTextWidget(),
             ),
             if (!_showVolume) _getDefaultSoundIcon(),
             if (_showVolume)
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
+              STVideoSound(
+                axis: Axis.vertical,
+                value: _volume,
+                iconColor: Colors.white,
+                onChanged: (double value) {
+                  setState(() {
+                    _volume = value;
+                    _playerController.setVolume(1.0 - _volume);
+                  });
+                  _autoHide();
+                },
+                showVolumed: () {
                   // 显示声音调整的组件
                   setState(() {
                     _showVolume = !_showVolume;
                   });
                   _autoHide();
                 },
-                child: STVideoSound(
-                  axis: Axis.vertical,
-                  value: _volume,
-                  iconColor: Colors.white,
-                  onChanged: (double value) {
-                    setState(() {
-                      _volume = value;
-                      _playerController.setVolume(1.0 - _volume);
-                    });
-                    _autoHide();
-                  },
-                ),
               ),
             _getFullScreen(),
           ],
         ),
       );
     } else {
-      _bottomHeight = 56.0;
-      _bottom = Container(
-        margin: _margin,
+      _bottomHeight = 44.0;
+      _bottom = SizedBox(
         height: _bottomHeight,
-        padding: const EdgeInsets.symmetric(horizontal: _defaultFix12),
         child: Column(
           children: [
             _getProgressWidget(),
@@ -272,26 +265,23 @@ class _STVideoBaseState extends State<STVideoBase> {
                 Row(
                   children: [
                     _getPlayWidget(),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
+                    STVideoSound(
+                      value: _volume,
+                      iconColor: Colors.white,
+                      onChanged: (double value) {
+                        setState(() {
+                          _volume = value;
+                        });
+                        _autoHide();
+                      },
+                      showVolumed: () {
                         // 显示声音调整的组件
                         setState(() {
                           _showVolume = !_showVolume;
                         });
                         _autoHide();
                       },
-                      child: STVideoSound(
-                        value: _volume,
-                        iconColor: Colors.white,
-                        onChanged: (double value) {
-                          setState(() {
-                            _volume = value;
-                          });
-                          _autoHide();
-                        },
-                      ),
-                    )
+                    ),
                   ],
                 ),
                 Row(
@@ -319,8 +309,11 @@ class _STVideoBaseState extends State<STVideoBase> {
   }
 
   Widget _getPlayWidget() {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return STButton.icon(
+      icon: _getPlayIcon(),
+      backgroundColor: Colors.transparent,
+      size: STButtonSize.small,
+      padding: const EdgeInsets.symmetric(horizontal: _defaultFix12),
       onTap: () {
         // 切换播放
         if (_statusNotifier.value == STVideoStatus.play) {
@@ -335,11 +328,6 @@ class _STVideoBaseState extends State<STVideoBase> {
         }
         _autoHide();
       },
-      child: Container(
-        padding: const EdgeInsets.only(right: _defaultFix10),
-        height: _defaultFix16,
-        child: _getPlayIcon(),
-      ),
     );
   }
 
@@ -412,8 +400,11 @@ class _STVideoBaseState extends State<STVideoBase> {
   }
 
   Widget _getDefaultSoundIcon() {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return STButton.icon(
+      icon: getVolumeIcon(_volume, Axis.vertical, Colors.white, 16.0),
+      size: STButtonSize.small,
+      backgroundColor: Colors.transparent,
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       onTap: () {
         // 显示声音调整的组件
         setState(() {
@@ -421,13 +412,18 @@ class _STVideoBaseState extends State<STVideoBase> {
         });
         _autoHide();
       },
-      child: getVolumeIcon(_volume, Axis.vertical, Colors.white, 16.0),
     );
   }
 
   Widget _getFullScreen() {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return STButton.icon(
+      icon: const Icon(
+        STIcons.commonly_fullscreen,
+        size: _defaultFix16,
+        color: Colors.white,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: _defaultFix10),
+      backgroundColor: Colors.transparent,
       onTap: () {
         // 切换全屏
         SystemChrome.setPreferredOrientations(
@@ -452,14 +448,6 @@ class _STVideoBaseState extends State<STVideoBase> {
           );
         });
       },
-      child: Container(
-        padding: const EdgeInsets.only(left: _defaultFix10),
-        child: const Icon(
-          STIcons.commonly_fullscreen,
-          size: _defaultFix16,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 

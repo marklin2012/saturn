@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:saturn/st_button/st_button.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_video/video_control.dart';
@@ -158,15 +159,13 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
       left: 0,
       right: 0,
       bottom: _defaultFix10,
-      height: 114.0,
+      height: 102.0,
       child: Container(
-        padding:
-            const EdgeInsets.only(left: _defaultFix12, right: _defaultFix10),
+        padding: const EdgeInsets.only(left: _defaultFix12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // _getPlayWidget(),
             _getProgressWidget(),
             Container(
               padding: const EdgeInsets.only(
@@ -177,26 +176,24 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
             ),
             if (!_showChangeSound) _getDefaultSoundIcon(),
             if (_showChangeSound)
-              GestureDetector(
-                onTap: () {
+              STVideoSound(
+                axis: Axis.vertical,
+                value: _soundValue,
+                iconColor: Colors.white,
+                onChanged: (double value) {
+                  setState(() {
+                    _soundValue = value;
+                    widget.playerController.setVolume(1.0 - _soundValue);
+                  });
+                  _autoHide();
+                },
+                showVolumed: () {
                   // 显示声音调整的组件
                   setState(() {
                     _showChangeSound = !_showChangeSound;
                   });
                   _autoHide();
                 },
-                child: STVideoSound(
-                  axis: Axis.vertical,
-                  value: _soundValue,
-                  iconColor: Colors.white,
-                  onChanged: (double value) {
-                    setState(() {
-                      _soundValue = value;
-                      widget.playerController.setVolume(1.0 - _soundValue);
-                    });
-                    _autoHide();
-                  },
-                ),
               ),
             _getFullScreen(),
           ],
@@ -303,7 +300,11 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
   }
 
   Widget _getDefaultSoundIcon() {
-    return GestureDetector(
+    return STButton.icon(
+      icon: getVolumeIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
+      size: STButtonSize.small,
+      backgroundColor: Colors.transparent,
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       onTap: () {
         // 显示声音调整的组件
         setState(() {
@@ -311,12 +312,18 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
         });
         _autoHide();
       },
-      child: getVolumeIcon(_soundValue, Axis.vertical, Colors.white, 16.0),
     );
   }
 
   Widget _getFullScreen() {
-    return GestureDetector(
+    return STButton.icon(
+      icon: const Icon(
+        STIcons.commonly_exitfullscreen,
+        size: _defaultFix16,
+        color: Colors.white,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: _defaultFix10),
+      backgroundColor: Colors.transparent,
       onTap: () {
         // 退出全屏
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -324,14 +331,6 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
           Navigator.pop(context);
         });
       },
-      child: Container(
-        padding: const EdgeInsets.only(left: _defaultFix10),
-        child: const Icon(
-          STIcons.commonly_exitfullscreen,
-          size: _defaultFix16,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 

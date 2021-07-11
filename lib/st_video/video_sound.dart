@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/st_button.dart';
 import 'package:saturn/st_slider/st_slider.dart';
 import 'package:saturn/st_video/video_util.dart';
 
 const _defaultSliderSize = 80.0;
-const _defaultSizeboxSize = 8.0;
 const _defaultIconSize = 16.0;
 
 class STVideoSound extends StatelessWidget {
   const STVideoSound({
     Key key,
     this.axis = Axis.horizontal,
-    this.size = 104,
+    this.size = 102,
     this.activeColor = const Color(0xFF095BF9),
     this.inactiveColor = const Color(0xFFDCE8FF),
     this.iconColor = const Color(0xFF000000),
     this.value = 0,
     this.onChanged,
+    this.showVolumed,
   }) : super(key: key);
 
   final Axis axis; //方向
@@ -25,43 +26,55 @@ class STVideoSound extends StatelessWidget {
   final Color iconColor;
   final double value;
   final ValueChanged<double> onChanged;
+  final Function showVolumed;
 
   @override
   Widget build(BuildContext context) {
+    Widget _child;
     double _height;
     double _width;
-    Widget _child;
     if (axis == Axis.horizontal) {
       _height = _defaultIconSize;
       _width = size;
       _child = Row(
         children: [
-          Container(
-            padding: const EdgeInsets.only(right: _defaultSizeboxSize),
-            alignment: Alignment.center,
-            child: getVolumeIcon(value, axis, iconColor, _defaultIconSize),
+          STButton.icon(
+            icon: getVolumeIcon(value, axis, iconColor, _defaultIconSize),
+            backgroundColor: Colors.transparent,
+            size: STButtonSize.small,
+            padding: const EdgeInsets.only(right: 6.0),
+            onTap: () {
+              if (showVolumed != null) {
+                showVolumed();
+              }
+            },
           ),
           _getSlider(),
         ],
       );
     } else {
-      _width = _defaultIconSize;
       _height = size;
+      _width = _defaultIconSize;
       _child = Column(
         children: [
           _getSlider(),
-          Container(
-            padding: const EdgeInsets.only(top: _defaultSizeboxSize),
-            alignment: Alignment.center,
-            child: getVolumeIcon(value, axis, iconColor, _defaultIconSize),
-          ),
+          STButton.icon(
+            icon: getVolumeIcon(value, axis, iconColor, _defaultIconSize),
+            backgroundColor: Colors.transparent,
+            size: STButtonSize.small,
+            padding: const EdgeInsets.only(top: 6.0),
+            onTap: () {
+              if (showVolumed != null) {
+                showVolumed();
+              }
+            },
+          )
         ],
       );
     }
-    return Container(
+    return SizedBox(
       height: _height,
       width: _width,
-      alignment: Alignment.center,
       child: _child,
     );
   }
