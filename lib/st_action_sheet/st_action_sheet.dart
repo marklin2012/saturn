@@ -99,11 +99,8 @@ class STActionSheet extends StatefulWidget {
       isOptionAligmentCenter: isOptionAligmentCenter,
       listHeight: listHeight,
     );
-    showModalBottomSheet(
+    showDialog(
         context: context,
-        enableDrag: false,
-        isDismissible: closable,
-        backgroundColor: Colors.transparent,
         builder: (context) {
           return actionSheet;
         });
@@ -351,13 +348,6 @@ class _STActionSheetState extends State<STActionSheet>
                   borderRadius:
                       BorderRadius.circular(STActionSheetConstant.cornerRadius),
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(4.0, 4.0),
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0),
-                  ],
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
