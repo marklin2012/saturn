@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_stepper/stepper_item.dart';
 
+const _defaultBackgroudColor = Color(0xFFFAFCFF);
+const _disableTextColor = Color(0xFFDFE2E7);
+const _defaultTextFontSize = 14.0;
+
 class STStepper extends StatefulWidget {
   final int value;
   final bool disabled;
   final Color borderColor;
-  final TextStyle textStyle;
+  final double borderRadius;
+  final Color textColor;
   final int minValue; // 低于这个值减号按钮不可用
   final int maxValue; // 高于这个值加号按钮不可用
 
@@ -14,7 +19,8 @@ class STStepper extends StatefulWidget {
     this.value = 0,
     this.disabled = false,
     this.borderColor = const Color(0xFFDFE2E7),
-    this.textStyle = const TextStyle(color: Color(0xFF000000), fontSize: 14.0),
+    this.borderRadius = 2.0,
+    this.textColor = const Color(0xFF000000),
     this.minValue = 0,
     this.maxValue = 99,
   }) : super(key: key);
@@ -29,6 +35,8 @@ class _STStepperState extends State<STStepper> {
   final double _textWidth = 40.0;
   final double _height = 24.0;
 
+  bool get _disabled => widget.disabled;
+
   @override
   void initState() {
     super.initState();
@@ -42,57 +50,61 @@ class _STStepperState extends State<STStepper> {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: widget.disabled ? 0.2 : 1.0,
-      child: SizedBox(
-        width: _defaultAllWidth,
-        height: _height,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            STStepperItem(
-              type: StepperItemType.reduce,
-              disabled: _count == widget.minValue,
-              borderColor: widget.borderColor,
-              onChanged: (StepperItemType value) {
-                _valueChanged(value);
-              },
-            ),
-            Container(
-              height: _height,
-              width: _textWidth,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: widget.borderColor),
-                  bottom: BorderSide(color: widget.borderColor),
-                ),
-              ),
-              child: Text(
-                '$_count',
-                style: widget.textStyle,
+    return Container(
+      width: _defaultAllWidth,
+      height: _height,
+      color: _defaultBackgroudColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          STStepperItem(
+            type: StepperItemType.reduce,
+            disabled: _disabled ? _disabled : _count == widget.minValue,
+            borderColor: widget.borderColor,
+            iconColor: widget.textColor,
+            borderRadius: widget.borderRadius,
+            onChanged: (StepperItemType value) {
+              _valueChanged(value);
+            },
+          ),
+          Container(
+            height: _height,
+            width: _textWidth,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: widget.borderColor),
+                bottom: BorderSide(color: widget.borderColor),
               ),
             ),
-            STStepperItem(
-              type: StepperItemType.plus,
-              disabled: _count == widget.maxValue,
-              borderColor: widget.borderColor,
-              onChanged: (StepperItemType value) {
-                _valueChanged(value);
-              },
+            child: Text(
+              '$_count',
+              style: TextStyle(
+                  color: _disabled ? _disableTextColor : widget.textColor,
+                  fontSize: _defaultTextFontSize),
             ),
-          ],
-        ),
+          ),
+          STStepperItem(
+            type: StepperItemType.plus,
+            disabled: _disabled ? _disabled : _count == widget.maxValue,
+            borderColor: widget.borderColor,
+            iconColor: widget.textColor,
+            borderRadius: widget.borderRadius,
+            onChanged: (StepperItemType value) {
+              _valueChanged(value);
+            },
+          ),
+        ],
       ),
     );
   }
 
   void _valueChanged(StepperItemType type) {
-    if (widget.disabled) {
+    if (_disabled) {
       return;
-    } else if (type == StepperItemType.reduce) {
+    } else if (type == StepperItemType.reduce && _count > widget.minValue) {
       _count -= 1;
-    } else if (type == StepperItemType.plus) {
+    } else if (type == StepperItemType.plus && _count < widget.maxValue) {
       _count += 1;
     }
     setState(() {});

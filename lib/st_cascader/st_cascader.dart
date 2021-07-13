@@ -9,6 +9,7 @@ const _defaultHolderTextStyle =
     TextStyle(color: Color(0xFFBBBBBB), fontSize: 16);
 const _defaultTextStyle = TextStyle(color: Color(0xFF000000), fontSize: 16);
 const _defaultSelectColor = Color(0xFF095BF9);
+const _defaultBorderColor = Color(0xFFC4C5C7);
 
 class STCascader extends StatefulWidget {
   final double verticalOffset; // 弹出的视图距离触发内容的垂直方向偏移量
@@ -80,6 +81,7 @@ class _STCascaderState extends State<STCascader> {
                   }
                 },
               ),
+              limitHorizontal: false,
             );
           },
         ).then((value) {
@@ -92,7 +94,8 @@ class _STCascaderState extends State<STCascader> {
         height: widget.height,
         margin: const EdgeInsets.symmetric(horizontal: 16.0),
         decoration: BoxDecoration(
-          border: Border.all(color: _defaultSelectColor),
+          border: Border.all(
+              color: _showSelected ? _defaultSelectColor : _defaultBorderColor),
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         ),
         child: Row(
@@ -108,9 +111,9 @@ class _STCascaderState extends State<STCascader> {
             Container(
               padding: const EdgeInsets.only(right: 13),
               child: _showSelected
-                  ? const Icon(Icons.arrow_drop_down,
+                  ? const Icon(Icons.arrow_drop_up,
                       size: 24, color: Colors.black)
-                  : const Icon(Icons.arrow_drop_up,
+                  : const Icon(Icons.arrow_drop_down,
                       size: 24, color: Colors.black),
             ),
           ],

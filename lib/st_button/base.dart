@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:saturn/st_button/common.dart';
+import 'package:saturn/st_button/st_activity_indicator.dart';
 import 'package:saturn/st_button/st_button.dart';
 
 // ignore: must_be_immutable
@@ -89,34 +90,29 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
         _icon = icon;
         // 当状态为Loading且外部没有设置时，内部直接给定一个Loading的过程
         if (stateValue == STButtonState.loading && _icon == null) {
-          _icon = const SizedBox(
-            width: 24.0,
-            height: 24.0,
-            child: CupertinoActivityIndicator(
-              radius: 12.0,
-            ),
-          );
+          _icon = const STActivityIndicator();
         }
-        return GestureDetector(
-          onTap: excOnTap(),
-          onTapDown: (details) {
-            // 加载的过程或者不可用的状态下不可点击
-            if (_state == STButtonState.loading || disabled == true) {
-              return;
-            }
-            _curState.value = STButtonState.highlighted;
-          },
-          onTapUp: (details) {
-            if (disabled == false) {
-              _curState.value = _lastState;
-            }
-          },
-          child: Opacity(
-            opacity: opacityFromButtonState(stateValue),
+        return Opacity(
+          opacity: opacityFromButtonState(stateValue),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: excOnTap(),
+            onTapDown: (details) {
+              // 加载的过程或者不可用的状态下不可点击
+              if (_state == STButtonState.loading || disabled == true) {
+                return;
+              }
+              _curState.value = STButtonState.highlighted;
+            },
+            onTapUp: (details) {
+              if (disabled == false) {
+                _curState.value = _lastState;
+              }
+            },
             child: Container(
               decoration: _decoration,
-              height: height ?? heightFromButtonSize(size),
-              padding: padding ?? edgeInsetsFromButtonSize(size),
+              padding: padding ??
+                  edgeInsetsFromButtonSize(size, circle: circle, type: type),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -132,6 +128,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
                       style: textStyle ??
                           TextStyle(
                             color: textColorFromButton(type),
+                            fontSize: textFontFromButton(size),
                           ),
                     )
                 ],

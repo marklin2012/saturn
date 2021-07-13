@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         const Locale('en', 'US'),
       ],
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Color(0xFFF2F2F7),
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );

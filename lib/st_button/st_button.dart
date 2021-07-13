@@ -78,6 +78,7 @@ class STButton extends StatelessWidget {
       key: key,
       icon: icon,
       text: text,
+      padding: padding,
       textStyle: textStyle,
       onTap: onTap,
       size: size,

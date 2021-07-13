@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const _defaultIconWidth = 20.0;
+
 class STCheckBox extends StatelessWidget {
   final bool value; // 是否选中
   final ValueChanged<bool> onChanged;
@@ -74,7 +76,7 @@ class STCheckBox extends StatelessWidget {
           ),
           Icon(
             Icons.check,
-            size: boxWidth,
+            size: _defaultIconWidth,
             color: iconColor,
           )
         ],
