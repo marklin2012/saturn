@@ -25,6 +25,7 @@ class _CheckboxPageState extends State<CheckboxPage> {
       ),
       body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 20),
             Text('系统的CheckBox'),
@@ -38,18 +39,15 @@ class _CheckboxPageState extends State<CheckboxPage> {
             ),
             SizedBox(height: 20),
             Text('系统的checkboxListTile'),
-            Container(
-              width: 120,
-              child: CheckboxListTile(
-                title: Text('文字'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: _checkValue,
-                onChanged: (value) {
-                  setState(() {
-                    _checkValue = value;
-                  });
-                },
-              ),
+            CheckboxListTile(
+              title: Text('文字'),
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _checkValue,
+              onChanged: (value) {
+                setState(() {
+                  _checkValue = value;
+                });
+              },
             ),
             SizedBox(height: 20),
             Text('自定义的CheckBox'),

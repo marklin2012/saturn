@@ -52,94 +52,126 @@ class _ButtonPageState extends State<ButtonPage> {
       appBar: AppBar(
         title: Text('buttons'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            ValueListenableBuilder(
-              valueListenable: _counterNoti,
-              builder: (context, int value, child) {
-                return Text('$value');
-              },
-            ),
-            SizedBox(height: 5),
-            STButton(),
-            SizedBox(height: 5),
-            // 主按钮
-            STButton(
-              onTap: _reduceCounter,
-              loading: _loading,
-              text: '主按钮',
-            ),
-            SizedBox(height: 5),
-            STButton(
-              text: '图标按钮',
-              icon: Icon(
-                Icons.star,
-                color: Colors.white,
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 20),
+          ValueListenableBuilder(
+            valueListenable: _counterNoti,
+            builder: (context, int value, child) {
+              return Text('$value');
+            },
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              STButton(
+                size: STButtonSize.small,
+                onTap: _reduceCounter,
+                loading: _loading,
+                text: '小按钮',
               ),
-              loading: _loading,
-            ),
-            SizedBox(height: 5),
-            STButton(
-              text: '成功',
-              type: STButtonType.success,
-              onTap: _reduceCounter,
-              loading: _loading,
-            ),
-            SizedBox(height: 5),
-            STButton(
-              text: '警告',
-              type: STButtonType.danger,
-              onTap: _reduceCounter,
-              loading: _loading,
-            ),
-            SizedBox(height: 5),
-            STButton.icon(
-              icon: Icon(
-                Icons.star,
-                color: Colors.white,
+              STButton(
+                onTap: _reduceCounter,
+                loading: _loading,
+                text: '主按钮',
               ),
-              disabled: _disabled,
-              onTap: _incrementCounter,
-            ),
-            SizedBox(height: 5),
-            STButton(
-              text: 'change state',
-              icon: Icon(
-                Icons.star,
-                color: Colors.blue,
+              STButton(
+                text: '图标按钮',
+                icon: Icon(
+                  Icons.star,
+                  color: Colors.white,
+                ),
+                loading: _loading,
               ),
-              type: STButtonType.outline,
-              onTap: _showLoading,
-            ),
-            SizedBox(height: 5),
-            STButton(
-              text: 'change state',
-              type: STButtonType.outline,
-              onTap: _showLoading,
-            ),
-            SizedBox(height: 5),
-            STButton(
-              text: 'change disable',
-              type: STButtonType.text,
-              onTap: _changeDisable,
-            ),
-            SizedBox(height: 5),
-            STButton(
-              type: STButtonType.outline,
-              text: 'success outline',
-              borderColor: STColor.assistGreen,
-              textStyle: TextStyle(color: STColor.assistGreen),
-            ),
-            SizedBox(height: 5),
-            STButton.icon(
-              backgroundColor: STColor.assistRed,
-              icon: Icon(Icons.assignment_late_outlined, color: Colors.white),
-            ),
-          ],
-        ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              STButton.icon(
+                icon: Icon(
+                  Icons.star_border,
+                  color: Colors.red,
+                ),
+                size: STButtonSize.small,
+              ),
+              STButton.icon(
+                icon: Icon(
+                  Icons.star,
+                  color: Colors.white,
+                ),
+                disabled: _disabled,
+                onTap: _incrementCounter,
+              ),
+              STButton.icon(
+                backgroundColor: STColor.assistRed,
+                icon: Icon(
+                  Icons.assignment_late_outlined,
+                  color: Colors.black,
+                ),
+              ),
+              STButton.icon(
+                icon: Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.transparent,
+                size: STButtonSize.small,
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              STButton(
+                text: 'change state',
+                icon: Icon(
+                  Icons.star,
+                  color: Color(0xFF095BF9),
+                ),
+                type: STButtonType.outline,
+                onTap: _showLoading,
+              ),
+              STButton(
+                text: 'change disable',
+                type: STButtonType.text,
+                onTap: _changeDisable,
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              STButton(
+                text: '成功',
+                type: STButtonType.success,
+                onTap: _reduceCounter,
+                loading: _loading,
+              ),
+              STButton(
+                text: '警告',
+                type: STButtonType.danger,
+                onTap: _reduceCounter,
+                loading: _loading,
+              ),
+              STButton(
+                type: STButtonType.outline,
+                text: 'success outline',
+                borderColor: STColor.assistGreen,
+                textStyle: TextStyle(color: STColor.assistGreen),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

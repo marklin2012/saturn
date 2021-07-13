@@ -1,34 +1,46 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:saturn/utils/bounding.dart';
+
+const _defaultPadding = EdgeInsets.symmetric(horizontal: 8.0);
+const _defaultHeight = 40.0;
 
 class SliderTipPaint extends StatelessWidget {
   final Color fillColor;
   final Widget child;
-  final double size;
   final double arrowSize;
+  final String tipStr;
+  final TextStyle tipTextStyle;
 
   const SliderTipPaint(
       {Key key,
       this.fillColor,
       this.child,
-      this.size = 36.0,
+      this.tipStr,
+      this.tipTextStyle = const TextStyle(color: Colors.white, fontSize: 16.0),
       this.arrowSize = 4.0})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var _width = _defaultHeight;
+    if (tipStr != null) {
+      _width = boundingTextSize(context, tipStr, tipTextStyle).width +
+          _defaultPadding.left +
+          _defaultPadding.right;
+    }
     return CustomPaint(
-      size: Size(size, size),
       painter: BGTipPainter(
         fillColor: fillColor,
-        customSize: size,
         arrowSize: arrowSize,
+        size: Size(_width, _defaultHeight),
       ),
       child: Container(
-        width: size,
-        height: size,
+        width: _width,
+        height: _defaultHeight,
         alignment: Alignment.center,
+        padding: _defaultPadding,
         child: child,
       ),
     );
@@ -37,11 +49,13 @@ class SliderTipPaint extends StatelessWidget {
 
 class BGTipPainter extends CustomPainter {
   final Color fillColor;
-  final double customSize;
+  final Size size;
   final double arrowSize;
 
   const BGTipPainter(
-      {this.arrowSize = 4.0, this.customSize = 36.0, this.fillColor});
+      {this.arrowSize = 4.0,
+      this.size = const Size(_defaultHeight, _defaultHeight),
+      this.fillColor});
 
   Paint _initPaint() {
     return Paint()
@@ -58,16 +72,18 @@ class BGTipPainter extends CustomPainter {
     final _path = Path();
 
     _path.addRRect(RRect.fromLTRBR(
-        0, 0, customSize, customSize - arrowSize, Radius.circular(arrowSize)));
-    _path.moveTo(customSize / 2 - arrowSize * 2, customSize - arrowSize);
-    _path.lineTo(customSize / 2, customSize);
-    _path.lineTo(customSize / 2 + arrowSize * 2, customSize - arrowSize);
+        0, 0, size.width, size.height - arrowSize, Radius.circular(arrowSize)));
+    _path.moveTo(size.width / 2 - arrowSize / 2 * 3, size.height - arrowSize);
+    _path.lineTo(size.width / 2, size.height);
+    _path.lineTo(size.width / 2 + arrowSize / 2 * 3, size.height - arrowSize);
     _path.close();
     canvas.drawPath(_path, _paint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(BGTipPainter oldDelegate) {
+    return oldDelegate.size != size ||
+        oldDelegate.arrowSize != arrowSize ||
+        oldDelegate.fillColor != fillColor;
   }
 }

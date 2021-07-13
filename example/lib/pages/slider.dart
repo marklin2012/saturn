@@ -17,8 +17,7 @@ class _SliderPageState extends State<SliderPage> {
       appBar: AppBar(
         title: Text('slider'),
       ),
-      body: Container(
-        color: Colors.grey,
+      body: Center(
         child: Column(
           children: [
             SizedBox(height: 10),
@@ -41,9 +40,6 @@ class _SliderPageState extends State<SliderPage> {
                   axis: Axis.vertical,
                   value: _sliderValue,
                   mainSize: 300,
-                  dotSize: 12,
-                  activeSize: 4,
-                  inactiveColor: Colors.white,
                   onChanged: (value) {
                     setState(() {
                       _sliderValue = value;
@@ -55,9 +51,6 @@ class _SliderPageState extends State<SliderPage> {
                   rangeValues: _sliderRangeValue,
                   minValue: 0,
                   maxValue: 1000,
-                  dotSize: 12,
-                  activeSize: 4,
-                  inactiveColor: Colors.white,
                   onChangedRange: (value) {
                     setState(() {
                       _sliderRangeValue = value;
@@ -70,9 +63,6 @@ class _SliderPageState extends State<SliderPage> {
             STSlider(
               value: _sliderValue,
               mainSize: 340,
-              activeSize: 4,
-              dotSize: 12,
-              inactiveColor: Colors.white,
               onChanged: (value) {
                 setState(() {
                   _sliderValue = value;
@@ -83,11 +73,8 @@ class _SliderPageState extends State<SliderPage> {
             STSlider(
               disabled: sliderDisabled,
               rangeValues: _sliderRangeValue,
-              dotSize: 12,
-              activeSize: 4,
               minValue: 0,
               maxValue: 1000,
-              inactiveColor: Colors.white,
               onChangedRange: (value) {
                 setState(() {
                   _sliderRangeValue = value;

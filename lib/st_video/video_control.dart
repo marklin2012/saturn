@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/st_button.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
 import 'package:saturn/st_loading/st_loading.dart';
 
 enum STVideoStatus { play, pause, fail, loading }
+
+const _defaultSize = 36.0;
+const _defaultFailSize = 30.0;
 
 class STVideoControl extends StatelessWidget {
   const STVideoControl(
@@ -25,26 +29,34 @@ class STVideoControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _child;
+    EdgeInsets _padding = EdgeInsets.all(size - _defaultSize);
     if (status == STVideoStatus.play && !doubleControlRow) {
-      _child = Icon(STIcons.commonly_timeout, size: 36, color: activeColor);
+      _child = Icon(STIcons.commonly_timeout,
+          size: _defaultSize, color: activeColor);
     } else if (status == STVideoStatus.pause && !doubleControlRow) {
-      _child = Icon(STIcons.commonly_begin, size: 36, color: activeColor);
+      _child =
+          Icon(STIcons.commonly_begin, size: _defaultSize, color: activeColor);
     } else if (status == STVideoStatus.loading && !doubleControlRow) {
       _child = const STLoading(
         icon: Icon(
           STIcons.status_loading,
           color: Colors.white,
-          size: 36,
+          size: _defaultSize,
         ),
         alwaysLoading: true,
         text: '',
       );
     } else if (status == STVideoStatus.fail) {
-      _child = Icon(STIcons.status_closecircle, size: 30, color: activeColor);
+      _child = Icon(STIcons.status_closecircle,
+          size: _defaultFailSize, color: activeColor);
+      _padding = EdgeInsets.all(size - _defaultFailSize);
     } else {
       _child = const Opacity(opacity: 1.0);
     }
-    return GestureDetector(
+    return STButton.icon(
+      icon: _child,
+      backgroundColor: Colors.transparent,
+      padding: _padding,
       onTap: () {
         if (status == STVideoStatus.pause && onChanged != null) {
           onChanged(STVideoStatus.play);
@@ -52,12 +64,6 @@ class STVideoControl extends StatelessWidget {
           onChanged(STVideoStatus.pause);
         }
       },
-      child: Container(
-        height: size,
-        width: size,
-        alignment: Alignment.center,
-        child: _child,
-      ),
     );
   }
 }

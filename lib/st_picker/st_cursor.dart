@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/common.dart';
 
 class STCursor extends StatefulWidget {
   const STCursor({
@@ -6,7 +7,10 @@ class STCursor extends StatefulWidget {
     this.color = const Color(0xFF095BF9),
     this.width = 2.0,
     this.height = 22.0,
-    this.decoration,
+    this.decoration = const BoxDecoration(
+      color: STColor.secRankBlue,
+      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+    ),
   }) : super(key: key);
 
   final Color color;

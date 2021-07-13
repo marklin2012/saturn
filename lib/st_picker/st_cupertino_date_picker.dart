@@ -13,16 +13,16 @@ enum STPickerColumnType {
 const _selectTextsHeight = 302.0;
 const _selectTitleHeight = 48.0;
 const _pickerItemExtent = 44.0;
-const _textStyle = TextStyle(color: Color(0xFF555555), fontSize: 16);
-const _unitTextStyle =
-    TextStyle(color: Color(0xFF000000), fontSize: 16 * _magnification);
-const _magnification = 1.1;
+const _textStyle = TextStyle(
+    color: Color(0xFF555555), fontSize: 16, fontWeight: FontWeight.w400);
+const _unitTextStyle = TextStyle(
+    color: Color(0xFF000000), fontSize: 16, fontWeight: FontWeight.w500);
 
-TextStyle _themeTextStyle(BuildContext context, {bool isValid = true}) {
-  return isValid
-      ? _textStyle
-      : const TextStyle(color: Color(0x45555555), fontSize: 16);
-}
+// TextStyle _themeTextStyle(BuildContext context, {bool isValid = true}) {
+//   return isValid
+//       ? _textStyle
+//       : const TextStyle(color: Color(0x45555555), fontSize: 16);
+// }
 
 void _animateColumnControllerToItem(
     FixedExtentScrollController controller, int targetItem) {
@@ -243,8 +243,8 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
 
   Widget _buildDayPicker(
       TransitionBuilder itemPositioningBuilder, Widget selectionOverlay) {
-    final int daysInCurrentMonth =
-        _lastDayInMonth(selectedYear, selectedMonth).day;
+    // final int daysInCurrentMonth =
+    //     _lastDayInMonth(selectedYear, selectedMonth).day;
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
         if (notification is ScrollStartNotification) {
@@ -255,31 +255,38 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
         }
         return false;
       },
-      child: CupertinoPicker(
-        scrollController: dayController,
-        itemExtent: _pickerItemExtent,
-        useMagnifier: true,
-        magnification: _magnification,
-        onSelectedItemChanged: (int index) {
-          selectedDay = index + 1;
-          if (_isCurrentDateValid) {
-            widget.onDateTimeChanged(
-                DateTime(selectedYear, selectedMonth, selectedDay));
-          }
-        },
-        looping: true,
-        selectionOverlay: selectionOverlay,
-        children: List<Widget>.generate(31, (int index) {
-          final int day = index + 1;
-          return itemPositioningBuilder(
-            context,
-            Text(
-              '$day',
-              style:
-                  _themeTextStyle(context, isValid: day <= daysInCurrentMonth),
-            ),
-          );
-        }),
+      child: CupertinoTheme(
+        data: const CupertinoThemeData(
+          textTheme: CupertinoTextThemeData(
+            textStyle: _textStyle,
+            pickerTextStyle: _unitTextStyle,
+          ),
+        ),
+        child: CupertinoPicker(
+          scrollController: dayController,
+          itemExtent: _pickerItemExtent,
+          useMagnifier: true,
+          onSelectedItemChanged: (int index) {
+            selectedDay = index + 1;
+            if (_isCurrentDateValid) {
+              widget.onDateTimeChanged(
+                  DateTime(selectedYear, selectedMonth, selectedDay));
+            }
+          },
+          looping: true,
+          selectionOverlay: selectionOverlay,
+          children: List<Widget>.generate(31, (int index) {
+            final int day = index + 1;
+            return itemPositioningBuilder(
+              context,
+              Text(
+                '$day',
+                // style: _themeTextStyle(context,
+                //     isValid: day <= daysInCurrentMonth),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -297,36 +304,42 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
 
         return false;
       },
-      child: CupertinoPicker(
-        scrollController: monthController,
-        itemExtent: _pickerItemExtent,
-        useMagnifier: true,
-        magnification: _magnification,
-        onSelectedItemChanged: (int index) {
-          selectedMonth = index + 1;
-          if (_isCurrentDateValid) {
-            widget.onDateTimeChanged(
-                DateTime(selectedYear, selectedMonth, selectedDay));
-          }
-        },
-        looping: true,
-        selectionOverlay: selectionOverlay,
-        children: List<Widget>.generate(12, (int index) {
-          final int month = index + 1;
-          final bool isInvalidMonth =
-              (widget.minimumDate?.year == selectedYear &&
-                      widget.minimumDate.month > month) ||
-                  (widget.maximumDate?.year == selectedYear &&
-                      widget.maximumDate.month < month);
-
-          return itemPositioningBuilder(
-            context,
-            Text(
-              '$month',
-              style: _themeTextStyle(context, isValid: !isInvalidMonth),
-            ),
-          );
-        }),
+      child: CupertinoTheme(
+        data: const CupertinoThemeData(
+          textTheme: CupertinoTextThemeData(
+            textStyle: _textStyle,
+            pickerTextStyle: _unitTextStyle,
+          ),
+        ),
+        child: CupertinoPicker(
+          scrollController: monthController,
+          itemExtent: _pickerItemExtent,
+          useMagnifier: true,
+          onSelectedItemChanged: (int index) {
+            selectedMonth = index + 1;
+            if (_isCurrentDateValid) {
+              widget.onDateTimeChanged(
+                  DateTime(selectedYear, selectedMonth, selectedDay));
+            }
+          },
+          looping: true,
+          selectionOverlay: selectionOverlay,
+          children: List<Widget>.generate(12, (int index) {
+            final int month = index + 1;
+            // final bool isInvalidMonth =
+            //     (widget.minimumDate?.year == selectedYear &&
+            //             widget.minimumDate.month > month) ||
+            //         (widget.maximumDate?.year == selectedYear &&
+            //             widget.maximumDate.month < month);
+            return itemPositioningBuilder(
+              context,
+              Text(
+                '$month',
+                // style: _themeTextStyle(context, isValid: !isInvalidMonth),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -344,38 +357,45 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
 
         return false;
       },
-      child: CupertinoPicker.builder(
-        scrollController: yearController,
-        itemExtent: _pickerItemExtent,
-        useMagnifier: true,
-        magnification: _magnification,
-        onSelectedItemChanged: (int index) {
-          selectedYear = index;
-          if (_isCurrentDateValid) {
-            widget.onDateTimeChanged(
-                DateTime(selectedYear, selectedMonth, selectedDay));
-          }
-        },
-        itemBuilder: (BuildContext context, int year) {
-          if (year < widget.minimumYear) return null;
+      child: CupertinoTheme(
+        data: const CupertinoThemeData(
+          textTheme: CupertinoTextThemeData(
+            textStyle: _textStyle,
+            pickerTextStyle: _unitTextStyle,
+          ),
+        ),
+        child: CupertinoPicker.builder(
+          scrollController: yearController,
+          itemExtent: _pickerItemExtent,
+          useMagnifier: true,
+          onSelectedItemChanged: (int index) {
+            selectedYear = index;
+            if (_isCurrentDateValid) {
+              widget.onDateTimeChanged(
+                  DateTime(selectedYear, selectedMonth, selectedDay));
+            }
+          },
+          itemBuilder: (BuildContext context, int year) {
+            if (year < widget.minimumYear) return null;
 
-          if (widget.maximumYear != null && year > widget.maximumYear) {
-            return null;
-          }
+            if (widget.maximumYear != null && year > widget.maximumYear) {
+              return null;
+            }
 
-          final bool isValidYear = (widget.minimumDate == null ||
-                  widget.minimumDate.year <= year) &&
-              (widget.maximumDate == null || widget.maximumDate.year >= year);
+            // final bool isValidYear = (widget.minimumDate == null ||
+            //         widget.minimumDate.year <= year) &&
+            //     (widget.maximumDate == null || widget.maximumDate.year >= year);
 
-          return itemPositioningBuilder(
-            context,
-            Text(
-              '$year',
-              style: _themeTextStyle(context, isValid: isValidYear),
-            ),
-          );
-        },
-        selectionOverlay: selectionOverlay,
+            return itemPositioningBuilder(
+              context,
+              Text(
+                '$year',
+                // style: _themeTextStyle(context, isValid: isValidYear),
+              ),
+            );
+          },
+          selectionOverlay: selectionOverlay,
+        ),
       ),
     );
   }
