@@ -16,13 +16,12 @@ class STAlertConstant {
   static const colorSuccess = Color(0xFF49C564);
   static const colorError = Color(0xFFFF4141);
   static const colorWarnning = Color(0xFFFFA927);
-  static const colorBackground = Color.fromRGBO(255, 255, 255, 0.1);
 
 //**************************************************************** */
 
-  static const defaultWidth = 200.0; //默认宽度
+  static const defaultWidth = 340.0; //默认宽度
   static const defaultHeight = 40.0;
-  static const iconWidth = 20.0;
+  static const iconWidth = 18.0;
 
   static const cornerRadius = 4.0;
 

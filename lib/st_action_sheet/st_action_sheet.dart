@@ -24,6 +24,7 @@ class STActionSheet extends StatefulWidget {
   final bool showSelectColor;
   final bool isSingleSelect;
   final bool isOptionAligmentCenter;
+  final double listHeight;
 
   const STActionSheet(
       {Key key,
@@ -44,7 +45,8 @@ class STActionSheet extends StatefulWidget {
       this.selectedColor,
       this.showSelectColor,
       this.isSingleSelect,
-      this.isOptionAligmentCenter})
+      this.isOptionAligmentCenter,
+      this.listHeight})
       : super(key: key);
 
   static void show({
@@ -68,6 +70,7 @@ class STActionSheet extends StatefulWidget {
     bool showSelectColor = true,
     bool isSingleSelect = false,
     bool isOptionAligmentCenter = false,
+    double listHeight = 200,
   }) {
     final actionSheet = STActionSheet(
       width: width,
@@ -94,6 +97,7 @@ class STActionSheet extends StatefulWidget {
       showSelectColor: showSelectColor,
       isSingleSelect: isSingleSelect,
       isOptionAligmentCenter: isOptionAligmentCenter,
+      listHeight: listHeight,
     );
     showModalBottomSheet(
         context: context,
@@ -136,25 +140,28 @@ class _STActionSheetState extends State<STActionSheet>
 
     double containerWidth;
 
-    Text titleWidget;
+    Widget titleWidget;
     if (isNotEmpty(widget.title)) {
-      titleWidget = Text(widget.title,
-          softWrap: true,
-          style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-              fontSize: STActionSheetConstant.titleFontSize,
-              decoration: TextDecoration.none));
+      titleWidget = Text(
+        widget.title,
+        softWrap: true,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            fontSize: STActionSheetConstant.titleFontSize,
+            decoration: TextDecoration.none),
+      );
     }
 
-    Text messageWidget;
+    Widget messageWidget;
     if (isNotEmpty(widget.message)) {
       messageWidget = Text(
         widget.message,
         softWrap: true,
         style: const TextStyle(
           fontWeight: FontWeight.w400,
-          color: Colors.black,
+          color: STActionSheetConstant.messageColor,
           fontSize: STActionSheetConstant.messageFontSize,
           decoration: TextDecoration.none,
         ),
@@ -175,9 +182,15 @@ class _STActionSheetState extends State<STActionSheet>
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const SizedBox(
+                    width: 20,
+                  ),
                   widget.icon,
+                  const SizedBox(
+                    width: 12,
+                  ),
                   Column(
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (titleWidget != null) titleWidget,
                       if (messageWidget != null) messageWidget
@@ -185,8 +198,14 @@ class _STActionSheetState extends State<STActionSheet>
                   )
                 ],
               ),
-            if (widget.icon == null && titleWidget != null) titleWidget,
-            if (widget.icon == null && messageWidget != null) messageWidget,
+            if (widget.icon == null && titleWidget != null)
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                  child: titleWidget),
+            if (widget.icon == null && messageWidget != null)
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                  child: messageWidget),
           ];
 
           final List<Widget> listViewList = [];
@@ -207,13 +226,20 @@ class _STActionSheetState extends State<STActionSheet>
                 },
                 isOptionAligmentCenter: widget.isOptionAligmentCenter));
           }
-          columnArray.add(
-            Expanded(
-                child: ListView(
-              shrinkWrap: true,
-              children: listViewList,
-            )),
-          );
+          columnArray.add(SizedBox(
+            height: widget.listHeight,
+            child: SingleChildScrollView(
+              child: Column(
+                children: listViewList,
+              ),
+            ),
+          )
+
+              // ListView(
+              //   shrinkWrap: true,
+              //   children: listViewList,
+              // ),
+              );
 
           addBottomButtonToColumn(containerWidth, columnArray);
         }
@@ -230,8 +256,29 @@ class _STActionSheetState extends State<STActionSheet>
                 const SizedBox(
                   height: 16,
                 ),
-                if (!(titleWidget == null)) titleWidget,
-                if (!(messageWidget == null)) messageWidget,
+                if (widget.icon != null)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      widget.icon,
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (titleWidget != null) titleWidget,
+                          if (messageWidget != null) messageWidget
+                        ],
+                      )
+                    ],
+                  ),
+                if (widget.icon == null && titleWidget != null) titleWidget,
+                if (widget.icon == null && messageWidget != null) messageWidget,
                 const SizedBox(
                   height: 16,
                 ),
@@ -304,16 +351,13 @@ class _STActionSheetState extends State<STActionSheet>
                   borderRadius:
                       BorderRadius.circular(STActionSheetConstant.cornerRadius),
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(4.0, 4.0),
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0),
-                  ],
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment:
+                      (titleWidget != null && messageWidget != null)
+                          ? CrossAxisAlignment.start
+                          : CrossAxisAlignment.center,
                   children: columnArray,
                 ),
               ),
@@ -328,17 +372,23 @@ class _STActionSheetState extends State<STActionSheet>
       columnArray.add(const SizedBox(height: 16));
     }
     if (widget.hasCancelButton || widget.hasConfirmButton) {
-      columnArray.add(STActionSheetBottomButtons(
-        hasCancelButton: widget.hasCancelButton,
-        hasConfirmButton: widget.hasConfirmButton,
-        cancelTitle: widget.cancelTitle,
-        confirmTitle: widget.confirmTitle,
-        onCancelTap: widget.onCancelTap,
-        onConfirmTap: () {
-          widget.onConfirmTap(selectedList);
-        },
-        containerWidth: containerWidth,
-      ));
+      columnArray.add(
+        Center(
+          child: Center(
+            child: STActionSheetBottomButtons(
+              hasCancelButton: widget.hasCancelButton,
+              hasConfirmButton: widget.hasConfirmButton,
+              cancelTitle: widget.cancelTitle,
+              confirmTitle: widget.confirmTitle,
+              onCancelTap: widget.onCancelTap,
+              onConfirmTap: () {
+                widget.onConfirmTap(selectedList);
+              },
+              containerWidth: containerWidth,
+            ),
+          ),
+        ),
+      );
     }
     if (widget.hasCancelButton && widget.hasConfirmButton) {
       columnArray.add(const SizedBox(height: 16));

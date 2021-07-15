@@ -132,6 +132,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
         padding: EdgeInsets.only(top: 3.0),
         child: Icon(
           Icons.close,
+          color: Colors.grey,
           size: STAlertConstant.iconWidth,
         ));
     if (!isNullOrEmpty(widget.closeText)) {
@@ -144,6 +145,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
       closeInsideWidget = SizedBox(
         width: closeTextWidth,
         child: Text(widget.closeText,
+            textAlign: TextAlign.right,
             style: const TextStyle(
                 color: Colors.grey,
                 fontSize: STAlertConstant.closeTextFontSize,
@@ -155,6 +157,9 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
     }
 
     return Center(
+        child: Container(
+      width: curWidth,
+      color: Colors.white,
       child: Container(
         width: curWidth,
         decoration: BoxDecoration(
@@ -169,7 +174,10 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
             children: [
               if (widget.showIcon)
                 Padding(
-                  padding: const EdgeInsets.only(top: 4, right: 12.0),
+                  padding: const EdgeInsets.only(
+                    right: 12.0,
+                    top: 3,
+                  ),
                   child: iconFromAlertType(widget.type),
                 ),
               Expanded(
@@ -191,16 +199,13 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
                             ),
                           ),
                         if (widget.closable)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                if (widget.onCloseTap != null) {
-                                  widget.onCloseTap();
-                                }
-                              },
-                              child: closeInsideWidget,
-                            ),
+                          GestureDetector(
+                            onTap: () {
+                              if (widget.onCloseTap != null) {
+                                widget.onCloseTap();
+                              }
+                            },
+                            child: closeInsideWidget,
                           ),
                       ],
                     ),
@@ -216,7 +221,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
           ),
         ),
       ),
-    );
+    ));
   }
 
   @override
@@ -240,19 +245,19 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
     Color iconColor;
     switch (type) {
       case STAlertType.success:
-        iconData = Icons.check;
+        iconData = Icons.check_circle_outline;
         iconColor = STAlertConstant.colorSuccess;
         break;
       case STAlertType.error:
-        iconData = Icons.error;
+        iconData = Icons.cancel_outlined;
         iconColor = STAlertConstant.colorError;
         break;
       case STAlertType.warning:
-        iconData = Icons.info;
+        iconData = Icons.error_outline;
         iconColor = STAlertConstant.colorWarnning;
         break;
       default:
-        iconData = Icons.info;
+        iconData = Icons.info_outline;
         iconColor = STAlertConstant.colorInfo;
     }
     return Icon(

@@ -74,11 +74,11 @@ class _STProgressState extends State<STProgress> {
             curHeight ??= 8.0;
             if (curStatus != STProgressStatus.primary) {
               curTrailingWidget =
-                  iconFromProgressStatus(curStatus, curHeight, false);
+                  iconFromProgressStatus(curStatus, curHeight + 5, false);
             } else {
               curTrailingWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
-                style: TextStyle(fontSize: curHeight),
+                style: TextStyle(fontSize: curHeight + 5),
               );
             }
           } else {
@@ -150,7 +150,7 @@ class _STProgressState extends State<STProgress> {
             } else {
               curCenterWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
-                style: TextStyle(fontSize: curHeight * 2.0),
+                style: TextStyle(fontSize: curHeight * 2.0 + 5),
               );
             }
           } else {
@@ -196,6 +196,7 @@ class _STProgressState extends State<STProgress> {
               percent: curProgress,
               center: curCenterWidget,
               circularStrokeCap: CircularStrokeCap.round,
+              backgroundColor: STProgressConstant.defaultBackgroundColor,
               progressColor: curProgressColor,
               arcType: widget.type == STProgressType.dashboard
                   ? ArcType.GAP

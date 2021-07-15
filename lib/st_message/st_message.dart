@@ -14,6 +14,7 @@ class STMessage extends StatefulWidget {
   final bool autoClose;
   final int disappearMilliseconds;
   final STMessageLocation location;
+  final STMessageType type;
 
   static BuildContext _curContext;
   static OverlayEntry _curOverlayEntry;
@@ -28,6 +29,7 @@ class STMessage extends StatefulWidget {
     bool autoClose = true,
     int disappearMilliseconds = STMessageConstant.defaultDisappearMilliseconds,
     STMessageLocation location = STMessageLocation.top,
+    STMessageType type = STMessageType.none,
   }) {
     if (_curContext != null) {
       hide(context);
@@ -42,6 +44,7 @@ class STMessage extends StatefulWidget {
       autoClose: autoClose,
       disappearMilliseconds: disappearMilliseconds,
       location: location,
+      type: type,
     );
 
     final OverlayState overlayState = Overlay.of(context);
@@ -58,17 +61,18 @@ class STMessage extends StatefulWidget {
     _curContext = null;
   }
 
-  const STMessage({
-    Key key,
-    this.title,
-    this.message,
-    this.icon,
-    this.content,
-    this.showShadow,
-    this.autoClose,
-    this.disappearMilliseconds,
-    this.location,
-  }) : super(key: key);
+  const STMessage(
+      {Key key,
+      this.title,
+      this.message,
+      this.icon,
+      this.content,
+      this.showShadow,
+      this.autoClose,
+      this.disappearMilliseconds,
+      this.location,
+      this.type})
+      : super(key: key);
 
   @override
   _STMessageState createState() => _STMessageState();
@@ -130,6 +134,11 @@ class _STMessageState extends State<STMessage> {
       );
     }
 
+    Widget iconWidget = widget.icon;
+    if (iconWidget == null && widget.type != STMessageType.none) {
+      iconWidget = iconFromAlertType(widget.type);
+    }
+
     return SafeArea(
       child: Align(
         alignment: getAligmentFromLocation(widget.location),
@@ -141,7 +150,7 @@ class _STMessageState extends State<STMessage> {
             boxShadow: [
               BoxShadow(
                   color:
-                      widget.showShadow ? Colors.black26 : Colors.transparent,
+                      widget.showShadow ? Colors.black12 : Colors.transparent,
                   offset: containerShadowOffset,
                   blurRadius: 5.0,
                   spreadRadius: 2.0),
@@ -149,7 +158,7 @@ class _STMessageState extends State<STMessage> {
           ),
           child: widget.content ??
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,10 +171,10 @@ class _STMessageState extends State<STMessage> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (widget.icon != null)
+                              if (iconWidget != null)
                                 Padding(
                                     padding: iconTitlePadding,
-                                    child: widget.icon),
+                                    child: iconWidget),
                               if (titleWidget != null)
                                 Expanded(child: titleWidget),
                               if (titleWidget == null && messageWidget != null)
@@ -175,6 +184,8 @@ class _STMessageState extends State<STMessage> {
                         ),
                       ],
                     ),
+                    if (titleWidget != null && messageWidget != null)
+                      const SizedBox(height: 2),
                     if (titleWidget != null && messageWidget != null)
                       messageWidget,
                   ],
@@ -202,5 +213,34 @@ class _STMessageState extends State<STMessage> {
       timer.cancel();
     }
     super.dispose();
+  }
+
+  Widget iconFromAlertType(STMessageType type) {
+    IconData iconData;
+    Color iconColor;
+    switch (type) {
+      case STMessageType.success:
+        iconData = Icons.check_circle;
+        iconColor = STMessageConstant.colorSuccess;
+        break;
+      case STMessageType.error:
+        iconData = Icons.cancel;
+        iconColor = STMessageConstant.colorError;
+        break;
+      case STMessageType.warning:
+        iconData = Icons.error;
+        iconColor = STMessageConstant.colorWarnning;
+        break;
+      case STMessageType.info:
+        iconData = Icons.info;
+        iconColor = STMessageConstant.colorInfo;
+        break;
+      default:
+    }
+    return Icon(
+      iconData,
+      size: STMessageConstant.iconWidth,
+      color: iconColor,
+    );
   }
 }

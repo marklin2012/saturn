@@ -197,13 +197,6 @@ class _STDialogState extends State<STDialog> {
                   borderRadius:
                       BorderRadius.circular(STDialogConstant.cornerRadius),
                   color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(4.0, 4.0),
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0),
-                  ],
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

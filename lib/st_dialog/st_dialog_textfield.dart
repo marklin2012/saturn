@@ -12,7 +12,7 @@ class STDialogTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 36),
         child: Theme(
@@ -21,15 +21,17 @@ class STDialogTextField extends StatelessWidget {
             controller: textEditingController,
             autofocus: true,
             focusNode: focusNode,
-            cursorColor: STDialogConstant.textFieldThemeColor,
+            cursorColor: STDialogConstant.defaultButtonTextColor,
+            cursorWidth: 1.5,
             decoration: const InputDecoration(
               hintText: "请输入",
               hintStyle: TextStyle(color: STDialogConstant.textFieldThemeColor),
               contentPadding: EdgeInsets.symmetric(vertical: 6, horizontal: 14),
-              border: OutlineInputBorder(
+              focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 borderSide: BorderSide(
-                    color: STDialogConstant.textFieldThemeColor, width: 0.5),
+                  color: STDialogConstant.textFieldThemeColor,
+                ),
               ),
             ),
           ),

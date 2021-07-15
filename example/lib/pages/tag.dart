@@ -11,7 +11,7 @@ class _TagPageState extends State<TagPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('tag'),
+        title: Text('Tag'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

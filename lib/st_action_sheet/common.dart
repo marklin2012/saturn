@@ -14,6 +14,9 @@ class STActionSheetConstant {
 
   static const double defaultTopBottomPadding = 16.0;
 
+  static const Color butttonHighlightColor = Color(0xFFBBBBBB);
+
+  static const Color messageColor = Color(0xFF555555);
   static const Color defaultButtonTextColor = Color.fromRGBO(9, 91, 249, 1);
   static const Color textFieldThemeColor = Color.fromRGBO(187, 187, 187, 0.5);
   static const Color defaultLineColor = Color.fromRGBO(239, 243, 249, 1);

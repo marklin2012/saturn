@@ -19,7 +19,7 @@ enum STProgressStatus {
 class STProgressConstant {
   static const defaultBackgroundColor = Color(0xFFEFF3F9);
 
-  static const defaultSpace = 3.0;
+  static const defaultSpace = 2.0;
 
   static const colorPrimary = Colors.blue;
   static const colorDone = Color(0xFF49C564);

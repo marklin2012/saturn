@@ -11,6 +11,7 @@ class STSnackbarConstant {
   static const buttonCornerRadius = 4.0;
 
   static const defaultBackgroundColor = Color.fromRGBO(0, 0, 0, 0.8);
+  static const defaultMessageColor = Color(0xFFBBBBBB);
 
   static const blueColor = Color.fromRGBO(9, 91, 249, 1);
 

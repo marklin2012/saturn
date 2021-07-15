@@ -10,6 +10,7 @@ class STDialogConstant {
   static const double defaultMaxHeightPercent = 0.5;
 
   static const Color defaultButtonTextColor = Color.fromRGBO(9, 91, 249, 1);
+  static const defaultMessageColor = Color(0xFFBBBBBB);
   static const Color textFieldThemeColor = Color.fromRGBO(187, 187, 187, 0.5);
   static const Color defaultLineColor = Color.fromRGBO(239, 243, 249, 1);
 }

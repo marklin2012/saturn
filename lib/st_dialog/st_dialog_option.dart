@@ -24,8 +24,8 @@ class STDialogOptionWidget extends StatelessWidget {
       height: 44,
       child: TextButton(
         style: ButtonStyle(
-          overlayColor:
-              MaterialStateColor.resolveWith((states) => Colors.transparent),
+          overlayColor: MaterialStateColor.resolveWith(
+              (states) => STDialogConstant.defaultMessageColor),
         ),
         onPressed: () {
           if (closable) {

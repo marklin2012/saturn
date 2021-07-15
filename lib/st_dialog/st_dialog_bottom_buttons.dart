@@ -28,10 +28,11 @@ class STDialogBottomButtons extends StatelessWidget {
         children: [
           SizedBox(
             width: containerWidth / 2.0 - 1,
+            height: 44,
             child: TextButton(
               style: ButtonStyle(
                 overlayColor: MaterialStateColor.resolveWith(
-                    (states) => Colors.transparent),
+                    (states) => STDialogConstant.defaultMessageColor),
                 side: MaterialStateProperty.all(
                     const BorderSide(color: Colors.transparent, width: 1)),
               ),
@@ -57,10 +58,11 @@ class STDialogBottomButtons extends StatelessWidget {
           ),
           SizedBox(
             width: containerWidth / 2.0 - 1,
+            height: 44,
             child: TextButton(
               style: ButtonStyle(
                   overlayColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.transparent),
+                      (states) => STDialogConstant.defaultMessageColor),
                   backgroundColor:
                       MaterialStateColor.resolveWith((states) => Colors.white)),
               onPressed: () {
@@ -86,10 +88,11 @@ class STDialogBottomButtons extends StatelessWidget {
       if (hasConfirmButton) text = confirmTitle;
       return SizedBox(
         width: containerWidth,
+        height: 44,
         child: TextButton(
           style: ButtonStyle(
-            overlayColor:
-                MaterialStateColor.resolveWith((states) => Colors.transparent),
+            overlayColor: MaterialStateColor.resolveWith(
+                (states) => STDialogConstant.defaultMessageColor),
           ),
           onPressed: () {
             if (hasConfirmButton && onConfirmTap != null) {
