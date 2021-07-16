@@ -25,7 +25,7 @@ class STAlert extends StatefulWidget {
     @required this.showIcon,
     @required this.autoClose,
     @required this.closable,
-    this.width = STAlertConstant.defaultWidth,
+    this.width,
     this.icon,
     this.description,
     this.closeText,
@@ -42,7 +42,7 @@ class STAlert extends StatefulWidget {
       bool showIcon = false,
       bool autoClose = false,
       bool closable = false,
-      double width = STAlertConstant.defaultWidth,
+      double width,
       String icon,
       String description,
       String closeText,
@@ -112,7 +112,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
   }
 
   TextStyle titleStyle = const TextStyle(
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       color: Colors.black,
       fontSize: STAlertConstant.titleFontSize,
       decoration: TextDecoration.none);
@@ -125,9 +125,11 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
 
   @override
   Widget build(BuildContext context) {
-    final double curWidth = widget.width > STAlertConstant.defaultWidth
-        ? widget.width
-        : STAlertConstant.defaultWidth;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    double curWidth = widget.width;
+    curWidth ??= screenWidth - 16 * 2;
+
     Widget closeInsideWidget = const Padding(
         padding: EdgeInsets.only(top: 3.0),
         child: Icon(
@@ -176,7 +178,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
                 Padding(
                   padding: const EdgeInsets.only(
                     right: 12.0,
-                    top: 3,
+                    top: 4,
                   ),
                   child: iconFromAlertType(widget.type),
                 ),
@@ -210,10 +212,14 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
                       ],
                     ),
                     if (!isNullOrEmpty(widget.description))
+                      const SizedBox(height: 8.0),
+                    if (!isNullOrEmpty(widget.description))
                       Text(
                         widget.description,
                         style: messageStyle,
-                      )
+                      ),
+                    if (!isNullOrEmpty(widget.description))
+                      const SizedBox(height: 6.0),
                   ],
                 ),
               ),
