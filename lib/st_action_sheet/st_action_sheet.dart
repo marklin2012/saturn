@@ -138,7 +138,7 @@ class _STActionSheetState extends State<STActionSheet>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    double containerWidth;
+    final double containerWidth = screenWidth;
 
     Widget titleWidget;
     if (isNotEmpty(widget.title)) {
@@ -172,8 +172,6 @@ class _STActionSheetState extends State<STActionSheet>
     switch (widget.directionType) {
       case STActionSheetDirectionType.vertical:
         {
-          containerWidth = screenWidth *
-              STActionSheetConstant.verticalListDefaultWidthPercent;
           columnArray = [
             const SizedBox(
               height: 16,
@@ -247,8 +245,6 @@ class _STActionSheetState extends State<STActionSheet>
 
       case STActionSheetDirectionType.horizontal:
         {
-          containerWidth = screenWidth *
-              STActionSheetConstant.horizontalListDefaultWidthPercent;
           columnArray = [
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -329,41 +325,46 @@ class _STActionSheetState extends State<STActionSheet>
     }
 
     return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            GestureDetector(
-              onTap: () {
-                if (widget.closable) {
-                  STActionSheet.hide(context);
-                }
-              },
-              child: Container(
-                width: screenWidth,
-                height: screenHeight,
-                color: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (widget.closable) {
+                STActionSheet.hide(context);
+              }
+            },
+            child: Container(
+              width: screenWidth,
+              height: screenHeight,
+              color: Colors.transparent,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: containerWidth,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft:
+                        Radius.circular(STActionSheetConstant.cornerRadius),
+                    topRight:
+                        Radius.circular(STActionSheetConstant.cornerRadius)),
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment:
+                    (titleWidget != null && messageWidget != null)
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                children: columnArray,
               ),
             ),
-            Center(
-              child: Container(
-                width: containerWidth,
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(STActionSheetConstant.cornerRadius),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment:
-                      (titleWidget != null && messageWidget != null)
-                          ? CrossAxisAlignment.start
-                          : CrossAxisAlignment.center,
-                  children: columnArray,
-                ),
-              ),
-            ),
-          ],
-        ));
+          )
+        ],
+      ),
+    );
   }
 
   void addBottomButtonToColumn(
