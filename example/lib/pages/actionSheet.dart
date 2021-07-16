@@ -103,24 +103,44 @@ class ActionSheetPage extends StatelessWidget {
                     options: [
                       STActionSheetOption(
                         title: "选项一",
-                        icon: Icon(Icons.info_outline, color: Colors.grey),
+                        icon: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth)),
                         //       fit: BoxFit.fitWidth),
                       ),
                       STActionSheetOption(
                         title: "选项二",
-                        icon: Icon(Icons.info_outline, color: Colors.grey),
+                        icon: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth)),
                       ),
                       STActionSheetOption(
                         title: "选项三",
-                        icon: Icon(Icons.info_outline, color: Colors.grey),
+                        icon: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth)),
                       ),
                       STActionSheetOption(
                         title: "选项四",
-                        icon: Icon(Icons.info_outline, color: Colors.grey),
+                        icon: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth)),
                       ),
                       STActionSheetOption(
                         title: "选项五",
-                        icon: Icon(Icons.info_outline, color: Colors.grey),
+                        icon: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth)),
                       )
                     ]);
               },
