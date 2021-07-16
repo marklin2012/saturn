@@ -14,17 +14,45 @@ class ActionSheetPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // FlatButton(
-            //   child: Text("list vertical 不许选择"),
-            //   color: Colors.blue,
-            //   onPressed: () {
-            //     STActionSheet.show(
-            //       context: context,
-            //     );
-            //   },
-            // ),
             FlatButton(
-              child: Text("list vertical文字"),
+              child: Text("list vertical文字 单选"),
+              color: Colors.blue,
+              onPressed: () {
+                STActionSheet.show(
+                    context: context,
+                    message: "描述类标题描述类标题描述类标题描述",
+                    hasCancelButton: false,
+                    hasConfirmButton: true,
+                    isSingleSelect: true,
+                    directionType: STActionSheetDirectionType.vertical,
+                    isOptionAligmentCenter: true,
+                    options: [
+                      STActionSheetOption(
+                        title: "选项一",
+                      ),
+                      STActionSheetOption(
+                        title: "选项二",
+                      ),
+                      STActionSheetOption(
+                        title: "选项三",
+                      ),
+                      STActionSheetOption(
+                        title: "选项四",
+                      ),
+                      STActionSheetOption(
+                        title: "选项五",
+                      ),
+                      STActionSheetOption(
+                        title: "选项四",
+                      ),
+                      STActionSheetOption(
+                        title: "选项五",
+                      ),
+                    ]);
+              },
+            ),
+            FlatButton(
+              child: Text("list vertical文字 多选"),
               color: Colors.blue,
               onPressed: () {
                 STActionSheet.show(
@@ -57,40 +85,11 @@ class ActionSheetPage extends StatelessWidget {
                       STActionSheetOption(
                         title: "选项五",
                       ),
-                      // STActionSheetOption(
-                      //   title: "好的",
-                      //   isRadio: true,
-                      // ),
-                      // STActionSheetOption(
-                      //   title: "是不是",
-                      //   icon: Image.asset("assets/images/basketball_check.png",
-                      //       fit: BoxFit.fitWidth),
-                      // ),
-                      // STActionSheetOption(
-                      //   title: "不好",
-                      //   message: "描述说明信息",
-                      //   icon: Image.asset("assets/images/basketball_check.png",
-                      //       fit: BoxFit.fitWidth),
-                      // ),
-                      // STActionSheetOption(
-                      //   title: "好的",
-                      //   icon: Image.asset("assets/images/basketball_check.png",
-                      //       fit: BoxFit.fitWidth),
-                      // ),
-                      // STActionSheetOption(
-                      //     title: "是不是",
-                      //     icon: Image.asset("assets/images/basketball_check.png",
-                      //         fit: BoxFit.fitWidth)),
-                      // STActionSheetOption(
-                      //     title: "不好",
-                      //     message: "描述说明信息",
-                      //     icon: Image.asset("assets/images/basketball_check.png",
-                      //         fit: BoxFit.fitWidth)),
                     ]);
               },
             ),
             FlatButton(
-              child: Text("list vertical 图片文字"),
+              child: Text("list vertical 图片文字 单选"),
               color: Colors.blue,
               onPressed: () {
                 STActionSheet.show(
@@ -98,7 +97,7 @@ class ActionSheetPage extends StatelessWidget {
                     message: "描述类标题描述类标题描述类标题描述",
                     hasCancelButton: false,
                     hasConfirmButton: true,
-                    isSingleSelect: false,
+                    isSingleSelect: true,
                     directionType: STActionSheetDirectionType.vertical,
                     isOptionAligmentCenter: false,
                     options: [
@@ -127,7 +126,46 @@ class ActionSheetPage extends StatelessWidget {
               },
             ),
             FlatButton(
-              child: Text("list vertical 单选文字"),
+              child: Text("list vertical 单选按钮文字 单选"),
+              color: Colors.blue,
+              onPressed: () {
+                STActionSheet.show(
+                    context: context,
+                    message: "描述类标题描述类标题描述类标题描述",
+                    hasCancelButton: false,
+                    hasConfirmButton: true,
+                    canSelect: true,
+                    isSingleSelect: true,
+                    directionType: STActionSheetDirectionType.vertical,
+                    isOptionAligmentCenter: false,
+                    options: [
+                      STActionSheetOption(
+                        title: "选项一",
+                        isRadio: true,
+                      ),
+                      STActionSheetOption(
+                        title: "选项二",
+                        isRadio: true,
+                      ),
+                      STActionSheetOption(
+                          title: "选项三",
+                          isRadio: true,
+                          onTap: () {
+                            print("点击了");
+                          }),
+                      STActionSheetOption(
+                        title: "选项四",
+                        isRadio: true,
+                      ),
+                      STActionSheetOption(
+                        title: "选项五",
+                        isRadio: true,
+                      )
+                    ]);
+              },
+            ),
+            FlatButton(
+              child: Text("list vertical 单选按钮文字 多选"),
               color: Colors.blue,
               onPressed: () {
                 STActionSheet.show(
@@ -149,9 +187,11 @@ class ActionSheetPage extends StatelessWidget {
                         isRadio: true,
                       ),
                       STActionSheetOption(
-                        title: "选项三",
-                        isRadio: true,
-                      ),
+                          title: "选项三",
+                          isRadio: true,
+                          onTap: () {
+                            print("点击了");
+                          }),
                       STActionSheetOption(
                         title: "选项四",
                         isRadio: true,
@@ -164,19 +204,23 @@ class ActionSheetPage extends StatelessWidget {
               },
             ),
             FlatButton(
-              child: Text("list vertical icon标题文字"),
+              child: Text("list vertical icon标题文字 单选"),
               color: Colors.blue,
               onPressed: () {
                 STActionSheet.show(
                     context: context,
-                    icon: Icon(Icons.article, color: Colors.blue),
+                    icon: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: Image.asset("assets/images/iconfont.png",
+                            fit: BoxFit.fitWidth)),
                     title: "这是一个标题",
                     message: "文字说明信息",
                     hasCancelButton: false,
                     hasConfirmButton: true,
-                    isSingleSelect: false,
+                    isSingleSelect: true,
                     directionType: STActionSheetDirectionType.vertical,
-                    isOptionAligmentCenter: true,
+                    isOptionAligmentCenter: false,
                     options: [
                       STActionSheetOption(
                         title: "选项一",
@@ -196,101 +240,8 @@ class ActionSheetPage extends StatelessWidget {
                     ]);
               },
             ),
-            // FlatButton(
-            //   child: Text("list vertical图片文字"),
-            //   color: Colors.blue,
-            //   onPressed: () {
-            //     STActionSheet.show(
-            //         context: context,
-            //         title: "是不是",
-            //         icon: Image.asset("assets/images/basketball_check.png",
-            //             fit: BoxFit.fitWidth),
-            //         message: "描述说明信息",
-            //         hasCancelButton: true,
-            //         isSingleSelect: true,
-            //         directionType: STActionSheetDirectionType.vertical,
-            //         isOptionAligmentCenter: false,
-            //         options: [
-            //           STActionSheetOption(
-            //             title: "好的",
-            //           ),
-            //           STActionSheetOption(
-            //             title: "好的",
-            //             isRadio: true,
-            //           ),
-            //           STActionSheetOption(
-            //               title: "是不是",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "不好",
-            //               message: "描述说明信息",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "好的",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "是不是",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "不好",
-            //               message: "描述说明信息",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //         ]);
-            //   },
-            // ),
-            // FlatButton(
-            //   child: Text("list vertical"),
-            //   color: Colors.blue,
-            //   onPressed: () {
-            //     STActionSheet.show(
-            //         context: context,
-            //         title: "是不是",
-            //         icon: Image.asset("assets/images/basketball_check.png",
-            //             fit: BoxFit.fitWidth),
-            //         message: "描述说明信息",
-            //         hasCancelButton: true,
-            //         isSingleSelect: false,
-            //         directionType: STActionSheetDirectionType.vertical,
-            //         options: [
-            //           STActionSheetOption(
-            //             title: "好的",
-            //           ),
-            //           STActionSheetOption(
-            //             title: "好的",
-            //             isRadio: true,
-            //           ),
-            //           STActionSheetOption(
-            //               title: "是不是",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "不好",
-            //               message: "描述说明信息",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "好的",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "是不是",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //           STActionSheetOption(
-            //               title: "不好",
-            //               message: "描述说明信息",
-            //               icon: Image.asset("assets/images/basketball_check.png",
-            //                   fit: BoxFit.fitWidth)),
-            //         ]);
-            //   },
-            // ),
             FlatButton(
-              child: Text("list horizontal"),
+              child: Text("list horizontal 单排 单选"),
               color: Colors.blue,
               onPressed: () {
                 STActionSheet.show(
@@ -305,53 +256,80 @@ class ActionSheetPage extends StatelessWidget {
                       [
                         STActionSheetOption(
                             title: "好的",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth),
+                            icon: SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: Image.asset("assets/images/iconfont.png",
+                                  fit: BoxFit.fitWidth),
+                            ),
                             onTap: () {
                               print("好的");
                             }),
                         STActionSheetOption(
-                            title: "是不是",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "是不是",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "不好",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "不好",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "不好",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "不好",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "不好",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "不好",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "不好",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "不好",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "不好",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth))
+                          title: "不好",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        )
                       ],
                     ]);
               },
             ),
             FlatButton(
-              child: Text("list horizontal 单选"),
+              child: Text("list horizontal 双排 单选"),
               color: Colors.blue,
               onPressed: () {
                 STActionSheet.show(
@@ -370,76 +348,110 @@ class ActionSheetPage extends StatelessWidget {
                       [
                         STActionSheetOption(
                             title: "文本",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth),
+                            icon: SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: Image.asset("assets/images/iconfont.png",
+                                  fit: BoxFit.fitWidth),
+                            ),
                             onTap: () {
                               print("好的");
                             }),
                         STActionSheetOption(
-                            title: "文本",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "文本",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "文本",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "文本",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "文本",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "文本",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "文本",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "文本",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "文本",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "文本",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                         STActionSheetOption(
-                            title: "文本",
-                            message: "描述说明信息",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth))
+                          title: "文本",
+                          message: "描述说明信息",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        )
                       ],
                       [
                         STActionSheetOption(
                             title: "文本",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth),
+                            icon: SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: Image.asset("assets/images/iconfont.png",
+                                  fit: BoxFit.fitWidth),
+                            ),
                             onTap: () {
                               print("好的");
                             }),
                         STActionSheetOption(
-                            title: "文本",
-                            icon: Image.asset(
-                                "assets/images/basketball_check.png",
-                                fit: BoxFit.fitWidth)),
+                          title: "文本",
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
+                        ),
                       ],
                     ]);
               },
             ),
             FlatButton(
-              child: Text("list horizontalicon标题文字"),
+              child: Text("list horizontalicon 标题文字 双排 单选"),
               color: Colors.blue,
               onPressed: () {
                 STActionSheet.show(
                   context: context,
                   icon: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: Image.asset("assets/images/basketball_check.png",
+                    height: 40,
+                    width: 40,
+                    child: Image.asset("assets/images/iconfont.png",
                         fit: BoxFit.fitWidth),
                   ),
                   title: "这是一个标题",
@@ -456,62 +468,96 @@ class ActionSheetPage extends StatelessWidget {
                     [
                       STActionSheetOption(
                           title: "文本",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth),
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
                           onTap: () {
                             print("好的");
                           }),
                       STActionSheetOption(
-                          title: "文本",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth)),
+                        title: "文本",
+                        icon: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
                       STActionSheetOption(
-                          title: "文本",
-                          message: "描述说明信息",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth)),
+                        title: "文本",
+                        message: "描述说明信息",
+                        icon: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
                       STActionSheetOption(
-                          title: "文本",
-                          message: "描述说明信息",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth)),
+                        title: "文本",
+                        message: "描述说明信息",
+                        icon: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
                       STActionSheetOption(
-                          title: "文本",
-                          message: "描述说明信息",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth)),
+                        title: "文本",
+                        message: "描述说明信息",
+                        icon: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
                       STActionSheetOption(
-                          title: "文本",
-                          message: "描述说明信息",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth)),
+                        title: "文本",
+                        message: "描述说明信息",
+                        icon: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
                       STActionSheetOption(
-                          title: "文本",
-                          message: "描述说明信息",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth))
+                        title: "文本",
+                        message: "描述说明信息",
+                        icon: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth),
+                        ),
+                      )
                     ],
                     [
                       STActionSheetOption(
                           title: "文本",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth),
+                          icon: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Image.asset("assets/images/iconfont.png",
+                                fit: BoxFit.fitWidth),
+                          ),
                           onTap: () {
                             print("文本");
                           }),
                       STActionSheetOption(
-                          title: "文本",
-                          icon: Image.asset(
-                              "assets/images/basketball_check.png",
-                              fit: BoxFit.fitWidth)),
+                        title: "文本",
+                        icon: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
                     ]
                   ],
                 );

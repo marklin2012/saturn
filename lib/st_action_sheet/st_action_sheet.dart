@@ -66,7 +66,7 @@ class STActionSheet extends StatefulWidget {
         STActionSheetDirectionType.vertical,
     bool closable = true,
     bool canSelect = true,
-    Color selectedColor = Colors.black12,
+    Color selectedColor = STActionSheetConstant.optionHighlightColor,
     bool showSelectColor = true,
     bool isSingleSelect = false,
     bool isOptionAligmentCenter = false,
@@ -147,7 +147,7 @@ class _STActionSheetState extends State<STActionSheet>
         softWrap: true,
         textAlign: TextAlign.center,
         style: const TextStyle(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: Colors.black,
             fontSize: STActionSheetConstant.titleFontSize,
             decoration: TextDecoration.none),
@@ -172,6 +172,7 @@ class _STActionSheetState extends State<STActionSheet>
     switch (widget.directionType) {
       case STActionSheetDirectionType.vertical:
         {
+          final bool optionHaveTopLine = widget.title != null;
           columnArray = [
             const SizedBox(
               height: 16,
@@ -204,40 +205,43 @@ class _STActionSheetState extends State<STActionSheet>
               Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                   child: messageWidget),
+            const SizedBox(
+              height: 16,
+            ),
+            if (optionHaveTopLine) getLineWidget(containerWidth)
           ];
 
           final List<Widget> listViewList = [];
           for (int i = 0; i < widget.options.length; i++) {
             listViewList.add(STActionSheetOptionWidget(
-                actionSheetOption: widget.options[i],
-                verticalIndex: i,
-                horizontalIndex: 0,
-                width: containerWidth,
-                directionType: widget.directionType,
-                selectedList: selectedList,
-                canSelect: widget.canSelect,
-                selectedColor: widget.selectedColor,
-                showSelectColor: widget.showSelectColor,
-                isSingleSelect: widget.isSingleSelect,
-                selectAction: () {
-                  setState(() {});
-                },
-                isOptionAligmentCenter: widget.isOptionAligmentCenter));
+              actionSheetOption: widget.options[i],
+              verticalIndex: i,
+              horizontalIndex: 0,
+              width: containerWidth,
+              directionType: widget.directionType,
+              selectedList: selectedList,
+              canSelect: widget.canSelect,
+              selectedColor: widget.selectedColor,
+              showSelectColor: widget.showSelectColor,
+              isSingleSelect: widget.isSingleSelect,
+              selectAction: () {
+                setState(() {});
+              },
+              isOptionAligmentCenter: widget.isOptionAligmentCenter,
+              isBotttomLineSpecial: optionHaveTopLine,
+              totalCount: widget.options.length,
+            ));
           }
-          columnArray.add(SizedBox(
-            height: widget.listHeight,
-            child: SingleChildScrollView(
-              child: Column(
-                children: listViewList,
+          columnArray.add(
+            SizedBox(
+              height: widget.listHeight,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: listViewList,
+                ),
               ),
             ),
-          )
-
-              // ListView(
-              //   shrinkWrap: true,
-              //   children: listViewList,
-              // ),
-              );
+          );
 
           addBottomButtonToColumn(containerWidth, columnArray);
         }
@@ -281,32 +285,38 @@ class _STActionSheetState extends State<STActionSheet>
               ],
             )
           ];
+          if (widget.title != null)
+            columnArray.add(getLineWidget(containerWidth));
+
           for (int i = 0; i < widget.options.length; i++) {
             final List optionList = widget.options[i];
             final List<Widget> horizontalListViewList = [];
             for (int j = 0; j < optionList.length; j++) {
               horizontalListViewList.add(STActionSheetOptionWidget(
-                  actionSheetOption: optionList[j],
-                  verticalIndex: i,
-                  horizontalIndex: j,
-                  width: containerWidth,
-                  directionType: widget.directionType,
-                  selectedList: selectedList,
-                  canSelect: widget.canSelect,
-                  selectedColor: widget.selectedColor,
-                  showSelectColor: widget.showSelectColor,
-                  isSingleSelect: widget.isSingleSelect,
-                  selectAction: () {
-                    setState(() {});
-                  },
-                  isOptionAligmentCenter: widget.isOptionAligmentCenter));
+                actionSheetOption: optionList[j],
+                verticalIndex: i,
+                horizontalIndex: j,
+                width: containerWidth,
+                directionType: widget.directionType,
+                selectedList: selectedList,
+                canSelect: widget.canSelect,
+                selectedColor: widget.selectedColor,
+                showSelectColor: widget.showSelectColor,
+                isSingleSelect: widget.isSingleSelect,
+                selectAction: () {
+                  setState(() {});
+                },
+                isOptionAligmentCenter: widget.isOptionAligmentCenter,
+              ));
             }
-            columnArray.add(const SizedBox(height: 6));
-
-            columnArray.add(SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: horizontalListViewList,
+            columnArray.add(const SizedBox(height: 12));
+            columnArray.add(Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: horizontalListViewList,
+                ),
               ),
             ));
             columnArray.add(const SizedBox(height: 6));
@@ -314,7 +324,9 @@ class _STActionSheetState extends State<STActionSheet>
                 !widget.hasCancelButton &&
                 !widget.hasConfirmButton) {
               columnArray.add(const SizedBox(height: 16));
-            } else {
+            } else if (widget.options.length != 1 &&
+                widget.title == null &&
+                (i != widget.options.length - 1)) {
               columnArray.add(getLineWidget(containerWidth));
             }
           }

@@ -49,6 +49,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/1.gif
+    - assets/images/iconfont.png
     - assets/images/icon_selected_20x20.png
     - assets/images/basketball_check.png
     - assets/video/showtime.mp4
