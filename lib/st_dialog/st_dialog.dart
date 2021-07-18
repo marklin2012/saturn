@@ -118,7 +118,7 @@ class _STDialogState extends State<STDialog> {
       titleWidget = Text(widget.title,
           softWrap: true,
           style: const TextStyle(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: Colors.black,
               fontSize: STDialogConstant.titleFontSize,
               decoration: TextDecoration.none));
@@ -145,9 +145,12 @@ class _STDialogState extends State<STDialog> {
         height: 16,
       ),
       widget.icon ?? (titleWidget ?? Container()),
-      const SizedBox(
-        height: 4,
-      ),
+      if (widget.icon != null)
+        const SizedBox(
+          height: 12,
+        )
+      else
+        const SizedBox(height: 8),
       if (messageWidget != null) messageWidget,
     ];
 
