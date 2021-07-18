@@ -26,6 +26,7 @@ class ActionSheetPage extends StatelessWidget {
                     isSingleSelect: true,
                     directionType: STActionSheetDirectionType.vertical,
                     isOptionAligmentCenter: true,
+                    showSeperateLine: true,
                     options: [
                       STActionSheetOption(
                         title: "选项一",
@@ -63,6 +64,7 @@ class ActionSheetPage extends StatelessWidget {
                     isSingleSelect: false,
                     directionType: STActionSheetDirectionType.vertical,
                     isOptionAligmentCenter: true,
+                    showSeperateLine: true,
                     options: [
                       STActionSheetOption(
                         title: "选项一",

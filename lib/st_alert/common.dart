@@ -19,7 +19,6 @@ class STAlertConstant {
 
 //**************************************************************** */
 
-  static const defaultWidth = 340.0; //默认宽度
   static const defaultHeight = 40.0;
   static const iconWidth = 18.0;
 

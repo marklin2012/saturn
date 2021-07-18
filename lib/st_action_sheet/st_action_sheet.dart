@@ -25,6 +25,7 @@ class STActionSheet extends StatefulWidget {
   final bool isSingleSelect;
   final bool isOptionAligmentCenter;
   final double listHeight;
+  final bool showSeperateLine;
 
   const STActionSheet(
       {Key key,
@@ -46,7 +47,8 @@ class STActionSheet extends StatefulWidget {
       this.showSelectColor,
       this.isSingleSelect,
       this.isOptionAligmentCenter,
-      this.listHeight})
+      this.listHeight,
+      this.showSeperateLine})
       : super(key: key);
 
   static void show({
@@ -71,6 +73,7 @@ class STActionSheet extends StatefulWidget {
     bool isSingleSelect = false,
     bool isOptionAligmentCenter = false,
     double listHeight = 200,
+    bool showSeperateLine = false,
   }) {
     final actionSheet = STActionSheet(
       width: width,
@@ -98,6 +101,7 @@ class STActionSheet extends StatefulWidget {
       isSingleSelect: isSingleSelect,
       isOptionAligmentCenter: isOptionAligmentCenter,
       listHeight: listHeight,
+      showSeperateLine: showSeperateLine,
     );
     showModalBottomSheet(
         context: context,
@@ -172,7 +176,6 @@ class _STActionSheetState extends State<STActionSheet>
     switch (widget.directionType) {
       case STActionSheetDirectionType.vertical:
         {
-          final bool optionHaveTopLine = widget.title != null;
           columnArray = [
             const SizedBox(
               height: 16,
@@ -208,7 +211,7 @@ class _STActionSheetState extends State<STActionSheet>
             const SizedBox(
               height: 16,
             ),
-            if (optionHaveTopLine) getLineWidget(containerWidth)
+            if (widget.title != null) getLineWidget(containerWidth)
           ];
 
           final List<Widget> listViewList = [];
@@ -228,7 +231,7 @@ class _STActionSheetState extends State<STActionSheet>
                 setState(() {});
               },
               isOptionAligmentCenter: widget.isOptionAligmentCenter,
-              isBotttomLineSpecial: optionHaveTopLine,
+              showSeperateLine: widget.showSeperateLine,
               totalCount: widget.options.length,
             ));
           }
