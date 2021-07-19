@@ -12,13 +12,16 @@ class _CardPageState extends State<CardPage> {
     final _child = Container(
       height: 192.0,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: 4,
         itemBuilder: (context, index) {
           return Container(
-            padding: EdgeInsets.only(left: 16),
+            padding: EdgeInsets.only(left: 16.0),
             alignment: Alignment.centerLeft,
             height: 48.0,
-            child: Text('列表内容$index'),
+            child: Text(
+              '列表内容$index',
+              style: TextStyle(fontSize: 16.0),
+            ),
           );
         },
       ),
@@ -27,15 +30,16 @@ class _CardPageState extends State<CardPage> {
       appBar: AppBar(
         title: Text('Card'),
       ),
-      body: Column(
+      body: ListView(
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 10.0),
           STCard(
             type: STCardType.basic,
             title: '卡片名称',
             opration: STButton(
               type: STButtonType.text,
               text: '操作按钮',
+              size: STButtonSize.small,
             ),
             child: _child,
           ),
@@ -47,6 +51,7 @@ class _CardPageState extends State<CardPage> {
             opration: STButton(
               type: STButtonType.text,
               text: '操作按钮',
+              size: STButtonSize.small,
             ),
             child: Container(
               padding: EdgeInsets.all(8),
@@ -94,6 +99,7 @@ class _CardPageState extends State<CardPage> {
             opration: STButton(
               type: STButtonType.text,
               text: '操作按钮',
+              size: STButtonSize.small,
             ),
           ),
         ],

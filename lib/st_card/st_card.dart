@@ -9,6 +9,7 @@ const _defaultContentHeight = 82.0;
 const _defaultBackgroundColor = Color(0xFFFAFCFF);
 const _defaultLineColor = Color(0xFFEFF3F9);
 const _defaultImageBGColor = Color(0xFFDFE2E7);
+const _spaceHeight = 8.0;
 
 class STCard extends StatelessWidget {
   const STCard({
@@ -83,6 +84,7 @@ class STCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(_title, style: titleStyle),
+            const SizedBox(height: _spaceHeight),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -106,10 +108,8 @@ class STCard extends StatelessWidget {
         boxShadow: [
           if (shadowed)
             const BoxShadow(
-              blurRadius: 2,
-              spreadRadius: 1,
+              blurRadius: 5,
               color: Color(0x20000000),
-              offset: Offset(1, 2),
             )
         ],
       ),
