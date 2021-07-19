@@ -11,7 +11,6 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final String text; // 文本内容
   final TextStyle textStyle; // 文本的style样式
   final VoidCallback onTap;
-  final double height;
   final double radius;
   final Color backgroundColor;
   final Color borderColor;
@@ -29,7 +28,6 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       this.text,
       this.textStyle,
       this.onTap,
-      this.height,
       this.radius,
       this.backgroundColor,
       this.padding,
@@ -88,9 +86,15 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           );
         }
         _icon = icon;
-        // 当状态为Loading且外部没有设置时，内部直接给定一个Loading的过程
-        if (stateValue == STButtonState.loading && _icon == null) {
-          _icon = const STActivityIndicator();
+        // 当状态为Loading，内部直接给定一个Loading的过程
+        if (stateValue == STButtonState.loading) {
+          var _loadingColor = Colors.white;
+          if (STButtonType.outline == type) {
+            _loadingColor = STColor.firRankBlue;
+          }
+          _icon = STActivityIndicator(
+            activeColor: _loadingColor,
+          );
         }
         return Opacity(
           opacity: opacityFromButtonState(stateValue),
