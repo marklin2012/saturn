@@ -34,6 +34,8 @@ class STVideoBase extends StatefulWidget {
     this.isLive = false,
     this.playType = STVideoPlayType.network,
     this.doubleControlRow = false,
+    this.isLooping = true,
+    this.isAutoPlay = true,
   }) : super(key: key);
 
   final double height;
@@ -42,6 +44,8 @@ class STVideoBase extends StatefulWidget {
   final STVideoPlayType playType;
   final bool isLive;
   final bool doubleControlRow; // 是否双行控制栏
+  final bool isLooping; // 是否循环播放
+  final bool isAutoPlay; // 是否自动播放
 
   @override
   _STVideoBaseState createState() => _STVideoBaseState();
@@ -97,12 +101,17 @@ class _STVideoBaseState extends State<STVideoBase> {
       _isOvered = _current == _total;
     });
     _initializeVideoPlayerFuture = _playerController.initialize();
+    _playerController.setLooping(widget.isLooping);
     _initializeVideoPlayerFuture.then((_) {
       _total = _playerController.value.duration; // 总时长
       _playerController.setVolume(_volume);
-      setState(() {
+      if (widget.isAutoPlay) {
+        _playerController.play();
+        _statusNotifier.value = STVideoStatus.play;
+      } else {
         _statusNotifier.value = STVideoStatus.pause;
-      });
+      }
+      setState(() {});
     });
   }
 
