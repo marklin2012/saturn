@@ -74,7 +74,7 @@ class _STProgressState extends State<STProgress> {
             curHeight ??= 8.0;
             if (curStatus != STProgressStatus.primary) {
               curTrailingWidget =
-                  iconFromProgressStatus(curStatus, curHeight + 5, false);
+                  iconFromProgressStatus(curStatus, curHeight + 10, false);
             } else {
               curTrailingWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
