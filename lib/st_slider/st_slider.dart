@@ -147,13 +147,13 @@ class _STSliderState extends State<STSlider> {
     initValue();
     return SizedBox(
       height: _isHorizontal
-          ? (widget.rangeValues == null
+          ? ((widget.minValue == null && widget.maxValue == null)
               ? _dotSize
               : _dotSize + STSliderConstant.dotWidth)
           : _height,
       width: _isHorizontal
           ? _width
-          : (widget.rangeValues == null
+          : ((widget.minValue == null && widget.maxValue == null)
               ? _dotSize
               : _dotSize + STSliderConstant.showTipSize),
       child: _getOpacityChild(),
@@ -163,6 +163,7 @@ class _STSliderState extends State<STSlider> {
   Widget _getOpacityChild() {
     if (_isHorizontal) {
       return Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,6 +185,7 @@ class _STSliderState extends State<STSlider> {
       );
     } else {
       return Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           _getStackChild(),
           Column(

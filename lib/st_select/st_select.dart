@@ -12,7 +12,8 @@ class STSelect extends StatelessWidget {
   const STSelect({
     Key key,
     this.types,
-    this.margin = const EdgeInsets.symmetric(horizontal: 16.0),
+    this.margin = const EdgeInsets.all(0.0),
+    this.isConCheck = false,
     this.initMixValue,
     this.mixListValues,
     this.onChangedMixValue,
@@ -26,6 +27,7 @@ class STSelect extends StatelessWidget {
   }) : super(key: key);
 
   final STSelectTypes types; // 不同的样式
+  final bool isConCheck; // 混合样式是否需要勾选
   final EdgeInsets margin; // 混合样式的外边距
   final STSelectMixItem initMixValue; // 混合样式的初始值
   final List<STSelectMixItem> mixListValues; // 混合样式的所有数据
@@ -49,6 +51,7 @@ class STSelect extends StatelessWidget {
           key: key,
           initValue: initMixValue,
           items: mixListValues,
+          isConCheck: isConCheck,
           onChanged: (STSelectMixItem value) {
             if (onChangedMixValue != null) {
               onChangedMixValue(value);

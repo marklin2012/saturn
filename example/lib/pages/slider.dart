@@ -8,88 +8,108 @@ class SliderPage extends StatefulWidget {
 }
 
 class _SliderPageState extends State<SliderPage> {
-  double _sliderValue = 0.5;
-  RangeValues _sliderRangeValue = RangeValues(0.2, 0.5);
-  bool sliderDisabled = false;
+  double _basicValue = 0.5;
+  RangeValues _horRangeValue = RangeValues(0.25, 0.75);
+  double _conStrValue = 0.3;
+  double _disableValue = 0.4;
+  double _verValue = 0.6;
+  RangeValues _verRangeValue = RangeValues(0.2, 0.7);
+
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width - 32.0;
     return Scaffold(
       appBar: AppBar(
         title: Text('slider'),
       ),
-      body: Center(
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
-            Text('系统Slider'),
-            Slider(
-              value: _sliderValue,
-              label: '$_sliderValue',
-              onChanged: (double value) {
+            SizedBox(height: 20),
+            Text('基本用法'),
+            SizedBox(height: 15),
+            STSlider(
+              value: _basicValue,
+              mainSize: _width,
+              onChanged: (value) {
                 setState(() {
-                  _sliderValue = value;
+                  _basicValue = value;
                 });
               },
             ),
-            SizedBox(height: 10),
-            Text('自定义Slider'),
+            SizedBox(height: 20),
+            Text('范围可拖拽'),
+            SizedBox(height: 15),
+            STSlider(
+              mainSize: _width,
+              rangeValues: _horRangeValue,
+              onChangedRange: (value) {
+                setState(() {
+                  _horRangeValue = value;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            Text('含字符的滑块'),
+            SizedBox(height: 15),
+            STSlider(
+              value: _conStrValue,
+              mainSize: _width,
+              minValue: 0,
+              maxValue: 100,
+              onChanged: (value) {
+                setState(() {
+                  _conStrValue = value;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            Text('禁用状态'),
+            SizedBox(height: 15),
+            STSlider(
+              value: _disableValue,
+              disabled: true,
+              mainSize: _width,
+              minValue: 0,
+              maxValue: 100,
+              onChanged: (value) {
+                setState(() {
+                  _disableValue = value;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            Text('垂直拖拽'),
+            SizedBox(height: 15),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 STSlider(
                   axis: Axis.vertical,
-                  value: _sliderValue,
-                  mainSize: 300,
+                  value: _verValue,
+                  mainSize: 200,
                   onChanged: (value) {
                     setState(() {
-                      _sliderValue = value;
+                      _verValue = value;
                     });
                   },
                 ),
+                SizedBox(width: 100),
                 STSlider(
                   axis: Axis.vertical,
-                  rangeValues: _sliderRangeValue,
+                  mainSize: 200,
                   minValue: 0,
-                  maxValue: 1000,
+                  maxValue: 100,
+                  rangeValues: _verRangeValue,
                   onChangedRange: (value) {
                     setState(() {
-                      _sliderRangeValue = value;
+                      _verRangeValue = value;
                     });
                   },
                 ),
               ],
-            ),
-            SizedBox(height: 20),
-            STSlider(
-              value: _sliderValue,
-              mainSize: 340,
-              onChanged: (value) {
-                setState(() {
-                  _sliderValue = value;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-            STSlider(
-              disabled: sliderDisabled,
-              rangeValues: _sliderRangeValue,
-              minValue: 0,
-              maxValue: 1000,
-              onChangedRange: (value) {
-                setState(() {
-                  _sliderRangeValue = value;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-            STButton(
-              text: 'change disable',
-              type: STButtonType.text,
-              onTap: () {
-                setState(() {
-                  sliderDisabled = !sliderDisabled;
-                });
-              },
             ),
           ],
         ),
