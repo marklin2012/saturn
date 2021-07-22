@@ -131,6 +131,7 @@ class _STSelectMenuState extends State<STSelectMenu> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           _getTitleChild(context),
           Row(
