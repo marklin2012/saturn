@@ -36,6 +36,7 @@ class STVideoBase extends StatefulWidget {
     this.doubleControlRow = false,
     this.isLooping = true,
     this.isAutoPlay = true,
+    this.isShowControl = true,
   }) : super(key: key);
 
   final double height;
@@ -46,6 +47,7 @@ class STVideoBase extends StatefulWidget {
   final bool doubleControlRow; // 是否双行控制栏
   final bool isLooping; // 是否循环播放
   final bool isAutoPlay; // 是否自动播放
+  final bool isShowControl; // 是否显示控制层
 
   @override
   _STVideoBaseState createState() => _STVideoBaseState();
@@ -56,7 +58,7 @@ class _STVideoBaseState extends State<STVideoBase> {
   double _width;
   double _progressWidth;
   EdgeInsets _margin;
-  bool _showControl = true; // 是否显示控制层
+  bool _showControl;
   bool _showVolume; // 是否显示声音调整
   double _volume; // 音量
 
@@ -80,6 +82,7 @@ class _STVideoBaseState extends State<STVideoBase> {
     _statusNotifier = ValueNotifier(STVideoStatus.loading);
     _progressNotifier = ValueNotifier(0);
     _timeNotifier = ValueNotifier('0:00/0:00');
+    _showControl = widget.isShowControl;
 
     switch (widget.playType) {
       case STVideoPlayType.asset:

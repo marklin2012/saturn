@@ -13,6 +13,7 @@ class STVideo extends StatelessWidget {
   final bool doubleControlRow; // 是否双行控制栏
   final bool isLooping; // 是否循环播放
   final bool isAutoPlay; // 是否自动播放
+  final bool isShowControl; // 是否显示控制层
 
   const STVideo({
     Key key,
@@ -25,6 +26,7 @@ class STVideo extends StatelessWidget {
     this.doubleControlRow = false,
     this.isLooping = true,
     this.isAutoPlay = true,
+    this.isShowControl = true,
   }) : super(key: key);
 
   const STVideo.asset({
@@ -38,6 +40,7 @@ class STVideo extends StatelessWidget {
     this.url,
     this.isLooping = true,
     this.isAutoPlay = true,
+    this.isShowControl = true,
   }) : super(key: key);
 
   const STVideo.network({
@@ -50,6 +53,7 @@ class STVideo extends StatelessWidget {
     this.doubleControlRow = false,
     this.isLooping = true,
     this.isAutoPlay = true,
+    this.isShowControl = true,
     @required this.url,
   }) : super(key: key);
 
@@ -63,6 +67,7 @@ class STVideo extends StatelessWidget {
     this.doubleControlRow = false,
     this.isLooping = true,
     this.isAutoPlay = true,
+    this.isShowControl = true,
     @required this.url,
   }) : super(key: key);
 
@@ -78,6 +83,7 @@ class STVideo extends StatelessWidget {
       doubleControlRow: doubleControlRow,
       isAutoPlay: isAutoPlay,
       isLooping: isLooping,
+      isShowControl: isShowControl,
     );
   }
 }
