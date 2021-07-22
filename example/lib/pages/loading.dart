@@ -20,50 +20,50 @@ class _LoadingPageState extends State<LoadingPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text("下拉加载"),
-                SizedBox(height: 20),
-                STLoading(
-                  text: "正在加载...",
+                FlatButton(
+                  child: Text("基本"),
+                  color: Colors.blue,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (context) {
+                          return STLoading(alwaysLoading: true, text: '');
+                        });
+                  },
                 ),
                 SizedBox(height: 20),
-                STLoading(
-                  iconPosition: STLoadingIconPosition.top,
-                  text: "正在加载...",
+                FlatButton(
+                  child: Text("toast加载"),
+                  color: Colors.blue,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (context) {
+                          return STLoading(alwaysLoading: true, text: '');
+                        });
+                  },
                 ),
                 SizedBox(height: 20),
-                STLoading(
-                  iconPosition: STLoadingIconPosition.top,
-                  text: "",
-                  alwaysLoading: true,
+                FlatButton(
+                  child: Text("下拉刷新加载"),
+                  color: Colors.blue,
+                  onPressed: () {},
                 ),
                 SizedBox(height: 20),
-                STLoading(
-                  iconPosition: STLoadingIconPosition.top,
-                  alwaysLoading: true,
-                  icon: null,
+                FlatButton(
+                  child: Text("进度条加载"),
+                  color: Colors.blue,
+                  onPressed: () {},
                 ),
                 SizedBox(height: 20),
-                Text("下拉刷新"),
-                SizedBox(height: 20),
-                STLoading(
-                  text: "正在刷新...",
+                FlatButton(
+                  child: Text("预加载"),
+                  color: Colors.blue,
+                  onPressed: () {},
                 ),
                 SizedBox(height: 20),
-                STLoading(
-                  text: "松开刷新...",
-                ),
-                SizedBox(height: 20),
-                Text("全屏加载"),
-                SizedBox(height: 20),
-                STLoading(
-                    iconPosition: STLoadingIconPosition.top,
-                    alwaysLoading: true,
-                    icon: Image.asset("assets/images/icon_selected_20x20.png"),
-                    text: "正在努力加载中..."),
-                SizedBox(height: 20),
-                STLoading(
-                    icon: Image.asset("assets/images/icon_selected_20x20.png"),
-                    text: "")
               ],
             ),
           ),

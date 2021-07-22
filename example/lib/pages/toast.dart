@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
+import 'package:saturn/st_icons/st_icons.dart';
 
 class ToastPage extends StatelessWidget {
   @override
@@ -13,146 +14,58 @@ class ToastPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 20),
-              STToast(
-                type: STToastType.none,
-                position: STToastPosition.center,
-                closable: false,
-                autoClose: false,
-                disappearMilliseconds:
-                    STToastConstant.defaultDisappearMilliseconds,
-                hasSafeArea: true,
-                message: "这是一条文字提示",
-              ),
-              SizedBox(height: 20),
-              STToast(
-                type: STToastType.none,
-                closable: false,
-                autoClose: false,
-                hasSafeArea: true,
-                rotateAnimation: false,
-                disappearMilliseconds:
-                    STToastConstant.defaultDisappearMilliseconds,
-                isIconTop: false,
-                icon: Icon(
-                  Icons.info_outline,
-                  size: STMessageConstant.iconWidth,
-                  color: Colors.white,
-                ),
-                message: "带图标的文字提示",
-                position: STToastPosition.bottom,
-              ),
-              SizedBox(height: 20),
-              STToast(
-                type: STToastType.success,
-                closable: false,
-                autoClose: false,
-                hasSafeArea: true,
-                rotateAnimation: false,
-                disappearMilliseconds:
-                    STToastConstant.defaultDisappearMilliseconds,
-                isIconTop: true,
-                message: "成功文字信息",
-                position: STToastPosition.bottom,
-              ),
-              SizedBox(height: 20),
-              STToast(
-                type: STToastType.warning,
-                closable: false,
-                autoClose: false,
-                hasSafeArea: true,
-                rotateAnimation: false,
-                disappearMilliseconds:
-                    STToastConstant.defaultDisappearMilliseconds,
-                isIconTop: true,
-                message: "失败文字信息",
-                position: STToastPosition.bottom,
-              ),
-              SizedBox(height: 20),
-              STToast(
-                type: STToastType.error,
-                closable: false,
-                autoClose: false,
-                hasSafeArea: true,
-                rotateAnimation: false,
-                disappearMilliseconds:
-                    STToastConstant.defaultDisappearMilliseconds,
-                isIconTop: true,
-                message: "错误文字信息",
-                position: STToastPosition.bottom,
-              ),
-              SizedBox(height: 20),
-              STToast(
-                type: STToastType.none,
-                icon: Icon(
-                  Icons.info_outline,
-                  size: STToastConstant.iconWidth,
-                  color: Colors.white,
-                ),
-                closable: false,
-                autoClose: false,
-                hasSafeArea: true,
-                rotateAnimation: true,
-                disappearMilliseconds:
-                    STToastConstant.defaultDisappearMilliseconds,
-                isIconTop: true,
-                position: STToastPosition.bottom,
-              ),
-              SizedBox(height: 20),
               FlatButton(
-                child: Text("文字"),
-                color: Colors.blue,
-                onPressed: () {
-                  STToast.show(
-                    context: context,
-                    message: "这是一个message这是一个message这是一个message这是一个message",
-                  );
-                },
-              ),
-              FlatButton(
-                child: Text("文字"),
+                child: Text("基本使用"),
                 color: Colors.blue,
                 onPressed: () {
                   STToast.show(
                       context: context,
-                      message: "这是一个message这是一个message这是一个message这是一个message",
+                      message: "文字信息文字信息文字信息",
                       autoClose: true);
                 },
               ),
               FlatButton(
-                child: Text("左文字图片位置下"),
+                child: Text("含图标样式"),
+                color: Colors.blue,
+                onPressed: () {
+                  STToast.show(
+                    context: context,
+                    icon: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: Image.asset("assets/images/iconfont.png",
+                            fit: BoxFit.fitWidth)),
+                    message: "文字信息文字信息文字信息",
+                    isIconTop: false,
+                  );
+                },
+              ),
+              FlatButton(
+                child: Text("显示状态"),
                 color: Colors.blue,
                 onPressed: () {
                   STToast.show(
                       context: context,
-                      icon: Image.asset("assets/images/basketball_check.png",
-                          fit: BoxFit.fitWidth),
-                      message: "这是一个message这是一个message这是一个message这是一个message",
-                      position: STToastPosition.bottom,
-                      closable: true);
-                  ;
+                      icon: SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: Image.asset("assets/images/iconfont.png",
+                              fit: BoxFit.fitWidth)),
+                      message: "手机号修改成功",
+                      isIconTop: true);
                 },
               ),
               FlatButton(
-                child: Text("图片"),
+                child: Text("加载中的样式"),
                 color: Colors.blue,
                 onPressed: () {
                   STToast.showLoading(
                       context: context,
-                      icon: Icon(Icons.error_outline, color: Colors.white),
+                      icon: Icon(
+                        STIcons.status_loading,
+                        color: Colors.white,
+                      ),
                       position: STToastPosition.center);
-                },
-              ),
-              FlatButton(
-                child: Text("上文字图片"),
-                color: Colors.blue,
-                onPressed: () {
-                  STToast.show(
-                      context: context,
-                      icon: Image.asset("assets/images/basketball_check.png",
-                          fit: BoxFit.fitWidth),
-                      message: "这是一个message这是一个message这是一个message这是一个message",
-                      isIconTop: true);
                 },
               ),
             ],
