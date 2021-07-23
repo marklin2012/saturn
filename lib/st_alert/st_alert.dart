@@ -161,7 +161,11 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
     return Center(
         child: Container(
       width: curWidth,
-      color: Colors.white,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius:
+            BorderRadius.all(Radius.circular(STAlertConstant.cornerRadius)),
+      ),
       child: Container(
         width: curWidth,
         decoration: BoxDecoration(
