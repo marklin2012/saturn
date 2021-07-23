@@ -112,7 +112,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
   }
 
   TextStyle titleStyle = const TextStyle(
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       color: Colors.black,
       fontSize: STAlertConstant.titleFontSize,
       decoration: TextDecoration.none);
