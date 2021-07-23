@@ -13,177 +13,59 @@ class SnackbarPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: false,
-                isButtonHasBackground: false,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "文字信息文字信息文字信息文字信息文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: false,
-                isButtonHasBackground: false,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "这是标题",
-                message: "文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: true,
-                buttonText: "Button",
-                isButtonHasBackground: true,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "文字信息文字信息文字信息文字信息文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: true,
-                buttonText: "Button",
-                isButtonHasBackground: true,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "这是标题",
-                message: "文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: true,
-                buttonText: "Button",
-                isButtonHasBackground: false,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "文字信息文字信息文字信息文字信息文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: true,
-                buttonText: "Button",
-                isButtonHasBackground: false,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "这是标题",
-                message: "文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: true,
-                isButtonHasBackground: true,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "文字信息文字信息文字信息文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                hasCloseButton: true,
-                isButtonHasBackground: true,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "这是标题",
-                message: "文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                icon: Icon(Icons.error, color: Colors.white),
-                hasCloseButton: true,
-                isButtonHasBackground: true,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "文字信息文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
-              SizedBox(height: 20),
-              STSnackbar(
-                icon: Icon(Icons.error, color: Colors.white),
-                hasCloseButton: true,
-                isButtonHasBackground: true,
-                disappearMilliseconds:
-                    STSnackbarConstant.defaultDisappearMilliseconds,
-                title: "这是标题",
-                message: "文字信息文字信息",
-                autoClose: false,
-                hasSafeArea: true,
-              ),
               FlatButton(
-                child: Text("标题"),
+                child: Text("基本使用"),
                 color: Colors.blue,
                 onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
                   STSnackbar.show(
                     context: context,
-                    title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+                    hasCloseButton: false,
+                    title: "文字信息文字信息文字信息文字信息文字信息文字信息文字信息",
                   );
                 },
               ),
               FlatButton(
-                child: Text("标题"),
+                child: Text("含辅助性文字描述"),
                 color: Colors.blue,
                 onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
                   STSnackbar.show(
                     context: context,
-                    title: "你说是就是你说是就是你说是就是你说是就是你说是就是你说是就是",
+                    title: "这是标题",
+                    message: "文字信息文字信息",
                     hasCloseButton: false,
                   );
                 },
               ),
               FlatButton(
-                child: Text("标题文字"),
+                child: Text("含图标样式"),
                 color: Colors.blue,
                 onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
                   STSnackbar.show(
                     context: context,
-                    title: "你说是就是你说",
-                    message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
+                    title: "文字信息文字信息",
+                    icon: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Image.asset("assets/images/iconfont.png",
+                            fit: BoxFit.fitWidth)),
                     hasCloseButton: false,
                   );
                 },
               ),
               FlatButton(
-                child: Text("icon标题文字"),
+                child: Text("含关闭操作"),
                 color: Colors.blue,
                 onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
                   STSnackbar.show(
                     context: context,
-                    title: "你说是就是你说",
-                    message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
-                    icon: Icon(Icons.error, color: Colors.white),
-                    hasCloseButton: false,
+                    title: "这是标题",
+                    message: "文字信息文字信息",
+                    hasCloseButton: true,
                   );
                 },
               ),
               FlatButton(
-                child: Text("image标题文字"),
+                child: Text("含按钮操作"),
                 color: Colors.blue,
                 onPressed: () {
                   // send();
@@ -191,92 +73,34 @@ class SnackbarPage extends StatelessWidget {
 
                   STSnackbar.show(
                     context: context,
-                    title: "你说是就是你说",
-                    message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
-                    icon: Image.asset("assets/images/basketball_check.png",
-                        fit: BoxFit.fitWidth),
-                    hasCloseButton: false,
-                  );
-                },
-              ),
-              FlatButton(
-                child: Text("标题close"),
-                color: Colors.blue,
-                onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
-                  STSnackbar.show(
-                      context: context,
-                      title: "你说是就是你说你说是就是你说",
-                      hasCloseButton: true,
-                      onButtonTap: () {
-                        print("好的");
-                      });
-                },
-              ),
-              FlatButton(
-                child: Text("标题button"),
-                color: Colors.blue,
-                onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
-                  STSnackbar.show(
-                      context: context,
-                      title: "你说是就是你说你说是就是你说",
-                      buttonText: "文字按钮",
-                      onButtonTap: () {
-                        print("好的");
-                      });
-                },
-              ),
-              FlatButton(
-                child: Text("标题button背景"),
-                color: Colors.blue,
-                onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
-                  STSnackbar.show(
-                    context: context,
-                    title: "你说是就是你说你说是就是你说",
-                    buttonText: "文字按钮",
+                    title: "这是标题",
+                    message: "文字信息文字信息",
+                    hasCloseButton: true,
+                    buttonText: "Button",
                     isButtonHasBackground: true,
                   );
                 },
               ),
               FlatButton(
-                child: Text("icon标题button背景"),
+                child: Text("自定义样式"),
                 color: Colors.blue,
                 onPressed: () {
                   // send();
                   // SocketManage.send(textEditController.text);
 
                   STSnackbar.show(
-                      context: context,
-                      title: "你说是就是你说你说是就是你说",
-                      buttonText: "文字按钮",
-                      isButtonHasBackground: true,
-                      icon: Icon(Icons.error, color: Colors.white));
+                    context: context,
+                    title: "这是标题",
+                    message: "文字信息文字信息",
+                    hasCloseButton: true,
+                    icon: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Image.asset("assets/images/iconfont.png",
+                            fit: BoxFit.fitWidth)),
+                  );
                 },
               ),
-              FlatButton(
-                child: Text("icon标题文字button背景"),
-                color: Colors.blue,
-                onPressed: () {
-                  // send();
-                  // SocketManage.send(textEditController.text);
-
-                  STSnackbar.show(
-                      context: context,
-                      title: "你说是就是你说你说是就是你说",
-                      message: "你说是就是你说你说是就是你说你说是就是你说你说是就是你说",
-                      buttonText: "文字按钮",
-                      isButtonHasBackground: true,
-                      icon: Icon(Icons.error, color: Colors.white));
-                },
-              )
             ],
           ),
         ));
