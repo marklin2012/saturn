@@ -16,25 +16,23 @@ class STSnackbar extends StatefulWidget {
   final VoidCallback onButtonTap;
   final bool autoClose;
   final int disappearMilliseconds;
-  final bool hasSafeArea;
 
   static BuildContext _curContext;
   static OverlayEntry _curOverlayEntry;
 
-  static void show(
-      {@required BuildContext context,
-      @required String title,
-      String message,
-      bool hasCloseButton = true,
-      String buttonText,
-      Color buttonTextColor,
-      bool isButtonHasBackground = false,
-      Widget icon,
-      VoidCallback onButtonTap,
-      bool autoClose,
-      int disappearMilliseconds =
-          STSnackbarConstant.defaultDisappearMilliseconds,
-      bool hasSafeArea = true}) {
+  static void show({
+    @required BuildContext context,
+    @required String title,
+    String message,
+    bool hasCloseButton = true,
+    String buttonText,
+    Color buttonTextColor,
+    bool isButtonHasBackground = false,
+    Widget icon,
+    VoidCallback onButtonTap,
+    bool autoClose,
+    int disappearMilliseconds = STSnackbarConstant.defaultDisappearMilliseconds,
+  }) {
     if (_curContext != null) {
       hide(context);
     }
@@ -50,7 +48,6 @@ class STSnackbar extends StatefulWidget {
       onButtonTap: onButtonTap,
       autoClose: autoClose,
       disappearMilliseconds: disappearMilliseconds,
-      hasSafeArea: hasSafeArea,
     );
 
     final OverlayState overlayState = Overlay.of(context);
@@ -67,20 +64,19 @@ class STSnackbar extends StatefulWidget {
     _curContext = null;
   }
 
-  const STSnackbar(
-      {Key key,
-      this.message,
-      this.title,
-      this.hasCloseButton,
-      this.buttonText,
-      this.buttonTextColor,
-      this.isButtonHasBackground,
-      this.icon,
-      this.onButtonTap,
-      this.autoClose,
-      this.disappearMilliseconds,
-      this.hasSafeArea})
-      : super(key: key);
+  const STSnackbar({
+    Key key,
+    this.message,
+    this.title,
+    this.hasCloseButton,
+    this.buttonText,
+    this.buttonTextColor,
+    this.isButtonHasBackground,
+    this.icon,
+    this.onButtonTap,
+    this.autoClose,
+    this.disappearMilliseconds,
+  }) : super(key: key);
 
   @override
   _STSnackbarState createState() => _STSnackbarState();
@@ -137,7 +133,7 @@ class _STSnackbarState extends State<STSnackbar> {
     if (!isNullOrEmpty(widget.message)) {
       messageWidget = Text(
         widget.message,
-        softWrap: true,
+        softWrap: false,
         style: const TextStyle(
             fontWeight: FontWeight.w400,
             color: STSnackbarConstant.defaultMessageColor,
@@ -161,6 +157,7 @@ class _STSnackbarState extends State<STSnackbar> {
     if (widget.hasCloseButton) {
       if (!isNullOrEmpty(widget.buttonText)) {
         buttonWidget = TextButton(
+          style: const ButtonStyle(alignment: Alignment.centerRight),
           onPressed: () {
             if (widget.onButtonTap != null) {
               widget.onButtonTap();
@@ -187,6 +184,7 @@ class _STSnackbarState extends State<STSnackbar> {
         );
       } else {
         buttonWidget = TextButton(
+          style: const ButtonStyle(alignment: Alignment.centerRight),
           onPressed: () {
             if (widget.onButtonTap != null) {
               widget.onButtonTap();
@@ -194,10 +192,13 @@ class _STSnackbarState extends State<STSnackbar> {
               STSnackbar.hide(context);
             }
           },
-          child: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
+          child: const SizedBox(
+              height: 20,
+              width: 20,
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+              )),
         );
       }
     }
@@ -208,7 +209,7 @@ class _STSnackbarState extends State<STSnackbar> {
         constraints: BoxConstraints(maxWidth: containerMaxWidth),
         decoration: boxDecoration,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          padding: const EdgeInsets.fromLTRB(12, 12, 6, 12),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,13 +219,15 @@ class _STSnackbarState extends State<STSnackbar> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (widget.icon != null) widget.icon,
-                    if (widget.icon != null) const SizedBox(width: 14),
+                    if (widget.icon != null) const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (titleWidget != null) titleWidget,
+                            if (messageWidget != null)
+                              const SizedBox(height: 4),
                             if (messageWidget != null) messageWidget
                           ]),
                     )
@@ -238,11 +241,7 @@ class _STSnackbarState extends State<STSnackbar> {
       ),
     );
 
-    if (widget.hasSafeArea) {
-      return SafeArea(child: content);
-    } else {
-      return content;
-    }
+    return content;
   }
 
   @override
