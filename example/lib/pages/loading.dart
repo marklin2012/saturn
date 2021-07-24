@@ -9,6 +9,11 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
+    final BoxDecoration boxDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(STToastConstant.cornerRadius),
+      color: STToastConstant.defaultBackgroundColor,
+    );
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Loading'),
@@ -41,7 +46,22 @@ class _LoadingPageState extends State<LoadingPage> {
                         context: context,
                         barrierDismissible: true,
                         builder: (context) {
-                          return STLoading(alwaysLoading: true, text: '');
+                          return STToast(
+                            type: STToastType.error,
+                            icon: Icon(
+                              STIcons.status_loading,
+                              color: Colors.white,
+                            ),
+                            closable: false,
+                            autoClose: false,
+                            hasSafeArea: true,
+                            rotateAnimation: true,
+                            disappearMilliseconds:
+                                STToastConstant.defaultDisappearMilliseconds,
+                            isIconTop: true,
+                            message: "正在加载",
+                            position: STToastPosition.center,
+                          );
                         });
                   },
                 ),
