@@ -11,8 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+  flutter_easyrefresh: ^2.2.1 
+  shimmer: ^2.0.0
   video_player: ^2.1.1
+  
 
 dev_dependencies:
   flutter_test:

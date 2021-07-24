@@ -58,6 +58,9 @@ flutter:
     - family: STIcons
       fonts:
         - asset: packages/saturn/fonts/st_icons.ttf
+    - family: PingFang
+      fonts:
+        - asset: assets/PingFang.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
