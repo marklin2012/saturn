@@ -1,3 +1,5 @@
+import 'package:example/pages/loading_pull.dart';
+import 'package:example/pages/loading_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 
@@ -49,7 +51,10 @@ class _LoadingPageState extends State<LoadingPage> {
                 FlatButton(
                   child: Text("下拉刷新加载"),
                   color: Colors.blue,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LoadingPullPage()));
+                  },
                 ),
                 SizedBox(height: 20),
                 FlatButton(
@@ -61,7 +66,10 @@ class _LoadingPageState extends State<LoadingPage> {
                 FlatButton(
                   child: Text("预加载"),
                   color: Colors.blue,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LoadingShimmerPage()));
+                  },
                 ),
                 SizedBox(height: 20),
               ],
