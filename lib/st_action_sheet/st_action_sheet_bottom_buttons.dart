@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/saturn.dart';
+
 import 'common.dart';
 
 class STActionSheetBottomButtons extends StatelessWidget {
@@ -30,27 +32,19 @@ class STActionSheetBottomButtons extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10.0),
             child: SizedBox(
               width: containerWidth / 2.0 - 20,
-              child: TextButton(
-                style: ButtonStyle(
-                  overlayColor: MaterialStateColor.resolveWith(
-                      (states) => STActionSheetConstant.butttonHighlightColor),
-                  side: MaterialStateProperty.all(const BorderSide(
-                      color: STActionSheetConstant.defaultButtonTextColor,
-                      width: 1)),
-                ),
-                onPressed: () {
+              child: STButton(
+                backgroundColor: STActionSheetConstant.defaultButtonTextColor,
+                onTap: () {
                   if (onCancelTap != null) {
                     onCancelTap();
                   }
                 },
-                child: Text(
-                  cancelTitle,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: STActionSheetConstant.defaultButtonTextColor,
-                      fontSize: 16,
-                      decoration: TextDecoration.none),
-                ),
+                text: cancelTitle,
+                textStyle: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontSize: 16,
+                    decoration: TextDecoration.none),
               ),
             ),
           ),
@@ -58,25 +52,19 @@ class STActionSheetBottomButtons extends StatelessWidget {
             padding: const EdgeInsets.only(right: 10.0),
             child: SizedBox(
               width: containerWidth / 2.0 - 20,
-              child: TextButton(
-                style: ButtonStyle(
-                    overlayColor: MaterialStateColor.resolveWith((states) =>
-                        STActionSheetConstant.butttonHighlightColor),
-                    backgroundColor: MaterialStateColor.resolveWith((states) =>
-                        STActionSheetConstant.defaultButtonTextColor)),
-                onPressed: () {
+              child: STButton(
+                backgroundColor: STActionSheetConstant.defaultButtonTextColor,
+                onTap: () {
                   if (onConfirmTap != null) {
                     onConfirmTap();
                   }
                 },
-                child: Text(
-                  confirmTitle,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 16,
-                      decoration: TextDecoration.none),
-                ),
+                text: confirmTitle,
+                textStyle: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16,
+                    decoration: TextDecoration.none),
               ),
             ),
           )
@@ -87,7 +75,7 @@ class STActionSheetBottomButtons extends StatelessWidget {
       if (hasCancelButton) text = cancelTitle;
       if (hasConfirmButton) text = confirmTitle;
       return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+        padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
         child: Container(
           decoration: BoxDecoration(
             borderRadius:
@@ -96,13 +84,9 @@ class STActionSheetBottomButtons extends StatelessWidget {
           ),
           width: containerWidth - 24,
           height: 44,
-          child: TextButton(
-            style: ButtonStyle(
-                overlayColor: MaterialStateColor.resolveWith(
-                    (states) => STActionSheetConstant.butttonHighlightColor),
-                backgroundColor: MaterialStateColor.resolveWith(
-                    (states) => STActionSheetConstant.defaultButtonTextColor)),
-            onPressed: () {
+          child: STButton(
+            backgroundColor: STActionSheetConstant.defaultButtonTextColor,
+            onTap: () {
               if (hasConfirmButton && onConfirmTap != null) {
                 onConfirmTap();
               }
@@ -110,14 +94,12 @@ class STActionSheetBottomButtons extends StatelessWidget {
                 onCancelTap();
               }
             },
-            child: Text(
-              text,
-              style: const TextStyle(
-                  backgroundColor: STActionSheetConstant.defaultButtonTextColor,
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w400),
-            ),
+            text: text,
+            textStyle: const TextStyle(
+                backgroundColor: STActionSheetConstant.defaultButtonTextColor,
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w400),
           ),
         ),
       );

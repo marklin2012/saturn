@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/saturn.dart';
+
 import 'common.dart';
 
 class STDialogBottomButtons extends StatelessWidget {
@@ -29,26 +31,19 @@ class STDialogBottomButtons extends StatelessWidget {
           SizedBox(
             width: containerWidth / 2.0 - 1,
             height: 44,
-            child: TextButton(
-              style: ButtonStyle(
-                overlayColor: MaterialStateColor.resolveWith(
-                    (states) => STDialogConstant.defaultMessageColor),
-                side: MaterialStateProperty.all(
-                    const BorderSide(color: Colors.transparent, width: 1)),
-              ),
-              onPressed: () {
+            child: STButton(
+              backgroundColor: Colors.transparent,
+              onTap: () {
                 if (onCancelTap != null) {
                   onCancelTap();
                 }
               },
-              child: Text(
-                cancelTitle,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    color: STDialogConstant.defaultButtonTextColor,
-                    fontSize: 16,
-                    decoration: TextDecoration.none),
-              ),
+              text: cancelTitle,
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  color: STDialogConstant.defaultButtonTextColor,
+                  fontSize: 16,
+                  decoration: TextDecoration.none),
             ),
           ),
           Container(
@@ -59,25 +54,19 @@ class STDialogBottomButtons extends StatelessWidget {
           SizedBox(
             width: containerWidth / 2.0 - 1,
             height: 44,
-            child: TextButton(
-              style: ButtonStyle(
-                  overlayColor: MaterialStateColor.resolveWith(
-                      (states) => STDialogConstant.defaultMessageColor),
-                  backgroundColor:
-                      MaterialStateColor.resolveWith((states) => Colors.white)),
-              onPressed: () {
+            child: STButton(
+              backgroundColor: Colors.transparent,
+              onTap: () {
                 if (onConfirmTap != null) {
                   onConfirmTap();
                 }
               },
-              child: Text(
-                confirmTitle,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: STDialogConstant.defaultButtonTextColor,
-                    fontSize: 16,
-                    decoration: TextDecoration.none),
-              ),
+              text: confirmTitle,
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: STDialogConstant.defaultButtonTextColor,
+                  fontSize: 16,
+                  decoration: TextDecoration.none),
             ),
           ),
         ],
@@ -89,12 +78,9 @@ class STDialogBottomButtons extends StatelessWidget {
       return SizedBox(
         width: containerWidth,
         height: 44,
-        child: TextButton(
-          style: ButtonStyle(
-            overlayColor: MaterialStateColor.resolveWith(
-                (states) => STDialogConstant.defaultMessageColor),
-          ),
-          onPressed: () {
+        child: STButton(
+          backgroundColor: Colors.transparent,
+          onTap: () {
             if (hasConfirmButton && onConfirmTap != null) {
               onConfirmTap();
             }
@@ -102,14 +88,12 @@ class STDialogBottomButtons extends StatelessWidget {
               onCancelTap();
             }
           },
-          child: Text(
-            text,
-            style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: STDialogConstant.defaultButtonTextColor,
-                fontSize: 16,
-                decoration: TextDecoration.none),
-          ),
+          text: text,
+          textStyle: const TextStyle(
+              fontWeight: FontWeight.w500,
+              color: STDialogConstant.defaultButtonTextColor,
+              fontSize: 16,
+              decoration: TextDecoration.none),
         ),
       );
     }

@@ -49,6 +49,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/1.gif
+    - assets/images/iconfont.png
     - assets/images/icon_selected_20x20.png
     - assets/images/basketball_check.png
     - assets/video/showtime.mp4
@@ -57,6 +58,9 @@ flutter:
     - family: STIcons
       fonts:
         - asset: packages/saturn/fonts/st_icons.ttf
+    - family: PingFang
+      fonts:
+        - asset: assets/PingFang.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

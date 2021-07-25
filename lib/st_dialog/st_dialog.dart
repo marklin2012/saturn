@@ -145,9 +145,12 @@ class _STDialogState extends State<STDialog> {
         height: 16,
       ),
       widget.icon ?? (titleWidget ?? Container()),
-      const SizedBox(
-        height: 4,
-      ),
+      if (widget.icon != null)
+        const SizedBox(
+          height: 12,
+        )
+      else
+        const SizedBox(height: 8),
       if (messageWidget != null) messageWidget,
     ];
 

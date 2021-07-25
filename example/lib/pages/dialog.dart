@@ -14,18 +14,7 @@ class DialogPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               FlatButton(
-                child: Text("基本文字"),
-                color: Colors.blue,
-                onPressed: () {
-                  STDialog.show(
-                      context: context,
-                      closable: false,
-                      title: "标题标题",
-                      onCancelTap: () {});
-                },
-              ),
-              FlatButton(
-                child: Text("文字"),
+                child: Text("提示弹框"),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -33,16 +22,11 @@ class DialogPage extends StatelessWidget {
                       title: "标题标题",
                       message: "描述说明信息",
                       hasCancelButton: true,
-                      onCancelTap: () {
-                        STToast.show(
-                            context: context,
-                            message: "这是一测试",
-                            autoClose: true);
-                      });
+                      onCancelTap: () {});
                 },
               ),
               FlatButton(
-                child: Text("文字双button"),
+                child: Text("确认弹框"),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -55,18 +39,22 @@ class DialogPage extends StatelessWidget {
                 },
               ),
               FlatButton(
-                child: Text("icon文字"),
+                child: Text("含图标弹框"),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
                     context: context,
-                    icon: Icon(Icons.info, color: Colors.blue),
+                    icon: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: Image.asset("assets/images/iconfont.png",
+                            fit: BoxFit.fitWidth)),
                     message: "描述说明信息",
                   );
                 },
               ),
               FlatButton(
-                child: Text("文字list"),
+                child: Text("含选项弹框"),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -91,7 +79,7 @@ class DialogPage extends StatelessWidget {
                 },
               ),
               FlatButton(
-                child: Text("文字textfiled"),
+                child: Text("可自定义"),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(

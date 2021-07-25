@@ -28,6 +28,8 @@ class STActionSheetOptionWidget extends StatelessWidget
   final bool isSingleSelect;
   final VoidCallback selectAction;
   final bool isOptionAligmentCenter;
+  final int totalCount;
+  final bool showSeperateLine;
 
   const STActionSheetOptionWidget(
       {this.actionSheetOption,
@@ -41,7 +43,9 @@ class STActionSheetOptionWidget extends StatelessWidget
       this.showSelectColor,
       this.isSingleSelect,
       this.selectAction,
-      this.isOptionAligmentCenter});
+      this.isOptionAligmentCenter,
+      this.totalCount,
+      this.showSeperateLine});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +83,7 @@ class STActionSheetOptionWidget extends StatelessWidget
                     width: 20,
                     height: 20,
                     child: Radio(
-                      value: verticalIndex,
+                      value: 1,
                       groupValue: isSelected ? 1 : 0,
                       onChanged: null,
                     ),
@@ -116,7 +120,8 @@ class STActionSheetOptionWidget extends StatelessWidget
               ],
             ),
             const SizedBox(height: 14),
-            getLineWidget(width)
+            if (showSeperateLine && (verticalIndex != totalCount - 1))
+              getLineWidget(width)
           ],
         ),
       );

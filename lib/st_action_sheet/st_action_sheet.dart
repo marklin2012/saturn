@@ -25,6 +25,7 @@ class STActionSheet extends StatefulWidget {
   final bool isSingleSelect;
   final bool isOptionAligmentCenter;
   final double listHeight;
+  final bool showSeperateLine;
 
   const STActionSheet(
       {Key key,
@@ -46,7 +47,8 @@ class STActionSheet extends StatefulWidget {
       this.showSelectColor,
       this.isSingleSelect,
       this.isOptionAligmentCenter,
-      this.listHeight})
+      this.listHeight,
+      this.showSeperateLine})
       : super(key: key);
 
   static void show({
@@ -66,11 +68,12 @@ class STActionSheet extends StatefulWidget {
         STActionSheetDirectionType.vertical,
     bool closable = true,
     bool canSelect = true,
-    Color selectedColor = Colors.black12,
+    Color selectedColor = STActionSheetConstant.optionHighlightColor,
     bool showSelectColor = true,
     bool isSingleSelect = false,
     bool isOptionAligmentCenter = false,
     double listHeight = 200,
+    bool showSeperateLine = false,
   }) {
     final actionSheet = STActionSheet(
       width: width,
@@ -98,6 +101,7 @@ class STActionSheet extends StatefulWidget {
       isSingleSelect: isSingleSelect,
       isOptionAligmentCenter: isOptionAligmentCenter,
       listHeight: listHeight,
+      showSeperateLine: showSeperateLine,
     );
     showModalBottomSheet(
         context: context,
@@ -138,7 +142,7 @@ class _STActionSheetState extends State<STActionSheet>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    double containerWidth;
+    final double containerWidth = screenWidth;
 
     Widget titleWidget;
     if (isNotEmpty(widget.title)) {
@@ -172,8 +176,6 @@ class _STActionSheetState extends State<STActionSheet>
     switch (widget.directionType) {
       case STActionSheetDirectionType.vertical:
         {
-          containerWidth = screenWidth *
-              STActionSheetConstant.verticalListDefaultWidthPercent;
           columnArray = [
             const SizedBox(
               height: 16,
@@ -206,40 +208,43 @@ class _STActionSheetState extends State<STActionSheet>
               Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                   child: messageWidget),
+            const SizedBox(
+              height: 16,
+            ),
+            if (widget.title != null) getLineWidget(containerWidth)
           ];
 
           final List<Widget> listViewList = [];
           for (int i = 0; i < widget.options.length; i++) {
             listViewList.add(STActionSheetOptionWidget(
-                actionSheetOption: widget.options[i],
-                verticalIndex: i,
-                horizontalIndex: 0,
-                width: containerWidth,
-                directionType: widget.directionType,
-                selectedList: selectedList,
-                canSelect: widget.canSelect,
-                selectedColor: widget.selectedColor,
-                showSelectColor: widget.showSelectColor,
-                isSingleSelect: widget.isSingleSelect,
-                selectAction: () {
-                  setState(() {});
-                },
-                isOptionAligmentCenter: widget.isOptionAligmentCenter));
+              actionSheetOption: widget.options[i],
+              verticalIndex: i,
+              horizontalIndex: 0,
+              width: containerWidth,
+              directionType: widget.directionType,
+              selectedList: selectedList,
+              canSelect: widget.canSelect,
+              selectedColor: widget.selectedColor,
+              showSelectColor: widget.showSelectColor,
+              isSingleSelect: widget.isSingleSelect,
+              selectAction: () {
+                setState(() {});
+              },
+              isOptionAligmentCenter: widget.isOptionAligmentCenter,
+              showSeperateLine: widget.showSeperateLine,
+              totalCount: widget.options.length,
+            ));
           }
-          columnArray.add(SizedBox(
-            height: widget.listHeight,
-            child: SingleChildScrollView(
-              child: Column(
-                children: listViewList,
+          columnArray.add(
+            SizedBox(
+              height: widget.listHeight,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: listViewList,
+                ),
               ),
             ),
-          )
-
-              // ListView(
-              //   shrinkWrap: true,
-              //   children: listViewList,
-              // ),
-              );
+          );
 
           addBottomButtonToColumn(containerWidth, columnArray);
         }
@@ -247,8 +252,6 @@ class _STActionSheetState extends State<STActionSheet>
 
       case STActionSheetDirectionType.horizontal:
         {
-          containerWidth = screenWidth *
-              STActionSheetConstant.horizontalListDefaultWidthPercent;
           columnArray = [
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -285,32 +288,38 @@ class _STActionSheetState extends State<STActionSheet>
               ],
             )
           ];
+          if (widget.title != null)
+            columnArray.add(getLineWidget(containerWidth));
+
           for (int i = 0; i < widget.options.length; i++) {
             final List optionList = widget.options[i];
             final List<Widget> horizontalListViewList = [];
             for (int j = 0; j < optionList.length; j++) {
               horizontalListViewList.add(STActionSheetOptionWidget(
-                  actionSheetOption: optionList[j],
-                  verticalIndex: i,
-                  horizontalIndex: j,
-                  width: containerWidth,
-                  directionType: widget.directionType,
-                  selectedList: selectedList,
-                  canSelect: widget.canSelect,
-                  selectedColor: widget.selectedColor,
-                  showSelectColor: widget.showSelectColor,
-                  isSingleSelect: widget.isSingleSelect,
-                  selectAction: () {
-                    setState(() {});
-                  },
-                  isOptionAligmentCenter: widget.isOptionAligmentCenter));
+                actionSheetOption: optionList[j],
+                verticalIndex: i,
+                horizontalIndex: j,
+                width: containerWidth,
+                directionType: widget.directionType,
+                selectedList: selectedList,
+                canSelect: widget.canSelect,
+                selectedColor: widget.selectedColor,
+                showSelectColor: widget.showSelectColor,
+                isSingleSelect: widget.isSingleSelect,
+                selectAction: () {
+                  setState(() {});
+                },
+                isOptionAligmentCenter: widget.isOptionAligmentCenter,
+              ));
             }
-            columnArray.add(const SizedBox(height: 6));
-
-            columnArray.add(SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: horizontalListViewList,
+            columnArray.add(const SizedBox(height: 12));
+            columnArray.add(Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: horizontalListViewList,
+                ),
               ),
             ));
             columnArray.add(const SizedBox(height: 6));
@@ -318,7 +327,9 @@ class _STActionSheetState extends State<STActionSheet>
                 !widget.hasCancelButton &&
                 !widget.hasConfirmButton) {
               columnArray.add(const SizedBox(height: 16));
-            } else {
+            } else if (widget.options.length != 1 &&
+                widget.title == null &&
+                (i != widget.options.length - 1)) {
               columnArray.add(getLineWidget(containerWidth));
             }
           }
@@ -329,41 +340,46 @@ class _STActionSheetState extends State<STActionSheet>
     }
 
     return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            GestureDetector(
-              onTap: () {
-                if (widget.closable) {
-                  STActionSheet.hide(context);
-                }
-              },
-              child: Container(
-                width: screenWidth,
-                height: screenHeight,
-                color: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: () {
+              if (widget.closable) {
+                STActionSheet.hide(context);
+              }
+            },
+            child: Container(
+              width: screenWidth,
+              height: screenHeight,
+              color: Colors.transparent,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: containerWidth,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft:
+                        Radius.circular(STActionSheetConstant.cornerRadius),
+                    topRight:
+                        Radius.circular(STActionSheetConstant.cornerRadius)),
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment:
+                    (titleWidget != null && messageWidget != null)
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                children: columnArray,
               ),
             ),
-            Center(
-              child: Container(
-                width: containerWidth,
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(STActionSheetConstant.cornerRadius),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment:
-                      (titleWidget != null && messageWidget != null)
-                          ? CrossAxisAlignment.start
-                          : CrossAxisAlignment.center,
-                  children: columnArray,
-                ),
-              ),
-            ),
-          ],
-        ));
+          )
+        ],
+      ),
+    );
   }
 
   void addBottomButtonToColumn(

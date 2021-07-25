@@ -96,7 +96,7 @@ class _STMessageState extends State<STMessage> {
     }
 
     titleTextStyle = const TextStyle(
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
         color: Colors.black,
         fontSize: STMessageConstant.titleFontSize,
         decoration: TextDecoration.none);

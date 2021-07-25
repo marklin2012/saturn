@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/saturn.dart';
+
 import 'common.dart';
 
 class STDialogOption {
@@ -22,12 +24,9 @@ class STDialogOptionWidget extends StatelessWidget {
     return SizedBox(
       width: containerWidth,
       height: 44,
-      child: TextButton(
-        style: ButtonStyle(
-          overlayColor: MaterialStateColor.resolveWith(
-              (states) => STDialogConstant.defaultMessageColor),
-        ),
-        onPressed: () {
+      child: STButton(
+        backgroundColor: Colors.transparent,
+        onTap: () {
           if (closable) {
             hide();
           }
@@ -35,15 +34,12 @@ class STDialogOptionWidget extends StatelessWidget {
             dialogOption.onTap();
           }
         },
-        child: Text(
-          dialogOption.title,
-          softWrap: true,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            color: STDialogConstant.defaultButtonTextColor,
-            fontSize: 16,
-            decoration: TextDecoration.none,
-          ),
+        text: dialogOption.title,
+        textStyle: const TextStyle(
+          fontWeight: FontWeight.w500,
+          color: STDialogConstant.defaultButtonTextColor,
+          fontSize: 16,
+          decoration: TextDecoration.none,
         ),
       ),
     );
