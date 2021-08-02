@@ -25,6 +25,7 @@ class _SwitchPageState extends State<SwitchPage> {
                   _value = value;
                 });
               },
+              activeColor: Colors.blue,
             ),
             SizedBox(height: 20),
             STSwitch(
