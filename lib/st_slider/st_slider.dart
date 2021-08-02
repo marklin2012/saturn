@@ -15,6 +15,7 @@ class STSliderConstant {
   static const horizontalWidth = 303.0;
   static const verticalHeight = 200.0;
   static const dotWidth = 18.0;
+  static const horTextHeight = 22.0;
   static const activeSize = 2.0;
   static const borderRadius = BorderRadius.all(Radius.circular(2.0));
   static const showTipSize = 40.0;
@@ -149,7 +150,7 @@ class _STSliderState extends State<STSlider> {
       height: _isHorizontal
           ? ((widget.minValue == null && widget.maxValue == null)
               ? _dotSize
-              : _dotSize + STSliderConstant.dotWidth)
+              : _dotSize + STSliderConstant.horTextHeight)
           : _height,
       width: _isHorizontal
           ? _width
@@ -169,15 +170,23 @@ class _STSliderState extends State<STSlider> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.minValue != null)
-                Text('${widget.minValue}',
-                    style: _disabled
-                        ? const TextStyle(color: STSliderConstant.disabledColor)
-                        : widget.textStyle),
+                SizedBox(
+                  height: STSliderConstant.horTextHeight,
+                  child: Text('${widget.minValue}',
+                      style: _disabled
+                          ? const TextStyle(
+                              color: STSliderConstant.disabledColor)
+                          : widget.textStyle),
+                ),
               if (widget.maxValue != null)
-                Text('${widget.maxValue}',
-                    style: _disabled
-                        ? const TextStyle(color: STSliderConstant.disabledColor)
-                        : widget.textStyle),
+                SizedBox(
+                  height: STSliderConstant.horTextHeight,
+                  child: Text('${widget.maxValue}',
+                      style: _disabled
+                          ? const TextStyle(
+                              color: STSliderConstant.disabledColor)
+                          : widget.textStyle),
+                ),
             ],
           ),
           _getStackChild(),
