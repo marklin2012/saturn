@@ -30,6 +30,7 @@ class STSwitch extends StatelessWidget {
       opacity: disabled ? 0.2 : 1.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           CupertinoSwitch(
             value: _getValue(),
