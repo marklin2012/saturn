@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saturn/st_checkbox/checkbox_single.dart';
+import 'package:saturn/st_checkbox/checkbox.dart';
 
 class STBoxItem {
   final String title;

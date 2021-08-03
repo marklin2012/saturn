@@ -9,7 +9,7 @@ export 'package:saturn/st_button/st_button.dart';
 export 'package:saturn/st_toast/include.dart';
 export 'package:saturn/st_switch/st_switch.dart';
 export 'package:saturn/st_radio/st_radio.dart';
-export 'package:saturn/st_checkbox/st_checkbox.dart';
+export 'package:saturn/st_checkbox/st_checkbox_include.dart';
 export 'package:saturn/st_stepper/st_stepper.dart';
 export 'package:saturn/st_slider/st_slider.dart';
 export 'package:saturn/st_icons/st_icons.dart';
