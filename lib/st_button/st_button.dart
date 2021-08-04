@@ -85,7 +85,6 @@ class STButton extends StatelessWidget {
       type: type,
       disabled: disabled,
       loading: loading,
-      height: height,
       radius: radius,
       circle: circle,
       backgroundColor: backgroundColor,

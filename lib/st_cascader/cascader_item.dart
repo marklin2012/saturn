@@ -5,8 +5,7 @@ class STCascaderItem {
 
   const STCascaderItem({value, key, items})
       : key = key ?? value,
-        // ignore: prefer_initializing_formals
-        value = value,
+        value = value ?? '',
         // ignore: prefer_initializing_formals
         items = items;
 }

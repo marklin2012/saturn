@@ -1,5 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/common.dart';
+import 'package:saturn/utils/include.dart';
 
+// ignore: must_be_immutable
 class STRadio<T> extends StatelessWidget {
   final T value;
   final T groupValue;
@@ -15,7 +19,7 @@ class STRadio<T> extends StatelessWidget {
   final TextStyle textStyle; // 文字的样式
   final EdgeInsets padding; // 内边距
 
-  const STRadio({
+  STRadio({
     Key key,
     @required this.value,
     @required this.groupValue,
@@ -34,20 +38,38 @@ class STRadio<T> extends StatelessWidget {
 
   bool get _selected => value == groupValue;
 
+  Color _borderColor;
+  ValueNotifier<Color> _curColorNoti;
+
+  void initNotifier() {
+    _borderColor = borderColor;
+    _curColorNoti = ValueNotifier(_borderColor);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Opacity(
-        opacity: disabled ? 0.2 : 1.0,
-        child: GestureDetector(
-          onTap: () => disabled ? null : onChanged(value),
-          child: Row(
-            children: [
-              _getChild(),
-              if (text != null) SizedBox(width: space),
-              if (text != null) Text(text, style: textStyle),
-            ],
+    initNotifier();
+    return STMouseRegion(
+      onEnter: (PointerEnterEvent details) {
+        if (disabled) return; // 不可用的不加效果
+        _curColorNoti.value = STColor.firRankBlue;
+      },
+      onExit: (PointerExitEvent details) {
+        _curColorNoti.value = borderColor;
+      },
+      child: Padding(
+        padding: padding,
+        child: Opacity(
+          opacity: disabled ? 0.2 : 1.0,
+          child: GestureDetector(
+            onTap: () => disabled ? null : onChanged(value),
+            child: Row(
+              children: [
+                _getChild(),
+                if (text != null) SizedBox(width: space),
+                if (text != null) Text(text, style: textStyle),
+              ],
+            ),
           ),
         ),
       ),
@@ -56,13 +78,18 @@ class STRadio<T> extends StatelessWidget {
 
   Widget _getChild() {
     if (disabled || !_selected) {
-      return Container(
-        height: externalDiameter,
-        width: externalDiameter,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: borderColor),
-        ),
+      return ValueListenableBuilder(
+        valueListenable: _curColorNoti,
+        builder: (context, Color color, child) {
+          return Container(
+            height: externalDiameter,
+            width: externalDiameter,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: color),
+            ),
+          );
+        },
       );
     } else {
       return Stack(

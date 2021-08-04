@@ -40,7 +40,7 @@ class SliderTipPaint extends StatelessWidget {
         width: _width,
         height: _defaultHeight,
         alignment: Alignment.center,
-        padding: _defaultPadding,
+        // padding: _defaultPadding,
         child: child,
       ),
     );

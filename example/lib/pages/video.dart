@@ -23,6 +23,7 @@ class _VideoPageState extends State<VideoPage> {
           STVideo.asset(
             path: 'assets/video/showtime.mp4',
             doubleControlRow: true,
+            isShowControl: false,
           ),
         ],
       ),

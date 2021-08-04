@@ -15,6 +15,7 @@ class STSliderConstant {
   static const horizontalWidth = 303.0;
   static const verticalHeight = 200.0;
   static const dotWidth = 18.0;
+  static const horTextHeight = 22.0;
   static const activeSize = 2.0;
   static const borderRadius = BorderRadius.all(Radius.circular(2.0));
   static const showTipSize = 40.0;
@@ -147,13 +148,13 @@ class _STSliderState extends State<STSlider> {
     initValue();
     return SizedBox(
       height: _isHorizontal
-          ? (widget.rangeValues == null
+          ? ((widget.minValue == null && widget.maxValue == null)
               ? _dotSize
-              : _dotSize + STSliderConstant.dotWidth)
+              : _dotSize + STSliderConstant.horTextHeight)
           : _height,
       width: _isHorizontal
           ? _width
-          : (widget.rangeValues == null
+          : ((widget.minValue == null && widget.maxValue == null)
               ? _dotSize
               : _dotSize + STSliderConstant.showTipSize),
       child: _getOpacityChild(),
@@ -163,20 +164,29 @@ class _STSliderState extends State<STSlider> {
   Widget _getOpacityChild() {
     if (_isHorizontal) {
       return Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.minValue != null)
-                Text('${widget.minValue}',
-                    style: _disabled
-                        ? const TextStyle(color: STSliderConstant.disabledColor)
-                        : widget.textStyle),
+                SizedBox(
+                  height: STSliderConstant.horTextHeight,
+                  child: Text('${widget.minValue}',
+                      style: _disabled
+                          ? const TextStyle(
+                              color: STSliderConstant.disabledColor)
+                          : widget.textStyle),
+                ),
               if (widget.maxValue != null)
-                Text('${widget.maxValue}',
-                    style: _disabled
-                        ? const TextStyle(color: STSliderConstant.disabledColor)
-                        : widget.textStyle),
+                SizedBox(
+                  height: STSliderConstant.horTextHeight,
+                  child: Text('${widget.maxValue}',
+                      style: _disabled
+                          ? const TextStyle(
+                              color: STSliderConstant.disabledColor)
+                          : widget.textStyle),
+                ),
             ],
           ),
           _getStackChild(),
@@ -184,6 +194,7 @@ class _STSliderState extends State<STSlider> {
       );
     } else {
       return Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           _getStackChild(),
           Column(

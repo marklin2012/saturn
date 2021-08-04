@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_select/select_mix_item.dart';
 import 'package:saturn/st_select/select_show_dialog.dart';
+import 'package:saturn/utils/include.dart';
 
 const _defaultBorderColor = Color(0xFFC4C5C7);
+const _defaultHeight = 48.0;
 
 class STSelectMix extends StatefulWidget {
   final STSelectMixItem initValue;
@@ -10,6 +12,7 @@ class STSelectMix extends StatefulWidget {
   final Color selectedColor;
   final Function(STSelectMixItem) onChanged;
   final double verticalOffset;
+  final bool isConCheck; // 是否需要勾选
 
   const STSelectMix({
     Key key,
@@ -18,6 +21,7 @@ class STSelectMix extends StatefulWidget {
     this.selectedColor = const Color(0xFF095BF9),
     this.onChanged,
     this.verticalOffset = 8.0,
+    this.isConCheck = false,
   }) : super(key: key);
 
   @override
@@ -57,7 +61,9 @@ class _STSelectMixState extends State<STSelectMix> {
               menu: _getMenu(),
               offset: Offset(
                 _originPoint.dx,
-                _originPoint.dy + widget.verticalOffset,
+                _originPoint.dy +
+                    widget.verticalOffset +
+                    (getIsWeb() ? _defaultHeight : 0),
               ),
               height: 42.0 * 6,
             );
@@ -69,7 +75,7 @@ class _STSelectMixState extends State<STSelectMix> {
       },
       child: Container(
         key: _selectKey,
-        height: 48.0,
+        height: _defaultHeight,
         decoration: BoxDecoration(
           border: Border.all(
               color:
@@ -79,15 +85,13 @@ class _STSelectMixState extends State<STSelectMix> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (widget.initValue != null)
-              Container(
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                child: Text(
-                  widget.initValue.title,
-                  style:
-                      const TextStyle(color: Color(0xFF000000), fontSize: 16),
-                ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+              child: Text(
+                widget.initValue != null ? widget.initValue.title : '',
+                style: const TextStyle(color: Color(0xFF000000), fontSize: 16),
               ),
+            ),
             Container(
               padding: const EdgeInsets.fromLTRB(0, 0, 13, 0),
               child: _showSelected
@@ -151,12 +155,13 @@ class _STSelectMixState extends State<STSelectMix> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(right: 18.0),
-                    child: _isSelected
-                        ? Icon(Icons.check, color: widget.selectedColor)
-                        : null,
-                  ),
+                  if (widget.isConCheck)
+                    Container(
+                      padding: const EdgeInsets.only(right: 18.0),
+                      child: _isSelected
+                          ? Icon(Icons.check, color: widget.selectedColor)
+                          : null,
+                    ),
                 ],
               ),
             ),
@@ -174,7 +179,8 @@ class _STSelectMixState extends State<STSelectMix> {
   }
 
   bool _getSelected(STSelectMixItem data) {
-    return data.title == widget.initValue.title;
+    if (widget.initValue == null) return false;
+    return data.key == widget.initValue.key;
   }
 
   Color _getColor(STSelectMixItem data, {bool isSelected = false}) {

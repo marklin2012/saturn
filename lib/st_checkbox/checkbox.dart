@@ -1,7 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/common.dart';
+import 'package:saturn/utils/include.dart';
 
 const _defaultIconWidth = 20.0;
 
+// ignore: must_be_immutable
 class STCheckBox extends StatelessWidget {
   final bool value; // 是否选中
   final ValueChanged<bool> onChanged;
@@ -16,7 +20,7 @@ class STCheckBox extends StatelessWidget {
   final double radius; // 框的圆角半径
   final Color iconColor; // 图片颜色
 
-  const STCheckBox({
+  STCheckBox({
     Key key,
     this.value = false,
     this.text,
@@ -32,20 +36,38 @@ class STCheckBox extends StatelessWidget {
     this.radius = 4.0,
   }) : super(key: key);
 
+  Color _borderColor;
+  ValueNotifier<Color> _curColorNoti;
+
+  void initNotifier() {
+    _borderColor = borderColor;
+    _curColorNoti = ValueNotifier(_borderColor);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Opacity(
-        opacity: disabled ? 0.2 : 1.0,
-        child: GestureDetector(
-          onTap: () => disabled ? null : onChanged(!value),
-          child: Row(
-            children: [
-              _getChild(),
-              if (text != null) SizedBox(width: space),
-              if (text != null) Text(text, style: textStyle),
-            ],
+    initNotifier();
+    return STMouseRegion(
+      onEnter: (PointerEnterEvent details) {
+        if (disabled) return;
+        _curColorNoti.value = STColor.firRankBlue;
+      },
+      onExit: (PointerExitEvent details) {
+        _curColorNoti.value = borderColor;
+      },
+      child: Padding(
+        padding: padding,
+        child: Opacity(
+          opacity: disabled ? 0.2 : 1.0,
+          child: GestureDetector(
+            onTap: () => disabled ? null : onChanged(!value),
+            child: Row(
+              children: [
+                _getChild(),
+                if (text != null) SizedBox(width: space),
+                if (text != null) Text(text, style: textStyle),
+              ],
+            ),
           ),
         ),
       ),
@@ -54,13 +76,18 @@ class STCheckBox extends StatelessWidget {
 
   Widget _getChild() {
     if (disabled || !value) {
-      return Container(
-        height: boxWidth,
-        width: boxWidth,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(radius)),
-          border: Border.all(color: borderColor),
-        ),
+      return ValueListenableBuilder(
+        valueListenable: _curColorNoti,
+        builder: (context, Color color, child) {
+          return Container(
+            height: boxWidth,
+            width: boxWidth,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(radius)),
+              border: Border.all(color: color),
+            ),
+          );
+        },
       );
     } else {
       return Stack(
