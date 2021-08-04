@@ -117,6 +117,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
             ),
             const SizedBox(width: 4),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: _defaultNumIconHeight,

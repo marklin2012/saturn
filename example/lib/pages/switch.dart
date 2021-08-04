@@ -16,6 +16,7 @@ class _SwitchPageState extends State<SwitchPage> {
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
             STSwitch(
@@ -25,6 +26,7 @@ class _SwitchPageState extends State<SwitchPage> {
                   _value = value;
                 });
               },
+              activeColor: Colors.blue,
             ),
             SizedBox(height: 20),
             STSwitch(
