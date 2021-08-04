@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../utils/platform.dart';
 import '../utils/string.dart';
 import 'common.dart';
 
@@ -117,8 +118,15 @@ class _STMessageState extends State<STMessage> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double containerWidth =
-        screenWidth * STMessageConstant.defaultWidthPercent;
+    double containerWidth;
+
+    double defaultWidth;
+    if (getIsWeb()) {
+      defaultWidth = screenWidth * STMessageConstant.defaultWidthPercent / 2.0;
+    } else {
+      defaultWidth = screenWidth * STMessageConstant.defaultWidthPercent;
+    }
+    containerWidth = defaultWidth;
 
     Text titleWidget;
     if (!isNullOrEmpty(widget.title)) {
