@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../utils/platform.dart';
 import 'common.dart';
 
 class STAlert extends StatefulWidget {
@@ -128,7 +129,13 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     double curWidth = widget.width;
-    curWidth ??= screenWidth - 16 * 2;
+    double defaultWidth;
+    if (getIsWeb()) {
+      defaultWidth = screenWidth / 2.0;
+    } else {
+      defaultWidth = screenWidth - 16 * 2;
+    }
+    curWidth ??= defaultWidth;
 
     Widget closeInsideWidget = const Padding(
         padding: EdgeInsets.only(top: 3.0),
