@@ -3,11 +3,12 @@ import 'package:saturn/st_dialog/st_dialog_bottom_buttons.dart';
 import 'package:saturn/st_dialog/st_dialog_option.dart';
 import 'package:saturn/st_dialog/st_dialog_textfield.dart';
 
+import '../utils/platform.dart';
 import '../utils/string.dart';
 import 'common.dart';
 
 class STDialog extends StatefulWidget {
-  final int width;
+  final double width;
   final String title;
   final String message;
   final Widget icon;
@@ -40,7 +41,7 @@ class STDialog extends StatefulWidget {
 
   static void show({
     @required BuildContext context,
-    int width,
+    double width,
     String title,
     String message,
     Widget icon,
@@ -139,7 +140,15 @@ class _STDialogState extends State<STDialog> {
     }
 
     List<Widget> columnArray;
-    containerWidth = screenWidth * STDialogConstant.defaultWidthPercent;
+    containerWidth = widget.width;
+    double defaultWidth;
+    if (getIsWeb()) {
+      defaultWidth = screenWidth * STDialogConstant.defaultWidthPercent / 2.0;
+    } else {
+      defaultWidth = screenWidth * STDialogConstant.defaultWidthPercent;
+    }
+    containerWidth ??= defaultWidth;
+
     columnArray = [
       const SizedBox(
         height: 16,
