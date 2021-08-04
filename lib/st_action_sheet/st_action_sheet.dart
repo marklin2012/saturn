@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../utils/platform.dart';
 import '../utils/string.dart';
 import 'common.dart';
 import 'st_action_sheet_bottom_buttons.dart';
 import 'st_action_sheet_option.dart';
 
 class STActionSheet extends StatefulWidget {
-  final int width;
+  final double width;
   final String title;
   final String message;
   final Widget icon;
@@ -53,7 +54,7 @@ class STActionSheet extends StatefulWidget {
 
   static void show({
     @required BuildContext context,
-    int width,
+    double width,
     String title,
     String message,
     Widget icon,
@@ -142,7 +143,15 @@ class _STActionSheetState extends State<STActionSheet>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    final double containerWidth = screenWidth;
+    double containerWidth = widget.width;
+
+    double defaultWidth;
+    if (getIsWeb()) {
+      defaultWidth = screenWidth / 2.0;
+    } else {
+      defaultWidth = screenWidth;
+    }
+    containerWidth ??= defaultWidth;
 
     Widget titleWidget;
     if (isNotEmpty(widget.title)) {
