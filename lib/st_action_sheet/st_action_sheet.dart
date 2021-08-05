@@ -127,6 +127,7 @@ class STActionSheet extends StatefulWidget {
 class _STActionSheetState extends State<STActionSheet>
     with STActionSheetInterface {
   List selectedList = [];
+  List enteredList = [];
 
   @override
   void initState() {
@@ -134,6 +135,7 @@ class _STActionSheetState extends State<STActionSheet>
     if (widget.directionType == STActionSheetDirectionType.horizontal) {
       for (int i = 0; i < widget.options.length; i++) {
         selectedList.add([]);
+        enteredList.add([]);
       }
     }
   }
@@ -232,6 +234,7 @@ class _STActionSheetState extends State<STActionSheet>
               width: containerWidth,
               directionType: widget.directionType,
               selectedList: selectedList,
+              enteredList: enteredList,
               canSelect: widget.canSelect,
               selectedColor: widget.selectedColor,
               showSelectColor: widget.showSelectColor,
@@ -311,6 +314,7 @@ class _STActionSheetState extends State<STActionSheet>
                 width: containerWidth,
                 directionType: widget.directionType,
                 selectedList: selectedList,
+                enteredList: enteredList,
                 canSelect: widget.canSelect,
                 selectedColor: widget.selectedColor,
                 showSelectColor: widget.showSelectColor,
