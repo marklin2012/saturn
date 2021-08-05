@@ -80,7 +80,7 @@ class STActionSheetBottomButtons extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius:
                 BorderRadius.circular(STActionSheetConstant.cornerRadius),
-            color: STActionSheetConstant.defaultButtonTextColor,
+            color: Colors.transparent,
           ),
           width: containerWidth - 24,
           height: 44,
