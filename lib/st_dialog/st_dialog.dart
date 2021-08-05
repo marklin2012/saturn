@@ -96,11 +96,16 @@ class STDialog extends StatefulWidget {
 
 class _STDialogState extends State<STDialog> {
   STDialogTextField dialogTextField;
-  List selectedList = [];
+  List enteredList = [];
 
   @override
   void initState() {
     super.initState();
+    if (widget.options != null) {
+      for (int i = 0; i < widget.options.length; i++) {
+        enteredList.add([]);
+      }
+    }
 
     if (widget.hasTextField) {
       dialogTextField = STDialogTextField();
@@ -229,13 +234,17 @@ class _STDialogState extends State<STDialog> {
 
       final STDialogOption option = widget.options[i];
       columnArray.add(STDialogOptionWidget(
-        dialogOption: option,
-        containerWidth: containerWidth,
-        closable: widget.closable,
-        hide: () {
-          STDialog.hide(context);
-        },
-      ));
+          dialogOption: option,
+          containerWidth: containerWidth,
+          closable: widget.closable,
+          hide: () {
+            STDialog.hide(context);
+          },
+          updateAction: () {
+            setState(() {});
+          },
+          verticalIndex: i,
+          enteredList: enteredList));
     }
   }
 

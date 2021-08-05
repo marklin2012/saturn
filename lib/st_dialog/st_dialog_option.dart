@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:saturn/utils/include.dart';
 
 import 'common.dart';
 
@@ -15,17 +18,33 @@ class STDialogOptionWidget extends StatelessWidget {
   final double containerWidth;
   final bool closable;
   final VoidCallback hide;
+  final VoidCallback updateAction;
+  final int verticalIndex;
+  final List enteredList;
 
-  const STDialogOptionWidget(
-      {this.dialogOption, this.containerWidth, this.closable, this.hide});
+  const STDialogOptionWidget({
+    this.dialogOption,
+    this.containerWidth,
+    this.closable,
+    this.hide,
+    this.updateAction,
+    this.verticalIndex,
+    this.enteredList,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final bool isEnter = enteredList.contains(verticalIndex);
+
+    Color curColor = Colors.transparent;
+    if (isEnter) {
+      curColor = STDialogConstant.optionHighlightColor.withOpacity(0.5);
+    }
+    final Widget content = SizedBox(
       width: containerWidth,
       height: 44,
       child: STButton(
-        backgroundColor: Colors.transparent,
+        backgroundColor: curColor,
         onTap: () {
           if (closable) {
             hide();
@@ -42,6 +61,17 @@ class STDialogOptionWidget extends StatelessWidget {
           decoration: TextDecoration.none,
         ),
       ),
+    );
+    return STMouseRegion(
+      onEnter: (PointerEnterEvent details) {
+        enteredList.add(verticalIndex);
+        updateAction();
+      },
+      onExit: (PointerExitEvent details) {
+        enteredList.clear();
+        updateAction();
+      },
+      child: content,
     );
   }
 }
