@@ -66,40 +66,67 @@ class MessagePage extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () {
                   STMessage.show(
-                      context: context,
-                      content: Container(
-                        color: Colors.white,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                iconWidget,
-                                Text(
-                                  "这是说明信息",
+                    context: context,
+                    autoClose: false,
+                    content: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              STMessageConstant.cornerRadius),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.wifi, color: Colors.blue),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        "这是说明信息",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w400,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    "说明信息",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w400,
+                                        decoration: TextDecoration.none),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              Text("标题标题",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: STMessageConstant.titleFontSize,
-                                      decoration: TextDecoration.none),
-                                ),
-                                iconWidget,
-                              ],
-                            ),
-                            Text("标题标题",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: STMessageConstant.titleFontSize,
-                                    decoration: TextDecoration.none)),
-                            Text("这是文本信息",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: STMessageConstant.titleFontSize,
-                                    decoration: TextDecoration.none)),
-                          ],
-                        ),
-                      ));
+                                      decoration: TextDecoration.none)),
+                              SizedBox(height: 4),
+                              Text("这是文本信息",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.none)),
+                              SizedBox(height: 12),
+                            ],
+                          ),
+                        )),
+                  );
                 },
               ),
             ],
