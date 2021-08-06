@@ -124,7 +124,7 @@ class _STDialogState extends State<STDialog> {
       titleWidget = Text(widget.title,
           softWrap: true,
           style: const TextStyle(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: Colors.black,
               fontSize: STDialogConstant.titleFontSize,
               decoration: TextDecoration.none));

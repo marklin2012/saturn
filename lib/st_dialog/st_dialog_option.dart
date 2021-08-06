@@ -55,7 +55,7 @@ class STDialogOptionWidget extends StatelessWidget {
         },
         text: dialogOption.title,
         textStyle: const TextStyle(
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: STDialogConstant.defaultButtonTextColor,
           fontSize: 16,
           decoration: TextDecoration.none,

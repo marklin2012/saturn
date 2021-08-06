@@ -61,7 +61,7 @@ class STActionSheetBottomButtons extends StatelessWidget {
                 },
                 text: confirmTitle,
                 textStyle: const TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white,
                     fontSize: 16,
                     decoration: TextDecoration.none),

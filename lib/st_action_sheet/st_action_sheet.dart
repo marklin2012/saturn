@@ -162,7 +162,7 @@ class _STActionSheetState extends State<STActionSheet>
         softWrap: true,
         textAlign: TextAlign.center,
         style: const TextStyle(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: Colors.black,
             fontSize: STActionSheetConstant.titleFontSize,
             decoration: TextDecoration.none),
