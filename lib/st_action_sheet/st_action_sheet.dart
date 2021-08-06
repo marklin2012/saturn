@@ -214,11 +214,11 @@ class _STActionSheetState extends State<STActionSheet>
             if (widget.icon == null && titleWidget != null)
               Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                  child: titleWidget),
+                  child: Align(child: titleWidget)),
             if (widget.icon == null && messageWidget != null)
               Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                  child: messageWidget),
+                  child: Align(child: messageWidget)),
             const SizedBox(
               height: 16,
             ),
@@ -292,8 +292,10 @@ class _STActionSheetState extends State<STActionSheet>
                       )
                     ],
                   ),
-                if (widget.icon == null && titleWidget != null) titleWidget,
-                if (widget.icon == null && messageWidget != null) messageWidget,
+                if (widget.icon == null && titleWidget != null)
+                  Align(child: titleWidget),
+                if (widget.icon == null && messageWidget != null)
+                  Align(child: messageWidget),
                 const SizedBox(
                   height: 16,
                 ),
@@ -382,10 +384,7 @@ class _STActionSheetState extends State<STActionSheet>
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment:
-                    (titleWidget != null && messageWidget != null)
-                        ? CrossAxisAlignment.start
-                        : CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: columnArray,
               ),
             ),
