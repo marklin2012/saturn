@@ -8,17 +8,21 @@ class MessagePage extends StatelessWidget {
         width: 24.0, height: 24.0, fit: BoxFit.contain);
     Icon iconWidget = Icon(Icons.error_outline);
     return Scaffold(
-        backgroundColor: Colors.yellow,
-        appBar: AppBar(
-          title: Text('Message'),
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Message'),
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("基础用法"),
+                child: Text("基础用法", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STMessage.show(
@@ -31,7 +35,7 @@ class MessagePage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               FlatButton(
-                child: Text("含辅助性文字描述"),
+                child: Text("含辅助性文字描述", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STMessage.show(
@@ -45,7 +49,7 @@ class MessagePage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               FlatButton(
-                child: Text("显示状态"),
+                child: Text("显示状态", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STMessage.show(
@@ -58,7 +62,7 @@ class MessagePage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               FlatButton(
-                child: Text("可自定义"),
+                child: Text("可自定义", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STMessage.show(
@@ -100,6 +104,8 @@ class MessagePage extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
