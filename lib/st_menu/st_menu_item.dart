@@ -35,7 +35,7 @@ class STMenuItem extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    bool isSelected = index == current;
+    final bool isSelected = index == current;
 
     Color currentColor = Theme.of(context).primaryColor;
     if (type != STMenuType.button) {
@@ -100,6 +100,7 @@ class STMenuItem extends StatelessWidget {
     }
 
     return Material(
+      color: Colors.transparent,
       child: InkWell(
         onTap: () {
           if (onTap != null) {

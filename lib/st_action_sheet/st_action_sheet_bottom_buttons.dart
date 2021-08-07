@@ -61,7 +61,7 @@ class STActionSheetBottomButtons extends StatelessWidget {
                 },
                 text: confirmTitle,
                 textStyle: const TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white,
                     fontSize: 16,
                     decoration: TextDecoration.none),
@@ -80,7 +80,7 @@ class STActionSheetBottomButtons extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius:
                 BorderRadius.circular(STActionSheetConstant.cornerRadius),
-            color: STActionSheetConstant.defaultButtonTextColor,
+            color: Colors.transparent,
           ),
           width: containerWidth - 24,
           height: 44,

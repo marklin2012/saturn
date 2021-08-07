@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../utils/platform.dart';
 import '../utils/string.dart';
 import 'common.dart';
 import 'st_action_sheet_bottom_buttons.dart';
 import 'st_action_sheet_option.dart';
 
 class STActionSheet extends StatefulWidget {
-  final int width;
+  final double width;
   final String title;
   final String message;
   final Widget icon;
@@ -53,7 +54,7 @@ class STActionSheet extends StatefulWidget {
 
   static void show({
     @required BuildContext context,
-    int width,
+    double width,
     String title,
     String message,
     Widget icon,
@@ -126,6 +127,7 @@ class STActionSheet extends StatefulWidget {
 class _STActionSheetState extends State<STActionSheet>
     with STActionSheetInterface {
   List selectedList = [];
+  List enteredList = [];
 
   @override
   void initState() {
@@ -133,6 +135,7 @@ class _STActionSheetState extends State<STActionSheet>
     if (widget.directionType == STActionSheetDirectionType.horizontal) {
       for (int i = 0; i < widget.options.length; i++) {
         selectedList.add([]);
+        enteredList.add([]);
       }
     }
   }
@@ -142,7 +145,15 @@ class _STActionSheetState extends State<STActionSheet>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    final double containerWidth = screenWidth;
+    double containerWidth = widget.width;
+
+    double defaultWidth;
+    if (getIsWeb()) {
+      defaultWidth = screenWidth / 2.0;
+    } else {
+      defaultWidth = screenWidth;
+    }
+    containerWidth ??= defaultWidth;
 
     Widget titleWidget;
     if (isNotEmpty(widget.title)) {
@@ -151,7 +162,7 @@ class _STActionSheetState extends State<STActionSheet>
         softWrap: true,
         textAlign: TextAlign.center,
         style: const TextStyle(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: Colors.black,
             fontSize: STActionSheetConstant.titleFontSize,
             decoration: TextDecoration.none),
@@ -203,11 +214,11 @@ class _STActionSheetState extends State<STActionSheet>
             if (widget.icon == null && titleWidget != null)
               Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                  child: titleWidget),
+                  child: Align(child: titleWidget)),
             if (widget.icon == null && messageWidget != null)
               Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                  child: messageWidget),
+                  child: Align(child: messageWidget)),
             const SizedBox(
               height: 16,
             ),
@@ -223,6 +234,7 @@ class _STActionSheetState extends State<STActionSheet>
               width: containerWidth,
               directionType: widget.directionType,
               selectedList: selectedList,
+              enteredList: enteredList,
               canSelect: widget.canSelect,
               selectedColor: widget.selectedColor,
               showSelectColor: widget.showSelectColor,
@@ -280,8 +292,10 @@ class _STActionSheetState extends State<STActionSheet>
                       )
                     ],
                   ),
-                if (widget.icon == null && titleWidget != null) titleWidget,
-                if (widget.icon == null && messageWidget != null) messageWidget,
+                if (widget.icon == null && titleWidget != null)
+                  Align(child: titleWidget),
+                if (widget.icon == null && messageWidget != null)
+                  Align(child: messageWidget),
                 const SizedBox(
                   height: 16,
                 ),
@@ -302,6 +316,7 @@ class _STActionSheetState extends State<STActionSheet>
                 width: containerWidth,
                 directionType: widget.directionType,
                 selectedList: selectedList,
+                enteredList: enteredList,
                 canSelect: widget.canSelect,
                 selectedColor: widget.selectedColor,
                 showSelectColor: widget.showSelectColor,
@@ -369,10 +384,7 @@ class _STActionSheetState extends State<STActionSheet>
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment:
-                    (titleWidget != null && messageWidget != null)
-                        ? CrossAxisAlignment.start
-                        : CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: columnArray,
               ),
             ),

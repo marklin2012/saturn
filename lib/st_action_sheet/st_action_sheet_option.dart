@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:saturn/utils/include.dart';
 
 import '../utils/string.dart';
 import 'common.dart';
@@ -22,6 +25,7 @@ class STActionSheetOptionWidget extends StatelessWidget
   final double width;
   final STActionSheetDirectionType directionType;
   final List selectedList;
+  final List enteredList;
   final bool canSelect;
   final Color selectedColor;
   final bool showSelectColor;
@@ -38,6 +42,7 @@ class STActionSheetOptionWidget extends StatelessWidget
       this.width,
       this.directionType,
       this.selectedList,
+      this.enteredList,
       this.canSelect,
       this.selectedColor,
       this.showSelectColor,
@@ -52,20 +57,32 @@ class STActionSheetOptionWidget extends StatelessWidget
     Widget content;
 
     bool isSelected;
+    bool isEnter;
     if (directionType == STActionSheetDirectionType.vertical) {
       isSelected = selectedList.contains(verticalIndex);
+      isEnter = enteredList.contains(verticalIndex);
     } else {
       isSelected = selectedList[verticalIndex].contains(horizontalIndex);
+      isEnter = enteredList[verticalIndex].contains(horizontalIndex);
+    }
+
+    Color curColor;
+    if (showSelectColor &&
+        isSelected &&
+        !actionSheetOption.isRadio &&
+        canSelect) {
+      curColor = selectedColor;
+    } else {
+      curColor = Colors.transparent;
+    }
+
+    if (isEnter) {
+      curColor = selectedColor.withOpacity(0.5);
     }
 
     if (directionType == STActionSheetDirectionType.vertical) {
       content = Container(
-        color: (showSelectColor &&
-                isSelected &&
-                !actionSheetOption.isRadio &&
-                canSelect)
-            ? selectedColor
-            : Colors.transparent,
+        color: curColor,
         width: width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -127,12 +144,7 @@ class STActionSheetOptionWidget extends StatelessWidget
       );
     } else if (directionType == STActionSheetDirectionType.horizontal) {
       content = Container(
-        color: (showSelectColor &&
-                isSelected &&
-                !actionSheetOption.isRadio &&
-                canSelect)
-            ? selectedColor
-            : Colors.transparent,
+        color: curColor,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: Column(
@@ -157,41 +169,61 @@ class STActionSheetOptionWidget extends StatelessWidget
 
     if (content != null) {
       return GestureDetector(
-        onTap: () {
-          if (canSelect) {
-            if (directionType == STActionSheetDirectionType.vertical) {
-              if (isSingleSelect) {
-                selectedList.clear();
-                selectedList.add(verticalIndex);
-              } else {
-                if (selectedList.contains(verticalIndex)) {
-                  selectedList.remove(verticalIndex);
-                } else {
+          onTap: () {
+            if (canSelect) {
+              if (directionType == STActionSheetDirectionType.vertical) {
+                if (isSingleSelect) {
+                  selectedList.clear();
                   selectedList.add(verticalIndex);
-                }
-              }
-            } else {
-              if (isSingleSelect) {
-                for (int i = 0; i < selectedList.length; i++) {
-                  selectedList[i].clear();
-                }
-                selectedList[verticalIndex].add(horizontalIndex);
-              } else {
-                if (selectedList[verticalIndex].contains(horizontalIndex)) {
-                  selectedList[verticalIndex].remove(horizontalIndex);
                 } else {
+                  if (selectedList.contains(verticalIndex)) {
+                    selectedList.remove(verticalIndex);
+                  } else {
+                    selectedList.add(verticalIndex);
+                  }
+                }
+              } else {
+                if (isSingleSelect) {
+                  for (int i = 0; i < selectedList.length; i++) {
+                    selectedList[i].clear();
+                  }
                   selectedList[verticalIndex].add(horizontalIndex);
+                } else {
+                  if (selectedList[verticalIndex].contains(horizontalIndex)) {
+                    selectedList[verticalIndex].remove(horizontalIndex);
+                  } else {
+                    selectedList[verticalIndex].add(horizontalIndex);
+                  }
                 }
               }
-            }
 
-            selectAction();
-          } else {
-            if (actionSheetOption.onTap != null) actionSheetOption.onTap();
-          }
-        },
-        child: content,
-      );
+              selectAction();
+            } else {
+              if (actionSheetOption.onTap != null) actionSheetOption.onTap();
+            }
+          },
+          child: STMouseRegion(
+            onEnter: (PointerEnterEvent details) {
+              selectAction();
+              if (directionType == STActionSheetDirectionType.vertical) {
+                enteredList.add(verticalIndex);
+              } else {
+                enteredList[verticalIndex].add(horizontalIndex);
+              }
+            },
+            onExit: (PointerExitEvent details) {
+              if (directionType == STActionSheetDirectionType.vertical) {
+                enteredList.clear();
+              } else {
+                for (int i = 0; i < enteredList.length; i++) {
+                  enteredList[i].clear();
+                }
+              }
+
+              selectAction();
+            },
+            child: content,
+          ));
     }
     return content;
   }

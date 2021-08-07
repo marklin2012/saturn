@@ -5,16 +5,20 @@ class DialogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Dialog'),
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+      appBar: AppBar(
+        title: Text('Dialog'),
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("提示弹框"),
+                child: Text("提示弹框", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -25,8 +29,9 @@ class DialogPage extends StatelessWidget {
                       onCancelTap: () {});
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("确认弹框"),
+                child: Text("确认弹框", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -38,8 +43,9 @@ class DialogPage extends StatelessWidget {
                       hasConfirmButton: true);
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("含图标弹框"),
+                child: Text("含图标弹框", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -53,8 +59,9 @@ class DialogPage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("含选项弹框"),
+                child: Text("含选项弹框", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -78,8 +85,9 @@ class DialogPage extends StatelessWidget {
                       ]);
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("可自定义"),
+                child: Text("可自定义", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STDialog.show(
@@ -96,6 +104,8 @@ class DialogPage extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
