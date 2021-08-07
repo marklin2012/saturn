@@ -96,19 +96,17 @@ class _SliderPageState extends State<SliderPage> {
                     });
                   },
                 ),
-                SizedBox(width: 100),
-                STSlider(
-                  axis: Axis.vertical,
-                  mainSize: 200,
-                  minValue: 0,
-                  maxValue: 100,
-                  rangeValues: _verRangeValue,
-                  onChangedRange: (value) {
-                    setState(() {
-                      _verRangeValue = value;
-                    });
-                  },
-                ),
+                // SizedBox(width: 100),
+                // STSlider(
+                //   axis: Axis.vertical,
+                //   mainSize: 200,
+                //   rangeValues: _verRangeValue,
+                //   onChangedRange: (value) {
+                //     setState(() {
+                //       _verRangeValue = value;
+                //     });
+                //   },
+                // ),
               ],
             ),
           ],
