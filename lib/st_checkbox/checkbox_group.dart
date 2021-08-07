@@ -6,7 +6,7 @@ class STBoxItem {
   final String title;
   final bool disabled;
 
-  const STBoxItem({key, this.title, disabled})
+  const STBoxItem({key, @required this.title, disabled})
       : key = key ?? title,
         disabled = disabled ?? false;
 }
