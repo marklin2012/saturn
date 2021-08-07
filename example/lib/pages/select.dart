@@ -90,6 +90,7 @@ class _SelectPageState extends State<SelectPage> {
                 STSelect(
                   types: STSelectTypes.texts,
                   title: '标题',
+                  looping: true,
                   initTextsValue: _initText1,
                   textsListValues: [
                     ['第一列1', '第一列2', '第一列3', '第一列4', '第一列5', '第一列6'],
@@ -121,6 +122,7 @@ class _SelectPageState extends State<SelectPage> {
                 STSelect(
                   types: STSelectTypes.texts,
                   title: '标题',
+                  looping: true,
                   initTextsValue: _initText2,
                   textsListValues: [
                     ['第一列1', '第一列2', '第一列3', '第一列4', '第一列5', '第一列6'],
@@ -153,6 +155,7 @@ class _SelectPageState extends State<SelectPage> {
                 STSelect(
                   types: STSelectTypes.texts,
                   title: '标题',
+                  looping: true,
                   initTextsValue: _initText3,
                   textsListValues: [
                     ['第一列1', '第一列2', '第一列3', '第一列4', '第一列5', '第一列6'],
