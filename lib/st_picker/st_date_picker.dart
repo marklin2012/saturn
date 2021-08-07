@@ -90,7 +90,10 @@ class STDatePicker extends StatelessWidget {
           ),
           const Text(
             '选择日期',
-            style: TextStyle(color: Color(0xFF000000), fontSize: 18),
+            style: TextStyle(
+                color: Color(0xFF000000),
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
           ),
           TextButton(
             onPressed: () {
