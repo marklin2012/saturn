@@ -18,15 +18,15 @@ class _CheckboxPageState extends State<CheckboxPage> {
 
   var _selected = ['语文'];
 
-  var _isAll = false;
+  var _isAllOn = false;
 
   var _boxAllItems = [
-    STBoxItem(title: '物理'),
-    STBoxItem(title: '化学'),
-    STBoxItem(title: '生物'),
+    STBoxItem(title: '物理', key: '0'),
+    STBoxItem(title: '化学', key: '1'),
+    STBoxItem(title: '生物', key: '2'),
   ];
 
-  var _selectedAll = ['物理'];
+  var _selectedValues = ['0'];
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +92,9 @@ class _CheckboxPageState extends State<CheckboxPage> {
           items: _boxItems,
           selecteds: _selected,
           axis: Axis.vertical,
-          onChanged: (List<String> values) {
+          onChanged: (STBoxBlock block) {
             setState(() {
-              _selected = values;
+              _selected = block.selectedValues;
             });
           },
         ),
@@ -108,35 +108,23 @@ class _CheckboxPageState extends State<CheckboxPage> {
       children: [
         Text('全选用法'),
         STCheckBox(
-          value: _isAll,
+          value: _isAllOn,
           text: "全选",
           onChanged: (value) {
             setState(() {
-              _isAll = value;
-              if (_isAll) {
-                var temp = <String>[];
-                for (var item in _boxAllItems) {
-                  temp.add(item.title);
-                }
-                _selectedAll = List.from(temp);
-              } else {
-                _selectedAll = <String>[];
-              }
+              _isAllOn = value;
             });
           },
         ),
         STCheckboxGroup(
           items: _boxAllItems,
-          selecteds: _selectedAll,
+          selecteds: _selectedValues,
+          isAllOn: _isAllOn,
           axis: Axis.vertical,
-          onChanged: (List<String> values) {
+          onChanged: (STBoxBlock block) {
             setState(() {
-              _selectedAll = values;
-              if (_selectedAll.length != _boxAllItems.length) {
-                _isAll = false;
-              } else {
-                _isAll = true;
-              }
+              _selectedValues = block.selectedValues;
+              _isAllOn = block.isAllOn;
             });
           },
         ),
