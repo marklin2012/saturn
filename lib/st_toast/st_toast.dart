@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../utils/platform.dart';
 import '../utils/string.dart';
 import 'common.dart';
 
@@ -189,7 +190,12 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
               children: [
                 iconWidget,
                 const SizedBox(width: 10),
-                Expanded(child: messageWidget)
+                if (getIsWeb())
+                  messageWidget
+                else
+                  Expanded(
+                    child: messageWidget,
+                  ),
               ],
             ),
           );

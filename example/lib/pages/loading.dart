@@ -20,15 +20,17 @@ class _LoadingPageState extends State<LoadingPage> {
         appBar: AppBar(
           title: Text('Loading'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                SizedBox(height: 20),
                 FlatButton(
-                  child: Text("基本"),
+                  child: Text("基本", style: TextStyle(color: Colors.white)),
                   color: Colors.blue,
                   onPressed: () {
                     showDialog(
@@ -41,7 +43,7 @@ class _LoadingPageState extends State<LoadingPage> {
                 ),
                 SizedBox(height: 20),
                 FlatButton(
-                  child: Text("toast加载"),
+                  child: Text("toast加载", style: TextStyle(color: Colors.white)),
                   color: Colors.blue,
                   onPressed: () {
                     showDialog(
@@ -69,7 +71,7 @@ class _LoadingPageState extends State<LoadingPage> {
                 ),
                 SizedBox(height: 20),
                 FlatButton(
-                  child: Text("下拉刷新加载"),
+                  child: Text("下拉刷新加载", style: TextStyle(color: Colors.white)),
                   color: Colors.blue,
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -78,13 +80,13 @@ class _LoadingPageState extends State<LoadingPage> {
                 ),
                 SizedBox(height: 20),
                 FlatButton(
-                  child: Text("进度条加载"),
+                  child: Text("进度条加载", style: TextStyle(color: Colors.white)),
                   color: Colors.blue,
                   onPressed: () {},
                 ),
                 SizedBox(height: 20),
                 FlatButton(
-                  child: Text("预加载"),
+                  child: Text("预加载", style: TextStyle(color: Colors.white)),
                   color: Colors.blue,
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(

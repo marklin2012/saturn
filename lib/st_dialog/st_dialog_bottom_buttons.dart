@@ -63,7 +63,7 @@ class STDialogBottomButtons extends StatelessWidget {
               },
               text: confirmTitle,
               textStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: STDialogConstant.defaultButtonTextColor,
                   fontSize: 16,
                   decoration: TextDecoration.none),
@@ -90,7 +90,7 @@ class STDialogBottomButtons extends StatelessWidget {
           },
           text: text,
           textStyle: const TextStyle(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: STDialogConstant.defaultButtonTextColor,
               fontSize: 16,
               decoration: TextDecoration.none),

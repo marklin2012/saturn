@@ -3,11 +3,12 @@ import 'package:saturn/st_dialog/st_dialog_bottom_buttons.dart';
 import 'package:saturn/st_dialog/st_dialog_option.dart';
 import 'package:saturn/st_dialog/st_dialog_textfield.dart';
 
+import '../utils/platform.dart';
 import '../utils/string.dart';
 import 'common.dart';
 
 class STDialog extends StatefulWidget {
-  final int width;
+  final double width;
   final String title;
   final String message;
   final Widget icon;
@@ -40,7 +41,7 @@ class STDialog extends StatefulWidget {
 
   static void show({
     @required BuildContext context,
-    int width,
+    double width,
     String title,
     String message,
     Widget icon,
@@ -95,11 +96,16 @@ class STDialog extends StatefulWidget {
 
 class _STDialogState extends State<STDialog> {
   STDialogTextField dialogTextField;
-  List selectedList = [];
+  List enteredList = [];
 
   @override
   void initState() {
     super.initState();
+    if (widget.options != null) {
+      for (int i = 0; i < widget.options.length; i++) {
+        enteredList.add([]);
+      }
+    }
 
     if (widget.hasTextField) {
       dialogTextField = STDialogTextField();
@@ -118,7 +124,7 @@ class _STDialogState extends State<STDialog> {
       titleWidget = Text(widget.title,
           softWrap: true,
           style: const TextStyle(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: Colors.black,
               fontSize: STDialogConstant.titleFontSize,
               decoration: TextDecoration.none));
@@ -139,7 +145,15 @@ class _STDialogState extends State<STDialog> {
     }
 
     List<Widget> columnArray;
-    containerWidth = screenWidth * STDialogConstant.defaultWidthPercent;
+    containerWidth = widget.width;
+    double defaultWidth;
+    if (getIsWeb()) {
+      defaultWidth = screenWidth * STDialogConstant.defaultWidthPercent / 2.0;
+    } else {
+      defaultWidth = screenWidth * STDialogConstant.defaultWidthPercent;
+    }
+    containerWidth ??= defaultWidth;
+
     columnArray = [
       const SizedBox(
         height: 16,
@@ -220,13 +234,17 @@ class _STDialogState extends State<STDialog> {
 
       final STDialogOption option = widget.options[i];
       columnArray.add(STDialogOptionWidget(
-        dialogOption: option,
-        containerWidth: containerWidth,
-        closable: widget.closable,
-        hide: () {
-          STDialog.hide(context);
-        },
-      ));
+          dialogOption: option,
+          containerWidth: containerWidth,
+          closable: widget.closable,
+          hide: () {
+            STDialog.hide(context);
+          },
+          updateAction: () {
+            setState(() {});
+          },
+          verticalIndex: i,
+          enteredList: enteredList));
     }
   }
 

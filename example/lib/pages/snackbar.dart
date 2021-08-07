@@ -5,16 +5,20 @@ class SnackbarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Snackbar'),
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+      appBar: AppBar(
+        title: Text('Snackbar'),
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("基本使用"),
+                child: Text("基本使用", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STSnackbar.show(
@@ -24,8 +28,9 @@ class SnackbarPage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("含辅助性文字描述"),
+                child: Text("含辅助性文字描述", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STSnackbar.show(
@@ -36,8 +41,9 @@ class SnackbarPage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("含图标样式"),
+                child: Text("含图标样式", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STSnackbar.show(
@@ -52,8 +58,9 @@ class SnackbarPage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("含关闭操作"),
+                child: Text("含关闭操作", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   STSnackbar.show(
@@ -64,8 +71,9 @@ class SnackbarPage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("含按钮操作"),
+                child: Text("含按钮操作", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   // send();
@@ -81,8 +89,9 @@ class SnackbarPage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 20),
               FlatButton(
-                child: Text("自定义样式"),
+                child: Text("自定义样式", style: TextStyle(color: Colors.white)),
                 color: Colors.blue,
                 onPressed: () {
                   // send();
@@ -103,6 +112,8 @@ class SnackbarPage extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
