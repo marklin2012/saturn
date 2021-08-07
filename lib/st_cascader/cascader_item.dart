@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+
 class STCascaderItem {
   final String value;
   final String key;
   final List<STCascaderItem> items;
 
-  const STCascaderItem({value, key, items})
-      : key = key ?? value,
-        value = value ?? '',
-        // ignore: prefer_initializing_formals
-        items = items;
+  const STCascaderItem({key, @required this.value, this.items})
+      : assert(value != null),
+        key = key ?? value;
 }

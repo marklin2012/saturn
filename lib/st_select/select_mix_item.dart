@@ -7,13 +7,11 @@ class STSelectMixItem {
   final String key;
 
   const STSelectMixItem({
-    icon,
-    title,
+    this.icon,
+    @required this.title,
     disabled,
     key,
-  })  : key = key ?? title,
-        title = title ?? '混合型',
-        disabled = disabled ?? false,
-        // ignore: prefer_initializing_formals
-        icon = icon;
+  })  : assert(title != null),
+        key = key ?? title,
+        disabled = disabled ?? false;
 }
