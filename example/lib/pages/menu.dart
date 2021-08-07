@@ -25,7 +25,7 @@ class _MenuPageState extends State<MenuPage> {
                 child: Text(
                   '基本用法',
                   style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                       decoration: TextDecoration.none),
@@ -51,7 +51,7 @@ class _MenuPageState extends State<MenuPage> {
                 child: Text(
                   '下划线样式',
                   style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                       decoration: TextDecoration.none),
@@ -78,7 +78,7 @@ class _MenuPageState extends State<MenuPage> {
                 child: Text(
                   '分段样式',
                   style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                       decoration: TextDecoration.none),
@@ -105,7 +105,7 @@ class _MenuPageState extends State<MenuPage> {
                 child: Text(
                   '滚动样式',
                   style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                       decoration: TextDecoration.none),
@@ -132,7 +132,7 @@ class _MenuPageState extends State<MenuPage> {
                 child: Text(
                   '标签样式',
                   style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                       decoration: TextDecoration.none),
