@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:saturn/st_snackbar/common.dart';
 
+import '../utils/platform.dart';
 import '../utils/string.dart';
 
 class STSnackbar extends StatefulWidget {
@@ -203,39 +204,60 @@ class _STSnackbarState extends State<STSnackbar> {
       }
     }
 
+    final Widget columnWidget = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (titleWidget != null) titleWidget,
+          if (messageWidget != null) const SizedBox(height: 4),
+          if (messageWidget != null) messageWidget
+        ]);
+
+    Widget innerWidget;
+    EdgeInsetsGeometry padding;
+
+    if (getIsWeb()) {
+      innerWidget = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.icon != null) widget.icon,
+          if (widget.icon != null) const SizedBox(width: 12),
+          columnWidget
+        ],
+      );
+      padding = const EdgeInsets.fromLTRB(24, 24, 12, 24);
+    } else {
+      innerWidget = Expanded(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (widget.icon != null) widget.icon,
+            if (widget.icon != null) const SizedBox(width: 12),
+            Expanded(child: columnWidget)
+          ],
+        ),
+      );
+      padding = const EdgeInsets.fromLTRB(12, 12, 6, 12);
+    }
+
     final Widget content = Align(
       alignment: Alignment.bottomCenter,
-      child: Container(
-        constraints: BoxConstraints(maxWidth: containerMaxWidth),
-        decoration: boxDecoration,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 12, 6, 12),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (widget.icon != null) widget.icon,
-                    if (widget.icon != null) const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (titleWidget != null) titleWidget,
-                            if (messageWidget != null)
-                              const SizedBox(height: 4),
-                            if (messageWidget != null) messageWidget
-                          ]),
-                    )
-                  ],
-                ),
-              ),
-              if (buttonWidget != null) buttonWidget
-            ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Container(
+          constraints: BoxConstraints(maxWidth: containerMaxWidth),
+          decoration: boxDecoration,
+          child: Padding(
+            padding: padding,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                innerWidget,
+                if (getIsWeb()) const SizedBox(width: 30),
+                if (buttonWidget != null) buttonWidget
+              ],
+            ),
           ),
         ),
       ),

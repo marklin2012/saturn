@@ -2,28 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:saturn/st_checkbox/checkbox.dart';
 
 class STBoxItem {
+  final String key;
   final String title;
   final bool disabled;
 
-  STBoxItem({this.title, this.disabled = false});
+  const STBoxItem({key, @required this.title, disabled})
+      : key = key ?? title,
+        disabled = disabled ?? false;
+}
+
+class STBoxBlock {
+  bool isAllOn;
+  List<String> selectedValues;
+
+  STBoxBlock({this.isAllOn, this.selectedValues});
 }
 
 class STCheckboxGroup extends StatefulWidget {
   final List<STBoxItem> items;
   final List<String> selecteds;
-  final ValueChanged<List<String>> onChanged;
+  final ValueChanged<STBoxBlock> onChanged;
   final EdgeInsets margin;
   final EdgeInsets padding;
   final Axis axis;
+  final bool isAllOn;
 
   const STCheckboxGroup({
     Key key,
     this.onChanged,
-    this.margin = const EdgeInsets.symmetric(horizontal: 8.0),
+    this.margin = const EdgeInsets.all(0),
     this.padding = const EdgeInsets.all(4.0),
     this.items,
     this.axis = Axis.horizontal,
     this.selecteds,
+    this.isAllOn = false,
   }) : super(key: key);
 
   @override
@@ -36,29 +48,40 @@ class _STCheckboxGroupState extends State<STCheckboxGroup> {
   List<String> _selecteds;
   List<STBoxItem> _items;
 
+  bool _isAllOn;
+  STBoxBlock _boxBlock;
+
   void initOriginBox() {
     _values = <String>[];
     _items = <STBoxItem>[];
-    // 过滤一遍title，保证无重复
+    _isAllOn = widget.isAllOn;
+    // 过滤一遍key，保证无重复
     for (final item in widget.items) {
-      if (!_values.contains(item.title)) {
-        _values.add(item.title);
+      if (!_values.contains(item.key)) {
+        _values.add(item.key);
         _items.add(item);
       }
     }
     // 过滤一遍selected，保证无重复
     _selecteds = <String>[];
-    for (final item in widget.selecteds) {
-      if (!_selecteds.contains(item)) {
-        _selecteds.add(item);
+    if (_isAllOn) {
+      for (final item in _items) {
+        _selecteds.add(item.key);
+      }
+    } else {
+      for (final select in widget.selecteds) {
+        if (!_selecteds.contains(select)) {
+          _selecteds.add(select);
+        }
       }
     }
+
     // 根据selected判断是否选中来创建STCheckBox
     _list = <STCheckBox>[];
     for (final item in _items) {
       var _checked = false;
       for (final selected in _selecteds) {
-        if (selected == item.title) {
+        if (selected == item.key) {
           _checked = true;
         }
       }
@@ -67,16 +90,31 @@ class _STCheckboxGroupState extends State<STCheckboxGroup> {
         disabled: item.disabled,
         text: item.title,
         onChanged: (bool value) {
-          if (!_selecteds.contains(item.title)) {
-            _selecteds.add(item.title);
-          } else if (_selecteds.contains(item.title)) {
-            _selecteds.remove(item.title);
+          if (!_selecteds.contains(item.key)) {
+            _selecteds.add(item.key);
+          } else if (_selecteds.contains(item.key)) {
+            _selecteds.remove(item.key);
           }
-          widget.onChanged(_selecteds);
+          if (_selecteds.length == _items.length) {
+            _isAllOn = true;
+          } else {
+            _isAllOn = false;
+          }
+          _boxBlock.isAllOn = _isAllOn;
+          _boxBlock.selectedValues = _selecteds;
+          widget.onChanged(_boxBlock);
         },
       );
       _list.add(_box);
     }
+
+    if (_selecteds.length == _items.length) {
+      _isAllOn = true;
+    }
+    _boxBlock = STBoxBlock(
+      isAllOn: _isAllOn,
+      selectedValues: _selecteds,
+    );
   }
 
   @override
