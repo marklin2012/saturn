@@ -24,6 +24,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final bool loading;
   final bool circle;
   final EdgeInsets padding;
+  final MainAxisSize mainAxisSize;
 
   STButtonBase(
       {Key key,
@@ -36,6 +37,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       this.padding,
       this.borderColor,
       this.borderWidth,
+      this.mainAxisSize = MainAxisSize.min,
       this.disabled = false,
       this.loading = false,
       this.circle = false,
@@ -140,7 +142,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           padding: padding ??
               edgeInsetsFromButtonSize(size, circle: circle, type: type),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: mainAxisSize,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (_icon != null) _icon,
