@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 const double _defaultIconSize = 16;
 const double _defaultTextFiledHeight = 48;
@@ -37,6 +38,8 @@ class STInput extends StatefulWidget {
     this.enabled = true,
     this.placeholderStyle,
     this.onSubmitted,
+    this.inputType,
+    this.inputFormatters,
   }) : super(key: key);
 
   const STInput.password({
@@ -59,6 +62,8 @@ class STInput extends StatefulWidget {
     this.enabled = true,
     this.placeholderStyle,
     this.onSubmitted,
+    this.inputType,
+    this.inputFormatters,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -79,6 +84,8 @@ class STInput extends StatefulWidget {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry contentPadding;
   final bool enabled;
+  final TextInputType inputType;
+  final List<TextInputFormatter> inputFormatters;
 
   @override
   _STInputState createState() => _STInputState();
@@ -92,11 +99,13 @@ class _STInputState extends State<STInput> {
   double _height;
   FocusNode _focusNode;
   Color _borderColor;
+  TextInputType _inputType;
 
   @override
   void initState() {
     super.initState();
     _inputController = widget.controller ?? TextEditingController();
+    _inputType = widget.inputType ?? TextInputType.text;
     _hintText = widget.placeholder ?? _defaultPlaceholder;
     _height = widget.height ?? _defaultTextFiledHeight;
     _obscureText = widget.scure ?? false;
@@ -137,6 +146,8 @@ class _STInputState extends State<STInput> {
                 widget.onSubmitted(text);
               }
             },
+            keyboardType: _inputType,
+            inputFormatters: widget.inputFormatters,
             keyboardAppearance: Theme.of(context).brightness,
             cursorColor: Theme.of(context).primaryColor,
             controller: _inputController,
