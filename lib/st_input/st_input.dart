@@ -148,6 +148,7 @@ class _STInputState extends State<STInput> {
             },
             keyboardType: _inputType,
             inputFormatters: widget.inputFormatters,
+            maxLength: widget.maxLength,
             keyboardAppearance: Theme.of(context).brightness,
             cursorColor: Theme.of(context).primaryColor,
             controller: _inputController,
