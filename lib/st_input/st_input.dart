@@ -33,6 +33,7 @@ class STInput extends StatefulWidget {
     this.backgoundColor,
     this.textStyle,
     this.prefixIcon,
+    this.suffixIcon,
     this.padding,
     this.contentPadding,
     this.enabled = true,
@@ -57,6 +58,7 @@ class STInput extends StatefulWidget {
     this.backgoundColor,
     this.textStyle,
     this.prefixIcon,
+    this.suffixIcon,
     this.padding,
     this.contentPadding,
     this.enabled = true,
@@ -81,6 +83,7 @@ class STInput extends StatefulWidget {
   final Color backgoundColor;
   final TextStyle textStyle;
   final Widget prefixIcon;
+  final Widget suffixIcon;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry contentPadding;
   final bool enabled;
@@ -179,8 +182,9 @@ class _STInputState extends State<STInput> {
                           setState(() {
                             _inputController.clear();
                             _text = "";
-                            if (widget.onChanged != null)
+                            if (widget.onChanged != null) {
                               widget.onChanged(_text);
+                            }
                           });
                         }),
                   if (widget.showVisibility)
@@ -202,6 +206,7 @@ class _STInputState extends State<STInput> {
                         });
                       },
                     ),
+                  if (widget.suffixIcon != null) widget.suffixIcon,
                 ],
               ),
               border: const OutlineInputBorder(borderSide: BorderSide.none),

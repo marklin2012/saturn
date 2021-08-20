@@ -14,11 +14,36 @@ class InputPage extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(24.0),
-              child: STInput(),
+              child: STInput(
+                prefixIcon: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    STButton(
+                      type: STButtonType.text,
+                      text: '+86',
+                      onTap: () {},
+                    ),
+                    Icon(
+                      STIcons.direction_caretdown,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: STInput.password(),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: STInput(
+                suffixIcon: STButton(
+                  text: '获取验证码',
+                  onTap: () {},
+                ),
+              ),
             ),
           ],
         ),
