@@ -48,6 +48,25 @@ class _STTabbarState extends State<STTabbar> {
   Widget build(BuildContext context) {
     _backgroundColor = widget.backgroundColor ?? Theme.of(context).primaryColor;
     return MaterialApp(
+      theme: ThemeData(
+        brightness: Theme.of(context).brightness,
+        primaryColor: Theme.of(context).primaryColor,
+        accentColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).backgroundColor,
+        dividerColor: Theme.of(context).dividerColor,
+        appBarTheme: Theme.of(context).appBarTheme,
+        textTheme: Theme.of(context).textTheme,
+        cardTheme: Theme.of(context).cardTheme,
+        chipTheme: Theme.of(context).chipTheme,
+        iconTheme: Theme.of(context).iconTheme,
+        radioTheme: Theme.of(context).radioTheme,
+        bannerTheme: Theme.of(context).bannerTheme,
+        buttonTheme: Theme.of(context).buttonTheme,
+        dialogTheme: Theme.of(context).dialogTheme,
+        sliderTheme: Theme.of(context).sliderTheme,
+        switchTheme: Theme.of(context).switchTheme,
+        dividerTheme: Theme.of(context).dividerTheme,
+      ),
       home: Scaffold(
         body: _pages[_curentIndex],
         bottomNavigationBar: BottomNavigationBar(
