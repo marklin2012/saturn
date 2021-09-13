@@ -33,24 +33,26 @@ class STBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _value = _getValue();
     if (dot || child == null) {
-      return _getBadget();
+      return _getBadget(_value);
     } else {
       return Stack(
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: <Widget>[
           child,
-          STBadgePositioned(
-            position: position ?? STBadgePosition.topEnd(),
-            child: _getBadget(),
-          ),
+          if (int.parse(_value) > 0)
+            STBadgePositioned(
+              position: position ?? STBadgePosition.topEnd(),
+              child: _getBadget(_value),
+            ),
         ],
       );
     }
   }
 
-  Widget _getBadget() {
+  Widget _getBadget(String value) {
     if (dot) {
       return Container(
         width: _dotWidth,
@@ -75,7 +77,7 @@ class STBadge extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              _getValue(),
+              value,
               style: _defaultStyle,
             )
           ],
