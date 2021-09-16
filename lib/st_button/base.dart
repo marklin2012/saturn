@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:saturn/saturn.dart';
 
 import 'package:saturn/st_button/common.dart';
-import 'package:saturn/st_button/st_activity_indicator.dart';
 import 'package:saturn/st_button/st_button.dart';
 import 'package:saturn/utils/include.dart';
 
@@ -47,6 +47,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
 
   BoxDecoration _decoration;
   Widget _icon;
+  bool _circle;
   STButtonState _state;
   STButtonState _lastState;
   ValueNotifier<STButtonState> _curState;
@@ -60,6 +61,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     }
     _state = _lastState;
     _curState = ValueNotifier(_state);
+    _circle = circle;
   }
 
   @override
@@ -84,7 +86,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
               width: borderWidth ?? 1,
             ),
           );
-        } else if (circle) {
+        } else if (_circle) {
           _decoration = BoxDecoration(
             color: backgroundColor ?? bgColorFromButtonType(type),
             shape: BoxShape.circle,
@@ -97,9 +99,15 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           if (STButtonType.outline == type) {
             _loadingColor = STColor.firRankBlue;
           }
-          _icon = STActivityIndicator(
-            activeColor: _loadingColor,
+          _icon = STLoading(
+            alwaysLoading: true,
+            text: '',
+            icon: Icon(
+              STIcons.status_loading,
+              color: _loadingColor,
+            ),
           );
+          _circle = true;
         }
         return STMouseRegion(
           onEnter: (PointerEnterEvent details) {
@@ -140,17 +148,17 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
         child: Container(
           decoration: _decoration,
           padding: padding ??
-              edgeInsetsFromButtonSize(size, circle: circle, type: type),
+              edgeInsetsFromButtonSize(size, circle: _circle, type: type),
           child: Row(
             mainAxisSize: mainAxisSize,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (_icon != null) _icon,
-              if (!circle && _icon != null)
+              if (!_circle && _icon != null)
                 SizedBox(
                   width: spaceFromButtonSize(size),
                 ),
-              if (!circle)
+              if (!_circle)
                 Text(
                   text ?? 'button',
                   style: textStyle ??
