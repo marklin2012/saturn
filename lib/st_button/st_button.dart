@@ -26,12 +26,12 @@ class STButton extends StatelessWidget {
   final bool disabled;
   final bool loading;
   final bool circle;
-  final double height;
   final double radius;
   final Color backgroundColor;
   final Color borderColor;
   final double borderWidth;
   final EdgeInsets padding;
+  final MainAxisSize mainAxisSize;
 
   const STButton(
       {Key key,
@@ -41,12 +41,12 @@ class STButton extends StatelessWidget {
       this.onTap,
       this.size = STButtonSize.large,
       this.type = STButtonType.primary,
-      this.height,
       this.radius,
       this.backgroundColor,
       this.borderColor,
       this.borderWidth,
       this.padding,
+      this.mainAxisSize = MainAxisSize.min,
       this.circle = false,
       this.disabled = false,
       this.loading = false})
@@ -56,12 +56,12 @@ class STButton extends StatelessWidget {
       {Key key,
       @required this.icon,
       this.padding,
+      this.mainAxisSize = MainAxisSize.min,
       this.textStyle,
       this.size,
       this.onTap,
       this.text,
       this.type,
-      this.height,
       this.radius,
       this.backgroundColor,
       this.borderColor,
@@ -90,6 +90,7 @@ class STButton extends StatelessWidget {
       backgroundColor: backgroundColor,
       borderColor: borderColor,
       borderWidth: borderWidth,
+      mainAxisSize: mainAxisSize,
     );
   }
 }
