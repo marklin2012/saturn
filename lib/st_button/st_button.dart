@@ -32,44 +32,50 @@ class STButton extends StatelessWidget {
   final double borderWidth;
   final EdgeInsets padding;
   final MainAxisSize mainAxisSize;
+  final bool debounce; // 是否防抖动
+  final int debounceTime; // 防抖动时长
 
-  const STButton(
-      {Key key,
-      this.icon,
-      this.text,
-      this.textStyle,
-      this.onTap,
-      this.size = STButtonSize.large,
-      this.type = STButtonType.primary,
-      this.radius,
-      this.backgroundColor,
-      this.borderColor,
-      this.borderWidth,
-      this.padding,
-      this.mainAxisSize = MainAxisSize.min,
-      this.circle = false,
-      this.disabled = false,
-      this.loading = false})
-      : super(key: key);
+  const STButton({
+    Key key,
+    this.icon,
+    this.text,
+    this.textStyle,
+    this.onTap,
+    this.size = STButtonSize.large,
+    this.type = STButtonType.primary,
+    this.radius,
+    this.backgroundColor,
+    this.borderColor,
+    this.borderWidth,
+    this.padding,
+    this.mainAxisSize = MainAxisSize.min,
+    this.circle = false,
+    this.disabled = false,
+    this.loading = false,
+    this.debounce = true,
+    this.debounceTime = 500,
+  }) : super(key: key);
 
-  const STButton.icon(
-      {Key key,
-      @required this.icon,
-      this.padding,
-      this.mainAxisSize = MainAxisSize.min,
-      this.textStyle,
-      this.size,
-      this.onTap,
-      this.text,
-      this.type,
-      this.radius,
-      this.backgroundColor,
-      this.borderColor,
-      this.borderWidth,
-      this.circle = true,
-      this.disabled = false,
-      this.loading = false})
-      : assert(icon != null),
+  const STButton.icon({
+    Key key,
+    @required this.icon,
+    this.padding,
+    this.mainAxisSize = MainAxisSize.min,
+    this.textStyle,
+    this.size,
+    this.onTap,
+    this.text,
+    this.type,
+    this.radius,
+    this.backgroundColor,
+    this.borderColor,
+    this.borderWidth,
+    this.circle = true,
+    this.disabled = false,
+    this.loading = false,
+    this.debounce = true,
+    this.debounceTime = 500,
+  })  : assert(icon != null),
         super(key: key);
 
   @override
@@ -91,6 +97,8 @@ class STButton extends StatelessWidget {
       borderColor: borderColor,
       borderWidth: borderWidth,
       mainAxisSize: mainAxisSize,
+      debounce: debounce,
+      debounceTime: debounceTime,
     );
   }
 }

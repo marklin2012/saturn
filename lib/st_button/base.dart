@@ -25,25 +25,29 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final bool circle;
   final EdgeInsets padding;
   final MainAxisSize mainAxisSize;
+  final bool debounce; // 是否防抖动
+  final int debounceTime; // 防抖动时长
 
-  STButtonBase(
-      {Key key,
-      this.icon,
-      this.text,
-      this.textStyle,
-      this.onTap,
-      this.radius,
-      this.backgroundColor,
-      this.padding,
-      this.borderColor,
-      this.borderWidth,
-      this.mainAxisSize = MainAxisSize.min,
-      this.disabled = false,
-      this.loading = false,
-      this.circle = false,
-      this.type = STButtonType.primary,
-      this.size = STButtonSize.large})
-      : super(key: key);
+  STButtonBase({
+    Key key,
+    this.icon,
+    this.text,
+    this.textStyle,
+    this.onTap,
+    this.radius,
+    this.backgroundColor,
+    this.padding,
+    this.borderColor,
+    this.borderWidth,
+    this.mainAxisSize = MainAxisSize.min,
+    this.disabled = false,
+    this.loading = false,
+    this.circle = false,
+    this.type = STButtonType.primary,
+    this.size = STButtonSize.large,
+    this.debounce = true,
+    this.debounceTime = 500,
+  }) : super(key: key);
 
   BoxDecoration _decoration;
   Widget _icon;
@@ -132,7 +136,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
       opacity: opacityFromButtonState(stateValue),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: excOnTap(),
+        onTap: excOnTap,
         onTapDown: (details) {
           // 加载的过程或者不可用的状态下不可点击
           if (_state == STButtonState.loading || disabled == true) {
@@ -174,12 +178,15 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     );
   }
 
-  void Function() excOnTap() {
+  void excOnTap() {
     // 加载的过程或者不可用的状态下不可点击
-    if (loading || disabled == true) {
-      return null;
-    } else {
-      return onTap;
+    if (loading == false && !disabled) {
+      if (debounce) {
+        // 防抖动
+        STDebounce().debounce(onTap, debounceTime);
+      } else {
+        onTap();
+      }
     }
   }
 }

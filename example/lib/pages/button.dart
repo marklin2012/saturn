@@ -10,6 +10,8 @@ class ButtonPage extends StatefulWidget {
 class _ButtonPageState extends State<ButtonPage> {
   bool _loading = false;
   bool _disabled = true;
+  ValueNotifier<int> _testDebounceNoti1;
+  ValueNotifier<int> _testDebounceNoti2;
 
   void _showLoading() {
     if (_loading == false) {
@@ -28,6 +30,13 @@ class _ButtonPageState extends State<ButtonPage> {
     setState(() {
       _disabled = !_disabled;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _testDebounceNoti1 = ValueNotifier(0);
+    _testDebounceNoti2 = ValueNotifier(0);
   }
 
   @override
@@ -62,9 +71,33 @@ class _ButtonPageState extends State<ButtonPage> {
       children: [
         Text('按钮类型'),
         SizedBox(height: 15.0),
-        STButton(),
+        ValueListenableBuilder(
+          valueListenable: _testDebounceNoti1,
+          builder: (context, int value, _) {
+            return Text(value.toString());
+          },
+        ),
+        SizedBox(height: 5.0),
+        STButton(
+          onTap: () {
+            _testDebounceNoti1.value += 1;
+          },
+        ),
         SizedBox(height: 15.0),
-        STButton(type: STButtonType.outline),
+        ValueListenableBuilder(
+          valueListenable: _testDebounceNoti2,
+          builder: (context, int value, _) {
+            return Text(value.toString());
+          },
+        ),
+        SizedBox(height: 5.0),
+        STButton(
+          type: STButtonType.outline,
+          debounce: false,
+          onTap: () {
+            _testDebounceNoti2.value += 1;
+          },
+        ),
         SizedBox(height: 15.0),
         STButton(type: STButtonType.danger, text: 'Danger'),
         SizedBox(height: 15.0),
