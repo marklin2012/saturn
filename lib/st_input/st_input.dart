@@ -165,7 +165,8 @@ class _STInputState extends State<STInput> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  if (_text.isNotEmpty || _inputController.text.isNotEmpty)
+                  if (_focusNode.hasFocus &&
+                      (_text.isNotEmpty || _inputController.text.isNotEmpty))
                     IconButton(
                         constraints: const BoxConstraints(),
                         focusColor: Colors.white,
