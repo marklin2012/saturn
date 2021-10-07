@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:saturn/st_button/common.dart';
 
 const double _defaultIconSize = 16;
 const double _defaultTextFiledHeight = 48;
@@ -41,6 +42,9 @@ class STInput extends StatefulWidget {
     this.onSubmitted,
     this.inputType,
     this.inputFormatters,
+    this.cursorWidth,
+    this.cursorRadius,
+    this.cursorColor,
   }) : super(key: key);
 
   const STInput.password({
@@ -66,6 +70,9 @@ class STInput extends StatefulWidget {
     this.onSubmitted,
     this.inputType,
     this.inputFormatters,
+    this.cursorWidth,
+    this.cursorRadius,
+    this.cursorColor,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -89,6 +96,9 @@ class STInput extends StatefulWidget {
   final bool enabled;
   final TextInputType inputType;
   final List<TextInputFormatter> inputFormatters;
+  final double cursorWidth;
+  final double cursorRadius;
+  final Color cursorColor;
 
   @override
   _STInputState createState() => _STInputState();
@@ -153,7 +163,9 @@ class _STInputState extends State<STInput> {
             inputFormatters: widget.inputFormatters,
             maxLength: widget.maxLength,
             keyboardAppearance: Theme.of(context).brightness,
-            cursorColor: Theme.of(context).primaryColor,
+            cursorWidth: widget.cursorWidth ?? 2.0,
+            cursorRadius: Radius.circular(widget.cursorRadius ?? 0),
+            cursorColor: widget.cursorColor ?? STColor.firRankBlue,
             controller: _inputController,
             focusNode: _focusNode,
             style: widget.textStyle ?? const TextStyle(),

@@ -15,6 +15,7 @@ class InputPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: STInput(
+                cursorColor: Colors.red,
                 prefixIcon: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
