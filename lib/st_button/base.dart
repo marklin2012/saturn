@@ -25,6 +25,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final bool circle;
   final EdgeInsets padding;
   final MainAxisSize mainAxisSize;
+  final double height;
   final bool debounce; // 是否防抖动
   final int debounceTime; // 防抖动时长
 
@@ -47,6 +48,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     this.size = STButtonSize.large,
     this.debounce = true,
     this.debounceTime = 500,
+    this.height,
   }) : super(key: key);
 
   BoxDecoration _decoration;
@@ -151,6 +153,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
         },
         child: Container(
           decoration: _decoration,
+          height: height,
           padding: padding ??
               edgeInsetsFromButtonSize(size, circle: _circle, type: type),
           child: Row(

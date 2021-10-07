@@ -34,6 +34,7 @@ class STButton extends StatelessWidget {
   final MainAxisSize mainAxisSize;
   final bool debounce; // 是否防抖动
   final int debounceTime; // 防抖动时长
+  final double height;
 
   const STButton({
     Key key,
@@ -54,6 +55,7 @@ class STButton extends StatelessWidget {
     this.loading = false,
     this.debounce = true,
     this.debounceTime = 500,
+    this.height,
   }) : super(key: key);
 
   const STButton.icon({
@@ -75,6 +77,7 @@ class STButton extends StatelessWidget {
     this.loading = false,
     this.debounce = true,
     this.debounceTime = 500,
+    this.height,
   })  : assert(icon != null),
         super(key: key);
 
@@ -99,6 +102,7 @@ class STButton extends StatelessWidget {
       mainAxisSize: mainAxisSize,
       debounce: debounce,
       debounceTime: debounceTime,
+      height: height,
     );
   }
 }
