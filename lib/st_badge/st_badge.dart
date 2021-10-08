@@ -22,7 +22,7 @@ class STBadge extends StatelessWidget {
   }) : super(key: key);
 
   static const _defaultBackgroundColor = Color(0xFFFF4141);
-  static const _maxHeight = 16.0;
+  static const _minWidth = 16.0;
   static const _dotWidth = 10.0;
   static const _badgefontSize = 12.0;
   static const _defaultStyle = TextStyle(
@@ -42,7 +42,7 @@ class STBadge extends StatelessWidget {
         clipBehavior: Clip.none,
         children: <Widget>[
           child,
-          if (int.parse(_value) > 0)
+          if (value != null && (int.tryParse(value) ?? 0) > 0)
             STBadgePositioned(
               position: position ?? STBadgePosition.topEnd(),
               child: _getBadget(_value),
@@ -64,13 +64,12 @@ class STBadge extends StatelessWidget {
       );
     } else {
       return Container(
-        height: _maxHeight,
         constraints: const BoxConstraints(
-          minWidth: _maxHeight,
+          minWidth: _minWidth,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(_maxHeight / 2),
+          borderRadius: BorderRadius.circular(_minWidth / 2),
         ),
         padding: padding,
         child: Row(
@@ -87,8 +86,8 @@ class STBadge extends StatelessWidget {
   }
 
   String _getValue() {
-    if (value != null && int.tryParse(value) != null) {
-      final _intValue = int.parse(value);
+    if (value != null) {
+      final _intValue = int.tryParse(value) ?? 0;
       if (_intValue > maxNumber) {
         return '$maxNumber+';
       } else {
