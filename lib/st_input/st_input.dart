@@ -5,9 +5,9 @@ import 'package:saturn/st_button/common.dart';
 
 const double _defaultIconSize = 16;
 const double _defaultTextFiledHeight = 48;
-const double _defaultSuffixWidth = 56;
 const double _leftMargin = 12;
 const double _rightMargin = 12;
+const double _bottomMargin = 12;
 const double _commonRadius = 8;
 const double _defaultFontSize = 14;
 
@@ -171,7 +171,8 @@ class _STInputState extends State<STInput> {
             style: widget.textStyle ?? const TextStyle(),
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
-              // contentPadding: widget.contentPadding,
+              contentPadding: widget.contentPadding ??
+                  const EdgeInsets.only(bottom: _bottomMargin),
               prefixIcon: widget.prefixIcon,
               suffixIcon: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
