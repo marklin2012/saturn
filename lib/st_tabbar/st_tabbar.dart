@@ -27,11 +27,9 @@ class _STTabbarState extends State<STTabbar> {
   int _curentIndex = 0;
   List<Widget> _pages;
   List<BottomNavigationBarItem> _items;
-  Color _backgroundColor;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pages = widget.pages;
     _items = widget.items ??
@@ -46,13 +44,13 @@ class _STTabbarState extends State<STTabbar> {
 
   @override
   Widget build(BuildContext context) {
-    _backgroundColor = widget.backgroundColor ?? Theme.of(context).primaryColor;
     return MaterialApp(
       theme: ThemeData(
         brightness: Theme.of(context).brightness,
         primaryColor: Theme.of(context).primaryColor,
         accentColor: Theme.of(context).accentColor,
         backgroundColor: Theme.of(context).backgroundColor,
+        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
         dividerColor: Theme.of(context).dividerColor,
         appBarTheme: Theme.of(context).appBarTheme,
         textTheme: Theme.of(context).textTheme,
@@ -73,7 +71,8 @@ class _STTabbarState extends State<STTabbar> {
           type: widget.type ?? BottomNavigationBarType.fixed,
           selectedItemColor: widget.selectColor,
           unselectedItemColor: widget.unSelectColor,
-          backgroundColor: _backgroundColor,
+          backgroundColor:
+              widget.backgroundColor ?? Theme.of(context).backgroundColor,
           currentIndex: _curentIndex,
           items: _items,
           onTap: (index) {
