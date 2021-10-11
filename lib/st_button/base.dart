@@ -147,9 +147,13 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           _curState.value = STButtonState.highlighted;
         },
         onTapUp: (details) {
-          if (disabled == false) {
-            _curState.value = _lastState;
-          }
+          if (!disabled) _curState.value = _lastState;
+        },
+        onHorizontalDragEnd: (DragEndDetails dragEndDetails) {
+          if (!disabled) _curState.value = _lastState;
+        },
+        onVerticalDragEnd: (DragEndDetails dragEndDetails) {
+          if (!disabled) _curState.value = _lastState;
         },
         child: Container(
           decoration: _decoration,
