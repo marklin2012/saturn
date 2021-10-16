@@ -43,6 +43,7 @@ class STInput extends StatefulWidget {
     this.inputType,
     this.inputFormatters,
     this.cursorWidth,
+    this.cursorHeight,
     this.cursorRadius,
     this.cursorColor,
   }) : super(key: key);
@@ -71,6 +72,7 @@ class STInput extends StatefulWidget {
     this.inputType,
     this.inputFormatters,
     this.cursorWidth,
+    this.cursorHeight,
     this.cursorRadius,
     this.cursorColor,
   }) : super(key: key);
@@ -99,6 +101,7 @@ class STInput extends StatefulWidget {
   final double cursorWidth;
   final double cursorRadius;
   final Color cursorColor;
+  final double cursorHeight;
 
   @override
   _STInputState createState() => _STInputState();
@@ -164,12 +167,14 @@ class _STInputState extends State<STInput> {
             maxLength: widget.maxLength,
             keyboardAppearance: Theme.of(context).brightness,
             cursorWidth: widget.cursorWidth ?? 2.0,
+            cursorHeight: widget.cursorHeight ??
+                _defaultTextFiledHeight - 2 * _bottomMargin,
             cursorRadius: Radius.circular(widget.cursorRadius ?? 0),
             cursorColor: widget.cursorColor ?? STColor.firRankBlue,
             controller: _inputController,
             focusNode: _focusNode,
             style: widget.textStyle ?? const TextStyle(),
-            textAlignVertical: TextAlignVertical.bottom,
+            textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               contentPadding: widget.contentPadding ??
                   const EdgeInsets.only(bottom: _bottomMargin),
