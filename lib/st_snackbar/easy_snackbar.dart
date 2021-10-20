@@ -63,8 +63,13 @@ class EasySnackbar extends StatefulWidget {
   static void hide(
     BuildContext context,
   ) {
-    _curOverlayEntry.remove();
-    _curContext = null;
+    if (_curOverlayEntry != null) {
+      _curOverlayEntry.remove();
+      _curOverlayEntry = null;
+    }
+    if (_curContext != null) {
+      _curContext = null;
+    }
   }
 
   const EasySnackbar({
