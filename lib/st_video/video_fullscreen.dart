@@ -336,7 +336,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
 
   // 自动隐藏
   void _autoHide() {
-    STDebounce().debounce(() {
+    STDebounce().longDebounce(() {
       if (_showControl) {
         _showControl = false;
         setState(() {});

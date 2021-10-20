@@ -190,7 +190,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     if (loading == false && !disabled) {
       if (debounce) {
         // 防抖动
-        STDebounce().debounce(onTap, debounceTime);
+        STDebounce().debounce(onTap);
       } else {
         onTap();
       }

@@ -465,7 +465,7 @@ class _STVideoBaseState extends State<STVideoBase> {
 
   // 自动隐藏
   void _autoHide() {
-    STDebounce().debounce(() {
+    STDebounce().longDebounce(() {
       if (_showControl) {
         _showControl = false;
         setState(() {});
