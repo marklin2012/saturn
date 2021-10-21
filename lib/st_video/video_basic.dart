@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:saturn/st_button/st_button.dart';
-
 import 'package:saturn/st_icons/st_icons.dart';
-import 'package:saturn/st_video/video_fullscreen.dart';
-import 'package:saturn/st_video/video_util.dart';
 import 'package:saturn/st_video/video_control.dart';
+import 'package:saturn/st_video/video_fullscreen.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
+import 'package:saturn/st_video/video_util.dart';
 import 'package:saturn/utils/debounce.dart';
-
 import 'package:video_player/video_player.dart';
 
 enum STVideoPlayType { asset, network }
@@ -26,6 +24,8 @@ const _defaultTimeTextStyle = TextStyle(
 );
 
 class STVideoBase extends StatefulWidget {
+  static const stVideoBaseKey = '_stVideoBaseKeyDebounce';
+
   const STVideoBase({
     Key key,
     this.height,
@@ -121,7 +121,7 @@ class _STVideoBaseState extends State<STVideoBase> {
   @override
   void dispose() {
     _playerController.dispose();
-    STDebounce().cancel();
+    STDebounce().cancel(key: STVideoBase.stVideoBaseKey);
     super.dispose();
   }
 
@@ -465,11 +465,15 @@ class _STVideoBaseState extends State<STVideoBase> {
 
   // 自动隐藏
   void _autoHide() {
-    STDebounce().longDebounce(() {
-      if (_showControl) {
-        _showControl = false;
-        setState(() {});
-      }
-    });
+    STDebounce().start(
+      key: STVideoBase.stVideoBaseKey,
+      time: 5000,
+      func: () {
+        if (_showControl) {
+          _showControl = false;
+          setState(() {});
+        }
+      },
+    );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:saturn/st_button/st_button.dart';
 
 import 'package:saturn/st_icons/st_icons.dart';
+import 'package:saturn/st_video/video_basic.dart';
 import 'package:saturn/st_video/video_control.dart';
 import 'package:saturn/st_video/video_progress.dart';
 import 'package:saturn/st_video/video_sound.dart';
@@ -87,6 +88,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
 
   @override
   void dispose() {
+    STDebounce().cancel(key: STVideoBase.stVideoBaseKey);
     super.dispose();
   }
 
@@ -336,11 +338,15 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
 
   // 自动隐藏
   void _autoHide() {
-    STDebounce().longDebounce(() {
-      if (_showControl) {
-        _showControl = false;
-        setState(() {});
-      }
-    });
+    STDebounce().start(
+      key: STVideoBase.stVideoBaseKey,
+      time: 5000,
+      func: () {
+        if (_showControl) {
+          _showControl = false;
+          setState(() {});
+        }
+      },
+    );
   }
 }

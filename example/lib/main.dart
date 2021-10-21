@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:saturn/saturn.dart';
 
 void main() {
-  STDebounce().timeInterval = 500;
   runApp(MyApp());
 }
 

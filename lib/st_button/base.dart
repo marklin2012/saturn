@@ -10,6 +10,8 @@ import 'package:saturn/utils/include.dart';
 
 // ignore: must_be_immutable
 class STButtonBase extends StatelessWidget with STButtonInterface {
+  static const stButtonDebounceKey = '_stButtonDebounceKey';
+
   final Widget icon;
   final String text; // 文本内容
   final TextStyle textStyle; // 文本的style样式
@@ -190,7 +192,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     if (loading == false && !disabled) {
       if (debounce) {
         // 防抖动
-        STDebounce().debounce(onTap);
+        STDebounce().start(key: stButtonDebounceKey, func: onTap);
       } else {
         onTap();
       }
