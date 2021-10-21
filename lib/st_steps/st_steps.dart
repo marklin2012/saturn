@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:saturn/st_steps/common.dart';
 import 'package:saturn/st_icons/st_icons.dart';
+import 'package:saturn/st_steps/common.dart';
 import 'package:saturn/st_steps/steps_stateful.dart';
 
 const _defaultCircleWidth = 8.0;

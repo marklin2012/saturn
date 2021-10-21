@@ -1,9 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
-import 'package:saturn/st_slider/painter_background_tip.dart';
 import 'package:saturn/st_slider/num_utils.dart';
+import 'package:saturn/st_slider/painter_background_tip.dart';
 import 'package:saturn/utils/bounding.dart';
 
 enum STSliderDotType {
