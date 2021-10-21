@@ -137,7 +137,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     return Opacity(
       opacity: opacityFromButtonState(stateValue),
       child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
+        behavior: HitTestBehavior.translucent,
         onTap: excOnTap,
         onTapDown: (details) {
           // 加载的过程或者不可用的状态下不可点击
