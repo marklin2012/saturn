@@ -72,6 +72,9 @@ class STDebounce {
     /// 创建新的Timer
     final _debounce = Timer(Duration(milliseconds: time), () {
       func();
+
+      /// 完成后取消Timer
+      cancel(key: key);
     });
 
     /// 更新Map
