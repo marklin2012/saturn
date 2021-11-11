@@ -8,6 +8,8 @@ class STTabbar extends StatefulWidget {
   final Color backgroundColor;
   final BottomNavigationBarType type;
   final List<BottomNavigationBarItem> items;
+  final double selectedFontSize;
+  final double unselectedFontSize;
 
   const STTabbar({
     Key key,
@@ -17,6 +19,8 @@ class STTabbar extends StatefulWidget {
     this.backgroundColor,
     this.pages,
     this.items,
+    this.selectedFontSize,
+    this.unselectedFontSize,
   }) : super(key: key);
 
   @override
@@ -71,6 +75,16 @@ class _STTabbarState extends State<STTabbar> {
           type: widget.type ?? BottomNavigationBarType.fixed,
           selectedItemColor: widget.selectColor,
           unselectedItemColor: widget.unSelectColor,
+          selectedLabelStyle: TextStyle(
+            fontSize: widget.selectedFontSize ?? 11,
+            fontWeight: FontWeight.w400,
+            color: widget.selectColor,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: widget.unselectedFontSize ?? 11,
+            fontWeight: FontWeight.w400,
+            color: widget.unSelectColor,
+          ),
           backgroundColor:
               widget.backgroundColor ?? Theme.of(context).backgroundColor,
           currentIndex: _curentIndex,
