@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_button/common.dart';
+import 'package:saturn/st_tabbar/st_bottom_navigation_bar.dart';
 
 class STTabbar extends StatefulWidget {
   final List<Widget> pages;
@@ -75,8 +76,11 @@ class _STTabbarState extends State<STTabbar> {
       ),
       home: Scaffold(
         body: _pages[_curentIndex],
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: STBottomNavigationBar(
           type: widget.type ?? BottomNavigationBarType.fixed,
+          iconSize: 28,
+          selectedFontSize: widget.selectedFontSize ?? 11,
+          unselectedFontSize: widget.unselectedFontSize ?? 11,
           selectedItemColor: widget.selectColor,
           unselectedItemColor: widget.unSelectColor,
           selectedLabelStyle: TextStyle(
