@@ -24,6 +24,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
   final STButtonSize size;
   final bool disabled;
   final bool loading;
+  final double loadingIconSize;
   final bool circle;
   final EdgeInsets padding;
   final MainAxisSize mainAxisSize;
@@ -45,6 +46,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     this.mainAxisSize = MainAxisSize.min,
     this.disabled = false,
     this.loading = false,
+    this.loadingIconSize = 24,
     this.circle = false,
     this.type = STButtonType.primary,
     this.size = STButtonSize.large,
@@ -113,6 +115,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
             icon: Icon(
               STIcons.status_loading,
               color: _loadingColor,
+              size: loadingIconSize,
             ),
           );
           _circle = true;

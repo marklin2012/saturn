@@ -25,6 +25,7 @@ class STButton extends StatelessWidget {
   final STButtonType type;
   final bool disabled;
   final bool loading;
+  final double loadingIconSize;
   final bool circle;
   final double radius;
   final Color backgroundColor;
@@ -53,6 +54,7 @@ class STButton extends StatelessWidget {
     this.circle = false,
     this.disabled = false,
     this.loading = false,
+    this.loadingIconSize = 24,
     this.debounce = true,
     this.debounceTime = 500,
     this.height,
@@ -75,6 +77,7 @@ class STButton extends StatelessWidget {
     this.circle = true,
     this.disabled = false,
     this.loading = false,
+    this.loadingIconSize = 24,
     this.debounce = true,
     this.debounceTime = 500,
     this.height,
@@ -94,6 +97,7 @@ class STButton extends StatelessWidget {
       type: type,
       disabled: disabled,
       loading: loading,
+      loadingIconSize: loadingIconSize,
       radius: radius,
       circle: circle,
       backgroundColor: backgroundColor,
