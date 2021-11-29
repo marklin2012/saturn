@@ -1,3 +1,4 @@
+import 'package:example/pages/grid.dart';
 import 'package:example/pages/menu.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +42,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Cascader', page: CascaderPage()),
   PageModel(name: 'Checkbox', page: CheckboxPage()),
   PageModel(name: 'Dialog', page: DialogPage()),
+  PageModel(name: 'GridView', page: GridViewPage()),
   PageModel(name: 'Icon', page: IconPage()),
   PageModel(name: 'Input', page: InputPage()),
   PageModel(name: 'Loading', page: LoadingPage()),

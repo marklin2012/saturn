@@ -8,29 +8,8 @@ class ButtonPage extends StatefulWidget {
 }
 
 class _ButtonPageState extends State<ButtonPage> {
-  bool _loading = false;
-  bool _disabled = true;
   ValueNotifier<int> _testDebounceNoti1;
   ValueNotifier<int> _testDebounceNoti2;
-
-  void _showLoading() {
-    if (_loading == false) {
-      Future.delayed(Duration(milliseconds: 3000), () {
-        setState(() {
-          _loading = false;
-        });
-      });
-    }
-    setState(() {
-      _loading = !_loading;
-    });
-  }
-
-  void _changeDisable() {
-    setState(() {
-      _disabled = !_disabled;
-    });
-  }
 
   @override
   void initState() {

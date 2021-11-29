@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:saturn/saturn.dart';
 
 final List<int> commonIcons = [
   0xe800,

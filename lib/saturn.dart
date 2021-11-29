@@ -8,6 +8,8 @@ export 'package:saturn/st_card/st_card.dart';
 export 'package:saturn/st_cascader/cascader_include.dart';
 export 'package:saturn/st_checkbox/st_checkbox_include.dart';
 export 'package:saturn/st_dialog/include.dart';
+export 'package:saturn/st_grid/st_grid.dart';
+export 'package:saturn/st_grid/st_text_icon.dart';
 export 'package:saturn/st_icons/st_icons.dart';
 export 'package:saturn/st_input/st_input.dart';
 export 'package:saturn/st_loading/include.dart';
