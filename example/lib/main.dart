@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         const Locale('en', 'US'),
       ],
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xFFF2F2F7),
+        scaffoldBackgroundColor: Colors.white,
         fontFamily: 'PingFang',
         appBarTheme: AppBarTheme(
           toolbarHeight: 44,

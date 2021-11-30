@@ -48,7 +48,10 @@ class GridViewPage extends StatelessWidget {
             child: Center(
               child: STTextAndIcon(
                 text: Text('文字'),
-                icon: Icon(STIcons.commonly_calendar),
+                icon: ImageIcon(
+                  AssetImage('assets/images/2.png'),
+                  color: Color(0xFF1070FF),
+                ),
               ),
             ),
           ),
@@ -80,7 +83,10 @@ class GridViewPage extends StatelessWidget {
             child: Center(
               child: STTextAndIcon(
                 text: Text('文字'),
-                icon: Icon(STIcons.commonly_calendar),
+                icon: ImageIcon(
+                  AssetImage('assets/images/2.png'),
+                  color: Color(0xFF1070FF),
+                ),
               ),
             ),
           ),
@@ -107,7 +113,10 @@ class GridViewPage extends StatelessWidget {
           child: Center(
             child: STTextAndIcon(
               text: Text('文字'),
-              icon: Icon(STIcons.commonly_calendar),
+              icon: ImageIcon(
+                AssetImage('assets/images/2.png'),
+                color: Color(0xFF1070FF),
+              ),
               textDirection: STTextDirection.textRight,
             ),
           ),

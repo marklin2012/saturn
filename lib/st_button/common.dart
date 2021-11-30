@@ -112,6 +112,8 @@ abstract class STButtonInterface {
 }
 
 class STColor {
+  //背景色
+  static const backgroundColor = Color(0xFFFAFCFF);
   // 基础色
   static const colorBlack = Color(0xFF000000);
   static const colorWhite = Color(0xFFFFFFFF);
