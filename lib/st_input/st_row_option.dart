@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/st_icons/st_icons.dart';
 
-class STFormOption extends StatelessWidget {
-  const STFormOption({
+class STRowOption extends StatelessWidget {
+  const STRowOption({
     Key key,
     this.leading,
     this.trailing,

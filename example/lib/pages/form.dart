@@ -50,7 +50,7 @@ class _FormPageState extends State<FormPage> {
   Widget _buildFirst() {
     return Column(
       children: [
-        STFormOption(
+        STRowOption(
           leading: Text('头像'),
           trailing: Image(
             image: AssetImage('assets/images/default_avatar.png'),
@@ -59,7 +59,7 @@ class _FormPageState extends State<FormPage> {
           ),
           isHavRightArrow: true,
         ),
-        STFormOption(
+        STRowOption(
           leading: Container(
             width: 64,
             child: Text('姓名'),
@@ -77,7 +77,7 @@ class _FormPageState extends State<FormPage> {
             },
           ),
         ),
-        STFormOption(
+        STRowOption(
           leading: Container(
             width: 64,
             child: Text('性别'),
@@ -96,7 +96,7 @@ class _FormPageState extends State<FormPage> {
           ),
           isHavRightArrow: true,
         ),
-        STFormOption(
+        STRowOption(
           leading: Container(
             width: 64,
             child: Text('用户昵称'),
@@ -115,7 +115,7 @@ class _FormPageState extends State<FormPage> {
           ),
           isHavRightArrow: true,
         ),
-        STFormOption(
+        STRowOption(
           leading: Container(
             width: 64,
             child: Text('出生年月'),
@@ -165,7 +165,7 @@ class _FormPageState extends State<FormPage> {
   Widget _buildSecond() {
     return Column(
       children: [
-        STFormOption(
+        STRowOption(
           leading: Icon(STIcons.commonly_home),
           formFeild: STFormInput(
             placeholder: '请输入家庭住址',
@@ -180,7 +180,7 @@ class _FormPageState extends State<FormPage> {
             },
           ),
         ),
-        STFormOption(
+        STRowOption(
           leading: Icon(STIcons.commonly_idcard),
           formFeild: STFormInput(
             placeholder: '请输入个人ID',
@@ -195,7 +195,7 @@ class _FormPageState extends State<FormPage> {
             },
           ),
         ),
-        STFormOption(
+        STRowOption(
           leading: Icon(STIcons.commonly_mail),
           formFeild: STFormInput(
             placeholder: '请输入邮箱地址',
@@ -231,7 +231,7 @@ class _FormPageState extends State<FormPage> {
   Widget _buildThree() {
     return Column(
       children: [
-        STFormOption(
+        STRowOption(
           leading: Container(
             width: 64,
             child: Text('旧密码'),
@@ -244,12 +244,12 @@ class _FormPageState extends State<FormPage> {
             onSaved: (value) {
               _oldPassword = value;
             },
-            // validator: (String value) {
-            //   return value.length >= 10 ? null : '密码不可少于10个字符';
-            // },
+            validator: (String value) {
+              return value.length >= 10 ? null : '密码不可少于10个字符';
+            },
           ),
         ),
-        STFormOption(
+        STRowOption(
           leading: Container(
             width: 64,
             child: Text('新密码'),
@@ -267,7 +267,7 @@ class _FormPageState extends State<FormPage> {
             },
           ),
         ),
-        STFormOption(
+        STRowOption(
           leading: Container(
             width: 64,
             child: Text('确认密码'),
