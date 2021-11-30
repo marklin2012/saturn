@@ -1,3 +1,4 @@
+import 'package:example/pages/emptydata.dart';
 import 'package:example/pages/form.dart';
 import 'package:example/pages/grid.dart';
 import 'package:example/pages/menu.dart';
@@ -43,6 +44,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Cascader', page: CascaderPage()),
   PageModel(name: 'Checkbox', page: CheckboxPage()),
   PageModel(name: 'Dialog', page: DialogPage()),
+  PageModel(name: 'EmptyData', page: EmptyDataPage()),
   PageModel(name: 'Form', page: FormPage()),
   PageModel(name: 'GridView', page: GridViewPage()),
   PageModel(name: 'Icon', page: IconPage()),
