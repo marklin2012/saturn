@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PingFang',
         appBarTheme: AppBarTheme(
           toolbarHeight: 44,
+          centerTitle: true,
         ),
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),

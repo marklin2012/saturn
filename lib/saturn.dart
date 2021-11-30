@@ -5,6 +5,7 @@ export 'package:saturn/st_alert/include.dart';
 export 'package:saturn/st_badge/st_badge.dart';
 export 'package:saturn/st_button/st_button.dart';
 export 'package:saturn/st_card/st_card.dart';
+export 'package:saturn/st_carousel/carousel_include.dart';
 export 'package:saturn/st_cascader/cascader_include.dart';
 export 'package:saturn/st_checkbox/st_checkbox_include.dart';
 export 'package:saturn/st_dialog/include.dart';

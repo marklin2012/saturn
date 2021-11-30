@@ -1,3 +1,4 @@
+import 'package:example/pages/carousel.dart';
 import 'package:example/pages/emptydata.dart';
 import 'package:example/pages/form.dart';
 import 'package:example/pages/grid.dart';
@@ -41,6 +42,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Badge', page: BadgePage()),
   PageModel(name: 'Button', page: ButtonPage()),
   PageModel(name: 'Card', page: CardPage()),
+  PageModel(name: 'Carousel', page: CarouselPage()),
   PageModel(name: 'Cascader', page: CascaderPage()),
   PageModel(name: 'Checkbox', page: CheckboxPage()),
   PageModel(name: 'Dialog', page: DialogPage()),
