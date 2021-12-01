@@ -5,10 +5,7 @@ class STCarouselPage extends StatefulWidget {
   const STCarouselPage({
     Key key,
     this.items,
-    this.initPage,
-    this.autoRoll,
-    this.autoRollInterval,
-    this.runLoop,
+    this.initPage = 0,
     this.decoration,
     this.padding,
     this.height,
@@ -17,9 +14,6 @@ class STCarouselPage extends StatefulWidget {
 
   final List<Widget> items;
   final int initPage;
-  final bool autoRoll;
-  final double autoRollInterval;
-  final bool runLoop;
   final Decoration decoration;
   final EdgeInsets padding;
   final double height;
@@ -44,7 +38,10 @@ class _STCarouselPageState extends State<STCarouselPage> {
     super.initState();
     _height = widget.height ?? 220.0;
     _items = widget.items ?? [];
-    _pageController = PageController(viewportFraction: _scaleFactor);
+    _pageController = PageController(
+      viewportFraction: _scaleFactor,
+      initialPage: widget.initPage,
+    );
     _pageController.addListener(() {
       _currentPageValue = _pageController.page;
       setState(() {});
