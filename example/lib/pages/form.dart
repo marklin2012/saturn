@@ -64,7 +64,7 @@ class _FormPageState extends State<FormPage> {
             width: 64,
             child: Text('姓名'),
           ),
-          formFeild: STFormInput(
+          center: STFormInput(
             placeholder: '必填',
             inputFormatters: [
               LengthLimitingTextInputFormatter(5),
@@ -82,7 +82,7 @@ class _FormPageState extends State<FormPage> {
             width: 64,
             child: Text('性别'),
           ),
-          formFeild: STFormInput(
+          center: STFormInput(
             placeholder: '必填',
             inputFormatters: [
               LengthLimitingTextInputFormatter(4),
@@ -101,7 +101,7 @@ class _FormPageState extends State<FormPage> {
             width: 64,
             child: Text('用户昵称'),
           ),
-          formFeild: STFormInput(
+          center: STFormInput(
             placeholder: '必填',
             inputFormatters: [
               LengthLimitingTextInputFormatter(20),
@@ -167,7 +167,7 @@ class _FormPageState extends State<FormPage> {
       children: [
         STRowOption(
           leading: Icon(STIcons.commonly_home),
-          formFeild: STFormInput(
+          center: STFormInput(
             placeholder: '请输入家庭住址',
             inputFormatters: [
               LengthLimitingTextInputFormatter(40),
@@ -182,7 +182,7 @@ class _FormPageState extends State<FormPage> {
         ),
         STRowOption(
           leading: Icon(STIcons.commonly_idcard),
-          formFeild: STFormInput(
+          center: STFormInput(
             placeholder: '请输入个人ID',
             inputFormatters: [
               LengthLimitingTextInputFormatter(20),
@@ -197,7 +197,7 @@ class _FormPageState extends State<FormPage> {
         ),
         STRowOption(
           leading: Icon(STIcons.commonly_mail),
-          formFeild: STFormInput(
+          center: STFormInput(
             placeholder: '请输入邮箱地址',
             inputFormatters: [
               LengthLimitingTextInputFormatter(30),
@@ -236,7 +236,7 @@ class _FormPageState extends State<FormPage> {
             width: 64,
             child: Text('旧密码'),
           ),
-          formFeild: STFormInput(
+          center: STFormInput(
             placeholder: '请输入旧密码',
             inputFormatters: [
               LengthLimitingTextInputFormatter(20),
@@ -254,7 +254,7 @@ class _FormPageState extends State<FormPage> {
             width: 64,
             child: Text('新密码'),
           ),
-          formFeild: STFormInput.password(
+          center: STFormInput.password(
             placeholder: '请设置新密码',
             inputFormatters: [
               LengthLimitingTextInputFormatter(20),
@@ -272,7 +272,7 @@ class _FormPageState extends State<FormPage> {
             width: 64,
             child: Text('确认密码'),
           ),
-          formFeild: STFormInput.password(
+          center: STFormInput.password(
             placeholder: '请再次输入新密码',
             inputFormatters: [
               LengthLimitingTextInputFormatter(20),

@@ -14,6 +14,7 @@ export 'package:saturn/st_grid/st_grid.dart';
 export 'package:saturn/st_grid/st_text_icon.dart';
 export 'package:saturn/st_icons/st_icons.dart';
 export 'package:saturn/st_input/input_include.dart';
+export 'package:saturn/st_list_option/st_row_options.dart';
 export 'package:saturn/st_loading/include.dart';
 export 'package:saturn/st_menu/include.dart';
 export 'package:saturn/st_message/include.dart';

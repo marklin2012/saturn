@@ -24,7 +24,7 @@ class STRadio<T> extends StatelessWidget {
     @required this.value,
     @required this.groupValue,
     this.text,
-    this.onChanged,
+    @required this.onChanged,
     this.activeColor = const Color(0xFFFFFFFF),
     this.backgroundColor = const Color(0xFF095BF9),
     this.borderColor = const Color(0xFFDFE2E7),
