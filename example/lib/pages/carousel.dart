@@ -12,44 +12,80 @@ class CarouselPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Carousel'),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 10),
-          Container(
-            height: 20,
-            color: STColor.backgroundColor,
-            alignment: Alignment.center,
-            child: STCarouselIndicator(
-              totalPage: 4,
-              currentPage: 0,
-              type: STCarouselIndicatorType.rect,
+      body: SingleChildScrollView(
+        child: _buildContent(),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Column(
+      children: [
+        SizedBox(height: 10),
+        Container(
+          height: 20,
+          color: STColor.backgroundColor,
+          alignment: Alignment.center,
+          child: STCarouselIndicator(
+            totalPage: 4,
+            currentPage: 0,
+            type: STCarouselIndicatorType.rect,
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          height: 20,
+          color: STColor.backgroundColor,
+          alignment: Alignment.center,
+          child: STCarouselIndicator(
+            totalPage: 4,
+            currentPage: 1,
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          height: 20,
+          color: STColor.backgroundColor,
+          alignment: Alignment.center,
+          child: STCarouselIndicator(
+            totalPage: 4,
+            currentPage: 2,
+            type: STCarouselIndicatorType.progress,
+          ),
+        ),
+        SizedBox(height: 10),
+        STCarousel(
+          margin: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            '1',
+            style: TextStyle(
+              fontSize: 34,
+              color: STColor.thrRankFont,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 10),
-          Container(
-            height: 20,
-            color: STColor.backgroundColor,
-            alignment: Alignment.center,
-            child: STCarouselIndicator(
-              totalPage: 4,
-              currentPage: 1,
+          totalPage: 4,
+        ),
+        SizedBox(height: 10),
+        STCarousel(
+          margin: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            '2',
+            style: TextStyle(
+              fontSize: 34,
+              color: STColor.thrRankFont,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 10),
-          Container(
-            height: 20,
-            color: STColor.backgroundColor,
-            alignment: Alignment.center,
-            child: STCarouselIndicator(
-              totalPage: 4,
-              currentPage: 2,
-              type: STCarouselIndicatorType.progress,
-            ),
-          ),
-          SizedBox(height: 10),
-          STCarousel(
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
+          totalPage: 4,
+          currentPage: 1,
+          dirction: STCarouselDirction.left,
+          indicatorType: STCarouselIndicatorType.circle,
+        ),
+        SizedBox(height: 10),
+        STCarouselPage(
+          items: [
+            Text(
               '1',
               style: TextStyle(
                 fontSize: 34,
@@ -57,12 +93,7 @@ class CarouselPage extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            totalPage: 4,
-          ),
-          SizedBox(height: 10),
-          STCarousel(
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
+            Text(
               '2',
               style: TextStyle(
                 fontSize: 34,
@@ -70,13 +101,17 @@ class CarouselPage extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            totalPage: 4,
-            currentPage: 1,
-            dirction: STCarouselDirction.left,
-            indicatorType: STCarouselIndicatorType.circle,
-          ),
-        ],
-      ),
+            Text(
+              '3',
+              style: TextStyle(
+                fontSize: 34,
+                color: STColor.thrRankFont,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
