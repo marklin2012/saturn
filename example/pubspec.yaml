@@ -56,6 +56,10 @@ flutter:
     # - assets/images/icon_selected_20x20.png
     # - assets/images/basketball_check.png
     - assets/video/showtime.mp4
+    - packages/saturn/images/default_avatar.png
+    - packages/saturn/images/default_logo.png
+    - packages/saturn/images/default_team.png
+    - packages/saturn/images/default_placeholder.png
 
   fonts:
     - family: STIcons

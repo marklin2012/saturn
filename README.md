@@ -23,6 +23,17 @@
         - asset: packages/saturn/fonts/st_icons.ttf
  ```
 
+2. 使用STImage中的图片需要在`pubspec.yaml` 中配置如下
+
+```
+assets:
+	- packages/saturn/images/default_avatar.png
+  - packages/saturn/images/default_logo.png
+  - packages/saturn/images/default_team.png
+  - packages/saturn/images/default_placeholder.png
+  
+```
+
 # 系统依赖
 
 1. **请安装 Flutter 稳定版本 2.0.1**   [flutter 2.0.1](https://storage.flutter-io.cn/flutter_infra/releases/stable/macos/flutter_macos_2.0.1-stable.zip) （flutter.cn 的下载地址）

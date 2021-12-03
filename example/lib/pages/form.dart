@@ -52,11 +52,7 @@ class _FormPageState extends State<FormPage> {
       children: [
         STRowOption(
           leading: Text('头像'),
-          trailing: Image(
-            image: AssetImage('assets/images/default_avatar.png'),
-            height: 32,
-            width: 32,
-          ),
+          trailing: STImage.avatar(iconWidth: 32),
           isHavRightArrow: true,
         ),
         STRowOption(

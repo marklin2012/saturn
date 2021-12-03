@@ -2,6 +2,7 @@ import 'package:example/pages/carousel.dart';
 import 'package:example/pages/emptydata.dart';
 import 'package:example/pages/form.dart';
 import 'package:example/pages/grid.dart';
+import 'package:example/pages/image.dart';
 import 'package:example/pages/list_cell.dart';
 import 'package:example/pages/menu.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Form', page: FormPage()),
   PageModel(name: 'GridView', page: GridViewPage()),
   PageModel(name: 'Icon', page: IconPage()),
+  PageModel(name: 'Image', page: ImagePage()),
   PageModel(name: 'Input', page: InputPage()),
   PageModel(name: 'ListCell', page: ListCellPage()),
   PageModel(name: 'Loading', page: LoadingPage()),

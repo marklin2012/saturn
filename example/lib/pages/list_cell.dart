@@ -75,11 +75,7 @@ class _ListCellPageState extends State<ListCellPage> {
             ),
           ),
           STRowOption(
-            leading: Image(
-              image: AssetImage('assets/images/default_avatar.png'),
-              width: 32,
-              height: 32,
-            ),
+            leading: STImage.avatar(iconWidth: 32),
             leadingPadding: const EdgeInsets.only(right: 12.0),
             center: Text('列表4'),
             trailing: Image(
@@ -131,14 +127,7 @@ class _ListCellPageState extends State<ListCellPage> {
             ),
           ),
           STRowOption(
-            leading: Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Image(
-                image: AssetImage('assets/images/default_avatar.png'),
-                width: 32,
-                height: 32,
-              ),
-            ),
+            leading: STImage.avatar(iconWidth: 32),
             leadingPadding: const EdgeInsets.only(right: 12.0),
             contentCrossAlignment: CrossAxisAlignment.start,
             center: Column(
@@ -163,11 +152,7 @@ class _ListCellPageState extends State<ListCellPage> {
             ),
           ),
           STRowOption(
-            leading: Image(
-              image: AssetImage('assets/images/default_avatar.png'),
-              width: 32,
-              height: 32,
-            ),
+            leading: STImage.avatar(iconWidth: 32),
             leadingPadding: const EdgeInsets.only(right: 12.0),
             center: Column(
               mainAxisSize: MainAxisSize.min,
@@ -189,11 +174,7 @@ class _ListCellPageState extends State<ListCellPage> {
             child: Text('三行列表'),
           ),
           STRowOption(
-            leading: Image(
-              image: AssetImage('assets/images/default_avatar.png'),
-              width: 32,
-              height: 32,
-            ),
+            leading: STImage.avatar(iconWidth: 32),
             leadingPadding: const EdgeInsets.only(right: 12.0),
             contentCrossAlignment: CrossAxisAlignment.start,
             center: Column(
