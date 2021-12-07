@@ -21,6 +21,36 @@ class CarouselPage extends StatelessWidget {
   Widget _buildContent() {
     return Column(
       children: [
+        STCarouselPage(
+          items: [
+            Text(
+              '1',
+              style: TextStyle(
+                fontSize: 34,
+                color: STColor.thrRankFont,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              '2',
+              style: TextStyle(
+                fontSize: 34,
+                color: STColor.thrRankFont,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              '3',
+              style: TextStyle(
+                fontSize: 34,
+                color: STColor.thrRankFont,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        STCarouselCard(),
         SizedBox(height: 10),
         Container(
           height: 20,
@@ -81,35 +111,6 @@ class CarouselPage extends StatelessWidget {
           currentPage: 1,
           dirction: STCarouselDirction.left,
           indicatorType: STCarouselIndicatorType.circle,
-        ),
-        SizedBox(height: 10),
-        STCarouselPage(
-          items: [
-            Text(
-              '1',
-              style: TextStyle(
-                fontSize: 34,
-                color: STColor.thrRankFont,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              '2',
-              style: TextStyle(
-                fontSize: 34,
-                color: STColor.thrRankFont,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              '3',
-              style: TextStyle(
-                fontSize: 34,
-                color: STColor.thrRankFont,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
         ),
       ],
     );
