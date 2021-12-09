@@ -64,6 +64,7 @@ class _STCarouselCardState extends State<STCarouselCard> {
         ];
     _height = widget.height ?? 220;
     _currentPage = widget.initPage ?? 0;
+    _dirction = STCarouselCardDirction.left;
   }
 
   @override
@@ -82,62 +83,69 @@ class _STCarouselCardState extends State<STCarouselCard> {
       alignment: Alignment.center,
       child: Stack(
         children: [
-          Positioned(
-            left: _dirction == STCarouselCardDirction.left
-                ? .0 - _leftOrRight
-                : .0 + _leftOrRight,
-            right: _dirction == STCarouselCardDirction.left
-                ? 32.0 + _leftOrRight
-                : 32.0 - _leftOrRight,
-            top: 12.0,
-            height: _height * _scaleFactor,
-            child: STCarousel(
-              showIndictor: false,
-              child: _items[_getPreviousPage()],
+          if (_dirction == STCarouselCardDirction.left)
+            Positioned(
+              left: .0,
+              right: 32.0,
+              top: (_height - _getBottomLeftHeight()) / 2,
+              height: _getBottomLeftHeight(),
+              child: STCarousel(
+                showIndictor: false,
+                child: _items[_getPreviousPage()],
+              ),
             ),
-          ),
           Positioned(
-            left: _dirction == STCarouselCardDirction.left
-                ? 32.0 + _leftOrRight
-                : 32.0 - _leftOrRight,
-            right: _dirction == STCarouselCardDirction.left
-                ? .0 - _leftOrRight
-                : .0 + _leftOrRight,
-            top: 12.0,
-            height: _height * _scaleFactor,
+            left: 32.0,
+            right: .0,
+            top: (_height - _getBottomRightHeight()) / 2,
+            height: _getBottomRightHeight(),
             child: STCarousel(
               showIndictor: false,
               child: _items[_getNextPage()],
             ),
           ),
+          if (_dirction == STCarouselCardDirction.right)
+            Positioned(
+              left: .0,
+              right: 32.0,
+              top: (_height - _getBottomLeftHeight()) / 2,
+              height: _getBottomLeftHeight(),
+              child: STCarousel(
+                showIndictor: false,
+                child: _items[_getPreviousPage()],
+              ),
+            ),
           Positioned(
             left: 24.0 + _leftOrRight,
             right: 24.0 - _leftOrRight,
             top: (_height - _getCenterHeight()) / 2,
             height: _getCenterHeight(),
             child: GestureDetector(
-              onHorizontalDragStart: (details) {},
-              onHorizontalDragUpdate: (detail) {
-                _leftOrRight += detail.delta.dx;
+              onHorizontalDragStart: (details) {
+                _dirction = STCarouselCardDirction.left;
                 setState(() {});
               },
-              onHorizontalDragEnd: (detail) {
+              onHorizontalDragUpdate: (detail) {
+                _leftOrRight += detail.delta.dx;
                 if (_leftOrRight > 0) {
                   _dirction = STCarouselCardDirction.right;
                 } else {
                   _dirction = STCarouselCardDirction.left;
                 }
+                setState(() {});
+              },
+              onHorizontalDragEnd: (detail) {
                 if (_leftOrRight < -stCarouselCardOffset) {
-                  if (_currentPage == 0) {
-                    _currentPage = _items.length - 1;
-                  } else {
-                    _currentPage -= 1;
-                  }
-                } else if (_leftOrRight > stCarouselCardOffset) {
                   if (_currentPage == _items.length - 1) {
                     _currentPage = 0;
                   } else {
                     _currentPage += 1;
+                  }
+                } else if (_leftOrRight > stCarouselCardOffset) {
+                  if (_currentPage == 0) {
+                    _currentPage = _items.length - 1;
+                  } else {
+                    _currentPage -= 1;
                   }
                 }
                 _leftOrRight = 0;
@@ -152,6 +160,36 @@ class _STCarouselCardState extends State<STCarouselCard> {
         ],
       ),
     );
+  }
+
+  double _getBottomLeftHeight() {
+    double _tempH = _height * _scaleFactor;
+    if (_dirction == STCarouselCardDirction.right) {
+      if (_leftOrRight > stCarouselCardOffset) {
+        _tempH = _height;
+      } else {
+        _tempH = _height * _scaleFactor +
+            (_leftOrRight / stCarouselCardOffset) *
+                _height *
+                (1 - _scaleFactor);
+      }
+    }
+    return _tempH;
+  }
+
+  double _getBottomRightHeight() {
+    double _tempH = _height * _scaleFactor;
+    if (_dirction == STCarouselCardDirction.left) {
+      if (_leftOrRight < -stCarouselCardOffset) {
+        _tempH = _height;
+      } else {
+        _tempH = _height * _scaleFactor +
+            (_leftOrRight / -stCarouselCardOffset) *
+                _height *
+                (1 - _scaleFactor);
+      }
+    }
+    return _tempH;
   }
 
   double _getCenterHeight() {
