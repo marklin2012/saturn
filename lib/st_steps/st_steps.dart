@@ -73,7 +73,7 @@ class STSteps extends StatelessWidget {
           _preWidget = Text('$_number', style: _defaultNumTextStyle);
         } else {
           _preWidget = Icon(
-            steps[j].iconData ?? STIcons.commonly_selected,
+            steps[j].iconData ?? STIcons.commonly_selected_outline,
             size: _defaultNumIconWidth * 2 / 3,
             color: Colors.white,
           );

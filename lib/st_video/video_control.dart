@@ -31,11 +31,11 @@ class STVideoControl extends StatelessWidget {
     Widget _child;
     EdgeInsets _padding = EdgeInsets.all(size - _defaultSize);
     if (status == STVideoStatus.play && !doubleControlRow) {
-      _child = Icon(STIcons.commonly_timeout,
+      _child = Icon(STIcons.commonly_pause_outline,
           size: _defaultSize, color: activeColor);
     } else if (status == STVideoStatus.pause && !doubleControlRow) {
-      _child =
-          Icon(STIcons.commonly_begin, size: _defaultSize, color: activeColor);
+      _child = Icon(STIcons.commonly_play_outline,
+          size: _defaultSize, color: activeColor);
     } else if (status == STVideoStatus.loading && !doubleControlRow) {
       _child = const STLoading(
         icon: Icon(

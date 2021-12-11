@@ -18,12 +18,12 @@ Widget getVolumeIcon(
         : STIcons.commonly_videosound;
   } else if (value < 0.5) {
     _data = axis == Axis.vertical
-        ? STIcons.commonly_videosound_half
-        : STIcons.commonly_videosound_small;
+        ? STIcons.commonly_videosound2
+        : STIcons.commonly_videosound1;
   } else {
     _data = axis == Axis.vertical
-        ? STIcons.commonly_videosound_small
-        : STIcons.commonly_videosound_half;
+        ? STIcons.commonly_videosound1
+        : STIcons.commonly_videosound2;
   }
   return Icon(_data, size: iconSize, color: iconColor);
 }

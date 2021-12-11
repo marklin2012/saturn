@@ -349,13 +349,13 @@ class _STVideoBaseState extends State<STVideoBase> {
       builder: (context, STVideoStatus value, child) {
         if (value == STVideoStatus.play) {
           return const Icon(
-            STIcons.commonly_timeout,
+            STIcons.commonly_pause_outline,
             size: _defaultFix16,
             color: Colors.white,
           );
         } else {
           return const Icon(
-            STIcons.commonly_begin,
+            STIcons.commonly_play_outline,
             size: _defaultFix16,
             color: Colors.white,
           );
@@ -430,7 +430,7 @@ class _STVideoBaseState extends State<STVideoBase> {
   Widget _getFullScreen() {
     return STButton.icon(
       icon: const Icon(
-        STIcons.commonly_fullscreen,
+        STIcons.commonly_fullscreen_outline,
         size: _defaultFix16,
         color: Colors.white,
       ),

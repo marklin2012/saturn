@@ -91,7 +91,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
       Widget _preWidget;
       if (_isFinished(index)) {
         _preWidget = const Icon(
-          STIcons.commonly_selected,
+          STIcons.commonly_selected_outline,
           size: _defaultNumIconWidth * 2 / 3,
           color: Colors.white,
         );

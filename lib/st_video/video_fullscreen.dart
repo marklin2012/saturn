@@ -320,7 +320,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
   Widget _getFullScreen() {
     return STButton.icon(
       icon: const Icon(
-        STIcons.commonly_exitfullscreen,
+        STIcons.commonly_fullscreen_outline,
         size: _defaultFix16,
         color: Colors.white,
       ),

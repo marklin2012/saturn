@@ -177,7 +177,7 @@ class _FormPageState extends State<FormPage> {
           ),
         ),
         STRowOption(
-          leading: Icon(STIcons.commonly_idcard),
+          leading: Icon(STIcons.commonly_userorder_outline),
           center: STFormInput(
             placeholder: '请输入个人ID',
             inputFormatters: [

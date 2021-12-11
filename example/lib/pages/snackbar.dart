@@ -217,7 +217,7 @@ class SnackbarPage extends StatelessWidget {
                           style: _textStyle2,
                         ),
                         closeButton: Icon(
-                          STIcons.commonly_close,
+                          STIcons.commonly_close_outline,
                           size: 20,
                           color: Colors.white,
                         ),
@@ -266,7 +266,7 @@ class SnackbarPage extends StatelessWidget {
                               fit: BoxFit.fitWidth),
                         ),
                         closeButton: Icon(
-                          STIcons.commonly_close,
+                          STIcons.commonly_close_outline,
                           size: 20,
                           color: Colors.white,
                         ),

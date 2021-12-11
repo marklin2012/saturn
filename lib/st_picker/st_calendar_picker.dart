@@ -159,8 +159,8 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
               ),
             const Padding(
               padding: _defaultRightPadding,
-              child:
-                  Icon(STIcons.commonly_calendar, size: 20, color: Colors.grey),
+              child: Icon(STIcons.data_calendar_outline,
+                  size: 20, color: Colors.grey),
             ),
           ],
         ),
