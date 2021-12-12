@@ -252,7 +252,7 @@ class IconPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inputs'),
+        title: Text('Icons'),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
