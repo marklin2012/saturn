@@ -46,6 +46,8 @@ class STInput extends StatefulWidget {
     this.cursorHeight,
     this.cursorRadius,
     this.cursorColor,
+    this.isAround = false,
+    this.maxLines,
   }) : super(key: key);
 
   const STInput.password({
@@ -75,6 +77,8 @@ class STInput extends StatefulWidget {
     this.cursorHeight,
     this.cursorRadius,
     this.cursorColor,
+    this.isAround = false,
+    this.maxLines,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -102,6 +106,8 @@ class STInput extends StatefulWidget {
   final double cursorRadius;
   final Color cursorColor;
   final double cursorHeight;
+  final bool isAround;
+  final int maxLines;
 
   @override
   _STInputState createState() => _STInputState();
@@ -144,106 +150,121 @@ class _STInputState extends State<STInput> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.centerLeft,
-        height: _height,
-        padding: widget.padding ??
-            const EdgeInsets.only(left: _leftMargin, right: _rightMargin),
-        decoration: widget.decoration ??
-            BoxDecoration(
-              border: Border.all(color: _borderColor),
-              color: widget.backgoundColor ?? _defaultBackgroundColor,
-              borderRadius: BorderRadius.circular(_commonRadius),
-            ),
-        child: Center(
-          child: TextField(
-            enabled: widget.enabled,
-            onSubmitted: (text) {
-              if (widget.onSubmitted != null) {
-                widget.onSubmitted(text);
-              }
-            },
-            keyboardType: _inputType,
-            inputFormatters: widget.inputFormatters,
-            maxLength: widget.maxLength,
-            keyboardAppearance: Theme.of(context).brightness,
-            cursorWidth: widget.cursorWidth ?? 2.0,
-            cursorHeight: widget.cursorHeight ??
-                _defaultTextFiledHeight - 2 * _bottomMargin,
-            cursorRadius: Radius.circular(widget.cursorRadius ?? 0),
-            cursorColor: widget.cursorColor ?? STColor.firRankBlue,
-            controller: _inputController,
-            focusNode: _focusNode,
-            style: widget.textStyle ?? const TextStyle(),
-            textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              contentPadding: widget.contentPadding ??
-                  const EdgeInsets.only(bottom: _bottomMargin),
-              prefixIcon: widget.prefixIcon,
-              suffixIcon: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  if (_focusNode.hasFocus &&
-                      (_text.isNotEmpty || _inputController.text.isNotEmpty))
-                    IconButton(
-                        constraints: const BoxConstraints(),
-                        focusColor: Colors.white,
-                        hoverColor: Colors.white,
-                        splashColor: Colors.white,
-                        highlightColor: Colors.white,
-                        padding: EdgeInsets.zero,
-                        icon: const Icon(
-                          Icons.cancel,
-                          size: _defaultIconSize,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _inputController.clear();
-                            _text = "";
-                            if (widget.onChanged != null) {
-                              widget.onChanged(_text);
-                            }
-                          });
-                        }),
-                  if (widget.showVisibility)
-                    IconButton(
-                      constraints: const BoxConstraints(),
-                      focusColor: Colors.white,
-                      hoverColor: Colors.white,
-                      splashColor: Colors.white,
-                      highlightColor: Colors.white,
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Colors.grey,
-                        size: _defaultIconSize,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    ),
-                  if (widget.suffixIcon != null) widget.suffixIcon,
-                ],
-              ),
-              border: const OutlineInputBorder(borderSide: BorderSide.none),
-              hintMaxLines: 1,
-              hintText: _hintText,
-              hintStyle: widget.placeholderStyle ??
-                  const TextStyle(
-                      color: Colors.grey, fontSize: _defaultFontSize),
-            ),
-            obscureText: _obscureText,
-            autofocus: widget.autofocus,
-            onChanged: (v) {
-              setState(() {
-                _text = v;
-              });
-              if (widget.onChanged != null) widget.onChanged(v);
-            },
+      alignment: Alignment.centerLeft,
+      constraints: BoxConstraints(
+        minHeight: _height,
+        maxHeight: widget.isAround ? double.infinity : _height,
+      ),
+      padding: widget.padding ??
+          const EdgeInsets.only(left: _leftMargin, right: _rightMargin),
+      decoration: widget.decoration ??
+          BoxDecoration(
+            border: Border.all(color: _borderColor),
+            color: widget.backgoundColor ?? _defaultBackgroundColor,
+            borderRadius: BorderRadius.circular(_commonRadius),
           ),
-        ));
+      child: Center(
+        child: TextField(
+          enabled: widget.enabled,
+          onSubmitted: (text) {
+            if (widget.onSubmitted != null) {
+              widget.onSubmitted(text);
+            }
+          },
+          keyboardType: _inputType,
+          inputFormatters: widget.inputFormatters,
+          maxLength: widget.maxLength,
+          maxLines: widget.isAround ? widget.maxLines : 1,
+          keyboardAppearance: Theme.of(context).brightness,
+          cursorWidth: widget.cursorWidth ?? 2.0,
+          cursorHeight: widget.cursorHeight ??
+              _defaultTextFiledHeight - 2 * _bottomMargin,
+          cursorRadius: Radius.circular(widget.cursorRadius ?? 0),
+          cursorColor: widget.cursorColor ?? STColor.firRankBlue,
+          controller: _inputController,
+          focusNode: _focusNode,
+          style: widget.textStyle ??
+              const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding: widget.contentPadding ??
+                const EdgeInsets.only(bottom: _bottomMargin),
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: widget.isAround
+                ? null
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (_focusNode.hasFocus &&
+                          (_text.isNotEmpty ||
+                              _inputController.text.isNotEmpty))
+                        IconButton(
+                          constraints: const BoxConstraints(),
+                          focusColor: Colors.white,
+                          hoverColor: Colors.white,
+                          splashColor: Colors.white,
+                          highlightColor: Colors.white,
+                          padding: EdgeInsets.zero,
+                          icon: const Icon(
+                            Icons.cancel,
+                            size: _defaultIconSize,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _inputController.clear();
+                              _text = "";
+                              if (widget.onChanged != null) {
+                                widget.onChanged(_text);
+                              }
+                            });
+                          },
+                        ),
+                      if (widget.showVisibility)
+                        IconButton(
+                          constraints: const BoxConstraints(),
+                          focusColor: Colors.white,
+                          hoverColor: Colors.white,
+                          splashColor: Colors.white,
+                          highlightColor: Colors.white,
+                          padding: EdgeInsets.zero,
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey,
+                            size: _defaultIconSize,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
+                      if (widget.suffixIcon != null) widget.suffixIcon,
+                    ],
+                  ),
+            border: const OutlineInputBorder(borderSide: BorderSide.none),
+            hintMaxLines: 1,
+            hintText: _hintText,
+            hintStyle: widget.placeholderStyle ??
+                const TextStyle(
+                  color: Colors.grey,
+                  fontSize: _defaultFontSize,
+                ),
+          ),
+          obscureText: _obscureText,
+          autofocus: widget.autofocus,
+          onChanged: (v) {
+            setState(() {
+              _text = v;
+            });
+            if (widget.onChanged != null) widget.onChanged(v);
+          },
+        ),
+      ),
+    );
   }
 }
