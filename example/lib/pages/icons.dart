@@ -267,7 +267,7 @@ class IconPage extends StatelessWidget {
                 iconListFrom(dataIcons),
                 titleFrom('标签类'),
                 iconListFrom(labelIcons),
-                titleFrom('消息类'),
+                titleFrom('方向类'),
                 iconListFrom(directionIcons),
                 titleFrom('状态类'),
                 iconListFrom(statusIcons),
