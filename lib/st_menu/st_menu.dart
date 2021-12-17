@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/common.dart';
 import 'package:saturn/st_menu/st_menu_item.dart';
 
 class STMenu extends StatefulWidget {
@@ -97,8 +98,16 @@ class _STMenuState extends State<STMenu> {
     }
 
     return Container(
-      color: const Color(0xFFFAFCFF),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      decoration: BoxDecoration(
+        color: STColor.backgroundColor,
+        border: widget.type == STMenuType.underline
+            ? const Border(bottom: BorderSide(color: STColor.fourRankGrey))
+            : null,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: widget.type == STMenuType.underline ? 0 : 6,
+      ),
       height: widget.type == STMenuType.label ? 64 : 44,
       child: mainContent,
     );

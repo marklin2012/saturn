@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:saturn/saturn.dart';
 
 enum STMenuType {
   button,
@@ -41,7 +40,7 @@ class STMenuItem extends StatelessWidget {
     if (type != STMenuType.button) {
       currentColor = Colors.transparent;
     }
-    BoxDecoration decoration = BoxDecoration(
+    final decoration = BoxDecoration(
       color: index == current ? currentColor : Colors.transparent,
       borderRadius: const BorderRadius.all(
         Radius.circular(4),
@@ -52,14 +51,6 @@ class STMenuItem extends StatelessWidget {
 
     if (type == STMenuType.underline) {
       selectedTextColor = const Color(0xFF000000);
-      if (isSelected) {
-        decoration = BoxDecoration(
-          color: isSelected ? currentColor : Colors.transparent,
-          border: const Border(
-            bottom: BorderSide(width: 1, color: Color(0xFF095BF9)),
-          ),
-        );
-      }
     } else if (type == STMenuType.section) {
       selectedTextColor = const Color(0xFF095BF9);
     } else if (type == STMenuType.label) {
@@ -70,7 +61,7 @@ class STMenuItem extends StatelessWidget {
       item.title,
       style: TextStyle(
         fontSize: 16,
-        fontWeight: FontWeight.w400,
+        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         decoration: TextDecoration.none,
         color: isSelected ? selectedTextColor : defaultTextColor,
       ),
@@ -97,7 +88,41 @@ class STMenuItem extends StatelessWidget {
           ),
         ],
       );
+    } else if (type == STMenuType.underline) {
+      innerContent = Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Center(
+              child: Text(
+                item.title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  decoration: TextDecoration.none,
+                  color: isSelected ? selectedTextColor : defaultTextColor,
+                ),
+              ),
+            ),
+          ),
+          if (isSelected)
+            Container(
+              height: 2,
+              color: const Color(0xFF095BF9),
+            ),
+        ],
+      );
     }
+
+    // if (isSelected) {
+    //     decoration = BoxDecoration(
+    //       color: isSelected ? currentColor : Colors.transparent,
+    //       border: const Border(
+    //         bottom: BorderSide(color: ),
+    //       ),
+    //     );
+    //   }
 
     return Material(
       color: Colors.transparent,
