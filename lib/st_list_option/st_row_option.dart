@@ -49,13 +49,12 @@ class STRowOption extends StatelessWidget {
       constraints: BoxConstraints(
         minHeight: height,
       ),
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: padding ?? const EdgeInsets.only(left: 16.0),
       color: backgroundColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Expanded(child: _buildRow()),
           _buildRow(),
           if (isHavBottomLine)
             Container(
@@ -87,6 +86,7 @@ class STRowOption extends StatelessWidget {
             ),
           Expanded(child: center ?? const SizedBox()),
           _buildTrailing(),
+          const SizedBox(width: 16.0),
         ],
       ),
     );
