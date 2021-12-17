@@ -1,5 +1,6 @@
 import 'dart:collection' show Queue;
 import 'dart:math' as math;
+import 'package:saturn/saturn.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 // ignore: directives_ordering
@@ -69,11 +70,11 @@ class STBottomNavigationBar extends StatefulWidget {
     this.landscapeLayout,
   })  : assert(items != null),
         assert(items.length >= 2),
-        assert(
-          items.every((BottomNavigationBarItem item) => item.title != null) ||
-              items.every((BottomNavigationBarItem item) => item.label != null),
-          'Every item must have a non-null title or label',
-        ),
+        // assert(
+        //   items.every((STBottomNavigationBarItem item) => item.title != null) ||
+        //       items.every((STBottomNavigationBarItem item) => item.label != null),
+        //   'Every item must have a non-null title or label',
+        // ),
         assert(0 <= currentIndex && currentIndex < items.length),
         assert(elevation == null || elevation >= 0.0),
         assert(iconSize != null && iconSize >= 0.0),
@@ -88,7 +89,7 @@ class STBottomNavigationBar extends StatefulWidget {
 
   /// Defines the appearance of the button items that are arrayed within the
   /// bottom navigation bar.
-  final List<BottomNavigationBarItem> items;
+  final List<STBottomNavigationBarItem> items;
 
   /// Called when one of the [items] is tapped.
   ///
@@ -747,7 +748,7 @@ class _BottomNavigationTile extends StatelessWidget {
         assert(mouseCursor != null);
 
   final BottomNavigationBarType type;
-  final BottomNavigationBarItem item;
+  final STBottomNavigationBarItem item;
   final Animation<double> animation;
   final double iconSize;
   final VoidCallback onTap;
@@ -912,12 +913,12 @@ class _BottomNavigationTile extends StatelessWidget {
 }
 
 class _Tile extends StatelessWidget {
-  const _Tile(
-      {Key key,
-      @required this.layout,
-      @required this.icon,
-      @required this.label})
-      : super(key: key);
+  const _Tile({
+    Key key,
+    @required this.layout,
+    this.icon,
+    this.label,
+  }) : super(key: key);
 
   final BottomNavigationBarLandscapeLayout layout;
   final Widget icon;
@@ -964,7 +965,7 @@ class _TileIcon extends StatelessWidget {
   final Animation<double> animation;
   final double iconSize;
   final bool selected;
-  final BottomNavigationBarItem item;
+  final STBottomNavigationBarItem item;
   final IconThemeData selectedIconTheme;
   final IconThemeData unselectedIconTheme;
 
@@ -980,6 +981,10 @@ class _TileIcon extends StatelessWidget {
       defaultIconTheme.merge(selectedIconTheme),
       animation.value,
     );
+
+    if (item.icon == null) {
+      return Container();
+    }
 
     return Align(
       alignment: Alignment.topCenter,
@@ -1013,7 +1018,7 @@ class _Label extends StatelessWidget {
 
   final ColorTween colorTween;
   final Animation<double> animation;
-  final BottomNavigationBarItem item;
+  final STBottomNavigationBarItem item;
   final TextStyle selectedLabelStyle;
   final TextStyle unselectedLabelStyle;
   final bool showSelectedLabels;
@@ -1029,6 +1034,11 @@ class _Label extends StatelessWidget {
       selectedLabelStyle,
       animation.value,
     );
+
+    if (item.title == null && item.label == null) {
+      return Container();
+    }
+
     Widget text = DefaultTextStyle.merge(
       style: customStyle.copyWith(
         fontSize: selectedFontSize,
