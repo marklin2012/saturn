@@ -49,7 +49,7 @@ class STEmptyData extends StatelessWidget {
                 const TextStyle(
                   fontSize: 16.0,
                   color: STColor.firRankFont,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w600,
                 ),
           ),
           if (content != null)
