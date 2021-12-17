@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/st_button/common.dart';
 
 class STGridView extends StatelessWidget {
   const STGridView({
@@ -38,18 +39,22 @@ class STGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? EdgeInsets.zero,
-      decoration:
-          decoration ?? BoxDecoration(color: backgroundColor ?? Colors.grey),
-      child: GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: gridDelegate,
-        itemBuilder: itemBuilder,
-        itemCount: itemCount,
-        controller: controller ?? ScrollController(),
-        scrollDirection: scrollDirection,
-        reverse: reverse,
-        physics: physics,
+      padding: padding ?? const EdgeInsets.only(bottom: 10),
+      decoration: decoration ??
+          BoxDecoration(color: backgroundColor ?? STColor.thrRankGrey),
+      child: MediaQuery.removePadding(
+        context: context,
+        removeBottom: true,
+        child: GridView.builder(
+          shrinkWrap: true,
+          gridDelegate: gridDelegate,
+          itemBuilder: itemBuilder,
+          itemCount: itemCount,
+          controller: controller ?? ScrollController(),
+          scrollDirection: scrollDirection,
+          reverse: reverse,
+          physics: physics,
+        ),
       ),
     );
   }

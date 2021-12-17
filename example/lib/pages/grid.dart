@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
-import 'package:saturn/st_icons/st_icons.dart';
 
 class GridViewPage extends StatelessWidget {
   const GridViewPage({Key key}) : super(key: key);
@@ -15,11 +14,8 @@ class GridViewPage extends StatelessWidget {
         child: Column(
           children: [
             _buildRowTwo(),
-            SizedBox(height: 10),
             _buildRowThree(),
-            SizedBox(height: 10),
             _buildRowFour(),
-            SizedBox(height: 10),
           ],
         ),
       ),
@@ -28,8 +24,7 @@ class GridViewPage extends StatelessWidget {
 
   Widget _buildRowTwo() {
     return STGridView(
-      padding: EdgeInsets.only(top: 10),
-      backgroundColor: Color(0xFFDFE2E7),
+      padding: EdgeInsets.symmetric(vertical: 10),
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -63,7 +58,6 @@ class GridViewPage extends StatelessWidget {
 
   Widget _buildRowThree() {
     return STGridView(
-      backgroundColor: Color(0xFFDFE2E7),
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -98,7 +92,6 @@ class GridViewPage extends StatelessWidget {
 
   Widget _buildRowFour() {
     return STGridView(
-      backgroundColor: Color(0xFFDFE2E7),
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
@@ -117,7 +110,6 @@ class GridViewPage extends StatelessWidget {
                 AssetImage('assets/images/2.png'),
                 color: Color(0xFF1070FF),
               ),
-              textDirection: STTextDirection.textRight,
             ),
           ),
         );
