@@ -26,43 +26,54 @@ class STBadge extends StatelessWidget {
   static const _dotWidth = 10.0;
   static const _badgefontSize = 12.0;
   static const _defaultStyle = TextStyle(
-      color: Colors.white,
-      fontSize: _badgefontSize,
-      fontWeight: FontWeight.w400);
+    color: Colors.white,
+    fontSize: _badgefontSize,
+    fontWeight: FontWeight.w400,
+  );
   static const _defaultPadding = EdgeInsets.symmetric(horizontal: 4);
 
   @override
   Widget build(BuildContext context) {
-    final _value = _getValue();
-    if (dot || child == null) {
-      return _getBadget(_value);
+    if (dot && child == null) {
+      return _getDot();
+    } else if (child == null) {
+      return _getBadget(value);
     } else {
       return Stack(
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: <Widget>[
           child,
-          if (value != null && (int.tryParse(value) ?? 0) > 0)
-            STBadgePositioned(
-              position: position ?? STBadgePosition.topEnd(),
-              child: _getBadget(_value),
-            ),
+          STBadgePositioned(
+            position: position ?? STBadgePosition.topEnd(),
+            child: _getBadget(value),
+          ),
         ],
       );
     }
   }
 
+  Widget _getDot() {
+    return Container(
+      width: _dotWidth,
+      height: _dotWidth,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
+
   Widget _getBadget(String value) {
     if (dot) {
-      return Container(
-        width: _dotWidth,
-        height: _dotWidth,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          shape: BoxShape.circle,
-        ),
-      );
+      return _getDot();
     } else {
+      String _value = value;
+      if (_value != null && (int.tryParse(_value) ?? 0) > 0) {
+        _value = _getValue();
+      } else {
+        _value = '0';
+      }
       return Container(
         constraints: const BoxConstraints(
           minWidth: _minWidth,
@@ -76,7 +87,7 @@ class STBadge extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              value,
+              _value,
               style: _defaultStyle,
             )
           ],

@@ -18,6 +18,11 @@ class BadgePage extends StatelessWidget {
             ),
             SizedBox(height: 30),
             STBadge(
+              dot: true,
+              child: Text('文字'),
+            ),
+            SizedBox(height: 30),
+            STBadge(
               child: Icon(Icons.book),
               maxNumber: 99,
               value: '100',
