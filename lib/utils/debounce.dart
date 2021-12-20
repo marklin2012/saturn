@@ -61,11 +61,11 @@ class STDebounce {
   }
 
   /// 根据key来创建和删除Timer
-  void start({
-    @required String key,
-    @required Function func,
+  Future<void> start({
+    String key,
+    Function func,
     int time = 500,
-  }) {
+  }) async {
     /// 先判断是否有key存在的Timer，有的话先取消的这个Timer
     cancel(key: key);
 
@@ -82,7 +82,7 @@ class STDebounce {
   }
 
   void cancel({
-    @required String key,
+    String key,
   }) {
     Timer _temp = _map[key];
     if (_temp != null) {

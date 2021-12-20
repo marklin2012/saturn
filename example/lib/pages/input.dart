@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:saturn/saturn.dart';
-import 'package:saturn/st_button/common.dart';
+import 'package:saturn/mobile/st_button/common.dart';
 
 class InputPage extends StatelessWidget {
   @override
