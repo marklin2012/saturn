@@ -4,9 +4,9 @@ enum STTextDirection { textLeft, textTop, textRight, textBottom }
 
 class STTextAndIcon extends StatelessWidget {
   const STTextAndIcon({
-    Key key,
-    @required this.text,
-    @required this.icon,
+    Key? key,
+    required this.text,
+    required this.icon,
     this.textDirection = STTextDirection.textBottom,
     this.space = 8.0,
     this.padding,
@@ -21,9 +21,9 @@ class STTextAndIcon extends StatelessWidget {
 
   final double space;
 
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
-  final Decoration decoration;
+  final Decoration? decoration;
 
   @override
   Widget build(BuildContext context) {

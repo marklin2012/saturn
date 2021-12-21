@@ -4,14 +4,14 @@ import 'common.dart';
 
 class STTag extends StatelessWidget {
   final String text;
-  final STTagType type;
+  final STTagType? type;
   final STTagShape shape;
   final STTagSize size;
-  final Function(String) onTap;
-  final Function(String) onCloseTap;
+  final Function(String)? onTap;
+  final Function(String)? onCloseTap;
 
   const STTag({
-    @required this.text,
+    required this.text,
     this.type,
     this.shape = STTagShape.primary,
     this.size = STTagSize.normal,
@@ -19,7 +19,7 @@ class STTag extends StatelessWidget {
     this.onCloseTap,
   });
 
-  Color colorFromType(STTagType type) {
+  Color colorFromType(STTagType? type) {
     switch (type) {
       case STTagType.success:
         return STTagConstant.colorSuccess;
@@ -88,7 +88,7 @@ class STTag extends StatelessWidget {
           GestureDetector(
               onTap: () {
                 if (onTap != null) {
-                  onTap(text);
+                  onTap!(text);
                 }
               },
               child: Text(text,
@@ -99,7 +99,7 @@ class STTag extends StatelessWidget {
           if (onCloseTap != null)
             GestureDetector(
                 onTap: () {
-                  onCloseTap(text);
+                  onCloseTap!(text);
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),

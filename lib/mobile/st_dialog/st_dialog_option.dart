@@ -7,20 +7,20 @@ import 'package:saturn/utils/include.dart';
 import 'common.dart';
 
 class STDialogOption {
-  String title;
-  VoidCallback onTap;
+  String? title;
+  VoidCallback? onTap;
 
   STDialogOption({this.title, this.onTap});
 }
 
 class STDialogOptionWidget extends StatelessWidget {
-  final STDialogOption dialogOption;
-  final double containerWidth;
-  final bool closable;
-  final VoidCallback hide;
-  final VoidCallback updateAction;
-  final int verticalIndex;
-  final List enteredList;
+  final STDialogOption? dialogOption;
+  final double? containerWidth;
+  final bool? closable;
+  final VoidCallback? hide;
+  final VoidCallback? updateAction;
+  final int? verticalIndex;
+  final List? enteredList;
 
   const STDialogOptionWidget({
     this.dialogOption,
@@ -34,7 +34,7 @@ class STDialogOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isEnter = enteredList.contains(verticalIndex);
+    final bool isEnter = enteredList!.contains(verticalIndex);
 
     Color curColor = Colors.transparent;
     if (isEnter) {
@@ -46,14 +46,14 @@ class STDialogOptionWidget extends StatelessWidget {
       child: STButton(
         backgroundColor: curColor,
         onTap: () {
-          if (closable) {
-            hide();
+          if (closable!) {
+            hide!();
           }
-          if (dialogOption.onTap != null) {
-            dialogOption.onTap();
+          if (dialogOption!.onTap != null) {
+            dialogOption!.onTap!();
           }
         },
-        text: dialogOption.title,
+        text: dialogOption!.title,
         textStyle: const TextStyle(
           fontWeight: FontWeight.w600,
           color: STDialogConstant.defaultButtonTextColor,
@@ -64,12 +64,12 @@ class STDialogOptionWidget extends StatelessWidget {
     );
     return STMouseRegion(
       onEnter: (PointerEnterEvent details) {
-        enteredList.add(verticalIndex);
-        updateAction();
+        enteredList!.add(verticalIndex);
+        updateAction!();
       },
       onExit: (PointerExitEvent details) {
-        enteredList.clear();
-        updateAction();
+        enteredList!.clear();
+        updateAction!();
       },
       child: content,
     );

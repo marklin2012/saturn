@@ -8,7 +8,7 @@ const _defaultIconSize = 16.0;
 
 class STVideoSound extends StatelessWidget {
   const STVideoSound({
-    Key key,
+    Key? key,
     this.axis = Axis.horizontal,
     this.size = 102,
     this.activeColor = const Color(0xFF095BF9),
@@ -24,9 +24,9 @@ class STVideoSound extends StatelessWidget {
   final Color activeColor;
   final Color inactiveColor;
   final Color iconColor;
-  final double value;
-  final ValueChanged<double> onChanged;
-  final Function showVolumed;
+  final double? value;
+  final ValueChanged<double>? onChanged;
+  final Function? showVolumed;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class STVideoSound extends StatelessWidget {
             padding: const EdgeInsets.only(right: 6.0),
             onTap: () {
               if (showVolumed != null) {
-                showVolumed();
+                showVolumed!();
               }
             },
           ),
@@ -65,7 +65,7 @@ class STVideoSound extends StatelessWidget {
             padding: const EdgeInsets.only(top: 6.0),
             onTap: () {
               if (showVolumed != null) {
-                showVolumed();
+                showVolumed!();
               }
             },
           )
@@ -95,9 +95,9 @@ class STVideoSound extends StatelessWidget {
       activeSize: 4,
       activeColor: _activeColor,
       inactiveColor: _inactiveColor,
-      onChanged: (double value) {
+      onChanged: (double? value) {
         if (onChanged != null) {
-          onChanged(value);
+          onChanged!(value!);
         }
       },
     );

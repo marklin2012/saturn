@@ -7,31 +7,31 @@ import '../../utils/platform.dart';
 import '../../utils/string.dart';
 
 class STSnackbar extends StatefulWidget {
-  final String message;
-  final String title;
-  final bool hasCloseButton;
-  final String buttonText;
-  final Color buttonTextColor;
-  final bool isButtonHasBackground;
-  final Widget icon;
-  final VoidCallback onButtonTap;
-  final bool autoClose;
-  final int disappearMilliseconds;
+  final String? message;
+  final String? title;
+  final bool? hasCloseButton;
+  final String? buttonText;
+  final Color? buttonTextColor;
+  final bool? isButtonHasBackground;
+  final Widget? icon;
+  final VoidCallback? onButtonTap;
+  final bool? autoClose;
+  final int? disappearMilliseconds;
 
-  static BuildContext _curContext;
-  static OverlayEntry _curOverlayEntry;
+  static BuildContext? _curContext;
+  static late OverlayEntry _curOverlayEntry;
 
   static void show({
-    @required BuildContext context,
-    @required String title,
-    String message,
+    required BuildContext context,
+    required String title,
+    String? message,
     bool hasCloseButton = true,
-    String buttonText,
-    Color buttonTextColor,
+    String? buttonText,
+    Color? buttonTextColor,
     bool isButtonHasBackground = false,
-    Widget icon,
-    VoidCallback onButtonTap,
-    bool autoClose,
+    Widget? icon,
+    VoidCallback? onButtonTap,
+    bool? autoClose,
     int disappearMilliseconds = STSnackbarConstant.defaultDisappearMilliseconds,
   }) {
     if (_curContext != null) {
@@ -51,7 +51,7 @@ class STSnackbar extends StatefulWidget {
       disappearMilliseconds: disappearMilliseconds,
     );
 
-    final OverlayState overlayState = Overlay.of(context);
+    final OverlayState overlayState = Overlay.of(context)!;
     _curOverlayEntry =
         OverlayEntry(builder: (BuildContext context) => snackbar);
     overlayState.insert(_curOverlayEntry);
@@ -66,7 +66,7 @@ class STSnackbar extends StatefulWidget {
   }
 
   const STSnackbar({
-    Key key,
+    Key? key,
     this.message,
     this.title,
     this.hasCloseButton,
@@ -84,7 +84,7 @@ class STSnackbar extends StatefulWidget {
 }
 
 class _STSnackbarState extends State<STSnackbar> {
-  Timer timer;
+  Timer? timer;
 
   @override
   void initState() {
@@ -100,7 +100,7 @@ class _STSnackbarState extends State<STSnackbar> {
     }
 
     if (isCurAutoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds!), () {
         STSnackbar.hide(context);
       });
     }
@@ -117,10 +117,10 @@ class _STSnackbarState extends State<STSnackbar> {
       color: STSnackbarConstant.defaultBackgroundColor,
     );
 
-    Text titleWidget;
+    Text? titleWidget;
     if (!isNullOrEmpty(widget.title)) {
       titleWidget = Text(
-        widget.title,
+        widget.title!,
         softWrap: true,
         style: const TextStyle(
             fontWeight: FontWeight.w400,
@@ -130,10 +130,10 @@ class _STSnackbarState extends State<STSnackbar> {
       );
     }
 
-    Text messageWidget;
+    Text? messageWidget;
     if (!isNullOrEmpty(widget.message)) {
       messageWidget = Text(
-        widget.message,
+        widget.message!,
         softWrap: false,
         style: const TextStyle(
             fontWeight: FontWeight.w400,
@@ -143,9 +143,9 @@ class _STSnackbarState extends State<STSnackbar> {
       );
     }
 
-    Color curButtonTextColor;
+    Color? curButtonTextColor;
     if (widget.buttonTextColor == null) {
-      if (widget.isButtonHasBackground) {
+      if (widget.isButtonHasBackground!) {
         curButtonTextColor = Colors.white;
       } else {
         curButtonTextColor = STSnackbarConstant.blueColor;
@@ -154,14 +154,14 @@ class _STSnackbarState extends State<STSnackbar> {
       curButtonTextColor = widget.buttonTextColor;
     }
 
-    Widget buttonWidget;
-    if (widget.hasCloseButton) {
+    Widget? buttonWidget;
+    if (widget.hasCloseButton!) {
       if (!isNullOrEmpty(widget.buttonText)) {
         buttonWidget = TextButton(
           style: const ButtonStyle(alignment: Alignment.centerRight),
           onPressed: () {
             if (widget.onButtonTap != null) {
-              widget.onButtonTap();
+              widget.onButtonTap!();
             } else {
               STSnackbar.hide(context);
             }
@@ -172,11 +172,11 @@ class _STSnackbarState extends State<STSnackbar> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                     STSnackbarConstant.buttonCornerRadius),
-                color: widget.isButtonHasBackground
+                color: widget.isButtonHasBackground!
                     ? STSnackbarConstant.blueColor
                     : Colors.transparent,
               ),
-              child: Text(widget.buttonText,
+              child: Text(widget.buttonText!,
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: curButtonTextColor,
@@ -188,7 +188,7 @@ class _STSnackbarState extends State<STSnackbar> {
           style: const ButtonStyle(alignment: Alignment.centerRight),
           onPressed: () {
             if (widget.onButtonTap != null) {
-              widget.onButtonTap();
+              widget.onButtonTap!();
             } else {
               STSnackbar.hide(context);
             }
@@ -220,7 +220,7 @@ class _STSnackbarState extends State<STSnackbar> {
       innerWidget = Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (widget.icon != null) widget.icon,
+          if (widget.icon != null) widget.icon!,
           if (widget.icon != null) const SizedBox(width: 12),
           columnWidget
         ],
@@ -231,7 +231,7 @@ class _STSnackbarState extends State<STSnackbar> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (widget.icon != null) widget.icon,
+            if (widget.icon != null) widget.icon!,
             if (widget.icon != null) const SizedBox(width: 12),
             Expanded(child: columnWidget)
           ],
@@ -269,7 +269,7 @@ class _STSnackbarState extends State<STSnackbar> {
   @override
   void dispose() {
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
     }
     super.dispose();
   }

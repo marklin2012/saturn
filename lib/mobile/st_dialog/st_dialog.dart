@@ -8,22 +8,22 @@ import '../../utils/string.dart';
 import 'common.dart';
 
 class STDialog extends StatefulWidget {
-  final double width;
-  final String title;
-  final String message;
-  final Widget icon;
-  final String confirmTitle;
-  final String cancelTitle;
-  final List options;
-  final bool hasCancelButton;
-  final bool hasConfirmButton;
-  final bool hasTextField;
-  final VoidCallback onCancelTap;
-  final Function(String text) onConfirmTap;
-  final bool closable;
+  final double? width;
+  final String? title;
+  final String? message;
+  final Widget? icon;
+  final String? confirmTitle;
+  final String? cancelTitle;
+  final List? options;
+  final bool? hasCancelButton;
+  final bool? hasConfirmButton;
+  final bool? hasTextField;
+  final VoidCallback? onCancelTap;
+  final Function(String text)? onConfirmTap;
+  final bool? closable;
 
   const STDialog({
-    Key key,
+    Key? key,
     this.width,
     this.title,
     this.message,
@@ -40,19 +40,19 @@ class STDialog extends StatefulWidget {
   }) : super(key: key);
 
   static void show({
-    @required BuildContext context,
-    double width,
-    String title,
-    String message,
-    Widget icon,
+    required BuildContext context,
+    double? width,
+    String? title,
+    String? message,
+    Widget? icon,
     String confirmTitle = "确定",
     String cancelTitle = "确定",
-    List options,
+    List? options,
     bool hasCancelButton = true,
     bool hasConfirmButton = false,
     bool hasTextField = false,
-    VoidCallback onCancelTap,
-    Function(String text) onConfirmTap,
+    VoidCallback? onCancelTap,
+    Function(String text)? onConfirmTap,
     bool closable = true,
   }) {
     final dialog = STDialog(
@@ -95,19 +95,19 @@ class STDialog extends StatefulWidget {
 }
 
 class _STDialogState extends State<STDialog> {
-  STDialogTextField dialogTextField;
+  STDialogTextField? dialogTextField;
   List enteredList = [];
 
   @override
   void initState() {
     super.initState();
     if (widget.options != null) {
-      for (int i = 0; i < widget.options.length; i++) {
+      for (int i = 0; i < widget.options!.length; i++) {
         enteredList.add([]);
       }
     }
 
-    if (widget.hasTextField) {
+    if (widget.hasTextField!) {
       dialogTextField = STDialogTextField();
     }
   }
@@ -117,11 +117,11 @@ class _STDialogState extends State<STDialog> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    double containerWidth;
+    double? containerWidth;
 
-    Text titleWidget;
+    Text? titleWidget;
     if (isNotEmpty(widget.title)) {
-      titleWidget = Text(widget.title,
+      titleWidget = Text(widget.title!,
           softWrap: true,
           style: const TextStyle(
               fontWeight: FontWeight.w600,
@@ -130,10 +130,10 @@ class _STDialogState extends State<STDialog> {
               decoration: TextDecoration.none));
     }
 
-    Text messageWidget;
+    Text? messageWidget;
     if (isNotEmpty(widget.message)) {
       messageWidget = Text(
-        widget.message,
+        widget.message!,
         softWrap: true,
         style: const TextStyle(
           fontWeight: FontWeight.w400,
@@ -144,7 +144,7 @@ class _STDialogState extends State<STDialog> {
       );
     }
 
-    List<Widget> columnArray;
+    List<Widget?> columnArray;
     containerWidth = widget.width;
     double defaultWidth;
     if (getIsWeb()) {
@@ -168,13 +168,13 @@ class _STDialogState extends State<STDialog> {
       if (messageWidget != null) messageWidget,
     ];
 
-    if (widget.hasTextField) {
+    if (widget.hasTextField!) {
       columnArray.add(dialogTextField);
     }
 
     addOptionsToColumn(containerWidth, columnArray);
 
-    if (widget.hasCancelButton || widget.hasConfirmButton) {
+    if (widget.hasCancelButton! || widget.hasConfirmButton!) {
       columnArray.add(const SizedBox(height: 16));
       columnArray.add(getLineWidget(containerWidth));
       columnArray.add(STDialogBottomButtons(
@@ -184,8 +184,8 @@ class _STDialogState extends State<STDialog> {
         confirmTitle: widget.confirmTitle,
         onCancelTap: widget.onCancelTap,
         onConfirmTap: () {
-          widget.onConfirmTap(
-              widget.hasTextField ? dialogTextField.getText() : "");
+          widget.onConfirmTap!(
+              widget.hasTextField! ? dialogTextField!.getText() : "");
         },
         containerWidth: containerWidth,
       ));
@@ -197,7 +197,7 @@ class _STDialogState extends State<STDialog> {
           children: [
             GestureDetector(
               onTap: () {
-                if (widget.closable) {
+                if (widget.closable!) {
                   STDialog.hide(context);
                 }
               },
@@ -217,7 +217,7 @@ class _STDialogState extends State<STDialog> {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: columnArray,
+                  children: columnArray as List<Widget>,
                 ),
               ),
             ),
@@ -225,14 +225,14 @@ class _STDialogState extends State<STDialog> {
         ));
   }
 
-  void addOptionsToColumn(double containerWidth, List<Widget> columnArray) {
+  void addOptionsToColumn(double containerWidth, List<Widget?> columnArray) {
     if (isEmptyArray(widget.options)) return;
     columnArray.add(const SizedBox(height: 16));
 
-    for (int i = 0; i < widget.options.length; i++) {
+    for (int i = 0; i < widget.options!.length; i++) {
       columnArray.add(getLineWidget(containerWidth));
 
-      final STDialogOption option = widget.options[i];
+      final STDialogOption option = widget.options![i];
       columnArray.add(STDialogOptionWidget(
           dialogOption: option,
           containerWidth: containerWidth,
@@ -256,7 +256,7 @@ class _STDialogState extends State<STDialog> {
     );
   }
 
-  bool isEmptyArray(List list) {
+  bool isEmptyArray(List? list) {
     if (list == null) {
       return true;
     } else {

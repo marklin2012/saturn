@@ -15,7 +15,7 @@ class STStepper extends StatefulWidget {
   final int maxValue; // 高于这个值加号按钮不可用
 
   const STStepper({
-    Key key,
+    Key? key,
     this.value = 0,
     this.disabled = false,
     this.borderColor = const Color(0xFFDFE2E7),
@@ -30,7 +30,7 @@ class STStepper extends StatefulWidget {
 }
 
 class _STStepperState extends State<STStepper> {
-  int _count;
+  int _count = 0;
   final double _defaultAllWidth = 88.0;
   final double _textWidth = 40.0;
   final double _height = 24.0;

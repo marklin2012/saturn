@@ -15,10 +15,10 @@ const _defaultSelectColor = Color(0xFF095BF9);
 
 class STSteps extends StatelessWidget {
   const STSteps({
-    Key key,
+    Key? key,
     this.type = STStepsType.dot,
     this.margin = _defaultMargin,
-    this.steps,
+    required this.steps,
     this.current = 0,
     this.detailWidth,
   })  : assert(steps.length > 1),
@@ -28,7 +28,7 @@ class STSteps extends StatelessWidget {
   final EdgeInsets margin;
   final List<STStepItem> steps;
   final int current;
-  final double detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
+  final double? detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class STSteps extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               Text(
-                steps[j].title,
+                steps[j].title!,
                 style: _isFinished(j)
                     ? _defaultSelectTextStyle
                     : _defaultTextStyle,

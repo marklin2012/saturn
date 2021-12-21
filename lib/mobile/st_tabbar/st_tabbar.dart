@@ -3,19 +3,19 @@ import 'package:saturn/mobile/st_button/common.dart';
 import 'package:saturn/mobile/st_tabbar/st_bottom_navigation_bar.dart';
 
 class STTabbar extends StatefulWidget {
-  final List<Widget> pages;
+  final List<Widget>? pages;
   final Color selectColor;
-  final Color unSelectColor;
-  final Color backgroundColor;
-  final BottomNavigationBarType type;
-  final List<STBottomNavigationBarItem> items;
-  final double selectedFontSize;
-  final double unselectedFontSize;
-  final FontWeight selectedFontWeight;
-  final FontWeight unselectedFontWeight;
+  final Color? unSelectColor;
+  final Color? backgroundColor;
+  final BottomNavigationBarType? type;
+  final List<STBottomNavigationBarItem>? items;
+  final double? selectedFontSize;
+  final double? unselectedFontSize;
+  final FontWeight? selectedFontWeight;
+  final FontWeight? unselectedFontWeight;
 
   const STTabbar({
-    Key key,
+    Key? key,
     this.type,
     this.selectColor = STColor.firRankBlue,
     this.unSelectColor,
@@ -34,8 +34,8 @@ class STTabbar extends StatefulWidget {
 
 class _STTabbarState extends State<STTabbar> {
   int _curentIndex = 0;
-  List<Widget> _pages;
-  List<STBottomNavigationBarItem> _items;
+  List<Widget>? _pages;
+  late List<STBottomNavigationBarItem> _items;
 
   @override
   void initState() {
@@ -82,7 +82,7 @@ class _STTabbarState extends State<STTabbar> {
         dividerTheme: Theme.of(context).dividerTheme,
       ),
       home: Scaffold(
-        body: _pages[_curentIndex],
+        body: _pages![_curentIndex],
         bottomNavigationBar: STBottomNavigationBar(
           type: widget.type ?? BottomNavigationBarType.fixed,
           iconSize: 28,
@@ -127,7 +127,7 @@ class STBottomNavigationBarItem {
     )
         this.title,
     this.label,
-    Widget activeIcon,
+    Widget? activeIcon,
     this.backgroundColor,
     this.tooltip,
   }) : activeIcon = activeIcon ?? icon;
@@ -149,9 +149,9 @@ class STBottomNavigationBarItem {
   /// If a particular icon doesn't have a stroked or filled version, then don't
   /// pair unrelated icons. Instead, make sure to use a
   /// [BottomNavigationBarType.shifting].
-  final Widget icon;
+  final Widget? icon;
 
-  final Widget title;
+  final Widget? title;
 
   /// An alternative icon displayed when this bottom navigation item is
   /// selected.
@@ -162,12 +162,12 @@ class STBottomNavigationBarItem {
   /// See also:
   ///
   ///  * [BottomNavigationBarItem.icon], for a description of how to pair icons.
-  final Widget activeIcon;
+  final Widget? activeIcon;
 
   /// The text label for this [BottomNavigationBarItem].
   ///
   /// This will be used to create a [Text] widget to put in the bottom navigation bar.
-  final String label;
+  final String? label;
 
   /// The color of the background radial animation for material [BottomNavigationBar].
   ///
@@ -182,7 +182,7 @@ class STBottomNavigationBarItem {
   ///
   ///  * [Icon.color] and [ImageIcon.color] to control the foreground color of
   ///    the icons themselves.
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// The text to display in the tooltip for this [BottomNavigationBarItem], when
   /// the user long presses the item.
@@ -191,5 +191,5 @@ class STBottomNavigationBarItem {
   /// when the string is not empty.
   ///
   /// Defaults to null, in which case the [label] text will be used.
-  final String tooltip;
+  final String? tooltip;
 }

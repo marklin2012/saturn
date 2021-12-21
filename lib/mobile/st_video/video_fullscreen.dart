@@ -22,40 +22,40 @@ const _defaultLiveString = 'Live';
 
 class STVideoFullScreen extends StatefulWidget {
   const STVideoFullScreen({
-    Key key,
-    @required this.playerController,
-    @required this.isLive,
-    @required this.soundValue,
-    @required this.videoStatus,
-    @required this.progressValue,
-    @required this.timeStr,
-    @required this.showChangeSound,
-    @required this.showControl,
+    Key? key,
+    required this.playerController,
+    required this.isLive,
+    required this.soundValue,
+    required this.videoStatus,
+    required this.progressValue,
+    required this.timeStr,
+    required this.showChangeSound,
+    required this.showControl,
   }) : super(key: key);
 
-  final VideoPlayerController playerController;
+  final VideoPlayerController? playerController;
   final bool isLive;
   final STVideoStatus videoStatus;
-  final double soundValue;
+  final double? soundValue;
   final double progressValue;
   final String timeStr;
-  final bool showChangeSound; // 是否显示声音调整
-  final bool showControl; // 是否显示控制层
+  final bool? showChangeSound; // 是否显示声音调整
+  final bool? showControl; // 是否显示控制层
 
   @override
   _STVideoFullScreenState createState() => _STVideoFullScreenState();
 }
 
 class _STVideoFullScreenState extends State<STVideoFullScreen> {
-  ValueNotifier<STVideoStatus> _statusNotifier; //监听播放状态
-  ValueNotifier<double> _progressNotifier; // 监听进度
-  ValueNotifier<String> _timeNotifier; // 监听时间显示
+  late ValueNotifier<STVideoStatus> _statusNotifier; //监听播放状态
+  late ValueNotifier<double> _progressNotifier; // 监听进度
+  late ValueNotifier<String> _timeNotifier; // 监听时间显示
   Duration _total = const Duration();
-  bool _showChangeSound; // 是否显示声音调整
-  double _soundValue;
-  double _safeWidth;
-  double _safeHeight;
-  bool _showControl; // 是否显示控制层
+  bool? _showChangeSound; // 是否显示声音调整
+  double? _soundValue;
+  late double _safeWidth;
+  late double _safeHeight;
+  bool? _showControl; // 是否显示控制层
 
   bool _isOvered = false; // 是否结束
 
@@ -63,7 +63,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
   void initState() {
     super.initState();
 
-    _total = widget.playerController.value.duration; // 总时长
+    _total = widget.playerController!.value.duration; // 总时长
     _showChangeSound = widget.showChangeSound;
     _soundValue = widget.soundValue;
     _showControl = widget.showControl;
@@ -75,12 +75,12 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
     final _timeStr = widget.timeStr;
     _timeNotifier = ValueNotifier(_timeStr);
 
-    widget.playerController.addListener(() {
-      final _current = widget.playerController.value.position; // 当前进度
+    widget.playerController!.addListener(() {
+      final _current = widget.playerController!.value.position; // 当前进度
       _timeNotifier.value = getTimeString(_total, _current);
       _progressNotifier.value = getProgressValue(_total, _current);
       _isOvered = _current == _total;
-      if (!widget.playerController.value.isPlaying) {
+      if (!widget.playerController!.value.isPlaying) {
         _statusNotifier.value = STVideoStatus.pause;
       }
     });
@@ -107,20 +107,20 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  _showControl = !_showControl;
+                  _showControl = !_showControl!;
                   setState(() {});
-                  if (_showControl) _autoHide();
+                  if (_showControl!) _autoHide();
                 },
                 child: Hero(
                   tag: STVideoConst.videoHeroTag,
                   child: AspectRatio(
-                      aspectRatio: widget.playerController.value.aspectRatio,
-                      child: VideoPlayer(widget.playerController)),
+                      aspectRatio: widget.playerController!.value.aspectRatio,
+                      child: VideoPlayer(widget.playerController!)),
                 ),
               ),
             ),
-            if (_showControl) _getStatusWidget(),
-            if (_showControl) _getBottomWidget(),
+            if (_showControl!) _getStatusWidget(),
+            if (_showControl!) _getBottomWidget(),
           ],
         ),
       ),
@@ -140,12 +140,12 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
               setState(() {
                 _statusNotifier.value = status;
                 if (_statusNotifier.value == STVideoStatus.pause) {
-                  widget.playerController.pause();
+                  widget.playerController!.pause();
                 } else if (_statusNotifier.value == STVideoStatus.play) {
                   if (_isOvered) {
-                    widget.playerController.seekTo(const Duration());
+                    widget.playerController!.seekTo(const Duration());
                   }
-                  widget.playerController.play();
+                  widget.playerController!.play();
                 }
               });
               _autoHide();
@@ -176,8 +176,8 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
               alignment: Alignment.bottomCenter,
               child: _getTimeTextWidget(),
             ),
-            if (!_showChangeSound) _getDefaultSoundIcon(),
-            if (_showChangeSound)
+            if (!_showChangeSound!) _getDefaultSoundIcon(),
+            if (_showChangeSound!)
               STVideoSound(
                 axis: Axis.vertical,
                 value: _soundValue,
@@ -185,14 +185,14 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
                 onChanged: (double value) {
                   setState(() {
                     _soundValue = value;
-                    widget.playerController.setVolume(1.0 - _soundValue);
+                    widget.playerController!.setVolume(1.0 - _soundValue!);
                   });
                   _autoHide();
                 },
                 showVolumed: () {
                   // 显示声音调整的组件
                   setState(() {
-                    _showChangeSound = !_showChangeSound;
+                    _showChangeSound = !_showChangeSound!;
                   });
                   _autoHide();
                 },
@@ -262,10 +262,10 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
           height: _defaultFix16,
           width: _progressWidth,
           value: value,
-          onChanged: (double changeValue) {
+          onChanged: (double? changeValue) {
             setState(() {
-              _progressNotifier.value = changeValue;
-              widget.playerController.seekTo(
+              _progressNotifier.value = changeValue!;
+              widget.playerController!.seekTo(
                   Duration(seconds: (changeValue * _total.inSeconds).toInt()));
             });
             _autoHide();
@@ -310,7 +310,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
       onTap: () {
         // 显示声音调整的组件
         setState(() {
-          _showChangeSound = !_showChangeSound;
+          _showChangeSound = !_showChangeSound!;
         });
         _autoHide();
       },
@@ -342,7 +342,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
       key: STVideoBase.stVideoBaseKey,
       time: 5000,
       func: () {
-        if (_showControl) {
+        if (_showControl!) {
           _showControl = false;
           setState(() {});
         }

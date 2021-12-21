@@ -8,7 +8,7 @@ const double _defaultIconSize = 16.0;
 
 class STFormInput extends StatefulWidget {
   const STFormInput({
-    Key key,
+    Key? key,
     this.height = 48.0,
     this.padding = EdgeInsets.zero,
     this.decoration,
@@ -38,7 +38,7 @@ class STFormInput extends StatefulWidget {
   }) : super(key: key);
 
   const STFormInput.password({
-    Key key,
+    Key? key,
     this.height = 48.0,
     this.padding = EdgeInsets.zero,
     this.decoration,
@@ -69,40 +69,40 @@ class STFormInput extends StatefulWidget {
 
   final double height;
   final EdgeInsetsGeometry padding;
-  final Decoration decoration;
-  final Color backgroundColor;
-  final bool enabled;
-  final TextInputType inputType;
-  final List<TextInputFormatter> inputFormatters;
-  final int maxLength;
-  final double cursorWidth;
-  final double cursorHeight;
-  final double cursorRadius;
-  final Color cursorColor;
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final TextStyle textStyle;
-  final EdgeInsetsGeometry contentPadding;
-  final String placeholder;
-  final TextStyle holderStyle;
-  final bool obscure;
+  final Decoration? decoration;
+  final Color? backgroundColor;
+  final bool? enabled;
+  final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
+  final double? cursorWidth;
+  final double? cursorHeight;
+  final double? cursorRadius;
+  final Color? cursorColor;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final TextStyle? textStyle;
+  final EdgeInsetsGeometry? contentPadding;
+  final String? placeholder;
+  final TextStyle? holderStyle;
+  final bool? obscure;
   final bool autofocus;
-  final void Function(String) onSaved;
-  final String Function(String) validator;
-  final void Function(String) onChanged;
-  final void Function(String) onFieldSubmitted;
+  final void Function(String?)? onSaved;
+  final String Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
   final bool showVisibility;
-  final Widget suffixIcon;
+  final Widget? suffixIcon;
 
   @override
   _STFormInputState createState() => _STFormInputState();
 }
 
 class _STFormInputState extends State<STFormInput> {
-  TextEditingController _inputController;
-  bool _obscureText;
-  FocusNode _focusNode;
-  TextInputType _inputType;
+  TextEditingController? _inputController;
+  late bool _obscureText;
+  FocusNode? _focusNode;
+  TextInputType? _inputType;
   String _text = "";
 
   @override
@@ -154,8 +154,8 @@ class _STFormInputState extends State<STFormInput> {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (_focusNode.hasFocus &&
-                  (_text.isNotEmpty || _inputController.text.isNotEmpty))
+              if (_focusNode!.hasFocus &&
+                  (_text.isNotEmpty || _inputController!.text.isNotEmpty))
                 IconButton(
                   constraints: const BoxConstraints(),
                   focusColor: Colors.white,
@@ -170,7 +170,7 @@ class _STFormInputState extends State<STFormInput> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _inputController.clear();
+                      _inputController!.clear();
                       _text = "";
                     });
                   },
@@ -194,20 +194,20 @@ class _STFormInputState extends State<STFormInput> {
                     });
                   },
                 ),
-              if (widget.suffixIcon != null) widget.suffixIcon,
+              if (widget.suffixIcon != null) widget.suffixIcon!,
             ],
           ),
         ),
         obscureText: _obscureText,
         autofocus: widget.autofocus,
-        onSaved: (String value) {
+        onSaved: (String? value) {
           if (widget.onSaved != null) {
-            widget.onSaved(value);
+            widget.onSaved!(value);
           }
         },
-        validator: (String value) {
+        validator: (String? value) {
           if (widget.validator != null) {
-            return widget.validator(value);
+            return widget.validator!(value);
           }
           return null;
         },
@@ -215,10 +215,10 @@ class _STFormInputState extends State<STFormInput> {
           setState(() {
             _text = v;
           });
-          if (widget.onChanged != null) widget.onChanged(v);
+          if (widget.onChanged != null) widget.onChanged!(v);
         },
         onFieldSubmitted: (v) {
-          if (widget.onFieldSubmitted != null) widget.onFieldSubmitted(v);
+          if (widget.onFieldSubmitted != null) widget.onFieldSubmitted!(v);
         },
       ),
     );

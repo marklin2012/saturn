@@ -22,7 +22,7 @@ class STIcons {
   STIcons._();
 
   static const _kFontFam = 'STIcons';
-  static const String _kFontPkg = null;
+  static const String? _kFontPkg = null;
 
   static const IconData label_card_outline =
       IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);

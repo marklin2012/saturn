@@ -8,7 +8,7 @@ const _selectTitleHeight = 48.0;
 // ignore: must_be_immutable
 class STDatePicker extends StatelessWidget {
   STDatePicker(
-      {Key key,
+      {Key? key,
       this.initDateTime,
       this.minimumDate,
       this.maximumDate,
@@ -18,15 +18,15 @@ class STDatePicker extends StatelessWidget {
       this.child})
       : super(key: key);
 
-  final DateTime initDateTime; // 初始日期
-  final DateTime minimumDate; // 最小可选择的日期
-  final DateTime maximumDate; // 最大可选择日期
-  final int minimumYear; // 最小显示的年份
-  final int maximunYear; // 最大显示的年份
-  final ValueChanged<DateTime> onDateTimeChanged; // 选中的日期回调
-  final Widget child; //触发的组件
+  final DateTime? initDateTime; // 初始日期
+  final DateTime? minimumDate; // 最小可选择的日期
+  final DateTime? maximumDate; // 最大可选择日期
+  final int? minimumYear; // 最小显示的年份
+  final int? maximunYear; // 最大显示的年份
+  final ValueChanged<DateTime>? onDateTimeChanged; // 选中的日期回调
+  final Widget? child; //触发的组件
 
-  DateTime _selectedDate;
+  DateTime? _selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class STDatePicker extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
               if (onDateTimeChanged != null) {
-                onDateTimeChanged(_selectedDate ?? DateTime.now());
+                onDateTimeChanged!(_selectedDate ?? DateTime.now());
               }
             },
             child: const Text(

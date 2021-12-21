@@ -16,7 +16,7 @@ class STLoading extends StatefulWidget {
   final int durationMilliseconds; // 毫秒
 
   const STLoading(
-      {Key key,
+      {Key? key,
       this.icon = const Icon(
         STIcons.status_loading,
         color: STLoadingConstant.defaultTextColor,
@@ -38,7 +38,7 @@ class STLoading extends StatefulWidget {
 
 class _STLoadingState extends State<STLoading>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
   @override
   void initState() {
     super.initState();

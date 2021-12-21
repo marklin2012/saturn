@@ -5,10 +5,10 @@ const _defaultHeight = 240.0;
 
 class STVideo extends StatelessWidget {
   final double height;
-  final EdgeInsets margin;
-  final String path;
-  final String url;
-  final STVideoPlayType playType; // 播放类型
+  final EdgeInsets? margin;
+  final String? path;
+  final String? url;
+  final STVideoPlayType? playType; // 播放类型
   final bool isLive; // 是否直播
   final bool doubleControlRow; // 是否双行控制栏
   final bool isLooping; // 是否循环播放
@@ -16,7 +16,7 @@ class STVideo extends StatelessWidget {
   final bool isShowControl; // 是否显示控制层
 
   const STVideo({
-    Key key,
+    Key? key,
     this.height = _defaultHeight,
     this.margin,
     this.path,
@@ -30,10 +30,10 @@ class STVideo extends StatelessWidget {
   }) : super(key: key);
 
   const STVideo.asset({
-    Key key,
+    Key? key,
     this.height = _defaultHeight,
     this.margin,
-    @required this.path,
+    required this.path,
     this.playType = STVideoPlayType.asset,
     this.isLive = false,
     this.doubleControlRow = false,
@@ -44,7 +44,7 @@ class STVideo extends StatelessWidget {
   }) : super(key: key);
 
   const STVideo.network({
-    Key key,
+    Key? key,
     this.height = _defaultHeight,
     this.margin,
     this.path,
@@ -54,11 +54,11 @@ class STVideo extends StatelessWidget {
     this.isLooping = true,
     this.isAutoPlay = true,
     this.isShowControl = true,
-    @required this.url,
+    required this.url,
   }) : super(key: key);
 
   const STVideo.live({
-    Key key,
+    Key? key,
     this.height = _defaultHeight,
     this.margin,
     this.path,
@@ -68,7 +68,7 @@ class STVideo extends StatelessWidget {
     this.isLooping = true,
     this.isAutoPlay = true,
     this.isShowControl = true,
-    @required this.url,
+    required this.url,
   }) : super(key: key);
 
   @override

@@ -7,29 +7,29 @@ import 'st_action_sheet_bottom_buttons.dart';
 import 'st_action_sheet_option.dart';
 
 class STActionSheet extends StatefulWidget {
-  final double width;
-  final String title;
-  final String message;
-  final Widget icon;
-  final String confirmTitle;
-  final String cancelTitle;
-  final List options;
-  final bool hasCancelButton;
-  final bool hasConfirmButton;
-  final VoidCallback onCancelTap;
-  final Function(List selectArr) onConfirmTap;
-  final STActionSheetDirectionType directionType;
-  final bool closable;
-  final bool canSelect;
-  final Color selectedColor;
-  final bool showSelectColor;
-  final bool isSingleSelect;
-  final bool isOptionAligmentCenter;
-  final double listHeight;
-  final bool showSeperateLine;
+  final double? width;
+  final String? title;
+  final String? message;
+  final Widget? icon;
+  final String? confirmTitle;
+  final String? cancelTitle;
+  final List? options;
+  final bool? hasCancelButton;
+  final bool? hasConfirmButton;
+  final VoidCallback? onCancelTap;
+  final Function(List selectArr)? onConfirmTap;
+  final STActionSheetDirectionType? directionType;
+  final bool? closable;
+  final bool? canSelect;
+  final Color? selectedColor;
+  final bool? showSelectColor;
+  final bool? isSingleSelect;
+  final bool? isOptionAligmentCenter;
+  final double? listHeight;
+  final bool? showSeperateLine;
 
   const STActionSheet(
-      {Key key,
+      {Key? key,
       this.width,
       this.title,
       this.message,
@@ -53,18 +53,18 @@ class STActionSheet extends StatefulWidget {
       : super(key: key);
 
   static void show({
-    @required BuildContext context,
-    double width,
-    String title,
-    String message,
-    Widget icon,
+    required BuildContext context,
+    double? width,
+    String? title,
+    String? message,
+    Widget? icon,
     String confirmTitle = "确定",
     String cancelTitle = "确定",
     List options = const [],
     bool hasCancelButton = true,
     bool hasConfirmButton = false,
-    VoidCallback onCancelTap,
-    Function(List selectList) onConfirmTap,
+    VoidCallback? onCancelTap,
+    Function(List selectList)? onConfirmTap,
     STActionSheetDirectionType directionType =
         STActionSheetDirectionType.vertical,
     bool closable = true,
@@ -133,7 +133,7 @@ class _STActionSheetState extends State<STActionSheet>
   void initState() {
     super.initState();
     if (widget.directionType == STActionSheetDirectionType.horizontal) {
-      for (int i = 0; i < widget.options.length; i++) {
+      for (int i = 0; i < widget.options!.length; i++) {
         selectedList.add([]);
         enteredList.add([]);
       }
@@ -145,7 +145,7 @@ class _STActionSheetState extends State<STActionSheet>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    double containerWidth = widget.width;
+    double? containerWidth = widget.width;
 
     double defaultWidth;
     if (getIsWeb()) {
@@ -155,10 +155,10 @@ class _STActionSheetState extends State<STActionSheet>
     }
     containerWidth ??= defaultWidth;
 
-    Widget titleWidget;
+    Widget? titleWidget;
     if (isNotEmpty(widget.title)) {
       titleWidget = Text(
-        widget.title,
+        widget.title!,
         softWrap: true,
         textAlign: TextAlign.center,
         style: const TextStyle(
@@ -169,10 +169,10 @@ class _STActionSheetState extends State<STActionSheet>
       );
     }
 
-    Widget messageWidget;
+    Widget? messageWidget;
     if (isNotEmpty(widget.message)) {
       messageWidget = Text(
-        widget.message,
+        widget.message!,
         softWrap: true,
         style: const TextStyle(
           fontWeight: FontWeight.w400,
@@ -183,7 +183,7 @@ class _STActionSheetState extends State<STActionSheet>
       );
     }
 
-    List<Widget> columnArray;
+    List<Widget>? columnArray;
     switch (widget.directionType) {
       case STActionSheetDirectionType.vertical:
         {
@@ -198,7 +198,7 @@ class _STActionSheetState extends State<STActionSheet>
                   const SizedBox(
                     width: 20,
                   ),
-                  widget.icon,
+                  widget.icon!,
                   const SizedBox(
                     width: 12,
                   ),
@@ -226,9 +226,9 @@ class _STActionSheetState extends State<STActionSheet>
           ];
 
           final List<Widget> listViewList = [];
-          for (int i = 0; i < widget.options.length; i++) {
+          for (int i = 0; i < widget.options!.length; i++) {
             listViewList.add(STActionSheetOptionWidget(
-              actionSheetOption: widget.options[i],
+              actionSheetOption: widget.options![i],
               verticalIndex: i,
               horizontalIndex: 0,
               width: containerWidth,
@@ -244,7 +244,7 @@ class _STActionSheetState extends State<STActionSheet>
               },
               isOptionAligmentCenter: widget.isOptionAligmentCenter,
               showSeperateLine: widget.showSeperateLine,
-              totalCount: widget.options.length,
+              totalCount: widget.options!.length,
             ));
           }
           columnArray.add(
@@ -278,7 +278,7 @@ class _STActionSheetState extends State<STActionSheet>
                       const SizedBox(
                         width: 20,
                       ),
-                      widget.icon,
+                      widget.icon!,
                       const SizedBox(
                         width: 12,
                       ),
@@ -305,8 +305,8 @@ class _STActionSheetState extends State<STActionSheet>
           if (widget.title != null)
             columnArray.add(getLineWidget(containerWidth));
 
-          for (int i = 0; i < widget.options.length; i++) {
-            final List optionList = widget.options[i];
+          for (int i = 0; i < widget.options!.length; i++) {
+            final List optionList = widget.options![i];
             final List<Widget> horizontalListViewList = [];
             for (int j = 0; j < optionList.length; j++) {
               horizontalListViewList.add(STActionSheetOptionWidget(
@@ -338,13 +338,13 @@ class _STActionSheetState extends State<STActionSheet>
               ),
             ));
             columnArray.add(const SizedBox(height: 6));
-            if (i == widget.options.length - 1 &&
-                !widget.hasCancelButton &&
-                !widget.hasConfirmButton) {
+            if (i == widget.options!.length - 1 &&
+                !widget.hasCancelButton! &&
+                !widget.hasConfirmButton!) {
               columnArray.add(const SizedBox(height: 16));
-            } else if (widget.options.length != 1 &&
+            } else if (widget.options!.length != 1 &&
                 widget.title == null &&
-                (i != widget.options.length - 1)) {
+                (i != widget.options!.length - 1)) {
               columnArray.add(getLineWidget(containerWidth));
             }
           }
@@ -360,7 +360,7 @@ class _STActionSheetState extends State<STActionSheet>
         children: [
           GestureDetector(
             onTap: () {
-              if (widget.closable) {
+              if (widget.closable!) {
                 STActionSheet.hide(context);
               }
             },
@@ -385,7 +385,7 @@ class _STActionSheetState extends State<STActionSheet>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: columnArray,
+                children: columnArray!,
               ),
             ),
           )
@@ -395,12 +395,12 @@ class _STActionSheetState extends State<STActionSheet>
   }
 
   void addBottomButtonToColumn(
-      double containerWidth, List<Widget> columnArray) {
-    if (widget.hasCancelButton && widget.hasConfirmButton) {
-      columnArray.add(const SizedBox(height: 16));
+      double containerWidth, List<Widget>? columnArray) {
+    if (widget.hasCancelButton! && widget.hasConfirmButton!) {
+      columnArray!.add(const SizedBox(height: 16));
     }
-    if (widget.hasCancelButton || widget.hasConfirmButton) {
-      columnArray.add(
+    if (widget.hasCancelButton! || widget.hasConfirmButton!) {
+      columnArray!.add(
         Center(
           child: Center(
             child: STActionSheetBottomButtons(
@@ -410,7 +410,7 @@ class _STActionSheetState extends State<STActionSheet>
               confirmTitle: widget.confirmTitle,
               onCancelTap: widget.onCancelTap,
               onConfirmTap: () {
-                widget.onConfirmTap(selectedList);
+                widget.onConfirmTap!(selectedList);
               },
               containerWidth: containerWidth,
             ),
@@ -418,8 +418,8 @@ class _STActionSheetState extends State<STActionSheet>
         ),
       );
     }
-    if (widget.hasCancelButton && widget.hasConfirmButton) {
-      columnArray.add(const SizedBox(height: 16));
+    if (widget.hasCancelButton! && widget.hasConfirmButton!) {
+      columnArray!.add(const SizedBox(height: 16));
     }
   }
 

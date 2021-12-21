@@ -20,7 +20,7 @@ const Color _borderHighlightedColor = Color(0xFF095BF9);
 
 class STInput extends StatefulWidget {
   const STInput({
-    Key key,
+    Key? key,
     this.controller,
     this.focusNode,
     this.decoration,
@@ -51,7 +51,7 @@ class STInput extends StatefulWidget {
   }) : super(key: key);
 
   const STInput.password({
-    Key key,
+    Key? key,
     this.controller,
     this.focusNode,
     this.decoration,
@@ -81,47 +81,47 @@ class STInput extends StatefulWidget {
     this.maxLines,
   }) : super(key: key);
 
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final BoxDecoration decoration;
-  final int maxLength;
-  final ValueChanged<String> onChanged;
-  final ValueChanged<String> onSubmitted;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final BoxDecoration? decoration;
+  final int? maxLength;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
   final bool showVisibility;
-  final String placeholder;
-  final TextStyle placeholderStyle;
-  final double height;
+  final String? placeholder;
+  final TextStyle? placeholderStyle;
+  final double? height;
   final bool autofocus;
-  final bool scure;
-  final Color backgoundColor;
-  final TextStyle textStyle;
-  final Widget prefixIcon;
-  final Widget suffixIcon;
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry contentPadding;
+  final bool? scure;
+  final Color? backgoundColor;
+  final TextStyle? textStyle;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? contentPadding;
   final bool enabled;
-  final TextInputType inputType;
-  final List<TextInputFormatter> inputFormatters;
-  final double cursorWidth;
-  final double cursorRadius;
-  final Color cursorColor;
-  final double cursorHeight;
+  final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatters;
+  final double? cursorWidth;
+  final double? cursorRadius;
+  final Color? cursorColor;
+  final double? cursorHeight;
   final bool isAround;
-  final int maxLines;
+  final int? maxLines;
 
   @override
   _STInputState createState() => _STInputState();
 }
 
 class _STInputState extends State<STInput> {
-  TextEditingController _inputController;
-  bool _obscureText;
+  TextEditingController? _inputController;
+  late bool _obscureText;
   String _text = "";
-  String _hintText;
-  double _height;
-  FocusNode _focusNode;
-  Color _borderColor;
-  TextInputType _inputType;
+  String? _hintText;
+  late double _height;
+  FocusNode? _focusNode;
+  late Color _borderColor;
+  TextInputType? _inputType;
 
   @override
   void initState() {
@@ -133,8 +133,8 @@ class _STInputState extends State<STInput> {
     _obscureText = widget.scure ?? false;
     _borderColor = _defaultBorderColor;
     _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
+    _focusNode!.addListener(() {
+      if (!_focusNode!.hasFocus) {
         // 失去焦点
         setState(() {
           _borderColor = _defaultBorderColor;
@@ -168,7 +168,7 @@ class _STInputState extends State<STInput> {
           enabled: widget.enabled,
           onSubmitted: (text) {
             if (widget.onSubmitted != null) {
-              widget.onSubmitted(text);
+              widget.onSubmitted!(text);
             }
           },
           keyboardType: _inputType,
@@ -197,9 +197,9 @@ class _STInputState extends State<STInput> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      if (_focusNode.hasFocus &&
+                      if (_focusNode!.hasFocus &&
                           (_text.isNotEmpty ||
-                              _inputController.text.isNotEmpty))
+                              _inputController!.text.isNotEmpty))
                         IconButton(
                           constraints: const BoxConstraints(),
                           focusColor: Colors.white,
@@ -214,10 +214,10 @@ class _STInputState extends State<STInput> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _inputController.clear();
+                              _inputController!.clear();
                               _text = "";
                               if (widget.onChanged != null) {
-                                widget.onChanged(_text);
+                                widget.onChanged!(_text);
                               }
                             });
                           },
@@ -243,7 +243,7 @@ class _STInputState extends State<STInput> {
                             });
                           },
                         ),
-                      if (widget.suffixIcon != null) widget.suffixIcon,
+                      if (widget.suffixIcon != null) widget.suffixIcon!,
                     ],
                   ),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
@@ -261,7 +261,7 @@ class _STInputState extends State<STInput> {
             setState(() {
               _text = v;
             });
-            if (widget.onChanged != null) widget.onChanged(v);
+            if (widget.onChanged != null) widget.onChanged!(v);
           },
         ),
       ),

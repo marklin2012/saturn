@@ -1,5 +1,5 @@
 class NumUtils {
-  String formartNum(num value, int position, {bool isRound = true}) {
+  String formartNum(num? value, int position, {bool isRound = true}) {
     final temp = value.toString();
     if (value == 0) {
       return '0';
@@ -8,7 +8,7 @@ class NumUtils {
     } else {
       if (temp.contains('.')) {
         final temp1 = temp.split('.').last;
-        if (value > 1) {
+        if (value! > 1) {
           return temp.split('.').first;
         } else if (temp1.length >= position) {
           if (isRound) {

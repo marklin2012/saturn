@@ -4,13 +4,13 @@ import 'package:saturn/saturn.dart';
 import 'common.dart';
 
 class STDialogBottomButtons extends StatelessWidget {
-  final bool hasCancelButton;
-  final bool hasConfirmButton;
-  final String cancelTitle;
-  final String confirmTitle;
-  final VoidCallback onCancelTap;
-  final VoidCallback onConfirmTap;
-  final double containerWidth;
+  final bool? hasCancelButton;
+  final bool? hasConfirmButton;
+  final String? cancelTitle;
+  final String? confirmTitle;
+  final VoidCallback? onCancelTap;
+  final VoidCallback? onConfirmTap;
+  final double? containerWidth;
 
   const STDialogBottomButtons(
       {this.hasCancelButton,
@@ -23,19 +23,19 @@ class STDialogBottomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!hasCancelButton && !hasConfirmButton) return null;
-    if (hasCancelButton && hasConfirmButton) {
+    if (!hasCancelButton! && !hasConfirmButton!) return Container();
+    if (hasCancelButton! && hasConfirmButton!) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: containerWidth / 2.0 - 1,
+            width: containerWidth! / 2.0 - 1,
             height: 44,
             child: STButton(
               backgroundColor: Colors.transparent,
               onTap: () {
                 if (onCancelTap != null) {
-                  onCancelTap();
+                  onCancelTap!();
                 }
               },
               text: cancelTitle,
@@ -52,13 +52,13 @@ class STDialogBottomButtons extends StatelessWidget {
             color: STDialogConstant.defaultLineColor,
           ),
           SizedBox(
-            width: containerWidth / 2.0 - 1,
+            width: containerWidth! / 2.0 - 1,
             height: 44,
             child: STButton(
               backgroundColor: Colors.transparent,
               onTap: () {
                 if (onConfirmTap != null) {
-                  onConfirmTap();
+                  onConfirmTap!();
                 }
               },
               text: confirmTitle,
@@ -72,20 +72,20 @@ class STDialogBottomButtons extends StatelessWidget {
         ],
       );
     } else {
-      String text;
-      if (hasCancelButton) text = cancelTitle;
-      if (hasConfirmButton) text = confirmTitle;
+      String? text;
+      if (hasCancelButton!) text = cancelTitle;
+      if (hasConfirmButton!) text = confirmTitle;
       return SizedBox(
         width: containerWidth,
         height: 44,
         child: STButton(
           backgroundColor: Colors.transparent,
           onTap: () {
-            if (hasConfirmButton && onConfirmTap != null) {
-              onConfirmTap();
+            if (hasConfirmButton! && onConfirmTap != null) {
+              onConfirmTap!();
             }
-            if (hasCancelButton && onCancelTap != null) {
-              onCancelTap();
+            if (hasCancelButton! && onCancelTap != null) {
+              onCancelTap!();
             }
           },
           text: text,

@@ -4,7 +4,7 @@ import 'package:saturn/mobile/st_icons/st_icons.dart';
 
 class STRowOption extends StatelessWidget {
   const STRowOption({
-    Key key,
+    Key? key,
     this.leading,
     this.trailing,
     this.isHavRightArrow = false,
@@ -19,15 +19,15 @@ class STRowOption extends StatelessWidget {
     this.contentCrossAlignment = CrossAxisAlignment.center,
   }) : super(key: key);
 
-  final Widget leading;
+  final Widget? leading;
 
-  final Widget trailing;
+  final Widget? trailing;
 
   final bool isHavRightArrow;
 
-  final Widget center;
+  final Widget? center;
 
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   final double height;
 

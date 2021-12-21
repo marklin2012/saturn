@@ -47,9 +47,9 @@ class STDebounce {
 
   static STDebounce get instance => _getInstance();
 
-  static STDebounce _instance;
+  static STDebounce? _instance;
 
-  Map<String, Timer> _map;
+  late Map<String?, Timer> _map;
 
   // ignore: prefer_constructors_over_static_methods
   static STDebounce _getInstance() {
@@ -62,8 +62,8 @@ class STDebounce {
 
   /// 根据key来创建和删除Timer
   Future<void> start({
-    String key,
-    Function func,
+    String? key,
+    Function? func,
     int time = 500,
   }) async {
     /// 先判断是否有key存在的Timer，有的话先取消的这个Timer
@@ -71,7 +71,7 @@ class STDebounce {
 
     /// 创建新的Timer
     final _debounce = Timer(Duration(milliseconds: time), () {
-      func();
+      func!();
 
       /// 完成后取消Timer
       cancel(key: key);
@@ -82,9 +82,9 @@ class STDebounce {
   }
 
   void cancel({
-    String key,
+    String? key,
   }) {
-    Timer _temp = _map[key];
+    Timer? _temp = _map[key];
     if (_temp != null) {
       _temp.cancel();
       _temp = null;

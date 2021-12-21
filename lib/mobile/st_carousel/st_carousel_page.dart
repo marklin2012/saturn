@@ -3,8 +3,8 @@ import 'package:saturn/saturn.dart';
 
 class STCarouselPage extends StatefulWidget {
   const STCarouselPage({
-    Key key,
-    this.items,
+    Key? key,
+    required this.items,
     this.initPage = 0,
     this.decoration,
     this.padding,
@@ -14,9 +14,9 @@ class STCarouselPage extends StatefulWidget {
 
   final List<Widget> items;
   final int initPage;
-  final Decoration decoration;
-  final EdgeInsets padding;
-  final double height;
+  final Decoration? decoration;
+  final EdgeInsets? padding;
+  final double? height;
 
   @override
   _STCarouselPageState createState() => _STCarouselPageState();
@@ -24,33 +24,33 @@ class STCarouselPage extends StatefulWidget {
 
 class _STCarouselPageState extends State<STCarouselPage> {
   // int _currentPage;
-  List<Widget> _items;
+  late List<Widget> _items;
   //缩放系数
   final _scaleFactor = .9;
   // 高度
-  double _height;
+  double? _height;
   // pageView
-  double _currentPageValue = .0;
-  PageController _pageController;
+  double? _currentPageValue = .0;
+  PageController? _pageController;
 
   @override
   void initState() {
     super.initState();
     _height = widget.height ?? 220.0;
-    _items = widget.items ?? [];
+    _items = widget.items;
     _pageController = PageController(
       viewportFraction: _scaleFactor,
       initialPage: widget.initPage,
     );
-    _pageController.addListener(() {
-      _currentPageValue = _pageController.page;
+    _pageController!.addListener(() {
+      _currentPageValue = _pageController!.page;
       setState(() {});
     });
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pageController!.dispose();
     super.dispose();
   }
 
@@ -82,32 +82,32 @@ class _STCarouselPageState extends State<STCarouselPage> {
 
   Widget _buildPageItem(int index) {
     Matrix4 matrix4 = Matrix4.identity();
-    if (index == _currentPageValue.floor()) {
+    if (index == _currentPageValue!.floor()) {
       //当前的item
-      final currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
-      final currTrans = _height * (1 - currScale) / 2;
+      final currScale = 1 - (_currentPageValue! - index) * (1 - _scaleFactor);
+      final currTrans = _height! * (1 - currScale) / 2;
 
       matrix4 = Matrix4.diagonal3Values(1.0, currScale, 1.0)
         ..setTranslationRaw(0.0, currTrans, 0.0);
-    } else if (index == _currentPageValue.floor() + 1) {
+    } else if (index == _currentPageValue!.floor() + 1) {
       //右边的item
       final currScale =
-          _scaleFactor + (_currentPageValue - index + 1) * (1 - _scaleFactor);
-      final currTrans = _height * (1 - currScale) / 2;
+          _scaleFactor + (_currentPageValue! - index + 1) * (1 - _scaleFactor);
+      final currTrans = _height! * (1 - currScale) / 2;
 
       matrix4 = Matrix4.diagonal3Values(1.0, currScale, 1.0)
         ..setTranslationRaw(0.0, currTrans, 0.0);
-    } else if (index == _currentPageValue.floor() - 1) {
+    } else if (index == _currentPageValue!.floor() - 1) {
       //左边
-      final currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
-      final currTrans = _height * (1 - currScale) / 2;
+      final currScale = 1 - (_currentPageValue! - index) * (1 - _scaleFactor);
+      final currTrans = _height! * (1 - currScale) / 2;
 
       matrix4 = Matrix4.diagonal3Values(1.0, currScale, 1.0)
         ..setTranslationRaw(0.0, currTrans, 0.0);
     } else {
       //其他，不在屏幕显示的item
       matrix4 = Matrix4.diagonal3Values(1.0, _scaleFactor, 1.0)
-        ..setTranslationRaw(0.0, _height * (1 - _scaleFactor) / 2, 0.0);
+        ..setTranslationRaw(0.0, _height! * (1 - _scaleFactor) / 2, 0.0);
     }
 
     return Transform(
@@ -124,7 +124,7 @@ class _STCarouselPageState extends State<STCarouselPage> {
       padding: const EdgeInsets.only(top: 11.0),
       child: STCarouselIndicator(
         totalPage: widget.items.length,
-        currentPage: _currentPageValue.floor(),
+        currentPage: _currentPageValue!.floor(),
         type: STCarouselIndicatorType.progress,
       ),
     );

@@ -6,7 +6,7 @@ class STVideoConst {
 }
 
 Widget getVolumeIcon(
-    double value, Axis axis, Color iconColor, double iconSize) {
+    double? value, Axis axis, Color iconColor, double iconSize) {
   IconData _data;
   if (value == 0) {
     _data = axis == Axis.vertical
@@ -16,7 +16,7 @@ Widget getVolumeIcon(
     _data = axis == Axis.vertical
         ? STIcons.commonly_videomute
         : STIcons.commonly_videosound;
-  } else if (value < 0.5) {
+  } else if (value! < 0.5) {
     _data = axis == Axis.vertical
         ? STIcons.commonly_videosound2
         : STIcons.commonly_videosound1;

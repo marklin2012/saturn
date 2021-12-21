@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_badge/badge_positoned.dart';
 
 class STBadge extends StatelessWidget {
-  final Widget child; // 与其他Widget配合使用,可空，空即为单独使用
-  final String value; // 真实的数值
+  final Widget? child; // 与其他Widget配合使用,可空，空即为单独使用
+  final String? value; // 真实的数值
   final int maxNumber; // 自定义的最大值
   final Color backgroundColor; // 自定义的颜色
   final bool dot; // 是否小红点
-  final STBadgePosition position; // 显示在的位置
+  final STBadgePosition? position; // 显示在的位置
   final EdgeInsets padding; // 数字提示的内嵌
 
   const STBadge({
-    Key key,
+    Key? key,
     this.child,
     this.value,
     this.maxNumber = 99,
@@ -43,7 +43,7 @@ class STBadge extends StatelessWidget {
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: <Widget>[
-          child,
+          child!,
           STBadgePositioned(
             position: position ?? STBadgePosition.topEnd(),
             child: _getBadget(value),
@@ -64,11 +64,11 @@ class STBadge extends StatelessWidget {
     );
   }
 
-  Widget _getBadget(String value) {
+  Widget _getBadget(String? value) {
     if (dot) {
       return _getDot();
     } else {
-      String _value = value;
+      String? _value = value;
       if (_value != null && (int.tryParse(_value) ?? 0) > 0) {
         _value = _getValue();
       } else {
@@ -87,7 +87,7 @@ class STBadge extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              _value,
+              _value!,
               style: _defaultStyle,
             )
           ],
@@ -96,9 +96,9 @@ class STBadge extends StatelessWidget {
     }
   }
 
-  String _getValue() {
+  String? _getValue() {
     if (value != null) {
-      final _intValue = int.tryParse(value) ?? 0;
+      final _intValue = int.tryParse(value!) ?? 0;
       if (_intValue > maxNumber) {
         return '$maxNumber+';
       } else {

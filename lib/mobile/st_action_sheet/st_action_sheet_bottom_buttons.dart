@@ -4,13 +4,13 @@ import 'package:saturn/saturn.dart';
 import 'common.dart';
 
 class STActionSheetBottomButtons extends StatelessWidget {
-  final bool hasCancelButton;
-  final bool hasConfirmButton;
-  final String cancelTitle;
-  final String confirmTitle;
-  final VoidCallback onCancelTap;
-  final VoidCallback onConfirmTap;
-  final double containerWidth;
+  final bool? hasCancelButton;
+  final bool? hasConfirmButton;
+  final String? cancelTitle;
+  final String? confirmTitle;
+  final VoidCallback? onCancelTap;
+  final VoidCallback? onConfirmTap;
+  final double? containerWidth;
 
   const STActionSheetBottomButtons(
       {this.hasCancelButton,
@@ -23,20 +23,20 @@ class STActionSheetBottomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!hasConfirmButton && !hasCancelButton) return null;
-    if (hasConfirmButton && hasCancelButton) {
+    if (!hasConfirmButton! && !hasCancelButton!) return Container();
+    if (hasConfirmButton! && hasCancelButton!) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: SizedBox(
-              width: containerWidth / 2.0 - 20,
+              width: containerWidth! / 2.0 - 20,
               child: STButton(
                 backgroundColor: STActionSheetConstant.defaultButtonTextColor,
                 onTap: () {
                   if (onCancelTap != null) {
-                    onCancelTap();
+                    onCancelTap!();
                   }
                 },
                 text: cancelTitle,
@@ -51,12 +51,12 @@ class STActionSheetBottomButtons extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: SizedBox(
-              width: containerWidth / 2.0 - 20,
+              width: containerWidth! / 2.0 - 20,
               child: STButton(
                 backgroundColor: STActionSheetConstant.defaultButtonTextColor,
                 onTap: () {
                   if (onConfirmTap != null) {
-                    onConfirmTap();
+                    onConfirmTap!();
                   }
                 },
                 text: confirmTitle,
@@ -71,9 +71,9 @@ class STActionSheetBottomButtons extends StatelessWidget {
         ],
       );
     } else {
-      String text;
-      if (hasCancelButton) text = cancelTitle;
-      if (hasConfirmButton) text = confirmTitle;
+      String? text;
+      if (hasCancelButton!) text = cancelTitle;
+      if (hasConfirmButton!) text = confirmTitle;
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
         child: Container(
@@ -82,16 +82,16 @@ class STActionSheetBottomButtons extends StatelessWidget {
                 BorderRadius.circular(STActionSheetConstant.cornerRadius),
             color: Colors.transparent,
           ),
-          width: containerWidth - 24,
+          width: containerWidth! - 24,
           height: 44,
           child: STButton(
             backgroundColor: STActionSheetConstant.defaultButtonTextColor,
             onTap: () {
-              if (hasConfirmButton && onConfirmTap != null) {
-                onConfirmTap();
+              if (hasConfirmButton! && onConfirmTap != null) {
+                onConfirmTap!();
               }
-              if (hasCancelButton && onCancelTap != null) {
-                onCancelTap();
+              if (hasCancelButton! && onCancelTap != null) {
+                onCancelTap!();
               }
             },
             text: text,

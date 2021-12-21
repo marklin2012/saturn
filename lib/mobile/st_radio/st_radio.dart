@@ -11,7 +11,7 @@ class STRadio<T> extends StatelessWidget {
   final Color activeColor; // 内部颜色
   final Color backgroundColor; // 背景颜色
   final Color borderColor; // 边框颜色
-  final String text; // 文本内容
+  final String? text; // 文本内容
   final bool disabled;
   final double internalDiameter; // 内径
   final double externalDiameter; // 外径
@@ -20,11 +20,11 @@ class STRadio<T> extends StatelessWidget {
   final EdgeInsets padding; // 内边距
 
   STRadio({
-    Key key,
-    @required this.value,
-    @required this.groupValue,
+    Key? key,
+    required this.value,
+    required this.groupValue,
     this.text,
-    @required this.onChanged,
+    required this.onChanged,
     this.activeColor = const Color(0xFFFFFFFF),
     this.backgroundColor = const Color(0xFF095BF9),
     this.borderColor = const Color(0xFFDFE2E7),
@@ -38,8 +38,8 @@ class STRadio<T> extends StatelessWidget {
 
   bool get _selected => value == groupValue;
 
-  Color _borderColor;
-  ValueNotifier<Color> _curColorNoti;
+  Color? _borderColor;
+  late ValueNotifier<Color?> _curColorNoti;
 
   void initNotifier() {
     _borderColor = borderColor;
@@ -67,7 +67,7 @@ class STRadio<T> extends StatelessWidget {
               children: [
                 _getChild(),
                 if (text != null) SizedBox(width: space),
-                if (text != null) Text(text, style: textStyle),
+                if (text != null) Text(text!, style: textStyle),
               ],
             ),
           ),
@@ -80,13 +80,13 @@ class STRadio<T> extends StatelessWidget {
     if (disabled || !_selected) {
       return ValueListenableBuilder(
         valueListenable: _curColorNoti,
-        builder: (context, Color color, child) {
+        builder: (context, Color? color, child) {
           return Container(
             height: externalDiameter,
             width: externalDiameter,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: color),
+              border: Border.all(color: color!),
             ),
           );
         },

@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 class STTooltip extends StatelessWidget {
   final Color backgroundColor; // 提示框的背景颜色
-  final double height; // 提示框的高度
+  final double? height; // 提示框的高度
   final String message;
   final Widget child;
   final EdgeInsets padding; // 提示框的内嵌边距
   final EdgeInsets margin; // 提示框的外边距
-  final double verticalOffset;
+  final double? verticalOffset;
   final TextStyle textStyle;
 
   const STTooltip({
-    Key key,
+    Key? key,
     this.backgroundColor = const Color.fromRGBO(0, 0, 0, 0.8),
     this.height,
-    @required this.message,
-    @required this.child,
+    required this.message,
+    required this.child,
     this.padding = const EdgeInsets.fromLTRB(20, 12, 20, 12),
     this.margin = const EdgeInsets.symmetric(horizontal: 60.0),
     this.verticalOffset,

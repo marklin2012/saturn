@@ -7,14 +7,14 @@ const _defaultPadding = EdgeInsets.symmetric(horizontal: 8.0);
 const _defaultHeight = 40.0;
 
 class SliderTipPaint extends StatelessWidget {
-  final Color fillColor;
-  final Widget child;
+  final Color? fillColor;
+  final Widget? child;
   final double arrowSize;
-  final String tipStr;
+  final String? tipStr;
   final TextStyle tipTextStyle;
 
   const SliderTipPaint(
-      {Key key,
+      {Key? key,
       this.fillColor,
       this.child,
       this.tipStr,
@@ -48,7 +48,7 @@ class SliderTipPaint extends StatelessWidget {
 }
 
 class BGTipPainter extends CustomPainter {
-  final Color fillColor;
+  final Color? fillColor;
   final Size size;
   final double arrowSize;
 

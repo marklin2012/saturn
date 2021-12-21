@@ -7,19 +7,19 @@ import '../../utils/string.dart';
 import 'common.dart';
 
 class STToast extends StatefulWidget {
-  final String message;
-  final Widget icon;
-  final bool isIconTop;
-  final bool rotateAnimation;
-  final STToastPosition position;
-  final bool closable;
-  final bool autoClose;
-  final int disappearMilliseconds;
-  final bool hasSafeArea;
-  final STToastType type;
+  final String? message;
+  final Widget? icon;
+  final bool? isIconTop;
+  final bool? rotateAnimation;
+  final STToastPosition? position;
+  final bool? closable;
+  final bool? autoClose;
+  final int? disappearMilliseconds;
+  final bool? hasSafeArea;
+  final STToastType? type;
 
   const STToast(
-      {Key key,
+      {Key? key,
       this.message,
       this.icon,
       this.isIconTop,
@@ -33,9 +33,9 @@ class STToast extends StatefulWidget {
       : super(key: key);
 
   static void show(
-      {@required BuildContext context,
-      @required String message,
-      Widget icon,
+      {required BuildContext context,
+      required String message,
+      Widget? icon,
       bool isIconTop = false,
       STToastPosition position = STToastPosition.center,
       bool closable = false,
@@ -64,8 +64,8 @@ class STToast extends StatefulWidget {
   }
 
   static void showLoading(
-      {@required BuildContext context,
-      Widget icon,
+      {required BuildContext context,
+      Widget? icon,
       STToastPosition position = STToastPosition.center,
       bool hasSafeArea = true,
       STToastType type = STToastType.none}) {
@@ -101,35 +101,35 @@ class STToast extends StatefulWidget {
 }
 
 class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
-  Timer timer;
-  AnimationController controller;
+  Timer? timer;
+  AnimationController? controller;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.autoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
+    if (widget.autoClose!) {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds!), () {
         STToast.hide(context);
       });
     }
 
-    Widget iconWidget = widget.icon;
+    Widget? iconWidget = widget.icon;
     if (iconWidget == null && widget.type != STToastType.none) {
       iconWidget = iconFromAlertType(widget.type);
     }
-    if (iconWidget != null && widget.rotateAnimation) {
+    if (iconWidget != null && widget.rotateAnimation!) {
       controller = AnimationController(
           duration: const Duration(seconds: 2), vsync: this);
-      controller.addStatusListener(
+      controller!.addStatusListener(
         (status) {
           if (status == AnimationStatus.completed) {
-            controller.reset();
-            controller.forward();
+            controller!.reset();
+            controller!.forward();
           }
         },
       );
-      controller.forward();
+      controller!.forward();
     }
   }
 
@@ -139,10 +139,10 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     final double containerMaxWidth =
         screenWidth * STToastConstant.maxWidthPercent;
 
-    Text messageWidget;
+    Text? messageWidget;
     if (!isNullOrEmpty(widget.message)) {
       messageWidget = Text(
-        widget.message,
+        widget.message!,
         softWrap: true,
         style: const TextStyle(
             fontWeight: FontWeight.w400,
@@ -152,12 +152,12 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
       );
     }
 
-    Widget iconWidget = widget.icon;
+    Widget? iconWidget = widget.icon;
     if (iconWidget == null && widget.type != STToastType.none) {
       iconWidget = iconFromAlertType(widget.type);
     }
-    if (iconWidget != null && widget.rotateAnimation) {
-      iconWidget = RotationTransition(turns: controller, child: iconWidget);
+    if (iconWidget != null && widget.rotateAnimation!) {
+      iconWidget = RotationTransition(turns: controller!, child: iconWidget);
     }
 
     final BoxDecoration boxDecoration = BoxDecoration(
@@ -174,12 +174,12 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
       if (isNullOrEmpty(widget.message)) {
         content = Padding(padding: const EdgeInsets.all(28), child: iconWidget);
       } else {
-        if (widget.isIconTop) {
+        if (widget.isIconTop!) {
           content = Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [iconWidget, const SizedBox(height: 10), messageWidget],
+              children: [iconWidget, const SizedBox(height: 10), messageWidget!],
             ),
           );
         } else {
@@ -191,10 +191,10 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
                 iconWidget,
                 const SizedBox(width: 10),
                 if (getIsWeb())
-                  messageWidget
+                  messageWidget!
                 else
                   Expanded(
-                    child: messageWidget,
+                    child: messageWidget!,
                   ),
               ],
             ),
@@ -202,7 +202,7 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
         }
       }
     }
-    AlignmentGeometry alignment;
+    late AlignmentGeometry alignment;
     switch (widget.position) {
       case STToastPosition.top:
         alignment = Alignment.topCenter;
@@ -222,7 +222,7 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
           decoration: boxDecoration,
           child: content),
     );
-    if (widget.hasSafeArea) {
+    if (widget.hasSafeArea!) {
       return SafeArea(
         child: content,
       );
@@ -233,17 +233,17 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     if (controller != null) {
-      controller.stop();
-      controller.dispose();
+      controller!.stop();
+      controller!.dispose();
     }
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
     }
     super.dispose();
   }
 
-  Widget iconFromAlertType(STToastType type) {
-    IconData iconData;
+  Widget iconFromAlertType(STToastType? type) {
+    IconData? iconData;
     Color iconColor = Colors.white;
     switch (type) {
       case STToastType.success:

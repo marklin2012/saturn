@@ -13,17 +13,17 @@ const _defaultBorderColor = Color(0xFFC4C5C7);
 
 class STCascader extends StatefulWidget {
   final double verticalOffset; // 弹出的视图距离触发内容的垂直方向偏移量
-  final List<String> initValue; // 初始值
-  final ValueChanged<List<String>> onChanged;
+  final List<String>? initValue; // 初始值
+  final ValueChanged<List<String>>? onChanged;
   final List<STCascaderItem> items; // 内容集
   final double height; // 触发内容的高度
 
   const STCascader({
-    Key key,
+    Key? key,
     this.verticalOffset = 8.0,
     this.initValue,
     this.onChanged,
-    this.items,
+    required this.items,
     this.height = 48.0,
   })  : assert(items.length > 0),
         super(key: key);
@@ -35,20 +35,20 @@ class STCascader extends StatefulWidget {
 class _STCascaderState extends State<STCascader> {
   bool _showSelected = false;
   final GlobalKey _selectKey = GlobalKey(debugLabel: 'cascader'); // 控件的key
-  Offset _originPoint;
-  String _valueStr;
+  late Offset _originPoint;
+  String? _valueStr;
 
   @override
   void initState() {
     super.initState();
     _valueStr = _defaultHolderString;
-    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
   }
 
   void _findRenderObject() {
-    final RenderBox renderBox = _selectKey.currentContext.findRenderObject();
+    final RenderBox renderBox = _selectKey.currentContext!.findRenderObject() as RenderBox;
     _originPoint = renderBox.localToGlobal(Offset.zero);
     setState(() {});
   }
@@ -77,7 +77,7 @@ class _STCascaderState extends State<STCascader> {
                 },
                 onChangedKey: (List<String> keys) {
                   if (widget.onChanged != null) {
-                    widget.onChanged(keys);
+                    widget.onChanged!(keys);
                   }
                 },
               ),
@@ -104,7 +104,7 @@ class _STCascaderState extends State<STCascader> {
             Container(
               padding: const EdgeInsets.only(left: 13),
               child: Text(
-                _valueStr,
+                _valueStr!,
                 style: _getTextStyle(),
               ),
             ),

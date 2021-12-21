@@ -12,28 +12,28 @@ import 'package:saturn/utils/include.dart';
 class STButtonBase extends StatelessWidget with STButtonInterface {
   static const stButtonDebounceKey = '_stButtonDebounceKey';
 
-  final Widget icon;
-  final String text; // 文本内容
-  final TextStyle textStyle; // 文本的style样式
-  final VoidCallback onTap;
-  final double radius;
-  final Color backgroundColor;
-  final Color borderColor;
-  final double borderWidth;
-  final STButtonType type;
-  final STButtonSize size;
+  final Widget? icon;
+  final String? text; // 文本内容
+  final TextStyle? textStyle; // 文本的style样式
+  final VoidCallback? onTap;
+  final double? radius;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final double? borderWidth;
+  final STButtonType? type;
+  final STButtonSize? size;
   final bool disabled;
   final bool loading;
   final double loadingIconSize;
   final bool circle;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final MainAxisSize mainAxisSize;
-  final double height;
+  final double? height;
   final bool debounce; // 是否防抖动
   final int debounceTime; // 防抖动时长
 
   STButtonBase({
-    Key key,
+    Key? key,
     this.icon,
     this.text,
     this.textStyle,
@@ -55,12 +55,12 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     this.height,
   }) : super(key: key);
 
-  BoxDecoration _decoration;
-  Widget _icon;
-  bool _circle;
-  STButtonState _state;
-  STButtonState _lastState;
-  ValueNotifier<STButtonState> _curState;
+  BoxDecoration? _decoration;
+  Widget? _icon;
+  late bool _circle;
+  STButtonState? _state;
+  STButtonState? _lastState;
+  late ValueNotifier<STButtonState?> _curState;
 
   void initOriginState() {
     _lastState = STButtonState.primary;
@@ -79,7 +79,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     initOriginState();
     return ValueListenableBuilder(
       valueListenable: _curState,
-      builder: (context, STButtonState stateValue, child) {
+      builder: (context, STButtonState? stateValue, child) {
         _decoration = BoxDecoration(
           color: backgroundColor ?? bgColorFromButtonType(type),
           borderRadius:
@@ -138,7 +138,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
     );
   }
 
-  Widget _getSubChild(STButtonState stateValue) {
+  Widget _getSubChild(STButtonState? stateValue) {
     return Opacity(
       opacity: opacityFromButtonState(stateValue),
       child: GestureDetector(
@@ -169,7 +169,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
             mainAxisSize: mainAxisSize,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (_icon != null) _icon,
+              if (_icon != null) _icon!,
               if (!_circle && _icon != null)
                 SizedBox(
                   width: spaceFromButtonSize(size),
@@ -201,7 +201,7 @@ class STButtonBase extends StatelessWidget with STButtonInterface {
           time: debounceTime,
         );
       } else {
-        onTap();
+        onTap!();
       }
     }
   }
