@@ -5,6 +5,7 @@ import 'package:example/pages/grid.dart';
 import 'package:example/pages/image.dart';
 import 'package:example/pages/list_cell.dart';
 import 'package:example/pages/menu.dart';
+import 'package:example/pages/web_tab_option.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/pages/checkbox.dart';
@@ -37,6 +38,7 @@ import 'package:example/pages/tag.dart';
 import 'package:example/pages/message.dart';
 import 'package:example/pages/actionSheet.dart';
 import 'package:example/pages/progress.dart';
+import 'package:saturn/utils/include.dart';
 
 List<PageModel> _pages = [
   PageModel(name: 'ActionSheet', page: ActionSheetPage()),
@@ -68,6 +70,8 @@ List<PageModel> _pages = [
   PageModel(name: 'Steps', page: StepsPage()),
   PageModel(name: 'Switch', page: SwitchPage()),
   PageModel(name: 'Tabbar', page: TabbarPage()),
+  // if (getIsWeb())
+  PageModel(name: 'TabOption', page: WebTapOptionPage()),
   PageModel(name: 'Tag', page: TagPage()),
   PageModel(name: 'Toast', page: ToastPage()),
   PageModel(name: 'Tooltip', page: TooltipPage()),
