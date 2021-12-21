@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 // 判断是否在Web上，Web上需要计算本身的高度
@@ -18,13 +19,13 @@ bool getIsWeb() {
 
 // 在Web平台上需要兼容鼠标移入事件
 class STMouseRegion extends StatelessWidget {
-  final Widget child;
-  final Function onEnter;
-  final Function onExit;
-  final Function onHover;
+  final Widget? child;
+  final Function? onEnter;
+  final Function? onExit;
+  final Function? onHover;
 
   const STMouseRegion({
-    Key key,
+    Key? key,
     this.child,
     this.onEnter,
     this.onExit,
@@ -35,12 +36,12 @@ class STMouseRegion extends StatelessWidget {
   Widget build(BuildContext context) {
     if (getIsWeb()) {
       return MouseRegion(
-        onEnter: onEnter,
-        onExit: onExit,
-        onHover: onHover,
+        onEnter: onEnter as void Function(PointerEnterEvent)?,
+        onExit: onExit as void Function(PointerExitEvent)?,
+        onHover: onHover as void Function(PointerHoverEvent)?,
         child: child,
       );
     }
-    return child;
+    return child!;
   }
 }

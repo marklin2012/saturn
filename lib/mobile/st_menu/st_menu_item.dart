@@ -8,11 +8,11 @@ enum STMenuType {
 }
 
 class STMenuDataItem {
-  final IconData icon;
+  final IconData? icon;
   final String title;
   final bool disable;
 
-  STMenuDataItem({this.icon, @required this.title, this.disable = false});
+  STMenuDataItem({this.icon, required this.title, this.disable = false});
 }
 
 const defaultTextColor = Color(0xFF555555);
@@ -25,12 +25,12 @@ class STMenuItem extends StatelessWidget {
   final STMenuType type;
 
   const STMenuItem({
-    Key key,
+    Key? key,
     this.type = STMenuType.button,
-    @required this.onTap,
-    @required this.index,
-    @required this.current,
-    @required this.item,
+    required this.onTap,
+    required this.index,
+    required this.current,
+    required this.item,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

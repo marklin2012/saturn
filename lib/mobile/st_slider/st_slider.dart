@@ -24,25 +24,25 @@ class STSliderConstant {
 
 class STSlider extends StatefulWidget {
   final Axis axis; // 方向
-  final double mainSize; // 当Axis为横轴时代表宽度，为竖轴是代表高度,主方向的宽高
-  final double activeSize; // 线条的宽高
+  final double? mainSize; // 当Axis为横轴时代表宽度，为竖轴是代表高度,主方向的宽高
+  final double? activeSize; // 线条的宽高
   final bool showTip; // 是否显示提示
   final TextStyle tipTextStyle; // 提示字体的样式
   final Color activeColor; // 选中颜色
   final Color inactiveColor; // 未选中的颜色
   final Color dotColor; // 圆点颜色
-  final double dotSize; // 圆点大小
-  final int minValue; // 最小值
-  final int maxValue; // 最大值
+  final double? dotSize; // 圆点大小
+  final int? minValue; // 最小值
+  final int? maxValue; // 最大值
   final TextStyle textStyle; // 开始结束文本风格
   final bool disabled; // 禁用
-  final double value; // 单个值(0,1)
-  final RangeValues rangeValues; //区间值(0,1)
-  final ValueChanged<double> onChanged;
-  final ValueChanged<RangeValues> onChangedRange;
+  final double? value; // 单个值(0,1)
+  final RangeValues? rangeValues; //区间值(0,1)
+  final ValueChanged<double?>? onChanged;
+  final ValueChanged<RangeValues>? onChangedRange;
 
   const STSlider({
-    Key key,
+    Key? key,
     this.activeColor = const Color(0xFF095BF9),
     this.inactiveColor = const Color(0xFFDCE8FF),
     this.dotColor = const Color(0xFF095BF9),
@@ -67,20 +67,20 @@ class STSlider extends StatefulWidget {
 }
 
 class _STSliderState extends State<STSlider> {
-  Widget _firstDot;
-  Widget _secondDot;
-  double _firstValue;
-  double _secondValue;
+  late Widget _firstDot;
+  Widget? _secondDot;
+  double? _firstValue;
+  double? _secondValue;
   final GlobalKey _firstKey = GlobalKey(debugLabel: 'firstDot'); // 控件的key
-  Offset _firstOffset; // 第一个原点位置
+  Offset? _firstOffset; // 第一个原点位置
 
   bool _firHighlighted = false;
   bool _secHighlighted = false;
 
-  double _dotSize;
-  double _activeSize;
+  double? _dotSize;
+  double? _activeSize;
 
-  double get _height {
+  double? get _height {
     if (_isHorizontal) {
       return _activeSize;
     } else {
@@ -88,7 +88,7 @@ class _STSliderState extends State<STSlider> {
     }
   }
 
-  double get _width {
+  double? get _width {
     if (!_isHorizontal) {
       return _activeSize;
     } else {
@@ -103,30 +103,30 @@ class _STSliderState extends State<STSlider> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
   }
 
   void _findRenderObject() {
-    final RenderBox renderBox = _firstKey.currentContext.findRenderObject();
+    final RenderBox renderBox = _firstKey.currentContext!.findRenderObject() as RenderBox;
     // offset.dx , offset.dy 就是控件的左上角坐标
     _firstOffset = renderBox.localToGlobal(Offset.zero);
     if (widget.value != null && widget.value != 0) {
       final temp = _firstOffset;
       if (_isHorizontal) {
-        _firstOffset = Offset(temp.dx - widget.value * _width, temp.dy);
+        _firstOffset = Offset(temp!.dx - widget.value! * _width!, temp.dy);
       } else {
-        _firstOffset = Offset(temp.dx, temp.dy - widget.value * _height);
+        _firstOffset = Offset(temp!.dx, temp.dy - widget.value! * _height!);
       }
-    } else if (widget.rangeValues != null && widget.rangeValues.start != 0) {
+    } else if (widget.rangeValues != null && widget.rangeValues!.start != 0) {
       final temp = _firstOffset;
       if (_isHorizontal) {
         _firstOffset =
-            Offset(temp.dx - widget.rangeValues.start * _width, temp.dy);
+            Offset(temp!.dx - widget.rangeValues!.start * _width!, temp.dy);
       } else {
         _firstOffset =
-            Offset(temp.dx, temp.dy - widget.rangeValues.start * _height);
+            Offset(temp!.dx, temp.dy - widget.rangeValues!.start * _height!);
       }
     }
     setState(() {});
@@ -135,8 +135,8 @@ class _STSliderState extends State<STSlider> {
   void initValue() {
     _firstValue = widget.value;
     if (widget.rangeValues != null) {
-      _firstValue = widget.rangeValues.start;
-      _secondValue = widget.rangeValues.end;
+      _firstValue = widget.rangeValues!.start;
+      _secondValue = widget.rangeValues!.end;
     }
     _dotSize = widget.dotSize ?? STSliderConstant.dotWidth;
     _activeSize = widget.activeSize ?? STSliderConstant.activeSize;
@@ -149,13 +149,13 @@ class _STSliderState extends State<STSlider> {
       height: _isHorizontal
           ? ((widget.minValue == null && widget.maxValue == null)
               ? _dotSize
-              : _dotSize + STSliderConstant.horTextHeight)
+              : _dotSize! + STSliderConstant.horTextHeight)
           : _height,
       width: _isHorizontal
           ? _width
           : ((widget.minValue == null && widget.maxValue == null)
               ? _dotSize
-              : _dotSize + STSliderConstant.showTipSize),
+              : _dotSize! + STSliderConstant.showTipSize),
       child: _getOpacityChild(),
     );
   }
@@ -231,8 +231,8 @@ class _STSliderState extends State<STSlider> {
           alignment: Alignment.center,
         ),
         Positioned(
-          top: _isHorizontal ? (_dotSize - _activeSize) / 2 : 0.0,
-          left: _isHorizontal ? 0 : (_dotSize - _activeSize) / 2,
+          top: _isHorizontal ? (_dotSize! - _activeSize!) / 2 : 0.0,
+          left: _isHorizontal ? 0 : (_dotSize! - _activeSize!) / 2,
           child: _backgroundChild(),
         ),
         Positioned(
@@ -261,7 +261,7 @@ class _STSliderState extends State<STSlider> {
           Positioned(
             left: _getDotPostionLeft(_secondValue),
             top: _getDotPositonTop(_secondValue),
-            child: _secondDot,
+            child: _secondDot!,
           ),
         if (widget.showTip && _secHighlighted && widget.rangeValues != null)
           Positioned(
@@ -314,69 +314,69 @@ class _STSliderState extends State<STSlider> {
     );
   }
 
-  double _getActiveChildHeight() {
+  double? _getActiveChildHeight() {
     if (widget.rangeValues == null) {
       if (_isHorizontal) return _height;
-      return _firstValue * _height;
+      return _firstValue! * _height!;
     } else {
       if (_isHorizontal) return _height;
-      return (_secondValue - _firstValue) * _height;
+      return (_secondValue! - _firstValue!) * _height!;
     }
   }
 
-  double _getActiveChildWidth() {
+  double? _getActiveChildWidth() {
     if (widget.rangeValues == null) {
       if (!_isHorizontal) return _width;
-      return _firstValue * _width;
+      return _firstValue! * _width!;
     } else {
       if (!_isHorizontal) return _width;
-      return (_secondValue - _firstValue) * _width;
+      return (_secondValue! - _firstValue!) * _width!;
     }
   }
 
   double _getActiveLeft() {
     if (widget.rangeValues == null) {
-      return _isHorizontal ? 0 : (_dotSize - _width) / 2;
+      return _isHorizontal ? 0 : (_dotSize! - _width!) / 2;
     } else {
-      if (!_isHorizontal) return (_dotSize - _width) / 2;
+      if (!_isHorizontal) return (_dotSize! - _width!) / 2;
       return _getDotPostionLeft(_firstValue) + 2; // _处理圆角问题
     }
   }
 
   double _getActiveTop() {
     if (widget.rangeValues == null) {
-      return _isHorizontal ? (_dotSize - _height) / 2 : 0;
+      return _isHorizontal ? (_dotSize! - _height!) / 2 : 0;
     } else {
-      if (_isHorizontal) return (_dotSize - _height) / 2;
+      if (_isHorizontal) return (_dotSize! - _height!) / 2;
       return _getDotPositonTop(_firstValue) + 2; // _处理圆角问题
     }
   }
 
-  double _getDotPostionLeft(double value) {
+  double _getDotPostionLeft(double? value) {
     if (!_isHorizontal) return 0;
-    return value * _width - _dotSize / 2;
+    return value! * _width! - _dotSize! / 2;
   }
 
-  double _getDotPositonTop(double value) {
+  double _getDotPositonTop(double? value) {
     if (_isHorizontal) return 0;
-    return value * _height - _dotSize / 2;
+    return value! * _height! - _dotSize! / 2;
   }
 
-  double _getTipPostionLeft(double value) {
+  double _getTipPostionLeft(double? value) {
     final _width =
         boundingTextSize(context, _calculateValue(value), widget.tipTextStyle)
                 .width +
             16.0;
-    return _getDotPostionLeft(value) - (_width - _dotSize) / 2;
+    return _getDotPostionLeft(value) - (_width - _dotSize!) / 2;
   }
 
-  double _getTipPositonTop(double value) {
+  double _getTipPositonTop(double? value) {
     return _getDotPositonTop(value) -
         STSliderConstant.showTipSize -
         STSliderConstant.showTipVerticalOffset;
   }
 
-  Widget _getDot(double value, STSliderDotType dotType) {
+  Widget _getDot(double? value, STSliderDotType dotType) {
     if (_disabled) {
       return Container(
         key: dotType == STSliderDotType.start ? _firstKey : null,
@@ -441,69 +441,69 @@ class _STSliderState extends State<STSlider> {
     if (_disabled) return;
     if (dotType == STSliderDotType.start) {
       if (_isHorizontal) {
-        if (positon.dx <= _firstOffset.dx) {
+        if (positon.dx <= _firstOffset!.dx) {
           _firstValue = 0;
-        } else if (positon.dx >= _firstOffset.dx + _width) {
+        } else if (positon.dx >= _firstOffset!.dx + _width!) {
           _firstValue = 1;
         } else {
-          _firstValue = (positon.dx - _firstOffset.dx) / _width;
+          _firstValue = (positon.dx - _firstOffset!.dx) / _width!;
         }
       } else {
-        if (positon.dy <= _firstOffset.dy) {
+        if (positon.dy <= _firstOffset!.dy) {
           _firstValue = 0;
-        } else if (positon.dy >= _firstOffset.dy + _height) {
+        } else if (positon.dy >= _firstOffset!.dy + _height!) {
           _firstValue = 1;
         } else {
-          _firstValue = (positon.dy - _firstOffset.dy) / _height;
+          _firstValue = (positon.dy - _firstOffset!.dy) / _height!;
         }
       }
     } else {
       if (_isHorizontal) {
-        if (positon.dx <= _firstOffset.dx) {
+        if (positon.dx <= _firstOffset!.dx) {
           _secondValue = 0;
-        } else if (positon.dx >= _firstOffset.dx + _width) {
+        } else if (positon.dx >= _firstOffset!.dx + _width!) {
           _secondValue = 1;
         } else {
-          _secondValue = (positon.dx - _firstOffset.dx) / _width;
+          _secondValue = (positon.dx - _firstOffset!.dx) / _width!;
         }
       } else {
-        if (positon.dy <= _firstOffset.dy) {
+        if (positon.dy <= _firstOffset!.dy) {
           _secondValue = 0;
-        } else if (positon.dy >= _firstOffset.dy + _height) {
+        } else if (positon.dy >= _firstOffset!.dy + _height!) {
           _secondValue = 1;
         } else {
-          _secondValue = (positon.dy - _firstOffset.dy) / _height;
+          _secondValue = (positon.dy - _firstOffset!.dy) / _height!;
         }
       }
     }
 
-    if (widget.onChanged != null) widget.onChanged(_firstValue);
+    if (widget.onChanged != null) widget.onChanged!(_firstValue);
     if (widget.rangeValues != null && widget.onChangedRange != null) {
       // 确保第二个值大于第一个值
-      if (_firstValue > _secondValue) {
+      if (_firstValue! > _secondValue!) {
         final temp = _firstValue;
         _firstValue = _secondValue;
         _secondValue = temp;
       }
-      widget.onChangedRange(RangeValues(_firstValue, _secondValue));
+      widget.onChangedRange!(RangeValues(_firstValue!, _secondValue!));
     }
   }
 
   void updateTapAction(Offset positon) {
     if (widget.rangeValues != null || _disabled) return;
     if (_isHorizontal) {
-      _firstValue = positon.dx / _width;
+      _firstValue = positon.dx / _width!;
     } else {
-      _firstValue = positon.dy / _height;
+      _firstValue = positon.dy / _height!;
     }
-    if (widget.onChanged != null) widget.onChanged(_firstValue);
+    if (widget.onChanged != null) widget.onChanged!(_firstValue);
   }
 
-  String _calculateValue(double value) {
+  String _calculateValue(double? value) {
     if (widget.maxValue == null) {
       return NumUtils().formartNum(value, 2);
     } else {
-      return NumUtils().formartNum(value * widget.maxValue, 2);
+      return NumUtils().formartNum(value! * widget.maxValue!, 2);
     }
   }
 }

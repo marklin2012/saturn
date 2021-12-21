@@ -7,25 +7,25 @@ import '../../utils/string.dart';
 import 'common.dart';
 
 class STMessage extends StatefulWidget {
-  final String title;
-  final String message;
-  final Widget icon;
-  final Widget content;
-  final bool showShadow;
-  final bool autoClose;
-  final int disappearMilliseconds;
-  final STMessageLocation location;
-  final STMessageType type;
+  final String? title;
+  final String? message;
+  final Widget? icon;
+  final Widget? content;
+  final bool? showShadow;
+  final bool? autoClose;
+  final int? disappearMilliseconds;
+  final STMessageLocation? location;
+  final STMessageType? type;
 
-  static BuildContext _curContext;
-  static OverlayEntry _curOverlayEntry;
+  static BuildContext? _curContext;
+  static late OverlayEntry _curOverlayEntry;
 
   static void show({
-    @required BuildContext context,
-    String title,
-    String message,
-    Widget icon,
-    Widget content,
+    required BuildContext context,
+    String? title,
+    String? message,
+    Widget? icon,
+    Widget? content,
     bool showShadow = true,
     bool autoClose = true,
     int disappearMilliseconds = STMessageConstant.defaultDisappearMilliseconds,
@@ -48,7 +48,7 @@ class STMessage extends StatefulWidget {
       type: type,
     );
 
-    final OverlayState overlayState = Overlay.of(context);
+    final OverlayState overlayState = Overlay.of(context)!;
     _curOverlayEntry =
         OverlayEntry(builder: (BuildContext context) => _message);
     overlayState.insert(_curOverlayEntry);
@@ -63,7 +63,7 @@ class STMessage extends StatefulWidget {
   }
 
   const STMessage(
-      {Key key,
+      {Key? key,
       this.title,
       this.message,
       this.icon,
@@ -80,18 +80,18 @@ class STMessage extends StatefulWidget {
 }
 
 class _STMessageState extends State<STMessage> {
-  Timer timer;
-  TextStyle titleTextStyle;
-  TextStyle messageTextStyle;
-  Offset containerShadowOffset;
-  EdgeInsets iconTitlePadding;
+  Timer? timer;
+  TextStyle? titleTextStyle;
+  TextStyle? messageTextStyle;
+  late Offset containerShadowOffset;
+  late EdgeInsets iconTitlePadding;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.autoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
+    if (widget.autoClose!) {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds!), () {
         STMessage.hide(context);
       });
     }
@@ -128,21 +128,21 @@ class _STMessageState extends State<STMessage> {
     }
     containerWidth = defaultWidth;
 
-    Text titleWidget;
+    Text? titleWidget;
     if (!isNullOrEmpty(widget.title)) {
-      titleWidget = Text(widget.title, softWrap: true, style: titleTextStyle);
+      titleWidget = Text(widget.title!, softWrap: true, style: titleTextStyle);
     }
 
-    Text messageWidget;
+    Text? messageWidget;
     if (!isNullOrEmpty(widget.message)) {
       messageWidget = Text(
-        widget.message,
+        widget.message!,
         softWrap: true,
         style: messageTextStyle,
       );
     }
 
-    Widget iconWidget = widget.icon;
+    Widget? iconWidget = widget.icon;
     if (iconWidget == null && widget.type != STMessageType.none) {
       iconWidget = iconFromAlertType(widget.type);
     }
@@ -158,7 +158,7 @@ class _STMessageState extends State<STMessage> {
             boxShadow: [
               BoxShadow(
                   color:
-                      widget.showShadow ? Colors.black12 : Colors.transparent,
+                      widget.showShadow! ? Colors.black12 : Colors.transparent,
                   offset: containerShadowOffset,
                   blurRadius: 5.0,
                   spreadRadius: 2.0),
@@ -204,7 +204,7 @@ class _STMessageState extends State<STMessage> {
     );
   }
 
-  AlignmentGeometry getAligmentFromLocation(STMessageLocation location) {
+  AlignmentGeometry getAligmentFromLocation(STMessageLocation? location) {
     switch (widget.location) {
       case STMessageLocation.center:
         return Alignment.center;
@@ -218,14 +218,14 @@ class _STMessageState extends State<STMessage> {
   @override
   void dispose() {
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
     }
     super.dispose();
   }
 
-  Widget iconFromAlertType(STMessageType type) {
-    IconData iconData;
-    Color iconColor;
+  Widget iconFromAlertType(STMessageType? type) {
+    IconData? iconData;
+    Color? iconColor;
     switch (type) {
       case STMessageType.success:
         iconData = Icons.check_circle;

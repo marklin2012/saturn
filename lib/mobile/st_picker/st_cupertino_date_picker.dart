@@ -35,12 +35,12 @@ void _animateColumnControllerToItem(
 
 class _STDatePickerLayoutDelegate extends MultiChildLayoutDelegate {
   _STDatePickerLayoutDelegate({
-    @required this.columnWidths,
-    @required this.textDirectionFactor,
+    required this.columnWidths,
+    required this.textDirectionFactor,
   })  : assert(columnWidths != null),
         assert(textDirectionFactor != null);
   // The list containing widths of all columns.
-  final List<double> columnWidths;
+  final List<double?> columnWidths;
   // textDirectionFactor is 1 if text is written left to right, and -1 if right to left.
   final int textDirectionFactor;
 
@@ -49,7 +49,7 @@ class _STDatePickerLayoutDelegate extends MultiChildLayoutDelegate {
     double remainingWidth = size.width;
 
     for (int i = 0; i < columnWidths.length; i++) {
-      remainingWidth -= columnWidths[i] + 10 * 2;
+      remainingWidth -= columnWidths[i]! + 10 * 2;
     }
 
     double currentHorizontalOffset = 0.0;
@@ -58,7 +58,7 @@ class _STDatePickerLayoutDelegate extends MultiChildLayoutDelegate {
       final int index =
           textDirectionFactor == 1 ? i : columnWidths.length - i - 1;
 
-      double childWidth = columnWidths[index] + 10 * 2;
+      double childWidth = columnWidths[index]! + 10 * 2;
       if (index == 0 || index == columnWidths.length - 1) {
         childWidth += remainingWidth / 2;
       }
@@ -98,9 +98,9 @@ class _STDatePickerLayoutDelegate extends MultiChildLayoutDelegate {
 
 class STCuperDatePicker extends StatefulWidget {
   STCuperDatePicker({
-    Key key,
-    @required this.onDateTimeChanged,
-    DateTime initialDateTime,
+    Key? key,
+    required this.onDateTimeChanged,
+    DateTime? initialDateTime,
     this.minimumDate,
     this.maximumDate,
     this.minimumYear = 1,
@@ -110,10 +110,10 @@ class STCuperDatePicker extends StatefulWidget {
         super(key: key);
 
   final DateTime initialDateTime;
-  final DateTime minimumDate;
-  final DateTime maximumDate;
-  final int minimumYear;
-  final int maximumYear;
+  final DateTime? minimumDate;
+  final DateTime? maximumDate;
+  final int? minimumYear;
+  final int? maximumYear;
   final ValueChanged<DateTime> onDateTimeChanged;
 
   @override
@@ -165,17 +165,17 @@ typedef _ColumnBuilder = Widget Function(
     TransitionBuilder itemPositioningBuilder, Widget selectionOverlay);
 
 class _STCuperDatePickerState extends State<STCuperDatePicker> {
-  int textDirectionFactor;
+  late int textDirectionFactor;
   // The currently selected values of the picker.
-  int selectedDay;
-  int selectedMonth;
-  int selectedYear;
+  int? selectedDay;
+  int? selectedMonth;
+  int? selectedYear;
   // The controller of the day picker. There are cases where the selected value
   // of the picker is invalid (e.g. February 30th 2018), and this dayController
   // is responsible for jumping to a valid value.
-  FixedExtentScrollController dayController;
-  FixedExtentScrollController monthController;
-  FixedExtentScrollController yearController;
+  FixedExtentScrollController? dayController;
+  FixedExtentScrollController? monthController;
+  FixedExtentScrollController? yearController;
 
   bool isDayPickerScrolling = false;
   bool isMonthPickerScrolling = false;
@@ -194,21 +194,21 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
     selectedMonth = widget.initialDateTime.month;
     selectedYear = widget.initialDateTime.year;
 
-    dayController = FixedExtentScrollController(initialItem: selectedDay - 1);
+    dayController = FixedExtentScrollController(initialItem: selectedDay! - 1);
     monthController =
-        FixedExtentScrollController(initialItem: selectedMonth - 1);
-    yearController = FixedExtentScrollController(initialItem: selectedYear);
+        FixedExtentScrollController(initialItem: selectedMonth! - 1);
+    yearController = FixedExtentScrollController(initialItem: selectedYear!);
 
-    PaintingBinding.instance.systemFonts.addListener(_handleSystemFontsChange);
+    PaintingBinding.instance!.systemFonts.addListener(_handleSystemFontsChange);
   }
 
   @override
   void dispose() {
-    dayController.dispose();
-    monthController.dispose();
-    yearController.dispose();
+    dayController!.dispose();
+    monthController!.dispose();
+    yearController!.dispose();
 
-    PaintingBinding.instance.systemFonts
+    PaintingBinding.instance!.systemFonts
         .removeListener(_handleSystemFontsChange);
     super.dispose();
   }
@@ -270,7 +270,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             selectedDay = index + 1;
             if (_isCurrentDateValid) {
               widget.onDateTimeChanged(
-                  DateTime(selectedYear, selectedMonth, selectedDay));
+                  DateTime(selectedYear!, selectedMonth!, selectedDay!));
             }
           },
           looping: true,
@@ -319,7 +319,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             selectedMonth = index + 1;
             if (_isCurrentDateValid) {
               widget.onDateTimeChanged(
-                  DateTime(selectedYear, selectedMonth, selectedDay));
+                  DateTime(selectedYear!, selectedMonth!, selectedDay!));
             }
           },
           looping: true,
@@ -372,13 +372,13 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             selectedYear = index;
             if (_isCurrentDateValid) {
               widget.onDateTimeChanged(
-                  DateTime(selectedYear, selectedMonth, selectedDay));
+                  DateTime(selectedYear!, selectedMonth!, selectedDay!));
             }
           },
           itemBuilder: (BuildContext context, int year) {
-            if (year < widget.minimumYear) return null;
+            if (year < widget.minimumYear!) return null;
 
-            if (widget.maximumYear != null && year > widget.maximumYear) {
+            if (widget.maximumYear != null && year > widget.maximumYear!) {
               return null;
             }
 
@@ -403,9 +403,9 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
   bool get _isCurrentDateValid {
     // The current date selection represents a range [minSelectedData, maxSelectDate].
     final DateTime minSelectedDate =
-        DateTime(selectedYear, selectedMonth, selectedDay);
+        DateTime(selectedYear!, selectedMonth!, selectedDay!);
     final DateTime maxSelectedDate =
-        DateTime(selectedYear, selectedMonth, selectedDay + 1);
+        DateTime(selectedYear!, selectedMonth!, selectedDay! + 1);
 
     final bool minCheck = widget.minimumDate?.isBefore(maxSelectedDate) ?? true;
     final bool maxCheck =
@@ -427,9 +427,9 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
     // Whenever scrolling lands on an invalid entry, the picker
     // automatically scrolls to a valid one.
     final DateTime minSelectDate =
-        DateTime(selectedYear, selectedMonth, selectedDay);
+        DateTime(selectedYear!, selectedMonth!, selectedDay!);
     final DateTime maxSelectDate =
-        DateTime(selectedYear, selectedMonth, selectedDay + 1);
+        DateTime(selectedYear!, selectedMonth!, selectedDay! + 1);
 
     final bool minCheck = widget.minimumDate?.isBefore(maxSelectDate) ?? true;
     final bool maxCheck = widget.maximumDate?.isBefore(minSelectDate) ?? false;
@@ -437,7 +437,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
     if (!minCheck || maxCheck) {
       // We have minCheck === !maxCheck.
       final DateTime targetDate =
-          minCheck ? widget.maximumDate : widget.minimumDate;
+          minCheck ? widget.maximumDate! : widget.minimumDate!;
       _scrollToDate(targetDate);
       return;
     }
@@ -445,24 +445,24 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
     // Some months have less days (e.g. February). Go to the last day of that month
     // if the selectedDay exceeds the maximum.
     if (minSelectDate.day != selectedDay) {
-      final DateTime lastDay = _lastDayInMonth(selectedYear, selectedMonth);
+      final DateTime lastDay = _lastDayInMonth(selectedYear!, selectedMonth!);
       _scrollToDate(lastDay);
     }
   }
 
   void _scrollToDate(DateTime newDate) {
     assert(newDate != null);
-    SchedulerBinding.instance.addPostFrameCallback((Duration timestamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((Duration timestamp) {
       if (selectedYear != newDate.year) {
-        _animateColumnControllerToItem(yearController, newDate.year);
+        _animateColumnControllerToItem(yearController!, newDate.year);
       }
 
       if (selectedMonth != newDate.month) {
-        _animateColumnControllerToItem(monthController, newDate.month - 1);
+        _animateColumnControllerToItem(monthController!, newDate.month - 1);
       }
 
       if (selectedDay != newDate.day) {
-        _animateColumnControllerToItem(dayController, newDate.day - 1);
+        _animateColumnControllerToItem(dayController!, newDate.day - 1);
       }
     });
   }
@@ -470,14 +470,14 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
   @override
   Widget build(BuildContext context) {
     List<_ColumnBuilder> pickerBuilders = <_ColumnBuilder>[];
-    List<double> columnWidths = <double>[];
+    List<double?> columnWidths = <double>[];
 
     pickerBuilders = <_ColumnBuilder>[
       _buildYearPicker,
       _buildMonthPicker,
       _buildDayPicker
     ];
-    columnWidths = <double>[
+    columnWidths = <double?>[
       estimatedColumnWidths[STPickerColumnType.year.index],
       estimatedColumnWidths[STPickerColumnType.month.index],
       estimatedColumnWidths[STPickerColumnType.day.index],
@@ -496,11 +496,11 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
       pickers.add(LayoutId(
         id: i,
         child: pickerBuilders[i](
-          (BuildContext context, Widget child) {
+          (BuildContext context, Widget? child) {
             return Container(
               margin: margin,
               alignment: Alignment.center,
-              width: columnWidths[i] + _pickerItemExtent / 2,
+              width: columnWidths[i]! + _pickerItemExtent / 2,
               child: child,
             );
           },
@@ -560,7 +560,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             Positioned(
               right: MediaQuery.of(context).size.width / 4 -
                   _pickerItemExtent -
-                  columnWidths[2] -
+                  columnWidths[2]! -
                   10,
               top: (_selectTextsHeight -
                       _selectTitleHeight -

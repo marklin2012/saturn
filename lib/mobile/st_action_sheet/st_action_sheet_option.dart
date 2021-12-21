@@ -7,11 +7,11 @@ import '../../utils/string.dart';
 import 'common.dart';
 
 class STActionSheetOption {
-  String title;
-  String message;
-  Widget icon;
+  String? title;
+  String? message;
+  Widget? icon;
   bool isRadio;
-  VoidCallback onTap;
+  VoidCallback? onTap;
 
   STActionSheetOption(
       {this.title, this.message, this.icon, this.isRadio = false, this.onTap});
@@ -19,21 +19,21 @@ class STActionSheetOption {
 
 class STActionSheetOptionWidget extends StatelessWidget
     with STActionSheetInterface {
-  final STActionSheetOption actionSheetOption;
-  final int verticalIndex;
-  final int horizontalIndex;
-  final double width;
-  final STActionSheetDirectionType directionType;
-  final List selectedList;
-  final List enteredList;
-  final bool canSelect;
-  final Color selectedColor;
-  final bool showSelectColor;
-  final bool isSingleSelect;
-  final VoidCallback selectAction;
-  final bool isOptionAligmentCenter;
-  final int totalCount;
-  final bool showSeperateLine;
+  final STActionSheetOption? actionSheetOption;
+  final int? verticalIndex;
+  final int? horizontalIndex;
+  final double? width;
+  final STActionSheetDirectionType? directionType;
+  final List? selectedList;
+  final List? enteredList;
+  final bool? canSelect;
+  final Color? selectedColor;
+  final bool? showSelectColor;
+  final bool? isSingleSelect;
+  final VoidCallback? selectAction;
+  final bool? isOptionAligmentCenter;
+  final int? totalCount;
+  final bool? showSeperateLine;
 
   const STActionSheetOptionWidget(
       {this.actionSheetOption,
@@ -54,30 +54,30 @@ class STActionSheetOptionWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    Widget content;
+    Widget? content;
 
-    bool isSelected;
-    bool isEnter;
+    bool? isSelected;
+    bool? isEnter;
     if (directionType == STActionSheetDirectionType.vertical) {
-      isSelected = selectedList.contains(verticalIndex);
-      isEnter = enteredList.contains(verticalIndex);
+      isSelected = selectedList!.contains(verticalIndex);
+      isEnter = enteredList!.contains(verticalIndex);
     } else {
-      isSelected = selectedList[verticalIndex].contains(horizontalIndex);
-      isEnter = enteredList[verticalIndex].contains(horizontalIndex);
+      isSelected = selectedList![verticalIndex!].contains(horizontalIndex);
+      isEnter = enteredList![verticalIndex!].contains(horizontalIndex);
     }
 
-    Color curColor;
-    if (showSelectColor &&
-        isSelected &&
-        !actionSheetOption.isRadio &&
-        canSelect) {
+    Color? curColor;
+    if (showSelectColor! &&
+        isSelected! &&
+        !actionSheetOption!.isRadio &&
+        canSelect!) {
       curColor = selectedColor;
     } else {
       curColor = Colors.transparent;
     }
 
-    if (isEnter) {
-      curColor = selectedColor.withOpacity(0.5);
+    if (isEnter!) {
+      curColor = selectedColor!.withOpacity(0.5);
     }
 
     if (directionType == STActionSheetDirectionType.vertical) {
@@ -86,7 +86,7 @@ class STActionSheetOptionWidget extends StatelessWidget
         width: width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: isOptionAligmentCenter
+          crossAxisAlignment: isOptionAligmentCenter!
               ? CrossAxisAlignment.center
               : CrossAxisAlignment.start,
           children: [
@@ -94,27 +94,27 @@ class STActionSheetOptionWidget extends StatelessWidget
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (!isOptionAligmentCenter) const SizedBox(width: 20),
-                if (actionSheetOption.isRadio)
+                if (!isOptionAligmentCenter!) const SizedBox(width: 20),
+                if (actionSheetOption!.isRadio)
                   SizedBox(
                     width: 20,
                     height: 20,
                     child: Radio(
                       value: 1,
-                      groupValue: isSelected ? 1 : 0,
+                      groupValue: isSelected! ? 1 : 0,
                       onChanged: null,
                     ),
                   ),
-                if (actionSheetOption.isRadio) const SizedBox(width: 10),
-                if (actionSheetOption.icon != null) actionSheetOption.icon,
-                if (actionSheetOption.icon != null) const SizedBox(width: 10),
+                if (actionSheetOption!.isRadio) const SizedBox(width: 10),
+                if (actionSheetOption!.icon != null) actionSheetOption!.icon!,
+                if (actionSheetOption!.icon != null) const SizedBox(width: 10),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (isNotEmpty(actionSheetOption.title))
+                    if (isNotEmpty(actionSheetOption!.title))
                       Text(
-                        actionSheetOption.title,
+                        actionSheetOption!.title!,
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontSize: 16,
@@ -122,9 +122,9 @@ class STActionSheetOptionWidget extends StatelessWidget
                             decoration: TextDecoration.none,
                             color: Colors.black),
                       ),
-                    if (isNotEmpty(actionSheetOption.message))
+                    if (isNotEmpty(actionSheetOption!.message))
                       Text(
-                        actionSheetOption.message,
+                        actionSheetOption!.message!,
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontSize: 14,
@@ -137,7 +137,7 @@ class STActionSheetOptionWidget extends StatelessWidget
               ],
             ),
             const SizedBox(height: 14),
-            if (showSeperateLine && (verticalIndex != totalCount - 1))
+            if (showSeperateLine! && (verticalIndex != totalCount! - 1))
               getLineWidget(width)
           ],
         ),
@@ -150,10 +150,10 @@ class STActionSheetOptionWidget extends StatelessWidget
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (actionSheetOption.icon != null) actionSheetOption.icon,
-              if (isNotEmpty(actionSheetOption.title))
+              if (actionSheetOption!.icon != null) actionSheetOption!.icon!,
+              if (isNotEmpty(actionSheetOption!.title))
                 Text(
-                  actionSheetOption.title,
+                  actionSheetOption!.title!,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                       fontSize: 14,
@@ -170,61 +170,61 @@ class STActionSheetOptionWidget extends StatelessWidget
     if (content != null) {
       return GestureDetector(
           onTap: () {
-            if (canSelect) {
+            if (canSelect!) {
               if (directionType == STActionSheetDirectionType.vertical) {
-                if (isSingleSelect) {
-                  selectedList.clear();
-                  selectedList.add(verticalIndex);
+                if (isSingleSelect!) {
+                  selectedList!.clear();
+                  selectedList!.add(verticalIndex);
                 } else {
-                  if (selectedList.contains(verticalIndex)) {
-                    selectedList.remove(verticalIndex);
+                  if (selectedList!.contains(verticalIndex)) {
+                    selectedList!.remove(verticalIndex);
                   } else {
-                    selectedList.add(verticalIndex);
+                    selectedList!.add(verticalIndex);
                   }
                 }
               } else {
-                if (isSingleSelect) {
-                  for (int i = 0; i < selectedList.length; i++) {
-                    selectedList[i].clear();
+                if (isSingleSelect!) {
+                  for (int i = 0; i < selectedList!.length; i++) {
+                    selectedList![i].clear();
                   }
-                  selectedList[verticalIndex].add(horizontalIndex);
+                  selectedList![verticalIndex!].add(horizontalIndex);
                 } else {
-                  if (selectedList[verticalIndex].contains(horizontalIndex)) {
-                    selectedList[verticalIndex].remove(horizontalIndex);
+                  if (selectedList![verticalIndex!].contains(horizontalIndex)) {
+                    selectedList![verticalIndex!].remove(horizontalIndex);
                   } else {
-                    selectedList[verticalIndex].add(horizontalIndex);
+                    selectedList![verticalIndex!].add(horizontalIndex);
                   }
                 }
               }
 
-              selectAction();
+              selectAction!();
             } else {
-              if (actionSheetOption.onTap != null) actionSheetOption.onTap();
+              if (actionSheetOption!.onTap != null) actionSheetOption!.onTap!();
             }
           },
           child: STMouseRegion(
             onEnter: (PointerEnterEvent details) {
-              selectAction();
+              selectAction!();
               if (directionType == STActionSheetDirectionType.vertical) {
-                enteredList.add(verticalIndex);
+                enteredList!.add(verticalIndex);
               } else {
-                enteredList[verticalIndex].add(horizontalIndex);
+                enteredList![verticalIndex!].add(horizontalIndex);
               }
             },
             onExit: (PointerExitEvent details) {
               if (directionType == STActionSheetDirectionType.vertical) {
-                enteredList.clear();
+                enteredList!.clear();
               } else {
-                for (int i = 0; i < enteredList.length; i++) {
-                  enteredList[i].clear();
+                for (int i = 0; i < enteredList!.length; i++) {
+                  enteredList![i].clear();
                 }
               }
 
-              selectAction();
+              selectAction!();
             },
             child: content,
           ));
     }
-    return content;
+    return content!;
   }
 }

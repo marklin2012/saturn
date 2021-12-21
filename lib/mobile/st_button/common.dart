@@ -28,7 +28,7 @@ class STButtonConstant {
 }
 
 abstract class STButtonInterface {
-  Color bgColorFromButtonType(STButtonType type) {
+  Color bgColorFromButtonType(STButtonType? type) {
     switch (type) {
       case STButtonType.success:
         return STColor.assistGreen;
@@ -39,7 +39,7 @@ abstract class STButtonInterface {
     }
   }
 
-  Color textColorFromButton(STButtonType type) {
+  Color textColorFromButton(STButtonType? type) {
     switch (type) {
       case STButtonType.primary:
         return STColor.colorWhite;
@@ -52,7 +52,7 @@ abstract class STButtonInterface {
     }
   }
 
-  double textFontFromButton(STButtonSize size) {
+  double textFontFromButton(STButtonSize? size) {
     if (size == STButtonSize.small) {
       return 16.0;
     } else {
@@ -60,7 +60,7 @@ abstract class STButtonInterface {
     }
   }
 
-  double opacityFromButtonState(STButtonState state) {
+  double opacityFromButtonState(STButtonState? state) {
     switch (state) {
       case STButtonState.highlighted:
         return 0.8;
@@ -83,7 +83,7 @@ abstract class STButtonInterface {
   //   }
   // }
 
-  double spaceFromButtonSize(STButtonSize size) {
+  double spaceFromButtonSize(STButtonSize? size) {
     if (size == STButtonSize.small) {
       return STButtonConstant.smallSpace;
     } else {
@@ -91,8 +91,8 @@ abstract class STButtonInterface {
     }
   }
 
-  EdgeInsets edgeInsetsFromButtonSize(STButtonSize size,
-      {bool circle, STButtonType type}) {
+  EdgeInsets edgeInsetsFromButtonSize(STButtonSize? size,
+      {required bool circle, STButtonType? type}) {
     if (circle) {
       if (size == STButtonSize.small) {
         return STButtonConstant.iconSmallPadding;

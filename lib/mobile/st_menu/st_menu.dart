@@ -5,11 +5,11 @@ import 'package:saturn/mobile/st_menu/st_menu_item.dart';
 class STMenu extends StatefulWidget {
   final List<STMenuDataItem> items;
   final STMenuType type;
-  final Function(int) onTap;
+  final Function(int)? onTap;
 
   const STMenu(
-      {Key key,
-      @required this.items,
+      {Key? key,
+      required this.items,
       this.type = STMenuType.button,
       this.onTap})
       : super(key: key);
@@ -24,7 +24,7 @@ class _STMenuState extends State<STMenu> {
     setState(() {
       _current = index;
       if (widget.onTap != null) {
-        widget.onTap(index);
+        widget.onTap!(index);
       }
     });
   }

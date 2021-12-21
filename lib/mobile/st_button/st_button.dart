@@ -17,28 +17,28 @@ enum STButtonSize {
 }
 
 class STButton extends StatelessWidget {
-  final Widget icon;
-  final String text;
-  final TextStyle textStyle;
-  final VoidCallback onTap;
-  final STButtonSize size;
-  final STButtonType type;
+  final Widget? icon;
+  final String? text;
+  final TextStyle? textStyle;
+  final VoidCallback? onTap;
+  final STButtonSize? size;
+  final STButtonType? type;
   final bool disabled;
   final bool loading;
   final double loadingIconSize;
   final bool circle;
-  final double radius;
-  final Color backgroundColor;
-  final Color borderColor;
-  final double borderWidth;
-  final EdgeInsets padding;
+  final double? radius;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final double? borderWidth;
+  final EdgeInsets? padding;
   final MainAxisSize mainAxisSize;
   final bool debounce; // 是否防抖动
   final int debounceTime; // 防抖动时长
-  final double height;
+  final double? height;
 
   const STButton({
-    Key key,
+    Key? key,
     this.icon,
     this.text,
     this.textStyle,
@@ -61,8 +61,8 @@ class STButton extends StatelessWidget {
   }) : super(key: key);
 
   const STButton.icon({
-    Key key,
-    @required this.icon,
+    Key? key,
+    required this.icon,
     this.padding,
     this.mainAxisSize = MainAxisSize.min,
     this.textStyle,
@@ -81,8 +81,7 @@ class STButton extends StatelessWidget {
     this.debounce = true,
     this.debounceTime = 500,
     this.height,
-  })  : assert(icon != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

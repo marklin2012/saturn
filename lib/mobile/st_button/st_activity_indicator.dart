@@ -8,7 +8,7 @@ const Color _kActiveTickColor = Colors.white;
 
 class STActivityIndicator extends StatefulWidget {
   const STActivityIndicator({
-    Key key,
+    Key? key,
     this.animating = true,
     this.radius = _kDefaultIndicatorRadius,
     this.activeColor = _kActiveTickColor,
@@ -19,7 +19,7 @@ class STActivityIndicator extends StatefulWidget {
         super(key: key);
 
   const STActivityIndicator.partiallyRevealed({
-    Key key,
+    Key? key,
     this.radius = _kDefaultIndicatorRadius,
     this.progress = 1.0,
     this.activeColor = _kActiveTickColor,
@@ -57,7 +57,7 @@ class STActivityIndicator extends StatefulWidget {
 
 class _STActivityIndicatorState extends State<STActivityIndicator>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _STActivityIndicatorState extends State<STActivityIndicator>
     );
 
     if (widget.animating) {
-      _controller.repeat();
+      _controller!.repeat();
     }
   }
 
@@ -77,16 +77,16 @@ class _STActivityIndicatorState extends State<STActivityIndicator>
     super.didUpdateWidget(oldWidget);
     if (widget.animating != oldWidget.animating) {
       if (widget.animating) {
-        _controller.repeat();
+        _controller!.repeat();
       } else {
-        _controller.stop();
+        _controller!.stop();
       }
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -127,10 +127,10 @@ const int _partiallyRevealedAlpha = 147;
 
 class _STActivityIndicatorPainter extends CustomPainter {
   _STActivityIndicatorPainter({
-    @required this.position,
-    @required this.activeColor,
-    @required this.radius,
-    @required this.progress,
+    required this.position,
+    required this.activeColor,
+    required this.radius,
+    required this.progress,
   })  : tickFundamentalRRect = RRect.fromLTRBXY(
           -radius / _kDefaultIndicatorRadius,
           -radius / 3.0,
@@ -141,7 +141,7 @@ class _STActivityIndicatorPainter extends CustomPainter {
         ),
         super(repaint: position);
 
-  final Animation<double> position;
+  final Animation<double>? position;
   final Color activeColor;
   final double radius;
   final double progress;
@@ -156,7 +156,7 @@ class _STActivityIndicatorPainter extends CustomPainter {
     canvas.save();
     canvas.translate(size.width / 2.0, size.height / 2.0);
 
-    final int activeTick = (tickCount * position.value).floor();
+    final int activeTick = (tickCount * position!.value).floor();
 
     for (int i = 0; i < tickCount * progress; ++i) {
       final int t = (i - activeTick) % tickCount;

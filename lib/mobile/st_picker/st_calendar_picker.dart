@@ -26,7 +26,7 @@ const _borderHighlightedColor = Color(0xFF095BF9);
 
 class STCalendarPicker extends StatefulWidget {
   const STCalendarPicker({
-    Key key,
+    Key? key,
     this.isRange = false,
     this.offsetVertical,
     this.marign,
@@ -37,12 +37,12 @@ class STCalendarPicker extends StatefulWidget {
   }) : super(key: key);
 
   final bool isRange; //是否可以选择范围值
-  final double offsetVertical; //垂直方向偏移量
-  final ValueChanged<List<DateTime>> onChanged; //选择后的日期回调
-  final EdgeInsets marign; //与外部的间隙
-  final DateTime initialDate;
-  final DateTime firstDate;
-  final DateTime lastDate;
+  final double? offsetVertical; //垂直方向偏移量
+  final ValueChanged<List<DateTime>>? onChanged; //选择后的日期回调
+  final EdgeInsets? marign; //与外部的间隙
+  final DateTime? initialDate;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
 
   @override
   _STCalendarPickerState createState() => _STCalendarPickerState();
@@ -51,11 +51,11 @@ class STCalendarPicker extends StatefulWidget {
 class _STCalendarPickerState extends State<STCalendarPicker> {
   final GlobalKey _touchCalKey =
       GlobalKey(debugLabel: '_touchCalKey'); //触发日历的Key
-  Offset _touchCalPoints;
-  double _offsetVertical;
-  EdgeInsets _margin;
-  String _startHintText;
-  String _endHintText;
+  late Offset _touchCalPoints;
+  late double _offsetVertical;
+  EdgeInsets? _margin;
+  String? _startHintText;
+  String? _endHintText;
   bool _isHighlighted = false; // 是否高亮
   bool _isShowStart = true; // range的时候弹出的picker是开始或者结束
   final List<DateTime> _selectedDateTimes = []..length = 2;
@@ -75,9 +75,9 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
       _endHintText = _defaultEndHolder;
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
       final RenderBox renderBox =
-          _touchCalKey.currentContext.findRenderObject();
+          _touchCalKey.currentContext!.findRenderObject() as RenderBox;
       _touchCalPoints = renderBox.localToGlobal(Offset.zero);
       setState(() {});
     });
@@ -114,7 +114,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
                       _isShowStart &&
                       _isSelectedDateTime(STCalendarPickerType.start) == false)
                     const STCursor(),
-                  Text(_startHintText,
+                  Text(_startHintText!,
                       style: _isSelectedDateTime(STCalendarPickerType.start)
                           ? _selectedTextStyle
                           : _defaultTextStyle),
@@ -145,7 +145,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
                           _isSelectedDateTime(STCalendarPickerType.end) ==
                               false)
                         const STCursor(),
-                      Text(_endHintText,
+                      Text(_endHintText!,
                           style: _isSelectedDateTime(STCalendarPickerType.end)
                               ? _selectedTextStyle
                               : _defaultTextStyle),
@@ -186,7 +186,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
       builder: (context) {
         return ShowSelectDialog(
           offset: Offset(
-              _touchCalPoints.dx + _margin.left,
+              _touchCalPoints.dx + _margin!.left,
               _touchCalPoints.dy +
                   _offsetVertical +
                   (getIsWeb() ? _stCalendarInputHeight : 0)),
@@ -221,7 +221,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
       _selectedDateTimes[1] = value;
     }
     if (widget.onChanged != null) {
-      widget.onChanged(_selectedDateTimes);
+      widget.onChanged!(_selectedDateTimes);
     }
     setState(() {});
   }

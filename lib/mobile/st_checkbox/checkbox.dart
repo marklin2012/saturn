@@ -8,10 +8,10 @@ const _defaultIconWidth = 20.0;
 // ignore: must_be_immutable
 class STCheckBox extends StatelessWidget {
   final bool value; // 是否选中
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged;
   final Color activeColor; // 内部颜色
   final Color borderColor; // 边框颜色
-  final String text; // 文本内容
+  final String? text; // 文本内容
   final bool disabled; // 是否可用
   final double boxWidth; // 框的宽度
   final double space; // 文字与图的间距
@@ -21,7 +21,7 @@ class STCheckBox extends StatelessWidget {
   final Color iconColor; // 图片颜色
 
   STCheckBox({
-    Key key,
+    Key? key,
     this.value = false,
     this.text,
     this.disabled = false,
@@ -36,8 +36,8 @@ class STCheckBox extends StatelessWidget {
     this.radius = 4.0,
   }) : super(key: key);
 
-  Color _borderColor;
-  ValueNotifier<Color> _curColorNoti;
+  Color? _borderColor;
+  late ValueNotifier<Color?> _curColorNoti;
 
   void initNotifier() {
     _borderColor = borderColor;
@@ -60,12 +60,12 @@ class STCheckBox extends StatelessWidget {
         child: Opacity(
           opacity: disabled ? 0.2 : 1.0,
           child: GestureDetector(
-            onTap: () => disabled ? null : onChanged(!value),
+            onTap: () => disabled ? null : onChanged!(!value),
             child: Row(
               children: [
                 _getChild(),
                 if (text != null) SizedBox(width: space),
-                if (text != null) Text(text, style: textStyle),
+                if (text != null) Text(text!, style: textStyle),
               ],
             ),
           ),
@@ -78,13 +78,13 @@ class STCheckBox extends StatelessWidget {
     if (disabled || !value) {
       return ValueListenableBuilder(
         valueListenable: _curColorNoti,
-        builder: (context, Color color, child) {
+        builder: (context, Color? color, child) {
           return Container(
             height: boxWidth,
             width: boxWidth,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(radius)),
-              border: Border.all(color: color),
+              border: Border.all(color: color!),
             ),
           );
         },

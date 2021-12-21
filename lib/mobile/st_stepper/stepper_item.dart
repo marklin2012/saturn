@@ -9,7 +9,7 @@ const _disableImageColor = Color(0xFFDFE2E7);
 
 class STStepperItem extends StatefulWidget {
   final StepperItemType type;
-  final ValueChanged<StepperItemType> onChanged;
+  final ValueChanged<StepperItemType>? onChanged;
   final double borderRadius;
   final Color borderColor;
   final bool disabled;
@@ -17,8 +17,8 @@ class STStepperItem extends StatefulWidget {
   final Color iconColor;
 
   const STStepperItem({
-    Key key,
-    @required this.type,
+    Key? key,
+    required this.type,
     this.onChanged,
     this.borderColor = const Color(0xFFDFE2E7),
     this.iconColor = const Color(0xFF000000),
@@ -33,9 +33,9 @@ class STStepperItem extends StatefulWidget {
 }
 
 class _STStepperItemState extends State<STStepperItem> {
-  BorderRadius _borderRadius;
-  Icon _image;
-  Color _borderColor;
+  BorderRadius? _borderRadius;
+  Icon? _image;
+  late Color _borderColor;
 
   bool get _disabled => widget.disabled;
 
@@ -59,7 +59,7 @@ class _STStepperItemState extends State<STStepperItem> {
   Widget build(BuildContext context) {
     _init();
     return GestureDetector(
-      onTap: () => widget.disabled ? null : widget.onChanged(widget.type),
+      onTap: () => widget.disabled ? null : widget.onChanged!(widget.type),
       child: Container(
         height: 24.0,
         width: 24.0,

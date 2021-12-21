@@ -22,7 +22,7 @@ class STActionSheetConstant {
 }
 
 class STActionSheetInterface {
-  Widget getLineWidget(double containerWidth) {
+  Widget getLineWidget(double? containerWidth) {
     return Container(
       width: containerWidth,
       height: 1,

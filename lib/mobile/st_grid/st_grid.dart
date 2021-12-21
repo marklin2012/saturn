@@ -3,9 +3,9 @@ import 'package:saturn/mobile/st_button/common.dart';
 
 class STGridView extends StatelessWidget {
   const STGridView({
-    Key key,
-    @required this.gridDelegate,
-    @required this.itemBuilder,
+    Key? key,
+    required this.gridDelegate,
+    required this.itemBuilder,
     this.itemCount,
     this.padding,
     this.backgroundColor,
@@ -16,19 +16,19 @@ class STGridView extends StatelessWidget {
     this.physics = const AlwaysScrollableScrollPhysics(),
   }) : super(key: key);
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
-  final BoxDecoration decoration;
+  final BoxDecoration? decoration;
 
   final SliverGridDelegate gridDelegate;
 
   final Widget Function(BuildContext, int) itemBuilder;
 
-  final int itemCount;
+  final int? itemCount;
 
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
-  final ScrollController controller;
+  final ScrollController? controller;
 
   final Axis scrollDirection;
 

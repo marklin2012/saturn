@@ -6,26 +6,26 @@ import '../../utils/platform.dart';
 import 'common.dart';
 
 class STAlert extends StatefulWidget {
-  final double width;
-  final String icon;
+  final double? width;
+  final String? icon;
   final String message;
-  final String description;
-  final String closeText;
+  final String? description;
+  final String? closeText;
   final STAlertType type;
   final bool showIcon;
   final bool autoClose;
   final bool closable;
-  final int disappearMilliseconds;
+  final int? disappearMilliseconds;
 
-  final VoidCallback onCloseTap;
+  final VoidCallback? onCloseTap;
 
   const STAlert({
-    Key key,
-    @required this.type,
-    @required this.message,
-    @required this.showIcon,
-    @required this.autoClose,
-    @required this.closable,
+    Key? key,
+    required this.type,
+    required this.message,
+    required this.showIcon,
+    required this.autoClose,
+    required this.closable,
     this.width,
     this.icon,
     this.description,
@@ -37,17 +37,17 @@ class STAlert extends StatefulWidget {
         );
 
   static void show(
-      {@required BuildContext context,
+      {required BuildContext context,
       STAlertType type = STAlertType.info,
-      @required String message,
+      required String message,
       bool showIcon = false,
       bool autoClose = false,
       bool closable = false,
-      double width,
-      String icon,
-      String description,
-      String closeText,
-      VoidCallback onCloseTap,
+      double? width,
+      String? icon,
+      String? description,
+      String? closeText,
+      VoidCallback? onCloseTap,
       int disappearMilliseconds =
           STAlertConstant.defaultDisappearMilliseconds}) {
     showDialog(
@@ -99,14 +99,14 @@ class STAlert extends StatefulWidget {
 }
 
 class _STAlertState extends State<STAlert> with STAlertInterface {
-  Timer timer;
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
 
     if (widget.autoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds!), () {
         STAlert.hide(context);
       });
     }
@@ -128,7 +128,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    double curWidth = widget.width;
+    double? curWidth = widget.width;
     double defaultWidth;
     if (getIsWeb()) {
       defaultWidth = screenWidth / 2.0;
@@ -146,14 +146,14 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
         ));
     if (!isNullOrEmpty(widget.closeText)) {
       final double closeTextWidth =
-          (widget.closeText.length >= STAlertConstant.closeTextMaxCount
+          (widget.closeText!.length >= STAlertConstant.closeTextMaxCount
                   ? STAlertConstant.closeTextMaxCount
-                  : widget.closeText.length) *
+                  : widget.closeText!.length) *
               STAlertConstant.singleTextWidth;
 
       closeInsideWidget = SizedBox(
         width: closeTextWidth,
-        child: Text(widget.closeText,
+        child: Text(widget.closeText!,
             textAlign: TextAlign.right,
             style: const TextStyle(
                 color: Colors.grey,
@@ -215,7 +215,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
                           GestureDetector(
                             onTap: () {
                               if (widget.onCloseTap != null) {
-                                widget.onCloseTap();
+                                widget.onCloseTap!();
                               }
                             },
                             child: closeInsideWidget,
@@ -226,7 +226,7 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
                       const SizedBox(height: 8.0),
                     if (!isNullOrEmpty(widget.description))
                       Text(
-                        widget.description,
+                        widget.description!,
                         style: messageStyle,
                       ),
                     if (!isNullOrEmpty(widget.description))
@@ -244,12 +244,12 @@ class _STAlertState extends State<STAlert> with STAlertInterface {
   @override
   void dispose() {
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
     }
     super.dispose();
   }
 
-  bool isNullOrEmpty(String str) {
+  bool isNullOrEmpty(String? str) {
     if (str == null || str.isEmpty) {
       return true;
     } else {

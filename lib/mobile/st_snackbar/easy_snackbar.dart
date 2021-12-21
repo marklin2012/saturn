@@ -6,33 +6,33 @@ import 'package:saturn/mobile/st_snackbar/common.dart';
 import '../../utils/platform.dart';
 
 class EasySnackbar extends StatefulWidget {
-  final Widget message;
-  final Widget title;
-  final Widget closeButton;
-  final Widget icon;
-  final bool autoClose;
-  final Alignment alignment;
-  final EdgeInsets padding;
-  final EdgeInsets margin;
-  final Color backgroundColor;
-  final double radius;
-  final int disappearMilliseconds;
+  final Widget? message;
+  final Widget? title;
+  final Widget? closeButton;
+  final Widget? icon;
+  final bool? autoClose;
+  final Alignment? alignment;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final Color? backgroundColor;
+  final double? radius;
+  final int? disappearMilliseconds;
 
-  static BuildContext _curContext;
-  static OverlayEntry _curOverlayEntry;
+  static BuildContext? _curContext;
+  static OverlayEntry? _curOverlayEntry;
 
   static void show({
-    @required BuildContext context,
-    @required Widget title,
-    Widget message,
-    Widget closeButton,
-    Widget icon,
-    bool autoClose,
-    Alignment alignment,
-    EdgeInsets margin,
-    EdgeInsets padding,
-    Color backgroundColor,
-    double radius,
+    required BuildContext context,
+    required Widget title,
+    Widget? message,
+    Widget? closeButton,
+    Widget? icon,
+    bool? autoClose,
+    Alignment? alignment,
+    EdgeInsets? margin,
+    EdgeInsets? padding,
+    Color? backgroundColor,
+    double? radius,
     int disappearMilliseconds = STSnackbarConstant.defaultDisappearMilliseconds,
   }) {
     if (_curContext != null) {
@@ -53,10 +53,10 @@ class EasySnackbar extends StatefulWidget {
       disappearMilliseconds: disappearMilliseconds,
     );
 
-    final OverlayState overlayState = Overlay.of(context);
+    final OverlayState overlayState = Overlay.of(context)!;
     _curOverlayEntry =
         OverlayEntry(builder: (BuildContext context) => snackbar);
-    overlayState.insert(_curOverlayEntry);
+    overlayState.insert(_curOverlayEntry!);
     _curContext = context;
   }
 
@@ -64,7 +64,7 @@ class EasySnackbar extends StatefulWidget {
     BuildContext context,
   ) {
     if (_curOverlayEntry != null) {
-      _curOverlayEntry.remove();
+      _curOverlayEntry!.remove();
       _curOverlayEntry = null;
     }
     if (_curContext != null) {
@@ -73,7 +73,7 @@ class EasySnackbar extends StatefulWidget {
   }
 
   const EasySnackbar({
-    Key key,
+    Key? key,
     this.message,
     this.title,
     this.icon,
@@ -92,17 +92,17 @@ class EasySnackbar extends StatefulWidget {
 }
 
 class _EasySnackbarState extends State<EasySnackbar> {
-  Timer timer;
-  Alignment _alignment;
-  EdgeInsets _margin;
-  EdgeInsets _padding;
-  Color _backgroundColor;
+  Timer? timer;
+  late Alignment _alignment;
+  EdgeInsets? _margin;
+  EdgeInsets? _padding;
+  Color? _backgroundColor;
 
   @override
   void initState() {
     super.initState();
 
-    bool isCurAutoClose = true;
+    bool? isCurAutoClose = true;
     if (widget.autoClose != null) {
       isCurAutoClose = widget.autoClose;
     }
@@ -112,8 +112,8 @@ class _EasySnackbarState extends State<EasySnackbar> {
     _backgroundColor =
         widget.backgroundColor ?? STSnackbarConstant.defaultBackgroundColor;
 
-    if (isCurAutoClose) {
-      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds), () {
+    if (isCurAutoClose!) {
+      timer = Timer(Duration(milliseconds: widget.disappearMilliseconds!), () {
         EasySnackbar.hide(context);
       });
     }
@@ -130,9 +130,9 @@ class _EasySnackbarState extends State<EasySnackbar> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (widget.title != null) widget.title,
+          if (widget.title != null) widget.title!,
           if (widget.message != null) const SizedBox(height: 4),
-          if (widget.message != null) widget.message
+          if (widget.message != null) widget.message!
         ]);
 
     Widget innerWidget;
@@ -141,7 +141,7 @@ class _EasySnackbarState extends State<EasySnackbar> {
       innerWidget = Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (widget.icon != null) widget.icon,
+          if (widget.icon != null) widget.icon!,
           if (widget.icon != null) const SizedBox(width: 12),
           columnWidget
         ],
@@ -151,7 +151,7 @@ class _EasySnackbarState extends State<EasySnackbar> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (widget.icon != null) widget.icon,
+            if (widget.icon != null) widget.icon!,
             if (widget.icon != null) const SizedBox(width: 12),
             Expanded(child: columnWidget)
           ],
@@ -192,7 +192,7 @@ class _EasySnackbarState extends State<EasySnackbar> {
   @override
   void dispose() {
     if (timer != null) {
-      timer.cancel();
+      timer!.cancel();
     }
     super.dispose();
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Size boundingTextSize(BuildContext context, String text, TextStyle style,
+Size boundingTextSize(BuildContext context, String? text, TextStyle style,
     {int maxLines = 2 ^ 31, double maxWidth = double.infinity}) {
   if (text == null || text.isEmpty) {
     return Size.zero;

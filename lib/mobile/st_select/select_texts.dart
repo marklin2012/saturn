@@ -14,7 +14,7 @@ class STSelectTextsConst {
 
 class STSelectTexts extends StatelessWidget {
   const STSelectTexts({
-    Key key,
+    Key? key,
     this.child,
     this.title,
     this.initValue,
@@ -24,12 +24,12 @@ class STSelectTexts extends StatelessWidget {
     this.looping = true,
   }) : super(key: key);
 
-  final Widget child; // 供外部触发的组件
-  final String title; // 标题
-  final List<String> initValue; // 初始默认值
-  final List<List<String>> listValues; // 数据集合
-  final Function(List<String> value) onChanged; // 点击确定后的回调
-  final List<String> initUnits;
+  final Widget? child; // 供外部触发的组件
+  final String? title; // 标题
+  final List<String>? initValue; // 初始默认值
+  final List<List<String>>? listValues; // 数据集合
+  final Function(List<String> value)? onChanged; // 点击确定后的回调
+  final List<String>? initUnits;
   final bool looping; //是否循环
 
   @override
@@ -64,7 +64,7 @@ class STSelectTexts extends StatelessWidget {
 
 class STSelectMenu extends StatefulWidget {
   const STSelectMenu({
-    Key key,
+    Key? key,
     this.title,
     this.initValue,
     this.listValues,
@@ -73,12 +73,12 @@ class STSelectMenu extends StatefulWidget {
     this.looping,
   }) : super(key: key);
 
-  final String title; // 标题
-  final List<String> initValue; // 初始默认值
-  final List<List<String>> listValues; // 数据集合
-  final Function(List<String> value) onChanged; // 点击确定后的回调
-  final List<String> initUnits;
-  final bool looping;
+  final String? title; // 标题
+  final List<String>? initValue; // 初始默认值
+  final List<List<String>>? listValues; // 数据集合
+  final Function(List<String> value)? onChanged; // 点击确定后的回调
+  final List<String>? initUnits;
+  final bool? looping;
 
   @override
   _STSelectMenuState createState() => _STSelectMenuState();
@@ -86,11 +86,11 @@ class STSelectMenu extends StatefulWidget {
 
 class _STSelectMenuState extends State<STSelectMenu> {
   List<String> _selectedValues = [];
-  double _width;
+  late double _width;
   int _columnNumber = 1;
-  List<String> _columnOneList;
-  List<String> _columnTwoList;
-  List<String> _columnThrList;
+  List<String>? _columnOneList;
+  List<String>? _columnTwoList;
+  List<String>? _columnThrList;
   List<String> _initValue = [];
   List<List<String>> _listValues = [];
 
@@ -101,12 +101,12 @@ class _STSelectMenuState extends State<STSelectMenu> {
 
   void _buildupLists() {
     // Dart List直接赋值的话是浅拷贝，会导致传入的值都会发生改变
-    _initValue = List.from(widget.initValue);
+    _initValue = List.from(widget.initValue!);
     if (_selectedValues.isEmpty) {
-      _selectedValues = List.from(widget.initValue);
+      _selectedValues = List.from(widget.initValue!);
     }
     if (_listValues.isEmpty) {
-      _listValues = List.from(widget.listValues);
+      _listValues = List.from(widget.listValues!);
     }
     for (int i = 0; i < _listValues.length; i++) {
       _columnNumber = i + 1;
@@ -137,17 +137,17 @@ class _STSelectMenuState extends State<STSelectMenu> {
           Row(
             children:
                 List.generate(_columnNumber, (index) => _getPickerView(index))
-                    .toList(),
+                    .toList() as List<Widget>,
           ),
         ],
       ),
     );
   }
 
-  Widget _getPickerView(int number) {
-    var _titles = <String>[];
-    String _initialTitle;
-    String _initUnit;
+  Widget? _getPickerView(int number) {
+    List<String>? _titles = <String>[];
+    String? _initialTitle;
+    String? _initUnit;
     if (number == 0) {
       _titles = _columnOneList;
     } else if (number == 1) {
@@ -158,10 +158,10 @@ class _STSelectMenuState extends State<STSelectMenu> {
     if (_initValue != null && _initValue.length > number) {
       _initialTitle = _initValue[number];
     }
-    if (widget.initUnits != null && widget.initUnits.length > number) {
-      _initUnit = widget.initUnits[number];
+    if (widget.initUnits != null && widget.initUnits!.length > number) {
+      _initUnit = widget.initUnits![number];
     }
-    if (_titles.isEmpty) return null;
+    if (_titles!.isEmpty) return null;
     int _initItem = 0;
     for (int i = 0; i < _titles.length; i++) {
       if (_initialTitle == _titles[i]) {
@@ -196,9 +196,9 @@ class _STSelectMenuState extends State<STSelectMenu> {
                   initialItem: _initItem,
                 ),
                 useMagnifier: true,
-                looping: widget.looping,
+                looping: widget.looping!,
                 onSelectedItemChanged: (int index) {
-                  _selectedValues[number] = _titles[index];
+                  _selectedValues[number] = _titles![index];
                 },
                 children: List.generate(_titles.length, (index) {
                   return Container(
@@ -208,7 +208,7 @@ class _STSelectMenuState extends State<STSelectMenu> {
                         ? Alignment.centerRight
                         : Alignment.center,
                     child: Text(
-                      _titles[index],
+                      _titles![index],
                     ),
                   );
                 }).toList(),
@@ -247,7 +247,7 @@ class _STSelectMenuState extends State<STSelectMenu> {
             ),
           ),
           Text(
-            widget.title,
+            widget.title!,
             style: const TextStyle(
                 color: Color(0xFF000000),
                 fontSize: 18,
@@ -256,7 +256,7 @@ class _STSelectMenuState extends State<STSelectMenu> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              widget.onChanged(_selectedValues);
+              widget.onChanged!(_selectedValues);
             },
             child: const Text(
               '确定',

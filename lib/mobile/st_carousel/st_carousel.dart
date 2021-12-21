@@ -11,7 +11,7 @@ enum STCarouselDirction {
 
 class STCarousel extends StatelessWidget {
   const STCarousel({
-    Key key,
+    Key? key,
     this.height = 220.0,
     this.decoration,
     this.margin,
@@ -27,13 +27,13 @@ class STCarousel extends StatelessWidget {
   }) : super(key: key);
 
   final double height;
-  final Decoration decoration;
-  final EdgeInsets margin;
-  final EdgeInsets padding;
-  final Widget child;
+  final Decoration? decoration;
+  final EdgeInsets? margin;
+  final EdgeInsets? padding;
+  final Widget? child;
   final STCarouselDirction dirction;
   final int currentPage;
-  final int totalPage;
+  final int? totalPage;
   final STCarouselIndicatorType indicatorType;
   final Color highLightColor;
   final Color normalColor;

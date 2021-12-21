@@ -3,15 +3,15 @@ import 'package:saturn/mobile/st_select/select_texts.dart';
 
 class STTimePicker extends StatelessWidget {
   const STTimePicker({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.onTimerDurationChanged,
     this.initDuration,
   })  : assert(child != null),
         super(key: key);
 
-  final Duration initDuration; // 初始化时间
-  final ValueChanged<Duration> onTimerDurationChanged; // 选中后的时间回调
+  final Duration? initDuration; // 初始化时间
+  final ValueChanged<Duration>? onTimerDurationChanged; // 选中后的时间回调
   final Widget child;
 
   @override
@@ -40,7 +40,7 @@ class STTimePicker extends StatelessWidget {
       _seconds = int.parse(value[2]);
     }
     if (onTimerDurationChanged != null) {
-      onTimerDurationChanged(
+      onTimerDurationChanged!(
         Duration(hours: _hours, minutes: _minutes, seconds: _seconds),
       );
     }

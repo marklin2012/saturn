@@ -16,7 +16,7 @@ const _defaultSelectColor = Color(0xFF095BF9);
 
 class STStatefulSteps extends StatefulWidget {
   const STStatefulSteps({
-    Key key,
+    Key? key,
     this.margin,
     this.steps,
     this.current,
@@ -25,29 +25,29 @@ class STStatefulSteps extends StatefulWidget {
   }) : super(key: key);
 
   final STStepsType type;
-  final EdgeInsets margin;
-  final List<STStepItem> steps;
-  final int current;
-  final double detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
+  final EdgeInsets? margin;
+  final List<STStepItem>? steps;
+  final int? current;
+  final double? detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
 
   @override
   _STStatefulStepsState createState() => _STStatefulStepsState();
 }
 
 class _STStatefulStepsState extends State<STStatefulSteps> {
-  STStepsType _type;
-  List<STStepItem> _steps;
-  EdgeInsets _margin;
-  List<GlobalKey> _golbalKeys;
+  STStepsType? _type;
+  late List<STStepItem> _steps;
+  EdgeInsets? _margin;
+  late List<GlobalKey> _golbalKeys;
   bool _isFindRender = false;
-  List<STRenderItem> _renders;
-  int _current;
+  late List<STRenderItem> _renders;
+  late int _current;
 
   @override
   void initState() {
     super.initState();
     _type = widget.type;
-    _steps = List.from(widget.steps);
+    _steps = List.from(widget.steps!);
     _margin = widget.margin ?? _defaultMargin;
     _current = widget.current ?? 0;
     _golbalKeys = <GlobalKey>[];
@@ -56,7 +56,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
       _golbalKeys.add(_tempKey);
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
   }
@@ -66,7 +66,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
     _renders = <STRenderItem>[];
     for (var i = 0; i < _golbalKeys.length; i++) {
       final RenderBox tempRender =
-          _golbalKeys[i].currentContext.findRenderObject();
+          _golbalKeys[i].currentContext!.findRenderObject() as RenderBox;
       final _offset = tempRender.localToGlobal(Offset.zero);
       final _render = STRenderItem(offset: _offset, size: tempRender.size);
       _renders.add(_render);
@@ -122,7 +122,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
                 SizedBox(
                   height: _defaultNumIconHeight,
                   child: Text(
-                    _steps[index].title,
+                    _steps[index].title!,
                     style: TextStyle(
                         fontSize: 14.0,
                         color: _isFinished(index)
@@ -133,7 +133,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
                 SizedBox(
                   height: _defaultNumIconWidth,
                   child: Text(
-                    _steps[index].info,
+                    _steps[index].info!,
                     style: const TextStyle(
                         fontSize: 12.0, color: Color(0xFF888888)),
                   ),
@@ -152,12 +152,12 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
     ));
     if (_isFindRender) {
       for (var i = 0; i < _steps.length - 1; i++) {
-        final _top = _renders[i].offset.dy -
-            _renders[0].offset.dy +
+        final _top = _renders[i].offset!.dy -
+            _renders[0].offset!.dy +
             _defaultNumIconWidth +
             _defaultCircleWidth / 2;
-        final _height = _renders[i + 1].offset.dy -
-            _renders[i].offset.dy -
+        final _height = _renders[i + 1].offset!.dy -
+            _renders[i].offset!.dy -
             _defaultNumIconWidth -
             _defaultCircleWidth;
         final _temp = Positioned(
@@ -195,7 +195,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
           crossAxisAlignment: _crossAxisAlignment,
           children: [
             Text(
-              _steps[index].title,
+              _steps[index].title!,
               style: _isFinished(index)
                   ? _defaultSelectTextStyle
                   : _defaultTextStyle,
@@ -222,10 +222,10 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
     ));
     if (_isFindRender) {
       for (var i = 1; i < _steps.length; i++) {
-        final _width = _renders[i].offset.dx -
-            _renders[i - 1].offset.dx -
+        final _width = _renders[i].offset!.dx -
+            _renders[i - 1].offset!.dx -
             _defaultCircleWidth * 2;
-        final _left = _renders[i - 1].offset.dx - _defaultCircleWidth;
+        final _left = _renders[i - 1].offset!.dx - _defaultCircleWidth;
         final _temp = Positioned(
           left: _left,
           bottom: (_defaultCircleWidth - 2) / 2,

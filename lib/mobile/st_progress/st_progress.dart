@@ -8,15 +8,15 @@ class STProgress extends StatefulWidget {
   final STProgressType type;
   final STProgressStatus status;
   final double size;
-  final double height;
+  final double? height;
   final double progress;
-  final Color color;
-  final Widget trailingWidget;
-  final Widget centerWidget;
+  final Color? color;
+  final Widget? trailingWidget;
+  final Widget? centerWidget;
   final int stepCount;
 
   const STProgress({
-    Key key,
+    Key? key,
     this.progress = 0,
     this.type = STProgressType.primary,
     this.status = STProgressStatus.primary,
@@ -53,7 +53,7 @@ class _STProgressState extends State<STProgress> {
       curStatus = STProgressStatus.done;
     }
 
-    Color curProgressColor = widget.color;
+    Color? curProgressColor = widget.color;
 
     if (curStatus != STProgressStatus.primary) {
       curProgressColor = colorFromProgressStatus(curStatus);
@@ -61,15 +61,15 @@ class _STProgressState extends State<STProgress> {
     {
       curProgressColor ??= colorFromProgressStatus(curStatus);
     }
-    double curHeight = widget.height;
+    double? curHeight = widget.height;
     Widget content;
-    Widget curTrailingWidget = widget.trailingWidget;
+    Widget? curTrailingWidget = widget.trailingWidget;
 
     switch (widget.type) {
       case STProgressType.primary:
       case STProgressType.percent:
         {
-          Widget curIndicatorWidget;
+          Widget? curIndicatorWidget;
           if (widget.type == STProgressType.primary) {
             curHeight ??= 8.0;
             if (curStatus != STProgressStatus.primary) {
@@ -141,7 +141,7 @@ class _STProgressState extends State<STProgress> {
       case STProgressType.dashboard:
         {
           curHeight ??= 8.0;
-          Widget curCenterWidget = widget.centerWidget;
+          Widget? curCenterWidget = widget.centerWidget;
 
           if (widget.type == STProgressType.circle) {
             if (curStatus != STProgressStatus.primary) {

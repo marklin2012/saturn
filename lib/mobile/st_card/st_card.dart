@@ -13,7 +13,7 @@ const _spaceHeight = 8.0;
 
 class STCard extends StatelessWidget {
   const STCard({
-    Key key,
+    Key? key,
     this.type = STCardType.easy,
     this.shadowed = false,
     this.child,
@@ -32,12 +32,12 @@ class STCard extends StatelessWidget {
   final EdgeInsets margin; //外边距
   final bool shadowed; // 是否有阴影
   final Color backgroundColor; // 背景颜色
-  final Widget child; // 内容,icon时即为图片
-  final String title; // 主标题
-  final String subTitle; // 子标题
+  final Widget? child; // 内容,icon时即为图片
+  final String? title; // 主标题
+  final String? subTitle; // 子标题
   final TextStyle titleStyle; // 主标题样式
   final TextStyle subTitleStyle; // 子标题样式
-  final Widget opration; // 操作按钮
+  final Widget? opration; // 操作按钮
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +54,13 @@ class STCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(_title, style: titleStyle),
-            opration,
+            opration!,
           ],
         ),
       );
       _subWidgets.add(_titleW);
       _subWidgets.add(Container(height: 1, color: _defaultLineColor));
-      _subWidgets.add(child);
+      _subWidgets.add(child!);
     } else if (type == STCardType.icon) {
       final _imageW = Container(
         decoration: const BoxDecoration(
@@ -89,7 +89,7 @@ class STCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(_subTitle, style: subTitleStyle),
-                opration,
+                opration!,
               ],
             ),
           ],
@@ -98,7 +98,7 @@ class STCard extends StatelessWidget {
       _subWidgets.add(_imageW);
       _subWidgets.add(_botW);
     } else {
-      _subWidgets.add(child);
+      _subWidgets.add(child!);
     }
     return Container(
       margin: margin,

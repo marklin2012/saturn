@@ -10,15 +10,15 @@ const stCarouselCardOffset = 100.0;
 
 class STCarouselCard extends StatefulWidget {
   const STCarouselCard({
-    Key key,
+    Key? key,
     this.items,
     this.height,
     this.initPage,
   }) : super(key: key);
 
-  final List<Widget> items;
-  final double height;
-  final int initPage;
+  final List<Widget>? items;
+  final double? height;
+  final int? initPage;
 
   @override
   _STCarouselCardState createState() => _STCarouselCardState();
@@ -30,7 +30,7 @@ class _STCarouselCardState extends State<STCarouselCard> {
   List<Widget> _items = [];
   int _currentPage = 0;
   double _leftOrRight = 0;
-  STCarouselCardDirction _dirction;
+  STCarouselCardDirction? _dirction;
 
   @override
   void initState() {

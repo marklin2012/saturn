@@ -12,7 +12,7 @@ const _defaultFailSize = 30.0;
 
 class STVideoControl extends StatelessWidget {
   const STVideoControl(
-      {Key key,
+      {Key? key,
       this.status = STVideoStatus.loading,
       this.size = 40.0,
       this.doubleControlRow = false,
@@ -24,7 +24,7 @@ class STVideoControl extends StatelessWidget {
   final double size;
   final Color activeColor; //边框和图片颜色
   final bool doubleControlRow; // 是否双行
-  final ValueChanged<STVideoStatus> onChanged; // 状态改变
+  final ValueChanged<STVideoStatus>? onChanged; // 状态改变
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +59,9 @@ class STVideoControl extends StatelessWidget {
       padding: _padding,
       onTap: () {
         if (status == STVideoStatus.pause && onChanged != null) {
-          onChanged(STVideoStatus.play);
+          onChanged!(STVideoStatus.play);
         } else if (status == STVideoStatus.play && onChanged != null) {
-          onChanged(STVideoStatus.pause);
+          onChanged!(STVideoStatus.pause);
         }
       },
     );

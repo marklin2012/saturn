@@ -4,14 +4,14 @@ import 'package:flutter/rendering.dart';
 import 'common.dart';
 
 class STStepProgreessClipper extends CustomClipper<Rect> {
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
 
   STStepProgreessClipper({this.width, this.height});
 
   @override
   Rect getClip(Size size) {
-    return Rect.fromLTRB(width, height, 0, 0);
+    return Rect.fromLTRB(width!, height!, 0, 0);
   }
 
   @override
@@ -21,13 +21,13 @@ class STStepProgreessClipper extends CustomClipper<Rect> {
 }
 
 class STStepProgress extends StatefulWidget {
-  final double width;
-  final double height;
-  final int count;
-  final double progress;
-  final Color progressColor;
+  final double? width;
+  final double? height;
+  final int? count;
+  final double? progress;
+  final Color? progressColor;
   final bool isCircle;
-  final Widget trailingWidget;
+  final Widget? trailingWidget;
 
   const STStepProgress(
       {this.width,
@@ -46,15 +46,15 @@ class _STStepProgressState extends State<STStepProgress> {
   @override
   Widget build(BuildContext context) {
     double itemTotalWidth =
-        widget.width - (widget.count - 1) * STProgressConstant.defaultSpace;
-    double itemWidth = itemTotalWidth / widget.count;
-    if (widget.height < itemWidth) {
-      itemWidth = widget.height;
+        widget.width! - (widget.count! - 1) * STProgressConstant.defaultSpace;
+    double itemWidth = itemTotalWidth / widget.count!;
+    if (widget.height! < itemWidth) {
+      itemWidth = widget.height!;
     }
-    itemTotalWidth = itemWidth * widget.count +
-        (widget.count - 1) * STProgressConstant.defaultSpace;
+    itemTotalWidth = itemWidth * widget.count! +
+        (widget.count! - 1) * STProgressConstant.defaultSpace;
     final double progressWidthNoSpace =
-        widget.progress * itemWidth * widget.count;
+        widget.progress! * itemWidth * widget.count!;
     final int progressCount =
         (progressWidthNoSpace / itemWidth * 1.0).truncate();
     final double progressWidth =
@@ -63,7 +63,7 @@ class _STStepProgressState extends State<STStepProgress> {
     return Stack(
       children: [
         CustomPaint(
-            size: Size(widget.width, widget.height),
+            size: Size(widget.width!, widget.height!),
             painter: STStepProgressPainter(
               itemWidth: itemWidth,
               height: widget.height,
@@ -94,11 +94,11 @@ class _STStepProgressState extends State<STStepProgress> {
 
 /// StepProgressPainter
 class STStepProgressPainter extends CustomPainter {
-  final int count;
-  final double itemWidth;
-  final double height;
-  final Color color;
-  final bool isCircle;
+  final int? count;
+  final double? itemWidth;
+  final double? height;
+  final Color? color;
+  final bool? isCircle;
 
   const STStepProgressPainter(
       {this.count, this.itemWidth, this.height, this.color, this.isCircle});
@@ -106,13 +106,13 @@ class STStepProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     double radius = 0;
-    if (isCircle) {
-      radius = itemWidth / 2.0;
+    if (isCircle!) {
+      radius = itemWidth! / 2.0;
     }
 
     double beginX = 0;
     final Paint progressPaint = Paint()
-      ..color = color
+      ..color = color!
       ..style = PaintingStyle.fill
       ..strokeCap = StrokeCap.butt
       ..strokeJoin = StrokeJoin.miter
@@ -120,15 +120,15 @@ class STStepProgressPainter extends CustomPainter {
 
     const Radius cornerRadius = Radius.circular(2.0);
 
-    for (int i = 0; i < count; i++) {
-      if (isCircle) {
+    for (int i = 0; i < count!; i++) {
+      if (isCircle!) {
         canvas.drawCircle(
-            Offset(beginX + radius, height / 2.0), radius, progressPaint);
-        beginX += itemWidth + STProgressConstant.defaultSpace;
+            Offset(beginX + radius, height! / 2.0), radius, progressPaint);
+        beginX += itemWidth! + STProgressConstant.defaultSpace;
       } else {
-        final double endX = beginX + itemWidth;
+        final double endX = beginX + itemWidth!;
         final Offset beginPoint = Offset(beginX, 0);
-        final Offset endPoint = Offset(endX, height);
+        final Offset endPoint = Offset(endX, height!);
         canvas.drawRRect(
             RRect.fromRectAndRadius(
                 Rect.fromPoints(beginPoint, endPoint), cornerRadius),

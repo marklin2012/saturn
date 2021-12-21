@@ -5,7 +5,7 @@ const double _minHeight = 162.0;
 
 class STEmptyData extends StatelessWidget {
   const STEmptyData({
-    Key key,
+    Key? key,
     this.icon,
     this.content,
     this.customBtn,
@@ -16,12 +16,12 @@ class STEmptyData extends StatelessWidget {
     this.backgroundColor = STColor.backgroundColor,
   }) : super(key: key);
 
-  final Widget icon;
+  final Widget? icon;
   final String defaultTitle;
-  final TextStyle titleStyle;
-  final String content;
-  final TextStyle contentStyle;
-  final Widget customBtn;
+  final TextStyle? titleStyle;
+  final String? content;
+  final TextStyle? contentStyle;
+  final Widget? customBtn;
   final EdgeInsetsGeometry padding;
   final Color backgroundColor;
 
@@ -56,7 +56,7 @@ class STEmptyData extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                content,
+                content!,
                 style: contentStyle ??
                     const TextStyle(
                       fontSize: 14.0,

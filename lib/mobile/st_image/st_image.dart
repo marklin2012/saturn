@@ -26,7 +26,7 @@ const assetsNameHolder = 'images/default_placeholder.png';
 
 class STImage extends StatelessWidget {
   const STImage({
-    Key key,
+    Key? key,
     this.fit,
     this.width,
     this.iconWidth,
@@ -40,20 +40,20 @@ class STImage extends StatelessWidget {
     this.customChild,
   }) : super(key: key);
 
-  final BoxFit fit;
-  final double width;
-  final double iconWidth;
-  final STImageScale scale;
-  final String assetsName;
-  final String package;
+  final BoxFit? fit;
+  final double? width;
+  final double? iconWidth;
+  final STImageScale? scale;
+  final String? assetsName;
+  final String? package;
   final bool isCircle;
-  final double radius;
-  final Color backgroundColor;
-  final STImageType type;
-  final Widget customChild;
+  final double? radius;
+  final Color? backgroundColor;
+  final STImageType? type;
+  final Widget? customChild;
 
   const STImage.avatar({
-    Key key,
+    Key? key,
     this.fit = BoxFit.cover,
     this.width = 50,
     this.iconWidth = 50,
@@ -68,7 +68,7 @@ class STImage extends StatelessWidget {
   }) : super(key: key);
 
   const STImage.logo({
-    Key key,
+    Key? key,
     this.fit = BoxFit.cover,
     this.width = 50,
     this.iconWidth = 50,
@@ -83,7 +83,7 @@ class STImage extends StatelessWidget {
   }) : super(key: key);
 
   const STImage.team({
-    Key key,
+    Key? key,
     this.fit = BoxFit.cover,
     this.width = 50,
     this.iconWidth = 50,
@@ -98,10 +98,10 @@ class STImage extends StatelessWidget {
   }) : super(key: key);
 
   const STImage.holder({
-    Key key,
+    Key? key,
     this.fit = BoxFit.cover,
     this.width,
-    @required this.iconWidth,
+    required this.iconWidth,
     this.scale = STImageScale.origin,
     this.assetsName = assetsNameHolder,
     this.package = assetsPackage,
@@ -113,9 +113,9 @@ class STImage extends StatelessWidget {
   }) : super(key: key);
 
   const STImage.diffType({
-    Key key,
+    Key? key,
     this.fit = BoxFit.cover,
-    @required this.width,
+    required this.width,
     this.type = STImageType.nono,
     this.scale = STImageScale.scale3v2,
     this.isCircle = false,
@@ -132,7 +132,7 @@ class STImage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius:
-            BorderRadius.circular(isCircle ? (width ?? iconWidth) / 2 : 4.0),
+            BorderRadius.circular(isCircle ? (width ?? iconWidth)! / 2 : 4.0),
         color: backgroundColor,
       ),
       width: scale == STImageScale.origin
@@ -143,21 +143,21 @@ class STImage extends StatelessWidget {
     );
   }
 
-  double _getHeight() {
+  double? _getHeight() {
     final _scaleW = iconWidth ?? width;
-    double _height;
+    double? _height;
     switch (scale) {
       case STImageScale.scale1v1:
         _height = _scaleW;
         break;
       case STImageScale.scale3v2:
-        _height = (_scaleW * 2 / 3).floorToDouble();
+        _height = (_scaleW! * 2 / 3).floorToDouble();
         break;
       case STImageScale.scale4v3:
-        _height = (_scaleW * 3 / 4).floorToDouble();
+        _height = (_scaleW! * 3 / 4).floorToDouble();
         break;
       case STImageScale.scale16v9:
-        _height = (_scaleW * 9 / 16).floorToDouble();
+        _height = (_scaleW! * 9 / 16).floorToDouble();
         break;
       default:
         _height = null;
@@ -183,9 +183,9 @@ class STImage extends StatelessWidget {
 
   Widget _buildNoType() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(isCircle ? iconWidth / 2 : 4.0),
+      borderRadius: BorderRadius.circular(isCircle ? iconWidth! / 2 : 4.0),
       child: Image.asset(
-        assetsName,
+        assetsName!,
         width: iconWidth,
         height: _getHeight(),
         fit: fit,

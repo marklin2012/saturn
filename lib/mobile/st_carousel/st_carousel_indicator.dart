@@ -10,7 +10,7 @@ enum STCarouselIndicatorType {
 
 class STCarouselIndicator extends StatelessWidget {
   const STCarouselIndicator({
-    Key key,
+    Key? key,
     this.totalPage,
     this.currentPage = 0,
     this.type = STCarouselIndicatorType.circle,
@@ -19,7 +19,7 @@ class STCarouselIndicator extends StatelessWidget {
     this.color = STColor.thrRankGrey,
   }) : super(key: key);
 
-  final int totalPage;
+  final int? totalPage;
 
   final int currentPage;
 
@@ -42,10 +42,10 @@ class STCarouselIndicator extends StatelessWidget {
           : const EdgeInsets.only(bottom: 4.0);
       final _height = type == STCarouselIndicatorType.circle ? 8.0 : 4.0;
       final _width = type == STCarouselIndicatorType.circle ? 8.0 : 32.0;
-      for (int i = 0; i < totalPage; i++) {
+      for (int i = 0; i < totalPage!; i++) {
         Widget _widget;
         final _isHighLight = currentPage == i;
-        if (i == totalPage - 1) {
+        if (i == totalPage! - 1) {
           _widget = Container(
             width: _width,
             height: _height,
@@ -70,7 +70,7 @@ class STCarouselIndicator extends StatelessWidget {
         _widgets.add(_widget);
       }
     } else {
-      final _progress = (currentPage.toDouble() + 1.0) / totalPage.toDouble();
+      final _progress = (currentPage.toDouble() + 1.0) / totalPage!.toDouble();
       _widgets.add(
         STSlider(
           value: _progress,

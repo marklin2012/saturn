@@ -27,7 +27,7 @@ class STVideoBase extends StatefulWidget {
   static const stVideoBaseKey = '_stVideoBaseKeyDebounce';
 
   const STVideoBase({
-    Key key,
+    Key? key,
     this.height,
     this.margin,
     this.path,
@@ -39,10 +39,10 @@ class STVideoBase extends StatefulWidget {
     this.isShowControl = true,
   }) : super(key: key);
 
-  final double height;
-  final EdgeInsets margin;
-  final String path;
-  final STVideoPlayType playType;
+  final double? height;
+  final EdgeInsets? margin;
+  final String? path;
+  final STVideoPlayType? playType;
   final bool isLive;
   final bool doubleControlRow; // 是否双行控制栏
   final bool isLooping; // 是否循环播放
@@ -54,20 +54,20 @@ class STVideoBase extends StatefulWidget {
 }
 
 class _STVideoBaseState extends State<STVideoBase> {
-  double _height;
-  double _width;
-  double _progressWidth;
-  EdgeInsets _margin;
-  bool _showControl;
-  bool _showVolume; // 是否显示声音调整
-  double _volume; // 音量
+  double? _height;
+  double? _width;
+  double? _progressWidth;
+  EdgeInsets? _margin;
+  bool? _showControl;
+  bool? _showVolume; // 是否显示声音调整
+  double? _volume; // 音量
 
-  VideoPlayerController _playerController;
-  Future _initializeVideoPlayerFuture;
+  VideoPlayerController? _playerController;
+  Future? _initializeVideoPlayerFuture;
 
-  ValueNotifier<STVideoStatus> _statusNotifier; //监听播放状态
-  ValueNotifier<double> _progressNotifier; // 监听进度
-  ValueNotifier<String> _timeNotifier; // 监听时间显示
+  late ValueNotifier<STVideoStatus> _statusNotifier; //监听播放状态
+  late ValueNotifier<double> _progressNotifier; // 监听进度
+  late ValueNotifier<String> _timeNotifier; // 监听时间显示
   Duration _total = const Duration();
 
   bool _isOvered = false; // 是否结束
@@ -86,30 +86,30 @@ class _STVideoBaseState extends State<STVideoBase> {
 
     switch (widget.playType) {
       case STVideoPlayType.asset:
-        _playerController = VideoPlayerController.asset(widget.path);
+        _playerController = VideoPlayerController.asset(widget.path!);
         break;
       case STVideoPlayType.network:
-        _playerController = VideoPlayerController.network(widget.path);
+        _playerController = VideoPlayerController.network(widget.path!);
         break;
       default:
     }
-    _playerController.addListener(() {
+    _playerController!.addListener(() {
       // 当前进度
-      final _current = _playerController.value.position;
+      final _current = _playerController!.value.position;
       _timeNotifier.value = getTimeString(_total, _current);
       _progressNotifier.value = getProgressValue(_total, _current);
-      if (!_playerController.value.isPlaying) {
+      if (!_playerController!.value.isPlaying) {
         _statusNotifier.value = STVideoStatus.pause;
       }
       _isOvered = _current == _total;
     });
-    _initializeVideoPlayerFuture = _playerController.initialize();
-    _playerController.setLooping(widget.isLooping);
-    _initializeVideoPlayerFuture.then((_) {
-      _total = _playerController.value.duration; // 总时长
-      _playerController.setVolume(_volume);
+    _initializeVideoPlayerFuture = _playerController!.initialize();
+    _playerController!.setLooping(widget.isLooping);
+    _initializeVideoPlayerFuture!.then((_) {
+      _total = _playerController!.value.duration; // 总时长
+      _playerController!.setVolume(_volume!);
       if (widget.isAutoPlay) {
-        _playerController.play();
+        _playerController!.play();
         _statusNotifier.value = STVideoStatus.play;
       } else {
         _statusNotifier.value = STVideoStatus.pause;
@@ -120,19 +120,20 @@ class _STVideoBaseState extends State<STVideoBase> {
 
   @override
   void dispose() {
-    _playerController.dispose();
+    _playerController!.dispose();
     STDebounce().cancel(key: STVideoBase.stVideoBaseKey);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width - _margin.left - _margin.right;
-    _progressWidth = _width - _margin.left - _margin.right - 2 * _defaultFix12;
+    _width = MediaQuery.of(context).size.width - _margin!.left - _margin!.right;
+    _progressWidth =
+        _width! - _margin!.left - _margin!.right - 2 * _defaultFix12;
     if (!widget.doubleControlRow) {
-      _progressWidth = _width -
-          _margin.left -
-          _margin.right -
+      _progressWidth = _width! -
+          _margin!.left -
+          _margin!.right -
           3 * _defaultFix12 -
           3 * _defaultFix10 -
           3 * _defaultFix16 -
@@ -145,8 +146,8 @@ class _STVideoBaseState extends State<STVideoBase> {
       child: Stack(
         children: [
           _getVideoWidget(),
-          if (_showControl) _getStatusWidget(),
-          if (_showControl) _getBottomWidget(),
+          if (_showControl!) _getStatusWidget(),
+          if (_showControl!) _getBottomWidget(),
         ],
       ),
     );
@@ -159,9 +160,9 @@ class _STVideoBaseState extends State<STVideoBase> {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           setState(() {
-            _showControl = !_showControl;
+            _showControl = !_showControl!;
           });
-          if (_showControl) _autoHide();
+          if (_showControl!) _autoHide();
         },
         child: Container(
           decoration: const BoxDecoration(
@@ -173,11 +174,11 @@ class _STVideoBaseState extends State<STVideoBase> {
           child: FutureBuilder(
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot) {
-              if (snapshot.hasError) debugPrint(snapshot.error);
+              if (snapshot.hasError) debugPrint(snapshot.error as String?);
               if (snapshot.connectionState == ConnectionState.done) {
                 return AspectRatio(
-                  aspectRatio: _playerController.value.aspectRatio,
-                  child: VideoPlayer(_playerController),
+                  aspectRatio: _playerController!.value.aspectRatio,
+                  child: VideoPlayer(_playerController!),
                 );
               } else {
                 return const Opacity(opacity: 1.0);
@@ -194,8 +195,8 @@ class _STVideoBaseState extends State<STVideoBase> {
       valueListenable: _statusNotifier,
       builder: (context, STVideoStatus value, child) {
         return Positioned(
-          left: (_width - _defaultStatusSize) / 2,
-          top: (_height - _defaultStatusSize) / 2,
+          left: (_width! - _defaultStatusSize) / 2,
+          top: (_height! - _defaultStatusSize) / 2,
           child: STVideoControl(
             size: _defaultStatusSize,
             status: value,
@@ -204,12 +205,12 @@ class _STVideoBaseState extends State<STVideoBase> {
               setState(() {
                 _statusNotifier.value = status;
                 if (_statusNotifier.value == STVideoStatus.pause) {
-                  _playerController.pause();
+                  _playerController!.pause();
                 } else if (_statusNotifier.value == STVideoStatus.play) {
                   if (_isOvered) {
-                    _playerController.seekTo(const Duration());
+                    _playerController!.seekTo(const Duration());
                   }
-                  _playerController.play();
+                  _playerController!.play();
                 }
               });
               _autoHide();
@@ -238,8 +239,8 @@ class _STVideoBaseState extends State<STVideoBase> {
               alignment: Alignment.bottomCenter,
               child: _getTimeTextWidget(),
             ),
-            if (!_showVolume) _getDefaultSoundIcon(),
-            if (_showVolume)
+            if (!_showVolume!) _getDefaultSoundIcon(),
+            if (_showVolume!)
               STVideoSound(
                 axis: Axis.vertical,
                 value: _volume,
@@ -247,14 +248,14 @@ class _STVideoBaseState extends State<STVideoBase> {
                 onChanged: (double value) {
                   setState(() {
                     _volume = value;
-                    _playerController.setVolume(1.0 - _volume);
+                    _playerController!.setVolume(1.0 - _volume!);
                   });
                   _autoHide();
                 },
                 showVolumed: () {
                   // 显示声音调整的组件
                   setState(() {
-                    _showVolume = !_showVolume;
+                    _showVolume = !_showVolume!;
                   });
                   _autoHide();
                 },
@@ -289,7 +290,7 @@ class _STVideoBaseState extends State<STVideoBase> {
                       showVolumed: () {
                         // 显示声音调整的组件
                         setState(() {
-                          _showVolume = !_showVolume;
+                          _showVolume = !_showVolume!;
                         });
                         _autoHide();
                       },
@@ -330,13 +331,13 @@ class _STVideoBaseState extends State<STVideoBase> {
         // 切换播放
         if (_statusNotifier.value == STVideoStatus.play) {
           _statusNotifier.value = STVideoStatus.pause;
-          _playerController.pause();
+          _playerController!.pause();
         } else if (_statusNotifier.value == STVideoStatus.pause) {
           _statusNotifier.value = STVideoStatus.play;
           if (_isOvered) {
-            _playerController.seekTo(const Duration());
+            _playerController!.seekTo(const Duration());
           }
-          _playerController.play();
+          _playerController!.play();
         }
         _autoHide();
       },
@@ -372,10 +373,10 @@ class _STVideoBaseState extends State<STVideoBase> {
           height: _defaultFix16,
           width: _progressWidth,
           value: value,
-          onChanged: (double changeValue) {
+          onChanged: (double? changeValue) {
             setState(() {
-              _progressNotifier.value = changeValue;
-              _playerController.seekTo(
+              _progressNotifier.value = changeValue!;
+              _playerController!.seekTo(
                   Duration(seconds: (changeValue * _total.inSeconds).toInt()));
             });
             _autoHide();
@@ -420,7 +421,7 @@ class _STVideoBaseState extends State<STVideoBase> {
       onTap: () {
         // 显示声音调整的组件
         setState(() {
-          _showVolume = !_showVolume;
+          _showVolume = !_showVolume!;
         });
         _autoHide();
       },
@@ -469,7 +470,7 @@ class _STVideoBaseState extends State<STVideoBase> {
       key: STVideoBase.stVideoBaseKey,
       time: 5000,
       func: () {
-        if (_showControl) {
+        if (_showControl!) {
           _showControl = false;
           setState(() {});
         }
