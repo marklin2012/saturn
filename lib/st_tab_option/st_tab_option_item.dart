@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/common.dart';
-import 'package:saturn/utils/include.dart';
+import 'package:saturn/saturn.dart';
 
 enum STTabOptionDirction {
   top,
@@ -11,12 +11,22 @@ enum STTabOptionDirction {
 
 enum STTabOptionSize {
   small,
-  middle,
+  normal,
   large,
+}
+
+enum STTabOptionType {
+  line,
+  card,
+  editCard,
+  boxCard,
 }
 
 const _selectedFontWeight = FontWeight.w600;
 const _unselectedFontWeight = FontWeight.w400;
+const _selectedColor = STColor.firRankBlue;
+const _unselectedColor = STColor.firRankFont;
+const _disabledColor = STColor.secRankGrey;
 const _disabledBadgeBGColor = STColor.thrRankGrey;
 const _unselectedBadgeBGColor = STColor.secRankGrey;
 const _selectedBadgeColor = Colors.white;
@@ -26,42 +36,47 @@ const _badgeHeight = 16.0;
 const _iconSize = 16.0;
 const _badgeFontSize = 12.0;
 
+// ignore: must_be_immutable
 class STTabOptionItem extends StatelessWidget {
-  const STTabOptionItem({
+  STTabOptionItem({
     Key? key,
-    this.backgroundColor,
     this.icon,
     this.badge,
     this.maxBadge = 99,
     this.selected = false,
     this.disabled = false,
-    this.selectedColor = STColor.firRankBlue,
-    this.unselectedColor = STColor.firRankFont,
-    this.disabledColor = STColor.secRankGrey,
     required this.item,
+    this.type = STTabOptionType.line,
     this.dirction = STTabOptionDirction.top,
-    this.optionSize = STTabOptionSize.middle,
-    this.isCard = false,
+    this.size = STTabOptionSize.normal,
+    this.isDeleted = true,
     this.onTap,
+    this.onDeletedTap,
   }) : super(key: key);
 
-  final bool isCard;
+  final STTabOptionType type;
   final STTabOptionDirction dirction;
-  final STTabOptionSize optionSize;
-  final Color? backgroundColor;
+  final STTabOptionSize size;
   final IconData? icon;
   final int? badge;
   final int maxBadge;
   final bool selected;
   final bool disabled;
-  final Color selectedColor;
-  final Color unselectedColor;
-  final Color disabledColor;
   final String item;
+  final bool isDeleted; // editCard时是否可编辑
   final VoidCallback? onTap;
+  final VoidCallback? onDeletedTap;
+
+  late Axis _axis;
 
   @override
   Widget build(BuildContext context) {
+    if (dirction == STTabOptionDirction.top ||
+        dirction == STTabOptionDirction.bottom) {
+      _axis = Axis.horizontal;
+    } else {
+      _axis = Axis.vertical;
+    }
     return GestureDetector(
       onTap: () {
         if (disabled) return;
@@ -76,62 +91,38 @@ class STTabOptionItem extends StatelessWidget {
         }
       },
       child: Container(
-        padding: _getContenPadding(),
+        padding: _getContentPadding(),
         decoration: _getDecoration(),
         child: _getContent(),
       ),
     );
   }
 
-  Widget _getContent() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (icon != null)
-          Padding(
-            padding: const EdgeInsets.only(right: 9.0),
-            child: _buildIcon(),
-          ),
-        _buildTitle(),
-        if (badge != null)
-          Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: _getBadge(),
-          ),
-      ],
-    );
+  EdgeInsets _getContentPadding() {
+    EdgeInsets _insets = EdgeInsets.zero;
+    if (type == STTabOptionType.line) {
+      final _ver = size == STTabOptionSize.small
+          ? 8.0
+          : (size == STTabOptionSize.large ? 16.0 : 12.0);
+      _insets = EdgeInsets.symmetric(
+        vertical: _ver,
+        horizontal: _axis == Axis.vertical ? 24.0 : 0,
+      );
+    } else {
+      _insets = EdgeInsets.symmetric(
+        vertical: size == STTabOptionSize.small ? 6.0 : 8.0,
+        horizontal: 16.0,
+      );
+    }
+    return _insets;
   }
 
   BoxDecoration? _getDecoration() {
     BoxDecoration? _decoration;
-    if (isCard) {
-      const _side = BorderSide(color: STColor.thrRankGrey);
-      _decoration = BoxDecoration(
-        color: backgroundColor ?? Colors.white,
-        border: selected
-            ? Border(
-                top: dirction == STTabOptionDirction.bottom
-                    ? BorderSide.none
-                    : _side,
-                right: dirction == STTabOptionDirction.left
-                    ? BorderSide.none
-                    : _side,
-                bottom: dirction == STTabOptionDirction.top
-                    ? BorderSide.none
-                    : _side,
-                left: dirction == STTabOptionDirction.right
-                    ? BorderSide.none
-                    : _side,
-              )
-            : Border.all(color: STColor.thrRankGrey),
-        borderRadius: selected
-            ? null
-            : const BorderRadius.vertical(top: Radius.circular(2)),
-      );
-    } else {
+    if (type == STTabOptionType.line) {
       const _side = BorderSide(color: STColor.firRankBlue, width: 2);
       _decoration = BoxDecoration(
-        color: backgroundColor ?? Colors.transparent,
+        color: Colors.transparent,
         border: selected
             ? Border(
                 top: dirction == STTabOptionDirction.bottom
@@ -149,8 +140,54 @@ class STTabOptionItem extends StatelessWidget {
               )
             : null,
       );
+    } else if (type == STTabOptionType.boxCard) {
+      _decoration = BoxDecoration(
+        color: selected ? Colors.white : Colors.transparent,
+        borderRadius: selected
+            ? const BorderRadius.vertical(top: Radius.circular(2.0))
+            : null,
+      );
+    } else {
+      const _side = BorderSide(color: STColor.thrRankGrey);
+      const _whiteSide = BorderSide(color: Colors.white);
+      _decoration = BoxDecoration(
+        color: Colors.white,
+        border: selected
+            ? Border(
+                top:
+                    dirction == STTabOptionDirction.bottom ? _whiteSide : _side,
+                right:
+                    dirction == STTabOptionDirction.left ? _whiteSide : _side,
+                bottom:
+                    dirction == STTabOptionDirction.top ? _whiteSide : _side,
+                left:
+                    dirction == STTabOptionDirction.right ? _whiteSide : _side,
+              )
+            : Border.all(color: STColor.thrRankGrey),
+      );
     }
     return _decoration;
+  }
+
+  Widget _getContent() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (icon != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 9.0),
+            child: _buildIcon(),
+          ),
+        _buildTitle(),
+        if (badge != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 6),
+            child: _getBadge(),
+          ),
+        if (type == STTabOptionType.editCard && isDeleted == true)
+          _getDeletedIcon(),
+      ],
+    );
   }
 
   Widget _buildIcon() {
@@ -158,10 +195,10 @@ class STTabOptionItem extends StatelessWidget {
       icon,
       size: _iconSize,
       color: disabled
-          ? disabledColor
+          ? _disabledColor
           : selected
-              ? selectedColor
-              : unselectedColor,
+              ? _selectedColor
+              : _unselectedColor,
     );
   }
 
@@ -170,22 +207,30 @@ class STTabOptionItem extends StatelessWidget {
     TextStyle _style = TextStyle(
       fontSize: _fontSize,
       fontWeight: _unselectedFontWeight,
-      color: unselectedColor,
+      color: _unselectedColor,
     );
     if (disabled) {
       _style = TextStyle(
         fontSize: _fontSize,
         fontWeight: _unselectedFontWeight,
-        color: disabledColor,
+        color: _disabledColor,
       );
     } else if (selected) {
       _style = TextStyle(
         fontSize: _fontSize,
         fontWeight: _selectedFontWeight,
-        color: selectedColor,
+        color: _selectedColor,
       );
     }
     return Text(item, style: _style);
+  }
+
+  double _getFontSize() {
+    if (size == STTabOptionSize.large) {
+      return 16.0;
+    } else {
+      return 14.0;
+    }
   }
 
   Widget? _getBadge() {
@@ -208,7 +253,7 @@ class STTabOptionItem extends StatelessWidget {
         color: disabled
             ? _disabledBadgeBGColor
             : selected
-                ? selectedColor
+                ? _selectedColor
                 : _unselectedBadgeBGColor,
       ),
       child: Text(
@@ -226,49 +271,26 @@ class STTabOptionItem extends StatelessWidget {
     );
   }
 
-  EdgeInsets _getContenPadding() {
-    switch (optionSize) {
-      case STTabOptionSize.small:
-        return isCard
-            ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0)
-            : EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: (dirction == STTabOptionDirction.left ||
-                        dirction == STTabOptionDirction.right)
-                    ? 24.0
-                    : 0,
-              );
-      case STTabOptionSize.large:
-        return isCard
-            ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
-            : EdgeInsets.symmetric(
-                vertical: 16.0,
-                horizontal: (dirction == STTabOptionDirction.left ||
-                        dirction == STTabOptionDirction.right)
-                    ? 24.0
-                    : 0,
-              );
-      default:
-        return isCard
-            ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
-            : EdgeInsets.symmetric(
-                vertical: 12.0,
-                horizontal: (dirction == STTabOptionDirction.left ||
-                        dirction == STTabOptionDirction.right)
-                    ? 24.0
-                    : 0,
-              );
-    }
-  }
-
-  double _getFontSize() {
-    switch (optionSize) {
-      case STTabOptionSize.small:
-        return 14.0;
-      case STTabOptionSize.large:
-        return 14.0;
-      default:
-        return 16.0;
-    }
+  Widget _getDeletedIcon() {
+    return GestureDetector(
+      onTap: () {
+        if (onDeletedTap == null) return;
+        STDebounce().start(
+          key: 'STTabOptionItemKey',
+          func: () {
+            onDeletedTap!();
+          },
+          time: 100,
+        );
+      },
+      child: const Padding(
+        padding: EdgeInsets.only(left: 10),
+        child: Icon(
+          STIcons.commonly_close_outline,
+          size: 20,
+          color: STColor.secRankGrey,
+        ),
+      ),
+    );
   }
 }

@@ -12,545 +12,454 @@ class WebTapOptionPage extends StatefulWidget {
 }
 
 class _WebTapOptionPageState extends State<WebTapOptionPage> {
-  int _currentPageIndex = 0;
-  List<String> pageList = ['这里是文字内容1', '这里是文字内容2', '这里是文字内容3', '这里是文字内容4'];
-  List<String> pageList1 = [
-    '这里是文字内容1',
-    '这里是文字内容2',
-    '这里是文字内容3',
-    '这里是文字内容4',
-    '这里是文字内容5',
-    '这里是文字内容6',
-    '这里是文字内容7',
-    '这里是文字内容8',
-    '这里是文字内容9',
-    '这里是文字内容10',
-    '这里是文字内容11',
-    '这里是文字内容12',
+  List<Widget> _pageLists = [
+    Text('这里是文字内容1'),
+    Text('这里是文字内容2'),
+    Text('这里是文字内容3'),
+    Text('这里是文字内容4'),
   ];
-  PageController _pageController;
-  PageController _pageController1;
-  PageController _pageController2;
-  PageController _pageController3;
-  PageController _pageController4;
-  PageController _pageController5;
-  PageController _pageController6;
-  PageController _pageController7;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: _currentPageIndex);
-    _pageController1 = PageController(initialPage: _currentPageIndex);
-    _pageController2 = PageController(initialPage: _currentPageIndex);
-    _pageController3 = PageController(initialPage: _currentPageIndex);
-    _pageController4 = PageController(initialPage: _currentPageIndex);
-    _pageController5 = PageController(initialPage: _currentPageIndex);
-    _pageController6 = PageController(initialPage: _currentPageIndex);
-    _pageController7 = PageController(initialPage: _currentPageIndex);
-  }
+  STTabOptionDirction _dirction = STTabOptionDirction.top;
+  String _selectedDirction = 'top';
+  STTabOptionSize _size = STTabOptionSize.small;
+  String _selectedSize = '小号';
+  List<STTabOptionData> _itemDatas = [
+    STTabOptionData(
+      title: 'Tab1',
+    ),
+    STTabOptionData(
+      title: 'Tab2',
+    ),
+    STTabOptionData(
+      title: 'Tab3',
+    ),
+    STTabOptionData(
+      title: 'Tab4',
+      isDeleted: false,
+    ),
+  ];
+  List<Widget> _editPages = [
+    Text('这里是文字内容1'),
+    Text('这里是文字内容2'),
+    Text('这里是文字内容3'),
+    Text('这里是文字内容4'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('tabOption'),
       ),
-      body: _test(),
-      // body: SingleChildScrollView(
-      //   child: Column(
-      //     children: [
-      //       SizedBox(height: 10),
-      //       _buildDefault(),
-      //       SizedBox(height: 10),
-      //       _buildCenter(),
-      //       SizedBox(height: 10),
-      //       _buildAddIcon(),
-      //       SizedBox(height: 10),
-      //       _buildCanScroller(),
-      //       SizedBox(height: 10),
-      //       _buildAddOther(),
-      //       SizedBox(height: 10),
-      //       _buildPositonBottom(),
-      //       SizedBox(height: 10),
-      //       Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //         children: [
-      //           _buildPositonLeft(),
-      //           _buildPositonRight(),
-      //         ],
-      //       ),
-      //       SizedBox(height: 10),
-      //       _buildSmallCard(),
-      //       SizedBox(height: 10),
-      //     ],
-      //   ),
-      // ),
-    );
-  }
-
-  Widget _test() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      height: 200,
-      color: Colors.grey,
-      child: ListView(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        physics: AlwaysScrollableScrollPhysics(),
-        controller: ScrollController(initialScrollOffset: 200),
-        children: [
-          Container(
-            width: 200,
-            color: Colors.red,
-          ),
-          Container(
-            width: 200,
-            color: Colors.blue,
-          ),
-          Container(
-            width: 200,
-            color: Colors.yellow,
-          ),
-          Container(
-            width: 200,
-            color: Colors.purple,
-          ),
-          Container(
-            width: 200,
-            color: Colors.green,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSmallCard() {
-    return Container(
-      height: 150,
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('小号 卡片', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-                disabled: true,
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              _buildCardContainer(),
+              SizedBox(height: 10),
+              _buildAddOrDelete(),
+              SizedBox(height: 10),
+              _buildChangeSize(),
+              SizedBox(height: 10),
+              _buildChangePositon(),
+              SizedBox(height: 10),
+              _buildAddOther(),
+              SizedBox(height: 10),
+              _buildCanScroller(),
+              SizedBox(height: 10),
+              _buildIconAndBadge(),
+              SizedBox(height: 10),
+              _buildCenter(),
+              SizedBox(height: 10),
+              _buildDefault(),
+              SizedBox(height: 10),
             ],
-            selectedChanged: (int index) {
-              _pageController6.animateToPage(index,
-                  duration: Duration(milliseconds: 200), curve: Curves.ease);
-            },
-            isCard: true,
-            optionSize: STTabOptionSize.small,
           ),
-          SizedBox(height: 16),
-          Expanded(
-            child: _buildPageView(_pageController6, pageList1),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildPositonLeft() {
-    return Container(
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('位置在左', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-                disabled: true,
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
-            ],
-            dirction: STTabOptionDirction.left,
-          ),
-        ],
-      ),
+  Widget _buildCardContainer() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('卡片容器', style: _textStyle),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 4,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+          ],
+          pages: _pageLists,
+          type: STTabOptionType.boxCard,
+          pageBackgroundColor: Colors.white,
+        ),
+      ],
     );
   }
 
-  Widget _buildPositonRight() {
-    return Container(
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('位置在右', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-                disabled: true,
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
-            ],
-            dirction: STTabOptionDirction.right,
-          ),
-        ],
-      ),
+  Widget _buildAddOrDelete() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('新增和关闭选项卡', style: _textStyle),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 4,
+          items: _itemDatas,
+          pages: _editPages,
+          type: STTabOptionType.editCard,
+          onDeletedChanged: (int index) {
+            _itemDatas.removeAt(index);
+            _editPages.removeAt(index);
+            setState(() {});
+          },
+          onAddItemTap: () {
+            _itemDatas.add(STTabOptionData(title: 'New Tabs'));
+            _editPages.add(Text('新增内容'));
+            setState(() {});
+          },
+        ),
+      ],
     );
   }
 
-  Widget _buildPositonBottom() {
-    return Container(
-      height: 150,
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('位置在下', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
+  Widget _buildChangeSize() {
+    List<String> _sizes = ['小号', '中号', '大号'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('大小 描述', style: _textStyle),
+        SizedBox(height: 10),
+        Row(
+          children: _sizes.map((e) {
+            return Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: STButton(
+                text: e,
+                textStyle: _selectedSize == e
+                    ? TextStyle(color: Colors.white)
+                    : TextStyle(color: Colors.black),
+                backgroundColor:
+                    _selectedSize == e ? Colors.blue : Colors.transparent,
+                onTap: () {
+                  _selectedSize = e;
+                  if (e == '小号') {
+                    _size = STTabOptionSize.small;
+                  } else if (e == '中号') {
+                    _size = STTabOptionSize.normal;
+                  } else {
+                    _size = STTabOptionSize.large;
+                  }
+                  setState(() {});
+                },
               ),
-              STTabOptionData(
-                title: 'Tab2',
-                disabled: true,
+            );
+          }).toList(),
+        ),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 32,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+          ],
+          pages: _pageLists,
+          size: _size,
+        ),
+        STTabOption(
+          itemGutter: 4,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+          ],
+          pages: _pageLists,
+          size: _size,
+          type: STTabOptionType.card,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildChangePositon() {
+    List<String> _positons = ['top', 'bottom', 'left', 'right'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('位置描述', style: _textStyle),
+        SizedBox(height: 10),
+        Row(
+          children: _positons.map((e) {
+            return Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: STButton(
+                text: e,
+                textStyle: _selectedDirction == e
+                    ? TextStyle(color: Colors.white)
+                    : TextStyle(color: Colors.black),
+                backgroundColor:
+                    _selectedDirction == e ? Colors.blue : Colors.transparent,
+                onTap: () {
+                  _selectedDirction = e;
+                  if (e == 'bottom') {
+                    _dirction = STTabOptionDirction.bottom;
+                  } else if (e == 'left') {
+                    _dirction = STTabOptionDirction.left;
+                  } else if (e == 'right') {
+                    _dirction = STTabOptionDirction.right;
+                  } else {
+                    _dirction = STTabOptionDirction.top;
+                  }
+                  setState(() {});
+                },
               ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
-            ],
-            selectedChanged: (int index) {
-              _pageController5.animateToPage(index,
-                  duration: Duration(milliseconds: 200), curve: Curves.ease);
-            },
-            dirction: STTabOptionDirction.bottom,
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            child: _buildPageView(_pageController5, pageList),
-          ),
-        ],
-      ),
+            );
+          }).toList(),
+        ),
+        SizedBox(height: 10),
+        STTabOption(
+          height: 300,
+          itemGutter: 32,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+          ],
+          pages: _pageLists,
+          dirction: _dirction,
+        ),
+      ],
     );
   }
 
   Widget _buildAddOther() {
-    return Container(
-      height: 150,
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('附加内容', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-                disabled: true,
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
-            ],
-            selectedChanged: (int index) {
-              _pageController4.animateToPage(index,
-                  duration: Duration(milliseconds: 200), curve: Curves.ease);
-            },
-            prefix: STButton(
-              text: '左内容按钮',
-              textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-              type: STButtonType.outline,
-              backgroundColor: Colors.white,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('附加内容', style: _textStyle),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 32,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
             ),
-            suffix: STButton(
-              text: '右内容按钮',
-              textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-              type: STButtonType.outline,
-              backgroundColor: Colors.white,
+            STTabOptionData(
+              title: 'Tab2',
             ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+          ],
+          pages: _pageLists,
+          prefix: STButton(
+            text: '左内容按钮',
+            textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            type: STButtonType.outline,
+            borderColor: STColor.thrRankGrey,
+            backgroundColor: Colors.white,
           ),
-          SizedBox(height: 16),
-          Expanded(
-            child: _buildPageView(_pageController4, pageList),
+          suffix: STButton(
+            text: '右内容按钮',
+            textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            type: STButtonType.outline,
+            borderColor: STColor.thrRankGrey,
+            backgroundColor: Colors.white,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildCanScroller() {
-    return Container(
-      height: 150,
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('滑动', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-                disabled: true,
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
-              STTabOptionData(
-                title: 'Tab5',
-              ),
-              STTabOptionData(
-                title: 'Tab6',
-              ),
-              STTabOptionData(
-                title: 'Tab7',
-              ),
-              STTabOptionData(
-                title: 'Tab8',
-              ),
-              STTabOptionData(
-                title: 'Tab9',
-              ),
-              STTabOptionData(
-                title: 'Tab10',
-              ),
-              STTabOptionData(
-                title: 'Tab11',
-              ),
-              STTabOptionData(
-                title: 'Tab12',
-              ),
-            ],
-            selectedChanged: (int index) {
-              _pageController3.animateToPage(index,
-                  duration: Duration(milliseconds: 200), curve: Curves.ease);
-            },
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            child: _buildPageView(_pageController3, pageList1),
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('滑动', style: _textStyle),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 32,
+          isSlided: true,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+              disabled: true,
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+            STTabOptionData(
+              title: 'Tab5',
+            ),
+            STTabOptionData(
+              title: 'Tab6',
+              disabled: true,
+            ),
+            STTabOptionData(
+              title: 'Tab7',
+            ),
+            STTabOptionData(
+              title: 'Tab8',
+            ),
+          ],
+          pages: List.generate(8, (index) => Text('这里是文字内容${index + 1}')),
+        ),
+      ],
     );
   }
 
-  Widget _buildAddIcon() {
-    return Container(
-      height: 150,
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('带图标 微标数 禁用某一项', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-                icon: STIcons.label_heart_outline,
-                badge: 100,
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-                icon: STIcons.label_fire_outline,
-                disabled: true,
-                badge: 10,
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-                icon: STIcons.label_like_outline,
-                badge: 12,
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-                icon: STIcons.label_star_outline,
-                badge: 8,
-              ),
-            ],
-            selectedChanged: (int index) {
-              _pageController2.animateToPage(index,
-                  duration: Duration(milliseconds: 200), curve: Curves.ease);
-            },
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            child: _buildPageView(_pageController2, pageList),
-          ),
-        ],
-      ),
+  Widget _buildIconAndBadge() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('带图标和微标', style: _textStyle),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 32,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+              icon: STIcons.label_heart_outline,
+              badge: 100,
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+              disabled: true,
+              icon: STIcons.label_fire_outline,
+              badge: 10,
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+              icon: STIcons.label_like_outline,
+              badge: 12,
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+              icon: STIcons.label_star_outline,
+              badge: 8,
+            ),
+          ],
+          pages: _pageLists,
+        ),
+      ],
     );
   }
 
   Widget _buildCenter() {
-    return Container(
-      height: 150,
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('居中 禁用某一项', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            mainAxisAlignment: MainAxisAlignment.center,
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-                disabled: true,
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
-            ],
-            selectedChanged: (int index) {
-              _pageController1.animateToPage(index,
-                  duration: Duration(milliseconds: 200), curve: Curves.ease);
-            },
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            child: _buildPageView(_pageController1, pageList),
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('居中 禁用某一项', style: _textStyle),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 32,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+              disabled: true,
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+          ],
+          pages: _pageLists,
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+      ],
     );
   }
 
   Widget _buildDefault() {
-    return Container(
-      height: 150,
-      color: STColor.fourRankGrey,
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Text('默认', style: _textStyle),
-          SizedBox(height: 10),
-          STTabOption(
-            items: [
-              STTabOptionData(
-                title: 'Tab1',
-              ),
-              STTabOptionData(
-                title: 'Tab2',
-              ),
-              STTabOptionData(
-                title: 'Tab3',
-              ),
-              STTabOptionData(
-                title: 'Tab4',
-              ),
-            ],
-            selectedChanged: (int index) {
-              _pageController.animateToPage(index,
-                  duration: Duration(milliseconds: 200), curve: Curves.ease);
-            },
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            child: _buildPageView(_pageController, pageList),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPageView(PageController controller, List<String> list) {
-    return PageView.builder(
-      controller: controller,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        return Text(
-          list[index],
-          style: TextStyle(color: Colors.black, fontSize: 14),
-        );
-      },
-    );
-  }
-
-  Widget _buildPageViewVer(PageController controller, List<String> list) {
-    return PageView.builder(
-      controller: controller,
-      scrollDirection: Axis.vertical,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        return Text(
-          list[index],
-          style: TextStyle(color: Colors.black, fontSize: 14),
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('默认', style: _textStyle),
+        SizedBox(height: 10),
+        STTabOption(
+          itemGutter: 32,
+          items: [
+            STTabOptionData(
+              title: 'Tab1',
+            ),
+            STTabOptionData(
+              title: 'Tab2',
+            ),
+            STTabOptionData(
+              title: 'Tab3',
+            ),
+            STTabOptionData(
+              title: 'Tab4',
+            ),
+          ],
+          pages: _pageLists,
+        ),
+      ],
     );
   }
 }
