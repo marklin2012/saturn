@@ -20,9 +20,9 @@ bool getIsWeb() {
 // 在Web平台上需要兼容鼠标移入事件
 class STMouseRegion extends StatelessWidget {
   final Widget? child;
-  final Function? onEnter;
-  final Function? onExit;
-  final Function? onHover;
+  final Function(PointerEnterEvent)? onEnter;
+  final Function(PointerExitEvent)? onExit;
+  final Function(PointerHoverEvent)? onHover;
 
   const STMouseRegion({
     Key? key,
@@ -36,9 +36,9 @@ class STMouseRegion extends StatelessWidget {
   Widget build(BuildContext context) {
     if (getIsWeb()) {
       return MouseRegion(
-        onEnter: onEnter as void Function(PointerEnterEvent)?,
-        onExit: onExit as void Function(PointerExitEvent)?,
-        onHover: onHover as void Function(PointerHoverEvent)?,
+        onEnter: onEnter,
+        onExit: onExit,
+        onHover: onHover,
         child: child,
       );
     }
