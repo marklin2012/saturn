@@ -3,24 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/common.dart';
 import 'package:saturn/saturn.dart';
 
-class STTabOptionData {
-  final IconData? icon;
-  final String? title;
-  final int? badge;
-  final int? maxBadge;
-  final bool disabled;
-  final bool isDeleted;
-
-  const STTabOptionData({
-    this.icon,
-    this.title,
-    this.badge,
-    this.maxBadge,
-    this.disabled = false,
-    this.isDeleted = true,
-  });
-}
-
 class STCustomScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {

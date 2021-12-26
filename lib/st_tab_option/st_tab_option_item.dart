@@ -36,6 +36,24 @@ const _badgeHeight = 16.0;
 const _iconSize = 16.0;
 const _badgeFontSize = 12.0;
 
+class STTabOptionData {
+  final IconData? icon;
+  final String? title;
+  final int? badge;
+  final int? maxBadge;
+  final bool disabled;
+  final bool isDeleted;
+
+  const STTabOptionData({
+    this.icon,
+    this.title,
+    this.badge,
+    this.maxBadge,
+    this.disabled = false,
+    this.isDeleted = true,
+  });
+}
+
 // ignore: must_be_immutable
 class STTabOptionItem extends StatelessWidget {
   STTabOptionItem({
