@@ -345,11 +345,7 @@ class _STTabOptionState extends State<STTabOption> {
     if (_selectedIndex == index) return;
     _selectedIndex = index;
     _createWidgetFormData();
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.ease,
-    );
+    _pageController.jumpToPage(index);
     setState(() {});
     if (widget.selectedChanged == null) return;
     widget.selectedChanged!(_selectedIndex);
