@@ -1,6 +1,6 @@
-import 'dart:html';
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 import 'package:saturn/web/st_dropdown/st_dropdown_overlay.dart';
@@ -52,7 +52,6 @@ class _STDropdownState extends State<STDropdown> {
     _depth = _temp;
     _entryWidth = _caculateEntryWidth();
     _entryHeight = _maxItems * 32.0 + 8.0;
-    debugPrint('深度:$_depth,宽度:$_entryWidth,最大items:$_maxItems');
   }
 
   int _caculateDepth(STDropdownItemData data) {
@@ -152,6 +151,9 @@ class _STDropdownState extends State<STDropdown> {
                   if (widget.selectedCallback == null) return;
                   widget.selectedCallback!(_selectedItems);
                 },
+                hoverExit: (PointerExitEvent event) {
+                  _entryHide(event.position);
+                },
               ),
             ),
           ],
@@ -205,6 +207,9 @@ class _STDropdownState extends State<STDropdown> {
                   if (widget.selectedCallback == null) return;
                   widget.selectedCallback!(_selectedItems);
                 },
+                hoverExit: (PointerExitEvent event) {
+                  _entryHide(event.position, isFirstRank: false);
+                },
               ),
             ),
           ],
@@ -215,19 +220,24 @@ class _STDropdownState extends State<STDropdown> {
     _overlayState?.insert(_rankEntry);
   }
 
-  void _hideCaculatePosition(Offset position) {
+  void _hideCaculatePosition(Offset position, {bool isFirstRank = true}) {
     var _isHide = false;
     // 判断position是否在entry内
     if (position.dx < _firstEntryOffset.dx) {
       _isHide = true;
     } else if (position.dx > _firstEntryOffset.dx + _entryWidth) {
       _isHide = true;
-    } else if (position.dy < _firstEntryOffset.dy - 5.0) {
+    } else if (position.dy < _firstEntryOffset.dy - (isFirstRank ? 5.0 : 0.0)) {
       _isHide = true;
     } else if (position.dy > _firstEntryOffset.dy + _entryHeight) {
       _isHide = true;
     }
     if (_isHide) _hide();
+  }
+
+  void _entryHide(Offset position, {bool isFirstRank = true}) {
+    if (widget.triggerData.triggerMode != STDropdownTriggerMode.onHover) return;
+    _hideCaculatePosition(position, isFirstRank: isFirstRank);
   }
 
   void _hide() {

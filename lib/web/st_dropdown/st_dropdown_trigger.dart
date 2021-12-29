@@ -190,7 +190,6 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
           onPointerDown: (event) {
             if (event.kind == PointerDeviceKind.mouse &&
                 event.buttons == kSecondaryMouseButton) {
-              debugPrint('监听到右键点击');
               if (widget.data.triggerMode == STDropdownTriggerMode.clickRight) {
                 _textTriggerAction();
               }
@@ -233,7 +232,6 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
 
   void _textTriggerAction() {
     if (widget.data.icon != null) {
-      debugPrint('点击按钮回调');
       if (widget.data.textTap == null) return;
       widget.data.textTap!();
       return;

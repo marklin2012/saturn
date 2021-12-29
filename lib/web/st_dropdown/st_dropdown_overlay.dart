@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 
@@ -23,12 +24,14 @@ class STDropdownEntry extends StatefulWidget {
     required this.items,
     this.selectedItem,
     this.onTap,
+    this.hoverExit,
   }) : super(key: key);
 
   final bool isCascarding;
   final STDropdownItemData? selectedItem;
   final List<STDropdownItemData> items;
   final Function(STDropdownItemData)? onTap;
+  final Function(PointerExitEvent)? hoverExit;
 
   @override
   _STDropdownEntryState createState() => _STDropdownEntryState();
@@ -40,20 +43,26 @@ class _STDropdownEntryState extends State<STDropdownEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      width: widget.isCascarding ? _cascadingWidth : _normalWidth,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4.0),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: .5,
-            color: Color.fromARGB(25, 0, 0, 0),
-          ),
-        ],
+    return STMouseRegion(
+      onExit: (PointerExitEvent event) {
+        if (widget.hoverExit == null) return;
+        widget.hoverExit!(event);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        width: widget.isCascarding ? _cascadingWidth : _normalWidth,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4.0),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: .5,
+              color: Color.fromARGB(25, 0, 0, 0),
+            ),
+          ],
+        ),
+        child: _buildContent(),
       ),
-      child: _buildContent(),
     );
   }
 

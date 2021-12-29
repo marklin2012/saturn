@@ -10,19 +10,16 @@ enum STDropdownItemDataType {
 
 class STDropdownItemData {
   final String title;
-  // final List<String>? groups;
   final IconData? icon;
   final bool disabled;
   final bool divider;
   final STDropdownItemDataType type;
   final List<STDropdownItemData>? nextDatas;
 
-  // bool get hasGroup => groups != null && groups!.isNotEmpty;
   bool get hasNext => nextDatas != null && nextDatas!.isNotEmpty;
 
   const STDropdownItemData({
     required this.title,
-    // this.groups,
     this.icon,
     this.disabled = false,
     this.divider = false,
