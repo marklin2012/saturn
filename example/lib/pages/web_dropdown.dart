@@ -68,8 +68,33 @@ class _WebDropdownPageState extends State<WebDropdownPage> {
             _buildAligment(),
             SizedBox(height: 20),
             _buildCascarding(),
+            SizedBox(height: 20),
+            _buildTriggerRight(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTriggerRight() {
+    return Container(
+      color: STColor.fourRankGrey,
+      padding: EdgeInsets.all(20),
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('右键菜单'),
+          SizedBox(height: 10),
+          STDropdown(
+            triggerData: STDropdownTriggerData(
+              text: '鼠标右键点击触发',
+              textColor: STColor.thrRankGrey,
+              triggerMode: STDropdownTriggerMode.clickRight,
+            ),
+            itemDatas: _itemDatas,
+          ),
+        ],
       ),
     );
   }
@@ -89,6 +114,7 @@ class _WebDropdownPageState extends State<WebDropdownPage> {
               text: '鼠标移入查看菜单样式',
               textColor: STColor.firRankBlue,
               isArrow: true,
+              triggerMode: STDropdownTriggerMode.onHover,
             ),
             itemDatas: _casItemDatas,
           ),
@@ -216,8 +242,11 @@ class _WebDropdownPageState extends State<WebDropdownPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               STDropdown(
-                triggerData:
-                    STDropdownTriggerData(text: 'Hover me', isArrow: true),
+                triggerData: STDropdownTriggerData(
+                  text: 'Hover me',
+                  isArrow: true,
+                  triggerMode: STDropdownTriggerMode.onHover,
+                ),
                 itemDatas: _itemDatas,
                 selectedCallback: (List<STDropdownItemData> selectedItems) {
                   debugPrint('选中的tabs:$selectedItems');
@@ -227,6 +256,7 @@ class _WebDropdownPageState extends State<WebDropdownPage> {
                 triggerData: STDropdownTriggerData(
                   text: 'Hover me',
                   isArrow: true,
+                  triggerMode: STDropdownTriggerMode.onHover,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(2.0),
                     border: Border.all(color: STColor.firRankBlue),
@@ -239,6 +269,7 @@ class _WebDropdownPageState extends State<WebDropdownPage> {
                 triggerData: STDropdownTriggerData(
                   text: 'Hover me',
                   isArrow: true,
+                  triggerMode: STDropdownTriggerMode.onHover,
                   textColor: Colors.white,
                   decoration: BoxDecoration(
                     color: STColor.firRankBlue,

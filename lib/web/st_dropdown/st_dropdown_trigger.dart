@@ -1,3 +1,6 @@
+import 'dart:html';
+import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/common.dart';
@@ -51,8 +54,8 @@ class STDropdownTrigger extends StatefulWidget {
   }) : super(key: key);
 
   final STDropdownTriggerData data;
-  final Function(STDropdownPositon positon)? showFunc;
-  final Function()? hideFunc;
+  final Function(STDropdownPosition position)? showFunc;
+  final Function(Offset position)? hideFunc;
 
   @override
   _STDropdownTriggerState createState() => _STDropdownTriggerState();
@@ -79,6 +82,8 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _positonTrigger();
     });
+    // 屏蔽浏览器默认的右键点击事件
+    document.onContextMenu.listen((event) => event.preventDefault());
   }
 
   void _positonTrigger() {
@@ -94,100 +99,160 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
   @override
   Widget build(BuildContext context) {
     final _decoration = widget.data.decoration;
+    return Container(
+      key: _triggerKey,
+      padding: widget.data.padding ?? EdgeInsets.zero,
+      decoration: _decoration,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildReadyText(),
+          if (_data.icon != null) _buildReadyIcon(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReadyIcon() {
     return STMouseRegion(
-      onHover: (PointerHoverEvent hover) {},
-      onExit: (PointerExitEvent exit) {},
-      child: Container(
-        key: _triggerKey,
-        padding: widget.data.padding ?? EdgeInsets.zero,
-        decoration: _decoration,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onTap: () {
-                if (widget.data.icon != null) {
-                  debugPrint('点击按钮回调');
-                  if (widget.data.textTap == null) {
-                    return;
-                  }
-                  widget.data.textTap!();
-                  return;
-                }
+      onHover: (PointerHoverEvent hover) {
+        if (widget.data.triggerMode == STDropdownTriggerMode.onHover) {
+          _showEntry();
+        }
+      },
+      onExit: (PointerExitEvent exit) {
+        if (widget.data.triggerMode == STDropdownTriggerMode.onHover) {
+          _hideEntry(exit.position);
+        }
+      },
+      child: GestureDetector(
+        onTap: () {
+          if (widget.data.triggerMode == STDropdownTriggerMode.clickLeft) {
+            _showEntry();
+          }
+        },
+        child: Listener(
+          onPointerDown: (event) {
+            if (event.kind == PointerDeviceKind.mouse &&
+                event.buttons == kSecondaryMouseButton) {
+              if (widget.data.triggerMode == STDropdownTriggerMode.clickRight) {
                 _showEntry();
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 9.0),
-                    child: Text(
-                      _data.text,
-                      style: TextStyle(
-                        fontSize: _titleFontSize,
-                        fontWeight: _titleFontWeight,
-                        color: _data.disabled
-                            ? _disbaleTitleColor
-                            : widget.data.textColor,
-                      ),
-                    ),
-                  ),
-                  if (_data.isArrow)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Icon(
-                        STIcons.direction_downoutlined,
-                        size: 14,
-                        color: _data.disabled
-                            ? _disbaleIconColor
-                            : widget.data.textColor,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            if (_data.icon != null)
-              GestureDetector(
-                onTap: _showEntry,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 13.0),
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: _data.disabled
-                              ? _disableBorderColor
-                              : _normalBorderColor,
-                        ),
-                      ),
-                    ),
-                    child: Icon(
-                      _data.icon,
-                      size: 16,
-                      color: _data.disabled
-                          ? _disbaleIconColor
-                          : widget.data.textColor,
-                    ),
-                  ),
-                ),
-              ),
-          ],
+              }
+            }
+          },
+          child: _buildIcon(),
         ),
       ),
     );
   }
 
-  void _showEntry() {
-    if (_data.triggerMode == STDropdownTriggerMode.clickLeft &&
-        widget.showFunc != null) {
-      widget.showFunc!(
-        STDropdownPositon(
-          offset: _triggerOffset,
-          size: _triggerSize,
+  Widget _buildIcon() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 13.0),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(
+              color: _data.disabled ? _disableBorderColor : _normalBorderColor,
+            ),
+          ),
         ),
-      );
+        child: Icon(
+          _data.icon,
+          size: 16,
+          color: _data.disabled ? _disbaleIconColor : widget.data.textColor,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildReadyText() {
+    return STMouseRegion(
+      onHover: (PointerHoverEvent hover) {
+        if (widget.data.triggerMode == STDropdownTriggerMode.onHover) {
+          _textTriggerAction();
+        }
+      },
+      onExit: (PointerExitEvent exit) {
+        if (widget.data.triggerMode == STDropdownTriggerMode.onHover) {
+          _hideEntry(exit.position);
+        }
+      },
+      child: GestureDetector(
+        onTap: () {
+          if (widget.data.triggerMode == STDropdownTriggerMode.clickLeft) {
+            _textTriggerAction();
+          }
+        },
+        child: Listener(
+          onPointerDown: (event) {
+            if (event.kind == PointerDeviceKind.mouse &&
+                event.buttons == kSecondaryMouseButton) {
+              debugPrint('监听到右键点击');
+              if (widget.data.triggerMode == STDropdownTriggerMode.clickRight) {
+                _textTriggerAction();
+              }
+            }
+          },
+          child: _buildText(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildText() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 9.0),
+          child: Text(
+            _data.text,
+            style: TextStyle(
+              fontSize: _titleFontSize,
+              fontWeight: _titleFontWeight,
+              color:
+                  _data.disabled ? _disbaleTitleColor : widget.data.textColor,
+            ),
+          ),
+        ),
+        if (_data.isArrow)
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Icon(
+              STIcons.direction_downoutlined,
+              size: 14,
+              color: _data.disabled ? _disbaleIconColor : widget.data.textColor,
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _textTriggerAction() {
+    if (widget.data.icon != null) {
+      debugPrint('点击按钮回调');
+      if (widget.data.textTap == null) return;
+      widget.data.textTap!();
+      return;
     }
+    _showEntry();
+  }
+
+  void _showEntry() {
+    if (widget.showFunc == null) return;
+    widget.showFunc!(
+      STDropdownPosition(
+        offset: _triggerOffset,
+        size: _triggerSize,
+      ),
+    );
+  }
+
+  void _hideEntry(Offset position) {
+    if (widget.hideFunc == null) return;
+    widget.hideFunc!(position);
   }
 }

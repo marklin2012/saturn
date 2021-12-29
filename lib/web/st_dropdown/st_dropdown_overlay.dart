@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 
-class STDropdownPositon {
+class STDropdownPosition {
   final Offset? offset;
   final Size? size;
 
-  const STDropdownPositon({
+  const STDropdownPosition({
     this.offset,
     this.size,
   });
 
-  STDropdownPositon.zero({
+  STDropdownPosition.zero({
     this.offset = Offset.zero,
     this.size = Size.zero,
   });

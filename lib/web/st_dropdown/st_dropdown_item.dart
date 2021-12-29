@@ -156,47 +156,4 @@ class STDropdownItem extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildColumn() {
-  //   final List<Widget> _children = [];
-  //   _children.add(_buildSubRow());
-  // if (data.hasGroup) {
-  //   for (final group in data.groups!) {
-  //     final _groupW = ValueListenableBuilder(
-  //       valueListenable: _backgroundColorNoti,
-  //       builder: (context, Color bgColor, _) {
-  //         return GestureDetector(
-  //           onTap: () {
-  //             STDebounce().start(
-  //               key: 'STDropdownDebounceKey',
-  //               func: () {
-  //                 if (onTap == null) return;
-  //                 onTap!(data);
-  //               },
-  //               time: 100,
-  //             );
-  //           },
-  //           child: Container(
-  //             height: height,
-  //             alignment: Alignment.centerLeft,
-  //             color: bgColor,
-  //             child: Padding(
-  //               padding: const EdgeInsets.symmetric(
-  //                 horizontal: 36.0,
-  //                 vertical: 4.0,
-  //               ),
-  //               child: _buildText(group, _primaryColor),
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     );
-  //     _children.add(_groupW);
-  //   }
-  // }
-  //   return Column(
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: _children,
-  //   );
-  // }
 }

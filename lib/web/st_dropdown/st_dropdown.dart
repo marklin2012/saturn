@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -83,16 +84,20 @@ class _STDropdownState extends State<STDropdown> {
   Widget build(BuildContext context) {
     return STDropdownTrigger(
       data: widget.triggerData,
-      showFunc: (position) {
+      showFunc: (STDropdownPosition position) {
         _show(position);
       },
-      hideFunc: () {
-        _hide();
+      hideFunc: (Offset position) {
+        if (widget.triggerData.triggerMode == STDropdownTriggerMode.onHover) {
+          _hideCaculatePosition(position);
+        } else {
+          _hide();
+        }
       },
     );
   }
 
-  void _show(STDropdownPositon position) {
+  void _show(STDropdownPosition position) {
     if (widget.itemDatas == null || widget.itemDatas!.isEmpty) return;
     var _left = position.offset!.dx;
     var _top = position.offset!.dy + position.size!.height + 4.0;
@@ -157,17 +162,6 @@ class _STDropdownState extends State<STDropdown> {
     _overlayState?.insert(_entry);
   }
 
-  void _hide() {
-    Future.delayed(const Duration(milliseconds: 200), () {
-      for (var entry in _entrys) {
-        entry?.remove();
-        entry = null;
-      }
-      _entrys = [];
-      _selectedItems = [];
-    });
-  }
-
   void _dealEntry(int rank) {
     if (_entrys.length <= rank) return;
     for (int i = 0; i < _entrys.length; i++) {
@@ -219,5 +213,31 @@ class _STDropdownState extends State<STDropdown> {
     );
     _entrys.add(_rankEntry);
     _overlayState?.insert(_rankEntry);
+  }
+
+  void _hideCaculatePosition(Offset position) {
+    var _isHide = false;
+    // 判断position是否在entry内
+    if (position.dx < _firstEntryOffset.dx) {
+      _isHide = true;
+    } else if (position.dx > _firstEntryOffset.dx + _entryWidth) {
+      _isHide = true;
+    } else if (position.dy < _firstEntryOffset.dy - 5.0) {
+      _isHide = true;
+    } else if (position.dy > _firstEntryOffset.dy + _entryHeight) {
+      _isHide = true;
+    }
+    if (_isHide) _hide();
+  }
+
+  void _hide() {
+    Future.delayed(const Duration(milliseconds: 200), () {
+      for (var entry in _entrys) {
+        entry?.remove();
+        entry = null;
+      }
+      _entrys = [];
+      _selectedItems = [];
+    });
   }
 }
