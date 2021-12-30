@@ -6,6 +6,7 @@ import 'package:example/pages/image.dart';
 import 'package:example/pages/list_cell.dart';
 import 'package:example/pages/menu.dart';
 import 'package:example/pages/web_dropdown.dart';
+import 'package:example/pages/web_pagnation.dart';
 import 'package:example/pages/web_tab_option.dart';
 import 'package:flutter/material.dart';
 
@@ -73,6 +74,7 @@ List<PageModel> _pages = [
   // if (getIsWeb())
   PageModel(name: 'WebDropdown', page: WebDropdownPage()),
   PageModel(name: 'WebTabOption', page: WebTapOptionPage()),
+  PageModel(name: 'WebPagination', page: WebPaginationPage()),
   PageModel(name: 'Tag', page: TagPage()),
   PageModel(name: 'Toast', page: ToastPage()),
   PageModel(name: 'Tooltip', page: TooltipPage()),
