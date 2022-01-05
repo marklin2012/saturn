@@ -5,6 +5,7 @@ import 'package:example/pages/grid.dart';
 import 'package:example/pages/image.dart';
 import 'package:example/pages/list_cell.dart';
 import 'package:example/pages/menu.dart';
+import 'package:example/pages/web_breadcrumb/web_breadcrumb.dart';
 import 'package:example/pages/web_dropdown.dart';
 import 'package:example/pages/web_pagnation.dart';
 import 'package:example/pages/web_tab_option.dart';
@@ -72,6 +73,11 @@ List<PageModel> _pages = [
   PageModel(name: 'Switch', page: SwitchPage()),
   PageModel(name: 'Tabbar', page: TabbarPage()),
   // if (getIsWeb())
+  PageModel(
+    name: 'WebBreadcrumb',
+    page: WebBreadCrumbPage(),
+    routeName: WebBreadCrumbPage.routeName,
+  ),
   PageModel(name: 'WebDropdown', page: WebDropdownPage()),
   PageModel(name: 'WebTabOption', page: WebTapOptionPage()),
   PageModel(name: 'WebPagination', page: WebPaginationPage()),
@@ -95,8 +101,12 @@ class HomePage extends StatelessWidget {
           return ListTile(
             title: Text(model.name),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => model.page));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => model.page,
+                  settings: RouteSettings(name: model.routeName),
+                ),
+              );
             },
           );
         },

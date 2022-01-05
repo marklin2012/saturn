@@ -1,4 +1,5 @@
 import 'package:example/pages/home.dart';
+import 'package:example/pages/web_breadcrumb/web_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -38,14 +39,15 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: WebRoutes.routes,
+      initialRoute: MyHomePage.routeName,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
+  static const routeName = '/home';
   final String title;
 
   @override
