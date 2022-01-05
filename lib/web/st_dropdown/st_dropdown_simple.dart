@@ -9,18 +9,22 @@ class STDropdownSimple extends StatefulWidget {
     required this.child,
     this.initValue,
     this.entryWidth,
+    this.offsetH = 4.0,
     this.disabled = false,
     required this.items,
     this.onChanged,
+    this.statusChanged,
   })  : assert(items.length > 0),
         super(key: key);
 
   final Widget child;
   final String? initValue;
   final double? entryWidth;
+  final double offsetH;
   final bool disabled;
   final List<String> items;
   final Function(String)? onChanged;
+  final Function(bool)? statusChanged; // 是否显示下拉框
 
   @override
   _STDropdownSimpleState createState() => _STDropdownSimpleState();
@@ -36,12 +40,14 @@ class _STDropdownSimpleState extends State<STDropdownSimple> {
   late List<String> _items;
   // 需每次重新定位
   bool _isPostFrame = false;
+  // 是否显示了下拉框
+  bool _isShowDropdown = false;
 
   @override
   void initState() {
     super.initState();
     _items = widget.items;
-    _currentValue = widget.initValue ?? _items.first;
+    _currentValue = widget.initValue ?? '';
   }
 
   void _goPostFrame() {
@@ -78,6 +84,8 @@ class _STDropdownSimpleState extends State<STDropdownSimple> {
           func: () {
             if (widget.disabled) return;
             _show();
+            if (widget.statusChanged == null) return;
+            widget.statusChanged!(_isShowDropdown);
           },
           time: 100,
         );
@@ -106,7 +114,7 @@ class _STDropdownSimpleState extends State<STDropdownSimple> {
             ),
             Positioned(
               left: _left,
-              top: _triggerOffset.dy + _triggerSize.height + 4.0,
+              top: _triggerOffset.dy + _triggerSize.height + widget.offsetH,
               child: _buildEntryConent(),
             ),
           ],
@@ -114,6 +122,7 @@ class _STDropdownSimpleState extends State<STDropdownSimple> {
       },
     );
     _overlayState?.insert(_entry!);
+    _isShowDropdown = true;
   }
 
   Widget _buildEntryConent() {
@@ -152,6 +161,9 @@ class _STDropdownSimpleState extends State<STDropdownSimple> {
   void _hide() {
     _entry?.remove();
     _entry = null;
+    _isShowDropdown = false;
+    if (widget.statusChanged == null) return;
+    widget.statusChanged!(_isShowDropdown);
   }
 }
 
