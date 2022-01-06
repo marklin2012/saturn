@@ -35,6 +35,7 @@ export 'package:saturn/mobile/st_toast/include.dart';
 export 'package:saturn/mobile/st_tooltip/st_tooltip.dart';
 export 'package:saturn/mobile/st_video/st_video.dart';
 export 'package:saturn/utils/include.dart';
+export 'package:saturn/web/st_avatar/st_avatar.dart';
 export 'package:saturn/web/st_breadcrumb/st_breadcrumb.dart';
 export 'package:saturn/web/st_dropdown/st_dropdown_include.dart';
 export 'package:saturn/web/st_pagination/st_pagination.dart';

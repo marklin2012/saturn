@@ -5,6 +5,7 @@ import 'package:example/pages/grid.dart';
 import 'package:example/pages/image.dart';
 import 'package:example/pages/list_cell.dart';
 import 'package:example/pages/menu.dart';
+import 'package:example/pages/web_avatar.dart';
 import 'package:example/pages/web_breadcrumb/web_breadcrumb.dart';
 import 'package:example/pages/web_dropdown.dart';
 import 'package:example/pages/web_pagnation.dart';
@@ -73,6 +74,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Switch', page: SwitchPage()),
   PageModel(name: 'Tabbar', page: TabbarPage()),
   // if (getIsWeb())
+  PageModel(name: 'WebAvatar', page: WebAvatarPage()),
   PageModel(
     name: 'WebBreadcrumb',
     page: WebBreadCrumbPage(),

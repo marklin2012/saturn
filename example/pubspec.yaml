@@ -49,13 +49,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    # - assets/images/1.gif
-    # - assets/images/2.png
-    # - assets/images/default_avatar.png
-    # - assets/images/iconfont.png
-    # - assets/images/icon_selected_20x20.png
-    # - assets/images/basketball_check.png
     - assets/video/showtime.mp4
+
     - packages/saturn/images/default_avatar.png
     - packages/saturn/images/default_logo.png
     - packages/saturn/images/default_team.png
