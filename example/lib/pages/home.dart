@@ -11,6 +11,7 @@ import 'package:example/pages/web_collapse.dart';
 import 'package:example/pages/web_dropdown.dart';
 import 'package:example/pages/web_pagnation.dart';
 import 'package:example/pages/web_tab_option.dart';
+import 'package:example/pages/web_tree.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/pages/checkbox.dart';
@@ -84,6 +85,7 @@ List<PageModel> _pages = [
   PageModel(name: 'WebCollapse', page: WebCollapsePage()),
   PageModel(name: 'WebDropdown', page: WebDropdownPage()),
   PageModel(name: 'WebTabOption', page: WebTapOptionPage()),
+  PageModel(name: 'WebTree', page: WebTreePage()),
   PageModel(name: 'WebPagination', page: WebPaginationPage()),
   PageModel(name: 'Tag', page: TagPage()),
   PageModel(name: 'Toast', page: ToastPage()),
