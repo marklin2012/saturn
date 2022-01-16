@@ -18,19 +18,22 @@ class WebAvatarPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Avatar'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 20),
-          Text('基础展示'),
-          _buildBasic(),
-          SizedBox(height: 20),
-          Text('展示类型'),
-          _buildType(),
-          SizedBox(height: 20),
-          Text('头像组合'),
-          _buildList(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            Text('基础展示'),
+            _buildBasic(),
+            SizedBox(height: 20),
+            Text('展示类型'),
+            _buildType(),
+            SizedBox(height: 20),
+            Text('头像组合'),
+            _buildList(),
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
+import 'package:saturn/web/st_avatar/st_avatar_show.dart';
 
 enum STAvatarSize {
   min,
@@ -101,7 +102,7 @@ class _STAvatarState extends State<STAvatar> {
   final _showMoreKey = GlobalKey(debugLabel: 'showMoreKey');
   late Offset _showMoreOffset;
   late OverlayState? _overlayState;
-  late OverlayEntry? _entry;
+  OverlayEntry? _entry;
 
   @override
   void initState() {
@@ -114,20 +115,6 @@ class _STAvatarState extends State<STAvatar> {
       _isMore = true;
       _length = 4;
     }
-
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      _positonShowMore();
-    });
-  }
-
-  void _positonShowMore() {
-    final _renderObj = _showMoreKey.currentContext?.findRenderObject();
-    if (_renderObj != null && _renderObj is RenderBox) {
-      final _renderBox = _renderObj;
-      _showMoreOffset = _renderBox.localToGlobal(Offset.zero);
-      debugPrint('$_showMoreOffset');
-    }
-    setState(() {});
   }
 
   @override
@@ -166,15 +153,11 @@ class _STAvatarState extends State<STAvatar> {
   Widget _buildRegion(STAvatarData data) {
     return STMouseRegion(
       onHover: (PointerHoverEvent hover) {
-        if (!widget.canHover || _isCom || widget.size != STAvatarSize.max) {
-          return;
-        }
+        if (_isCom) return;
         _hoverNoti.value = true;
       },
       onExit: (PointerExitEvent exit) {
-        if (!widget.canHover || _isCom || widget.size != STAvatarSize.max) {
-          return;
-        }
+        if (_isCom) return;
         _hoverNoti.value = false;
       },
       child: _buildStack(data),
@@ -205,7 +188,6 @@ class _STAvatarState extends State<STAvatar> {
   Widget _buildHover(STAvatarData data) {
     return GestureDetector(
       onTap: () {
-        debugPrint('hover点击回调');
         _tapAction(data);
       },
       child: Container(
@@ -221,10 +203,13 @@ class _STAvatarState extends State<STAvatar> {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             _hoverIcon,
-            SizedBox(width: 4.0),
-            _hoverText,
+            if (widget.size == STAvatarSize.max)
+              const Padding(
+                padding: EdgeInsets.only(left: 4.0),
+                child: _hoverText,
+              ),
           ],
         ),
       ),
@@ -292,8 +277,16 @@ class _STAvatarState extends State<STAvatar> {
     STDebounce().start(
       key: 'STAvatarDebounceKey',
       func: () {
-        if (widget.onChanged == null) return;
-        widget.onChanged!(data);
+        if (widget.onChanged == null) {
+          _hide();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (cnt) => STAvatarShow(data: data),
+            ),
+          );
+        } else {
+          widget.onChanged!(data);
+        }
       },
       time: 100,
     );
@@ -303,10 +296,19 @@ class _STAvatarState extends State<STAvatar> {
     STDebounce().start(
       key: 'STAvatarDebounceKey',
       func: () {
+        _positonShowMore();
         _realShowMore();
       },
       time: 100,
     );
+  }
+
+  void _positonShowMore() {
+    final _renderObj = _showMoreKey.currentContext?.findRenderObject();
+    if (_renderObj != null && _renderObj is RenderBox) {
+      final _renderBox = _renderObj;
+      _showMoreOffset = _renderBox.localToGlobal(Offset.zero);
+    }
   }
 
   void _realShowMore() {
