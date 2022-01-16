@@ -35,6 +35,8 @@ class _STDropdownState extends State<STDropdown> {
   double _entryHeight = 0;
   Offset _firstEntryOffset = Offset.zero;
 
+  final _triggerKey = GlobalKey(debugLabel: 'tirgger');
+
   @override
   void initState() {
     super.initState();
@@ -82,9 +84,11 @@ class _STDropdownState extends State<STDropdown> {
   @override
   Widget build(BuildContext context) {
     return STDropdownTrigger(
+      key: _triggerKey,
       data: widget.triggerData,
-      showFunc: (STDropdownPosition position) {
-        _show(position);
+      showFunc: () {
+        final _position = _positonTrigger();
+        _show(_position);
       },
       hideFunc: (Offset position) {
         if (widget.triggerData.triggerMode == STDropdownTriggerMode.onHover) {
@@ -94,6 +98,22 @@ class _STDropdownState extends State<STDropdown> {
         }
       },
     );
+  }
+
+  STDropdownPosition _positonTrigger() {
+    STDropdownPosition _position = STDropdownPosition.zero();
+    final _renderObj = _triggerKey.currentContext?.findRenderObject();
+    if (_renderObj != null && _renderObj is RenderBox) {
+      final _renderBox = _renderObj;
+      final _triggerOffset = _renderBox.localToGlobal(Offset.zero);
+      final _triggerSize = _renderBox.size;
+
+      _position = STDropdownPosition(
+        offset: _triggerOffset,
+        size: _triggerSize,
+      );
+    }
+    return _position;
   }
 
   void _show(STDropdownPosition position) {

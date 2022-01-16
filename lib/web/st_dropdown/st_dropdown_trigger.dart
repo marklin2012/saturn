@@ -1,11 +1,9 @@
 import 'dart:html';
-import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/common.dart';
 import 'package:saturn/saturn.dart';
-import 'package:saturn/web/st_dropdown/st_dropdown_overlay.dart';
 
 enum STDropdownTriggerMode {
   clickLeft,
@@ -54,7 +52,7 @@ class STDropdownTrigger extends StatefulWidget {
   }) : super(key: key);
 
   final STDropdownTriggerData data;
-  final Function(STDropdownPosition position)? showFunc;
+  final Function()? showFunc;
   final Function(Offset position)? hideFunc;
 
   @override
@@ -69,9 +67,6 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
   static const _titleFontWeight = FontWeight.w400;
   static const _disbaleIconColor = STColor.secRankGrey;
 
-  final _triggerKey = GlobalKey(debugLabel: 'tirgger');
-  late Offset _triggerOffset;
-  late Size _triggerSize;
   late STDropdownTriggerData _data;
 
   @override
@@ -79,28 +74,14 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
     super.initState();
     _data = widget.data;
 
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      _positonTrigger();
-    });
     // 屏蔽浏览器默认的右键点击事件
     document.onContextMenu.listen((event) => event.preventDefault());
-  }
-
-  void _positonTrigger() {
-    final _renderObj = _triggerKey.currentContext?.findRenderObject();
-    if (_renderObj != null && _renderObj is RenderBox) {
-      final _renderBox = _renderObj;
-      _triggerOffset = _renderBox.localToGlobal(Offset.zero);
-      _triggerSize = _renderBox.size;
-    }
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final _decoration = widget.data.decoration;
     return Container(
-      key: _triggerKey,
       padding: widget.data.padding ?? EdgeInsets.zero,
       decoration: _decoration,
       child: Row(
@@ -241,12 +222,7 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
 
   void _showEntry() {
     if (widget.showFunc == null) return;
-    widget.showFunc!(
-      STDropdownPosition(
-        offset: _triggerOffset,
-        size: _triggerSize,
-      ),
-    );
+    widget.showFunc!();
   }
 
   void _hideEntry(Offset position) {

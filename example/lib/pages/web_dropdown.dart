@@ -175,6 +175,7 @@ class _WebDropdownPageState extends State<WebDropdownPage> {
     return Container(
       color: STColor.fourRankGrey,
       padding: EdgeInsets.all(20),
+      height: 300,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -236,6 +237,7 @@ class _WebDropdownPageState extends State<WebDropdownPage> {
     return Container(
       color: STColor.fourRankGrey,
       padding: EdgeInsets.all(20),
+      height: 300,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
