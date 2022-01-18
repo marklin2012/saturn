@@ -170,30 +170,33 @@ class _STTreeState extends State<STTree> {
 
   Widget _buildCheck(int index, STTreeData data) {
     final _onCheck = data.checked;
-    return GestureDetector(
-      onTap: () {
-        if (data.disabled) return;
-        final _temp = data.checked;
-        data.checked = !_temp;
-        setState(() {});
-      },
-      child: Container(
-        height: 16,
-        width: 16,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2.0),
-          border: Border.all(
-              color: data.disabled ? STColor.thrRankGrey : STColor.thrRankFont),
-          color: _onCheck ? STColor.firRankBlue : Colors.transparent,
+    return STMouseRegion(
+      child: GestureDetector(
+        onTap: () {
+          if (data.disabled) return;
+          final _temp = data.checked;
+          data.checked = !_temp;
+          setState(() {});
+        },
+        child: Container(
+          height: 16,
+          width: 16,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(2.0),
+            border: Border.all(
+                color:
+                    data.disabled ? STColor.thrRankGrey : STColor.thrRankFont),
+            color: _onCheck ? STColor.firRankBlue : Colors.transparent,
+          ),
+          child: _onCheck
+              ? const Icon(
+                  STIcons.commonly_selected_outline,
+                  size: 12,
+                  color: Colors.white,
+                )
+              : null,
         ),
-        child: _onCheck
-            ? const Icon(
-                STIcons.commonly_selected_outline,
-                size: 12,
-                color: Colors.white,
-              )
-            : null,
       ),
     );
   }

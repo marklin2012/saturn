@@ -25,6 +25,7 @@ class STMouseRegion extends StatelessWidget {
     if (getIsWeb()) {
       return MouseRegion(
         key: key,
+        cursor: SystemMouseCursors.click, // 鼠标切换成手指
         onEnter: onEnter,
         onExit: (PointerExitEvent event) {
           _onhover = false;

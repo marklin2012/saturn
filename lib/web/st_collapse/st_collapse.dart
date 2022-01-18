@@ -66,12 +66,14 @@ class _STCollapseState extends State<STCollapse> {
         showArrow: _data.showArrow,
       );
       _children.add(
-        GestureDetector(
-          onTap: () {
-            if (_data.disabled) return;
-            _tapAction(i);
-          },
-          child: _panel,
+        STMouseRegion(
+          child: GestureDetector(
+            onTap: () {
+              if (_data.disabled) return;
+              _tapAction(i);
+            },
+            child: _panel,
+          ),
         ),
       );
       if (!_isFold && _data.content != null) {

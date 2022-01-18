@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/common.dart';
+import 'package:saturn/utils/include.dart';
 import 'package:saturn/web/st_avatar/st_avatar.dart';
 
 class STAvatarShow extends StatelessWidget {
@@ -15,15 +16,17 @@ class STAvatarShow extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: STColor.firRankFont,
+          STMouseRegion(
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: STColor.firRankFont,
+              ),
             ),
           ),
           Center(

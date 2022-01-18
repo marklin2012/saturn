@@ -217,57 +217,59 @@ class _STAvatarState extends State<STAvatar> {
   }
 
   Widget _buildSingle(STAvatarData data) {
-    return GestureDetector(
-      onTap: () {
-        if (data.isMore) {
-          // 显示未展示的头像
-          _showMore();
-        } else {
-          _tapAction(data);
-        }
-      },
-      child: Container(
-        height: _height,
-        width: _height,
-        key: data.isMore ? _showMoreKey : null,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: data.backgroundColor,
-          image: data.image != null
-              ? DecorationImage(
-                  image: data.image!,
-                  fit: BoxFit.cover,
-                )
-              : null,
-          borderRadius: BorderRadius.circular(
-            data.borderRadius ??
-                (widget.clip == STAvatarClip.circle ? _height / 2 : 4.0),
+    return STMouseRegion(
+      child: GestureDetector(
+        onTap: () {
+          if (data.isMore) {
+            // 显示未展示的头像
+            _showMore();
+          } else {
+            _tapAction(data);
+          }
+        },
+        child: Container(
+          height: _height,
+          width: _height,
+          key: data.isMore ? _showMoreKey : null,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: data.backgroundColor,
+            image: data.image != null
+                ? DecorationImage(
+                    image: data.image!,
+                    fit: BoxFit.cover,
+                  )
+                : null,
+            borderRadius: BorderRadius.circular(
+              data.borderRadius ??
+                  (widget.clip == STAvatarClip.circle ? _height / 2 : 4.0),
+            ),
+            border: Border.all(
+              color: data.borderColor ?? Colors.transparent,
+            ),
           ),
-          border: Border.all(
-            color: data.borderColor ?? Colors.transparent,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (data.iconData != null)
+                Center(
+                  child: Icon(
+                    data.iconData,
+                    color: data.color,
+                    size: _height - 10.0,
+                  ),
+                ),
+              if (data.content != null)
+                Text(
+                  data.content ?? '',
+                  style: TextStyle(
+                    fontSize: data.fontSize,
+                    color: data.color,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+            ],
           ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (data.iconData != null)
-              Center(
-                child: Icon(
-                  data.iconData,
-                  color: data.color,
-                  size: _height - 10.0,
-                ),
-              ),
-            if (data.content != null)
-              Text(
-                data.content ?? '',
-                style: TextStyle(
-                  fontSize: data.fontSize,
-                  color: data.color,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-          ],
         ),
       ),
     );

@@ -97,31 +97,33 @@ class _STBreadCrumbState extends State<STBreadCrumb> {
 
   Widget _buildItem(STBreadCrumbData data, {bool current = false}) {
     final _color = current ? STColor.firRankFont : STColor.thrRankFont;
-    return GestureDetector(
-      onTap: () {
-        _tapAction(data);
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (data.icon != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(
-                data.icon,
-                size: 16,
+    return STMouseRegion(
+      child: GestureDetector(
+        onTap: () {
+          _tapAction(data);
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (data.icon != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Icon(
+                  data.icon,
+                  size: 16,
+                  color: _color,
+                ),
+              ),
+            Text(
+              data.title,
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
                 color: _color,
               ),
             ),
-          Text(
-            data.title,
-            style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-              color: _color,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
