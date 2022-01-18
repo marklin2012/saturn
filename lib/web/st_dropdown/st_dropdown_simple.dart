@@ -32,14 +32,12 @@ class STDropdownSimple extends StatefulWidget {
 
 class _STDropdownSimpleState extends State<STDropdownSimple> {
   late OverlayState? _overlayState;
-  late OverlayEntry? _entry;
+  OverlayEntry? _entry;
   final _simpleTriggerKey = GlobalKey(debugLabel: 'simpleTriggerKey');
   late Offset _triggerOffset;
   late Size _triggerSize;
   late String _currentValue;
   late List<String> _items;
-  // 需每次重新定位
-  bool _isPostFrame = false;
   // 是否显示了下拉框
   bool _isShowDropdown = false;
 
@@ -50,12 +48,6 @@ class _STDropdownSimpleState extends State<STDropdownSimple> {
     _currentValue = widget.initValue ?? '';
   }
 
-  void _goPostFrame() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      _positonTrigger();
-    });
-  }
-
   void _positonTrigger() {
     final _renderObj = _simpleTriggerKey.currentContext?.findRenderObject();
     if (_renderObj != null && _renderObj is RenderBox) {
@@ -63,38 +55,36 @@ class _STDropdownSimpleState extends State<STDropdownSimple> {
       _triggerOffset = _renderBox.localToGlobal(Offset.zero);
       _triggerSize = _renderBox.size;
     }
-    _isPostFrame = true;
-    setState(() {});
-    Future.delayed(const Duration(milliseconds: 200), () {
-      _isPostFrame = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     _overlayState = Overlay.of(context);
-    if (!_isPostFrame) {
-      _goPostFrame();
-    }
-    return GestureDetector(
-      key: _simpleTriggerKey,
-      onTap: () {
-        STDebounce().start(
-          key: 'STDropdownSimpleKey',
-          func: () {
-            if (widget.disabled) return;
-            _show();
-            if (widget.statusChanged == null) return;
-            widget.statusChanged!(_isShowDropdown);
-          },
-          time: 100,
-        );
-      },
-      child: widget.child,
+    return STMouseRegion(
+      child: GestureDetector(
+        onTap: () {
+          STDebounce().start(
+            key: 'STDropdownSimpleKey',
+            func: () {
+              if (widget.disabled) return;
+              _show();
+              if (widget.statusChanged == null) return;
+              widget.statusChanged!(_isShowDropdown);
+            },
+            time: 100,
+          );
+        },
+        child: Container(
+          key: _simpleTriggerKey,
+          child: widget.child,
+        ),
+      ),
     );
   }
 
   void _show() {
+    _hide();
+    _positonTrigger();
     var _left = _triggerOffset.dx;
     if (widget.entryWidth != null) {
       _left = _left + _triggerSize.width - widget.entryWidth!;

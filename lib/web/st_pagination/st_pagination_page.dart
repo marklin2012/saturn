@@ -110,7 +110,6 @@ class STPaginationPage extends StatelessWidget {
         _showPages.add(i);
       }
     }
-    debugPrint('current:$_current,showPages:$_showPages');
   }
 
   void _callback() {
@@ -152,52 +151,54 @@ class STPaginationPage extends StatelessWidget {
     } else if (isSimple) {
       _decoration = const BoxDecoration();
     }
-    return GestureDetector(
-      onTap: () {
-        if (_btnDisabled) return;
-        if (isLeft) {
-          if (_current - 1 > 1) {
-            _current -= 1;
+    return STMouseRegion(
+      child: GestureDetector(
+        onTap: () {
+          if (_btnDisabled) return;
+          if (isLeft) {
+            if (_current - 1 > 1) {
+              _current -= 1;
+            } else {
+              _current = 1;
+            }
           } else {
-            _current = 1;
+            if (_current + 1 < _pageLength) {
+              _current += 1;
+            } else {
+              _current = _pageLength;
+            }
           }
-        } else {
-          if (_current + 1 < _pageLength) {
-            _current += 1;
-          } else {
-            _current = _pageLength;
-          }
-        }
-        _callback();
-      },
-      child: Container(
-        margin: _margin,
-        padding: _isShowText ? _padding : null,
-        decoration: _decoration,
-        alignment: _isShowText ? null : Alignment.center,
-        width: _isShowText ? null : _width,
-        child: _isShowText
-            ? Text(
-                isLeft ? turnPages!.first : turnPages!.last,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+          _callback();
+        },
+        child: Container(
+          margin: _margin,
+          padding: _isShowText ? _padding : null,
+          decoration: _decoration,
+          alignment: _isShowText ? null : Alignment.center,
+          width: _isShowText ? null : _width,
+          child: _isShowText
+              ? Text(
+                  isLeft ? turnPages!.first : turnPages!.last,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: disabled
+                        ? STColor.fourRankFont
+                        : _btnDisabled
+                            ? STColor.thrRankGrey
+                            : Colors.black,
+                  ),
+                )
+              : Icon(
+                  _iconData,
+                  size: 14,
                   color: disabled
                       ? STColor.fourRankFont
                       : _btnDisabled
                           ? STColor.thrRankGrey
                           : Colors.black,
                 ),
-              )
-            : Icon(
-                _iconData,
-                size: 14,
-                color: disabled
-                    ? STColor.fourRankFont
-                    : _btnDisabled
-                        ? STColor.thrRankGrey
-                        : Colors.black,
-              ),
+        ),
       ),
     );
   }
@@ -214,32 +215,34 @@ class STPaginationPage extends StatelessWidget {
 
     /// flage -1 向左跳5
     /// 0 向右跳5
-    return GestureDetector(
-      onTap: () {
-        if (flag == -1) {
-          if (_current - 5 > 1) {
-            _current -= 5;
+    return STMouseRegion(
+      child: GestureDetector(
+        onTap: () {
+          if (flag == -1) {
+            if (_current - 5 > 1) {
+              _current -= 5;
+            } else {
+              _current = 1;
+            }
           } else {
-            _current = 1;
+            if (_current + 5 < _pageLength) {
+              _current += 5;
+            } else {
+              _current = _pageLength;
+            }
           }
-        } else {
-          if (_current + 5 < _pageLength) {
-            _current += 5;
-          } else {
-            _current = _pageLength;
-          }
-        }
-        _callback();
-      },
-      child: Container(
-        margin: _margin,
-        color: disabled ? STColor.fourRankGrey : _color,
-        alignment: Alignment.center,
-        width: _width,
-        child: const Icon(
-          STIcons.commonly_pointmenu_outline,
-          size: 14,
-          color: STColor.secRankGrey,
+          _callback();
+        },
+        child: Container(
+          margin: _margin,
+          color: disabled ? STColor.fourRankGrey : _color,
+          alignment: Alignment.center,
+          width: _width,
+          child: const Icon(
+            STIcons.commonly_pointmenu_outline,
+            size: 14,
+            color: STColor.secRankGrey,
+          ),
         ),
       ),
     );
@@ -287,26 +290,28 @@ class STPaginationPage extends StatelessWidget {
       _width = _smallHeight;
     }
 
-    return GestureDetector(
-      onTap: () {
-        _current = page;
-        _callback();
-      },
-      child: Container(
-        margin: _margin,
-        decoration: _decoration,
-        alignment: Alignment.center,
-        width: _width,
-        child: Text(
-          page.toString(),
-          style: TextStyle(
-            color: disabled
-                ? _selected
-                    ? Colors.white
-                    : STColor.fourRankFont
-                : _selected
-                    ? STColor.firRankBlue
-                    : Colors.black,
+    return STMouseRegion(
+      child: GestureDetector(
+        onTap: () {
+          _current = page;
+          _callback();
+        },
+        child: Container(
+          margin: _margin,
+          decoration: _decoration,
+          alignment: Alignment.center,
+          width: _width,
+          child: Text(
+            page.toString(),
+            style: TextStyle(
+              color: disabled
+                  ? _selected
+                      ? Colors.white
+                      : STColor.fourRankFont
+                  : _selected
+                      ? STColor.firRankBlue
+                      : Colors.black,
+            ),
           ),
         ),
       ),
