@@ -1,9 +1,15 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:saturn/mobile/st_button/common.dart';
 import 'package:saturn/saturn.dart';
+import 'package:saturn/web/st_tree/st_tree_provider.dart';
+import 'package:saturn/web/st_tree/st_tree_search.dart';
 
 class STTreeData {
   final String title;
+  final String? key;
   final IconData? icon;
   final bool disabled;
   bool isOpened;
@@ -12,6 +18,7 @@ class STTreeData {
 
   STTreeData({
     required this.title,
+    this.key,
     this.icon,
     this.disabled = false,
     this.checked = false,
@@ -26,7 +33,7 @@ enum STTreeArrowType {
   addsub,
 }
 
-class STTree extends StatefulWidget {
+class STTree extends StatelessWidget {
   const STTree({
     Key? key,
     required this.items,
@@ -35,6 +42,7 @@ class STTree extends StatefulWidget {
     this.showLine = false,
     this.type = STTreeArrowType.normal,
     this.padding = const EdgeInsets.all(40.0),
+    this.checkChanged,
   }) : super(key: key);
 
   final bool isSearh;
@@ -43,45 +51,63 @@ class STTree extends StatefulWidget {
   final STTreeArrowType type;
   final List<STTreeData> items;
   final EdgeInsets padding;
-
-  @override
-  _STTreeState createState() => _STTreeState();
-}
-
-class _STTreeState extends State<STTree> {
-  late List<STTreeData> _items;
-
-  @override
-  void initState() {
-    super.initState();
-    _items = widget.items;
-  }
+  final Function(List<STTreeData>)? checkChanged;
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _children = [];
-    for (int i = 0; i < _items.length; i++) {
-      final _item = _items[i];
-      final _itemWidget = _currentLevel(index: i, data: _item);
-      _children.add(_itemWidget);
-    }
+    return ChangeNotifierProvider(
+      create: (_) => STTreeProvider(items: items),
+      child: _buildConsumer(),
+    );
+  }
 
-    return Container(
-      padding: widget.padding,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: _children,
-      ),
+  Widget _buildConsumer() {
+    return Consumer<STTreeProvider>(
+      builder: (cnt, provider, _) {
+        final List<Widget> _children = [];
+        if (isSearh) {
+          _children.add(
+            Padding(
+              padding: const EdgeInsets.only(bottom: 9.0),
+              child: STTreeSearch(
+                onChanged: (String str) {
+                  provider.search(str);
+                },
+              ),
+            ),
+          );
+        }
+        for (int i = 0; i < provider.items.length; i++) {
+          final _item = provider.items[i];
+          final _itemWidget = _currentLevel(
+            provider: provider,
+            index: i,
+            data: _item,
+          );
+          _children.add(_itemWidget);
+        }
+
+        return Container(
+          padding: padding,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: _children,
+          ),
+        );
+      },
     );
   }
 
   Widget _currentLevel({
+    required STTreeProvider provider,
     required int index,
     required STTreeData data,
   }) {
     EdgeInsets _padding = const EdgeInsets.symmetric(horizontal: 24.0);
     if (data.subs != null && index == data.subs!.length - 1) {
       _padding = const EdgeInsets.fromLTRB(24, 0, 24, 0);
+    } else if (showLine) {
+      _padding = const EdgeInsets.symmetric(horizontal: 12.0);
     }
 
     /// 是否展开
@@ -91,12 +117,27 @@ class _STTreeState extends State<STTree> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildCurrentRow(index: index, data: data),
+          _buildCurrentRow(
+            provider: provider,
+            index: index,
+            data: data,
+          ),
           if (_isOpen)
-            STTree(
-              padding: EdgeInsets.zero,
-              checkable: widget.checkable,
-              items: data.subs!,
+            Container(
+              margin: showLine ? const EdgeInsets.only(left: 11.5) : null,
+              decoration: showLine
+                  ? const BoxDecoration(
+                      border: Border(
+                        left: BorderSide(color: STColor.thrRankGrey),
+                      ),
+                    )
+                  : null,
+              child: STTree(
+                padding: EdgeInsets.zero,
+                checkable: checkable,
+                showLine: showLine,
+                items: data.subs!,
+              ),
             ),
         ],
       ),
@@ -104,6 +145,7 @@ class _STTreeState extends State<STTree> {
   }
 
   Widget _buildCurrentRow({
+    required STTreeProvider provider,
     required int index,
     required STTreeData data,
   }) {
@@ -116,9 +158,7 @@ class _STTreeState extends State<STTree> {
       _iconArrow = GestureDetector(
         onTap: () {
           if (data.disabled) return;
-          final _isShow = data.isOpened;
-          data.isOpened = !_isShow;
-          setState(() {});
+          provider.changeOpened(data: data);
         },
         child: _buildArrow(index: index, data: data),
       );
@@ -130,11 +170,15 @@ class _STTreeState extends State<STTree> {
         child: _iconArrow,
       ),
     );
-    if (widget.checkable) {
+    if (checkable) {
       _children.add(
         Padding(
           padding: const EdgeInsets.only(right: 12.0),
-          child: _buildCheck(index, data),
+          child: _buildCheck(
+            provider: provider,
+            index: index,
+            data: data,
+          ),
         ),
       );
     }
@@ -168,15 +212,19 @@ class _STTreeState extends State<STTree> {
     );
   }
 
-  Widget _buildCheck(int index, STTreeData data) {
+  Widget _buildCheck({
+    required STTreeProvider provider,
+    required int index,
+    required STTreeData data,
+  }) {
     final _onCheck = data.checked;
     return STMouseRegion(
       child: GestureDetector(
         onTap: () {
           if (data.disabled) return;
-          final _temp = data.checked;
-          data.checked = !_temp;
-          setState(() {});
+          provider.changeChecked(data: data);
+          if (checkChanged == null) return;
+          checkChanged!(provider.checkItems);
         },
         child: Container(
           height: 16,
@@ -207,10 +255,10 @@ class _STTreeState extends State<STTree> {
   }) {
     IconData _iconData;
     final _isOpen = data.isOpened;
-    if (widget.type == STTreeArrowType.normal) {
+    if (type == STTreeArrowType.normal) {
       _iconData =
           _isOpen ? STIcons.direction_caretdown : STIcons.direction_caretright;
-    } else if (widget.type == STTreeArrowType.outline) {
+    } else if (type == STTreeArrowType.outline) {
       _iconData = _isOpen
           ? STIcons.direction_downoutlined
           : STIcons.direction_rightoutlined;

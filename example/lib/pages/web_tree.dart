@@ -23,9 +23,14 @@ class _WebTreePageState extends State<WebTreePage> {
             SizedBox(height: 10),
             _buildOnCheck(),
             SizedBox(height: 10),
+            _buildSearch(),
+            SizedBox(height: 10),
             _buildCustomIcon(),
             SizedBox(height: 10),
             _buildCatalogue(),
+            SizedBox(height: 10),
+            _buildShowLine(),
+            SizedBox(height: 10),
           ],
         ),
       ),
@@ -84,6 +89,40 @@ class _WebTreePageState extends State<WebTreePage> {
                 ],
               ),
               STTreeData(title: '二级1-2', disabled: true, subs: [
+                STTreeData(title: '三级1-2-1'),
+                STTreeData(title: '三级1-2-2'),
+                STTreeData(title: '三级1-2-3'),
+              ]),
+              STTreeData(title: '二级1-3'),
+            ]),
+            STTreeData(title: '一级2'),
+            STTreeData(title: '一级3'),
+          ]),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearch() {
+    return Container(
+      color: STColor.fourRankGrey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('可搜索'),
+          STTree(isSearh: true, items: [
+            STTreeData(title: '一级1', subs: [
+              STTreeData(
+                title: '二级1-1',
+                subs: [
+                  STTreeData(title: '三级1-1-1'),
+                  STTreeData(title: '三级1-1-2'),
+                  STTreeData(title: '三级1-1-3'),
+                  STTreeData(title: '三级1-1-4'),
+                ],
+              ),
+              STTreeData(title: '二级1-2', subs: [
                 STTreeData(title: '三级1-2-1'),
                 STTreeData(title: '三级1-2-2'),
                 STTreeData(title: '三级1-2-3'),
@@ -187,6 +226,40 @@ class _WebTreePageState extends State<WebTreePage> {
                 title: '一级文件夹2',
                 icon: STIcons.commonly_mail,
               ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShowLine() {
+    return Container(
+      color: STColor.fourRankGrey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('基础用法'),
+          STTree(
+            showLine: true,
+            items: [
+              STTreeData(title: '一级1', subs: [
+                STTreeData(
+                  title: '二级1-1',
+                  subs: [
+                    STTreeData(title: '三级1-1-1'),
+                    STTreeData(title: '三级1-1-2'),
+                    STTreeData(title: '三级1-1-3'),
+                  ],
+                ),
+                STTreeData(title: '二级1-2', subs: [
+                  STTreeData(title: '三级1-2-1'),
+                  STTreeData(title: '三级1-2-2'),
+                  STTreeData(title: '三级1-2-3'),
+                ]),
+                STTreeData(title: '二级1-3'),
+              ]),
             ],
           ),
         ],
