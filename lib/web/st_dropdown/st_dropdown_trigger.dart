@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/common.dart';
@@ -75,7 +73,7 @@ class _STDropdownTriggerState extends State<STDropdownTrigger> {
     _data = widget.data;
 
     // 屏蔽浏览器默认的右键点击事件
-    document.onContextMenu.listen((event) => event.preventDefault());
+    // document.onContextMenu.listen((event) => event.preventDefault());
   }
 
   @override
