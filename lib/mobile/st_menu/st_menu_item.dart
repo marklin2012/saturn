@@ -16,6 +16,7 @@ class STMenuDataItem {
 }
 
 const defaultTextColor = Color(0xFF555555);
+const defaultCurBGColor = Color(0xFF1070FF);
 
 class STMenuItem extends StatelessWidget {
   final Function(int) onTap;
@@ -36,7 +37,7 @@ class STMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isSelected = index == current;
 
-    Color currentColor = Theme.of(context).primaryColor;
+    Color currentColor = defaultCurBGColor;
     if (type != STMenuType.button) {
       currentColor = Colors.transparent;
     }

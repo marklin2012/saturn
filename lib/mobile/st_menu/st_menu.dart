@@ -31,9 +31,6 @@ class _STMenuState extends State<STMenu> {
 
   @override
   Widget build(BuildContext context) {
-    // const contnt =
-    if (widget.items.length > 5) {}
-
     List<Widget> contents = widget.items
         .asMap()
         .map((index, item) {
