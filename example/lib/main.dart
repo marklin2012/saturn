@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       initialRoute: MyHomePage.routeName,
+      home: MyHomePage(),
     );
   }
 }
