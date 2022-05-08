@@ -1,5 +1,4 @@
 import 'package:example/pages/home.dart';
-import 'package:example/pages/web_breadcrumb/web_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
       ),
-      routes: WebRoutes.routes,
       initialRoute: MyHomePage.routeName,
     );
   }

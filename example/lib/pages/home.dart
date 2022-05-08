@@ -5,13 +5,6 @@ import 'package:example/pages/grid.dart';
 import 'package:example/pages/image.dart';
 import 'package:example/pages/list_cell.dart';
 import 'package:example/pages/menu.dart';
-import 'package:example/pages/web_avatar.dart';
-import 'package:example/pages/web_breadcrumb/web_breadcrumb.dart';
-import 'package:example/pages/web_collapse.dart';
-import 'package:example/pages/web_dropdown.dart';
-import 'package:example/pages/web_pagnation.dart';
-import 'package:example/pages/web_tab_option.dart';
-import 'package:example/pages/web_tree.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/pages/checkbox.dart';
@@ -75,18 +68,6 @@ List<PageModel> _pages = [
   PageModel(name: 'Steps', page: StepsPage()),
   PageModel(name: 'Switch', page: SwitchPage()),
   PageModel(name: 'Tabbar', page: TabbarPage()),
-  // if (getIsWeb())
-  PageModel(name: 'WebAvatar', page: WebAvatarPage()),
-  PageModel(
-    name: 'WebBreadcrumb',
-    page: WebBreadCrumbPage(),
-    routeName: WebBreadCrumbPage.routeName,
-  ),
-  PageModel(name: 'WebCollapse', page: WebCollapsePage()),
-  PageModel(name: 'WebDropdown', page: WebDropdownPage()),
-  PageModel(name: 'WebTabOption', page: WebTapOptionPage()),
-  PageModel(name: 'WebTree', page: WebTreePage()),
-  PageModel(name: 'WebPagination', page: WebPaginationPage()),
   PageModel(name: 'Tag', page: TagPage()),
   PageModel(name: 'Toast', page: ToastPage()),
   PageModel(name: 'Tooltip', page: TooltipPage()),
