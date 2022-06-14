@@ -50,10 +50,20 @@ class _StepsPageState extends State<StepsPage> {
           SizedBox(height: 30),
           STSteps(
             type: STStepsType.detail,
+            lineType: STStepsLineType.dotted,
             steps: [
-              STStepItem(title: '文本文本', info: '说明信息'),
-              STStepItem(title: '文本文本', info: '说明信息'),
-              STStepItem(title: '文本文本', info: '说明信息'),
+              STStepItem(
+                title: '文本文本',
+                info: '说明信息',
+              ),
+              STStepItem(
+                title: '文本文本',
+                info: '说明信息',
+              ),
+              STStepItem(
+                title: '文本文本',
+                info: '说明信息',
+              ),
             ],
           ),
         ],

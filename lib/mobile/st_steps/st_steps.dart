@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_icons/st_icons.dart';
 import 'package:saturn/mobile/st_steps/common.dart';
+import 'package:saturn/mobile/st_steps/st_shapes_dotted_line.dart';
 import 'package:saturn/mobile/st_steps/steps_stateful.dart';
 
 const _defaultCircleWidth = 8.0;
@@ -17,18 +18,24 @@ class STSteps extends StatelessWidget {
   const STSteps({
     Key? key,
     this.type = STStepsType.dot,
+    this.lineType = STStepsLineType.solid,
     this.margin = _defaultMargin,
     required this.steps,
     this.current = 0,
     this.detailWidth,
+    this.dotted = 4.0,
+    this.fixed = 4.0,
   })  : assert(steps.length > 1),
         super(key: key);
 
   final STStepsType type;
+  final STStepsLineType lineType;
   final EdgeInsets margin;
   final List<STStepItem> steps;
   final int current;
   final double? detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
+  final double dotted; // 虚线时 虚线的宽或者高
+  final double fixed;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,6 @@ class STSteps extends StatelessWidget {
       case STStepsType.detail:
         return buildDetail();
     }
-    return Container();
   }
 
   Widget buildDot() {
@@ -49,6 +55,8 @@ class STSteps extends StatelessWidget {
       margin: margin,
       steps: steps,
       current: current,
+      lineType: lineType,
+      dotted: dotted,
     );
   }
 
@@ -59,24 +67,35 @@ class STSteps extends StatelessWidget {
       margin: margin,
       steps: steps,
       detailWidth: detailWidth,
+      lineType: lineType,
+      dotted: dotted,
+      fixed: fixed,
     );
   }
 
   Widget buildNumberAndIcon() {
     final _widgets = <Widget>[];
-    for (var i = 0; i < steps.length * 2 - 1; i++) {
-      if (i % 2 == 0) {
+    for (int i = 0; i < steps.length * 2 - 1; i++) {
+      if (i.isEven) {
         final j = i ~/ 2;
         Widget _preWidget;
         if (type == STStepsType.number) {
           final _number = steps[j].number ?? j + 1;
           _preWidget = Text('$_number', style: _defaultNumTextStyle);
         } else {
-          _preWidget = Icon(
-            steps[j].iconData ?? STIcons.commonly_selected_outline,
-            size: _defaultNumIconWidth * 2 / 3,
-            color: Colors.white,
-          );
+          _preWidget = _isFinished(j)
+              ? steps[j].currentImage ??
+                  const Icon(
+                    STIcons.commonly_selected_outline,
+                    size: _defaultNumIconWidth * 2 / 3,
+                    color: Colors.white,
+                  )
+              : steps[j].image ??
+                  const Icon(
+                    STIcons.commonly_selected_outline,
+                    size: _defaultNumIconWidth * 2 / 3,
+                    color: Colors.white,
+                  );
         }
         var _padding =
             const EdgeInsets.symmetric(horizontal: _defaultCircleWidth / 2);
@@ -113,10 +132,19 @@ class STSteps extends StatelessWidget {
       } else {
         final _index = i ~/ 2 + 1;
         final _flex = Flexible(
-          child: Container(
-            height: 2,
-            color: _isFinished(_index) ? _defaultSelectColor : _defaultColor,
-          ),
+          child: lineType == STStepsLineType.solid
+              ? Container(
+                  height: 2,
+                  width: 44,
+                  color:
+                      _isFinished(_index) ? _defaultSelectColor : _defaultColor,
+                )
+              : STShapesDottedLine(
+                  width: 44,
+                  dotted: dotted,
+                  color:
+                      _isFinished(_index) ? _defaultSelectColor : _defaultColor,
+                ),
         );
         _widgets.add(_flex);
       }
