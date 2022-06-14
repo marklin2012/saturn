@@ -5,20 +5,28 @@ import 'package:saturn/mobile/st_menu/st_menu_item.dart';
 class STMenu extends StatefulWidget {
   final List<STMenuDataItem> items;
   final STMenuType type;
+  final Color? backgroundColor;
+  final int? initIndex;
+  final EdgeInsets? padding;
+  final double? height;
   final Function(int)? onTap;
 
-  const STMenu(
-      {Key? key,
-      required this.items,
-      this.type = STMenuType.button,
-      this.onTap})
-      : super(key: key);
+  const STMenu({
+    Key? key,
+    required this.items,
+    this.type = STMenuType.button,
+    this.backgroundColor,
+    this.initIndex,
+    this.padding,
+    this.height,
+    this.onTap,
+  }) : super(key: key);
   @override
   _STMenuState createState() => _STMenuState();
 }
 
 class _STMenuState extends State<STMenu> {
-  int _current = 0;
+  late int _current;
 
   void onItemTap(int index) {
     setState(() {
@@ -31,6 +39,7 @@ class _STMenuState extends State<STMenu> {
 
   @override
   Widget build(BuildContext context) {
+    _current = widget.initIndex ?? 0;
     List<Widget> contents = widget.items
         .asMap()
         .map((index, item) {
@@ -96,16 +105,17 @@ class _STMenuState extends State<STMenu> {
 
     return Container(
       decoration: BoxDecoration(
-        color: STColor.backgroundColor,
+        color: widget.backgroundColor ?? STColor.backgroundColor,
         border: widget.type == STMenuType.underline
             ? const Border(bottom: BorderSide(color: STColor.fourRankGrey))
             : null,
       ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: widget.type == STMenuType.underline ? 0 : 6,
-      ),
-      height: widget.type == STMenuType.label ? 64 : 44,
+      padding: widget.padding ??
+          EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: widget.type == STMenuType.underline ? 0 : 6,
+          ),
+      height: widget.height ?? (widget.type == STMenuType.label ? 64 : 44),
       child: mainContent,
     );
   }

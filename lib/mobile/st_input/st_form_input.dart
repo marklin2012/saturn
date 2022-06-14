@@ -17,6 +17,7 @@ class STFormInput extends StatefulWidget {
     this.inputType,
     this.inputFormatters,
     this.maxLength,
+    this.maxLines = 1,
     this.cursorWidth,
     this.cursorHeight,
     this.cursorRadius,
@@ -47,6 +48,7 @@ class STFormInput extends StatefulWidget {
     this.inputType,
     this.inputFormatters,
     this.maxLength,
+    this.maxLines = 1,
     this.cursorWidth,
     this.cursorHeight,
     this.cursorRadius,
@@ -75,6 +77,7 @@ class STFormInput extends StatefulWidget {
   final TextInputType? inputType;
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLength;
+  final int? maxLines;
   final double? cursorWidth;
   final double? cursorHeight;
   final double? cursorRadius;
@@ -129,6 +132,7 @@ class _STFormInputState extends State<STFormInput> {
         keyboardType: _inputType,
         inputFormatters: widget.inputFormatters,
         maxLength: widget.maxLength,
+        maxLines: widget.maxLines,
         keyboardAppearance: Theme.of(context).brightness,
         cursorWidth: widget.cursorWidth ?? 2.0,
         cursorHeight: widget.cursorHeight ?? widget.height - 2 * _spcae,

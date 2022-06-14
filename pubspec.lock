@@ -148,7 +148,7 @@ packages:
       name: provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.2"
+    version: "6.0.3"
   shimmer:
     dependency: "direct main"
     description:
@@ -223,21 +223,21 @@ packages:
       name: video_player
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.2"
   video_player_android:
     dependency: transitive
     description:
       name: video_player_android
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.4"
   video_player_avfoundation:
     dependency: transitive
     description:
       name: video_player_avfoundation
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.4"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -251,7 +251,7 @@ packages:
       name: video_player_web
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.8"
+    version: "2.0.10"
 sdks:
   dart: ">=2.15.0-7.0.dev <3.0.0"
   flutter: ">=2.10.0"

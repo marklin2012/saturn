@@ -11,8 +11,14 @@ class STMenuDataItem {
   final IconData? icon;
   final String title;
   final bool disable;
+  final double fontSize;
 
-  STMenuDataItem({this.icon, required this.title, this.disable = false});
+  STMenuDataItem({
+    this.icon,
+    required this.title,
+    this.disable = false,
+    this.fontSize = 16,
+  });
 }
 
 const defaultTextColor = Color(0xFF555555);
@@ -61,7 +67,7 @@ class STMenuItem extends StatelessWidget {
     Widget innerContent = Text(
       item.title,
       style: TextStyle(
-        fontSize: 16,
+        fontSize: item.fontSize,
         fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         decoration: TextDecoration.none,
         color: isSelected ? selectedTextColor : defaultTextColor,
@@ -81,7 +87,7 @@ class STMenuItem extends StatelessWidget {
           Text(
             item.title,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: item.fontSize,
               fontWeight: FontWeight.w400,
               decoration: TextDecoration.none,
               color: isSelected ? selectedTextColor : defaultTextColor,
@@ -99,7 +105,7 @@ class STMenuItem extends StatelessWidget {
               child: Text(
                 item.title,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: item.fontSize,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                   decoration: TextDecoration.none,
                   color: isSelected ? selectedTextColor : defaultTextColor,
