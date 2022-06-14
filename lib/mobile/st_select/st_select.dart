@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/mobile/st_select/select_address.dart';
 import 'package:saturn/mobile/st_select/select_mix.dart';
 import 'package:saturn/mobile/st_select/select_mix_item.dart';
 import 'package:saturn/mobile/st_select/select_texts.dart';
@@ -6,13 +7,14 @@ import 'package:saturn/mobile/st_select/select_texts.dart';
 enum STSelectTypes {
   mix,
   texts,
+  address,
 }
 
 class STSelect extends StatelessWidget {
   const STSelect({
     Key? key,
     this.types,
-    this.margin = const EdgeInsets.all(0.0),
+    this.margin = EdgeInsets.zero,
     this.isConCheck = false,
     this.initMixValue,
     this.mixListValues,
@@ -53,11 +55,21 @@ class STSelect extends StatelessWidget {
           items: mixListValues,
           isConCheck: isConCheck,
           onChanged: (STSelectMixItem value) {
-            if (onChangedMixValue != null) {
-              onChangedMixValue!(value);
-            }
+            if (onChangedMixValue == null) return;
+            onChangedMixValue!(value);
           },
         ),
+      );
+    } else if (types == STSelectTypes.address) {
+      return STSelectAddress(
+        key: key,
+        title: title,
+        looping: looping,
+        onChanged: (value) {
+          if (onChangedTextsValue == null) return;
+          onChangedTextsValue!(value);
+        },
+        child: child,
       );
     } else {
       return STSelectTexts(
@@ -68,9 +80,8 @@ class STSelect extends StatelessWidget {
         listValues: textsListValues,
         looping: looping,
         onChanged: (value) {
-          if (onChangedTextsValue != null) {
-            onChangedTextsValue!(value);
-          }
+          if (onChangedTextsValue == null) return;
+          onChangedTextsValue!(value);
         },
         child: child,
       );

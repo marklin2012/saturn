@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:saturn/mobile/st_icons/st_icons.dart';
 import 'package:saturn/mobile/st_steps/common.dart';
+import 'package:saturn/mobile/st_steps/st_shapes_dotted_line.dart';
 
 const _defaultCircleWidth = 8.0;
 const _defaultNumIconWidth = 20.0;
@@ -22,20 +23,27 @@ class STStatefulSteps extends StatefulWidget {
     this.current,
     this.detailWidth,
     this.type = STStepsType.dot,
+    required this.lineType,
+    this.dotted = 4.0,
+    this.fixed = 4.0,
   }) : super(key: key);
 
   final STStepsType type;
+  final STStepsLineType lineType;
   final EdgeInsets? margin;
   final List<STStepItem>? steps;
   final int? current;
   final double? detailWidth; // type为detail,竖排需固定宽度才能满足外部的对齐方式
+  final double dotted;
+  final double fixed; // type为detail,图片与文字的间距
 
   @override
   _STStatefulStepsState createState() => _STStatefulStepsState();
 }
 
 class _STStatefulStepsState extends State<STStatefulSteps> {
-  STStepsType? _type;
+  late STStepsType _type;
+  late STStepsLineType _lineType;
   late List<STStepItem> _steps;
   EdgeInsets? _margin;
   late List<GlobalKey> _golbalKeys;
@@ -47,6 +55,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
   void initState() {
     super.initState();
     _type = widget.type;
+    _lineType = widget.lineType;
     _steps = List.from(widget.steps!);
     _margin = widget.margin ?? _defaultMargin;
     _current = widget.current ?? 0;
@@ -66,7 +75,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
     _renders = <STRenderItem>[];
     for (var i = 0; i < _golbalKeys.length; i++) {
       final RenderBox tempRender =
-          _golbalKeys[i].currentContext!.findRenderObject() as RenderBox;
+          _golbalKeys[i].currentContext!.findRenderObject()! as RenderBox;
       final _offset = tempRender.localToGlobal(Offset.zero);
       final _render = STRenderItem(offset: _offset, size: tempRender.size);
       _renders.add(_render);
@@ -99,23 +108,45 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
         final _number = _steps[index].number ?? index + 1;
         _preWidget = Text('$_number', style: _defaultNumTextStyle);
       }
+      Widget _image = Container(
+        key: _golbalKeys[index],
+        height: _defaultNumIconWidth,
+        width: _defaultNumIconWidth,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(_defaultNumIconWidth / 2),
+          color: _isFinished(index) ? _defaultSelectColor : _defaultColor,
+        ),
+        alignment: Alignment.center,
+        child: _preWidget,
+      );
+      if (_steps[index].image != null && _steps[index].currentImage != null) {
+        if (_isFinished(index)) {
+          _image = SizedBox(
+            key: _golbalKeys[index],
+            height: _defaultNumIconWidth,
+            width: _defaultNumIconWidth,
+            child: Center(
+              child: _steps[index].currentImage,
+            ),
+          );
+        } else {
+          _image = SizedBox(
+            key: _golbalKeys[index],
+            height: _defaultNumIconWidth,
+            width: _defaultNumIconWidth,
+            child: Center(
+              child: _steps[index].image,
+            ),
+          );
+        }
+      }
       return SizedBox(
         width: _detailWidth,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              key: _golbalKeys[index],
-              height: _defaultNumIconWidth,
-              width: _defaultNumIconWidth,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(_defaultNumIconWidth / 2),
-                color: _isFinished(index) ? _defaultSelectColor : _defaultColor,
-              ),
-              alignment: Alignment.center,
-              child: _preWidget,
-            ),
-            const SizedBox(width: 4),
+            _image,
+            SizedBox(width: widget.fixed),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -124,10 +155,11 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
                   child: Text(
                     _steps[index].title!,
                     style: TextStyle(
-                        fontSize: 14.0,
-                        color: _isFinished(index)
-                            ? const Color(0xFF000000)
-                            : const Color(0xFF555555)),
+                      fontSize: 14.0,
+                      color: _isFinished(index)
+                          ? const Color(0xFF000000)
+                          : const Color(0xFF555555),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -135,7 +167,9 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
                   child: Text(
                     _steps[index].info!,
                     style: const TextStyle(
-                        fontSize: 12.0, color: Color(0xFF888888)),
+                      fontSize: 12.0,
+                      color: Color(0xFF888888),
+                    ),
                   ),
                 ),
               ],
@@ -144,12 +178,14 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
         ),
       );
     }).toList();
-    _stackWidgets.add(SizedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _bgWidgtets,
+    _stackWidgets.add(
+      SizedBox(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _bgWidgtets,
+        ),
       ),
-    ));
+    );
     if (_isFindRender) {
       for (var i = 0; i < _steps.length - 1; i++) {
         final _top = _renders[i].offset!.dy -
@@ -163,11 +199,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
         final _temp = Positioned(
           left: (_defaultNumIconWidth - 2) / 2,
           top: _top,
-          child: Container(
-            height: _height,
-            width: 2,
-            color: _isFinished(i + 1) ? _defaultSelectColor : _defaultColor,
-          ),
+          child: _buildDetailLineType(_height, i),
         );
         _stackWidgets.add(_temp);
       }
@@ -214,12 +246,14 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
         );
       },
     ).toList();
-    _stackWidgets.add(SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _titlesWidgets,
+    _stackWidgets.add(
+      SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _titlesWidgets,
+        ),
       ),
-    ));
+    );
     if (_isFindRender) {
       for (var i = 1; i < _steps.length; i++) {
         final _width = _renders[i].offset!.dx -
@@ -229,13 +263,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
         final _temp = Positioned(
           left: _left,
           bottom: (_defaultCircleWidth - 2) / 2,
-          child: Container(
-            margin:
-                const EdgeInsets.symmetric(horizontal: _defaultCircleWidth / 2),
-            height: 2,
-            width: _width,
-            color: _isFinished(i) ? _defaultSelectColor : _defaultColor,
-          ),
+          child: _buildLineType(_width, i),
         );
         _stackWidgets.add(_temp);
       }
@@ -249,4 +277,38 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
   }
 
   bool _isFinished(int index) => index <= _current;
+
+  Widget _buildLineType(double width, int index) {
+    if (_lineType == STStepsLineType.solid) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: _defaultCircleWidth / 2),
+        height: 2,
+        width: width,
+        color: _isFinished(index) ? _defaultSelectColor : _defaultColor,
+      );
+    }
+    return STShapesDottedLine(
+      margin: const EdgeInsets.symmetric(horizontal: _defaultCircleWidth / 2),
+      width: width,
+      dotted: widget.dotted,
+      color: _isFinished(index) ? _defaultSelectColor : _defaultColor,
+    );
+  }
+
+  Widget _buildDetailLineType(double height, int index) {
+    if (_lineType == STStepsLineType.solid) {
+      return Container(
+        height: height,
+        width: 2,
+        color: _isFinished(index + 1) ? _defaultSelectColor : _defaultColor,
+      );
+    }
+    return STShapesDottedLine(
+      direction: Axis.vertical,
+      height: height,
+      width: 2,
+      dotted: widget.dotted,
+      color: _isFinished(index + 1) ? _defaultSelectColor : _defaultColor,
+    );
+  }
 }

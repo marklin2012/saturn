@@ -11,6 +11,8 @@ class _SelectPageState extends State<SelectPage> {
   List<String> _initText1 = ['第一列1'];
   List<String> _initText2 = ['第一列1', '第二列2'];
   List<String> _initText3 = ['第一列1', '第二列2', '第三列3'];
+  List<String> _address;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,6 +183,32 @@ class _SelectPageState extends State<SelectPage> {
                 ),
                 if (_initText1 != null) SizedBox(width: 20),
                 if (_initText3 != null) _typeName(_listToString(_initText3))
+              ],
+            ),
+            SizedBox(height: 15),
+            Row(
+              children: [
+                STSelect(
+                  types: STSelectTypes.address,
+                  onChangedTextsValue: (value) {
+                    _address = value;
+                    setState(() {});
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF2196F3),
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 5.0),
+                    child: Text(
+                      '选择地址',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                if (_address != null) SizedBox(width: 20),
+                if (_address != null) _typeName(_listToString(_address))
               ],
             ),
           ],

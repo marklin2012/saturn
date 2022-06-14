@@ -101,9 +101,9 @@ class _STSelectMenuState extends State<STSelectMenu> {
 
   void _buildupLists() {
     // Dart List直接赋值的话是浅拷贝，会导致传入的值都会发生改变
-    _initValue = List.from(widget.initValue!);
+    _initValue = List.from(widget.initValue ?? []);
     if (_selectedValues.isEmpty) {
-      _selectedValues = List.from(widget.initValue!);
+      _selectedValues = List.from(widget.initValue ?? []);
     }
     if (_listValues.isEmpty) {
       _listValues = List.from(widget.listValues!);
@@ -155,7 +155,7 @@ class _STSelectMenuState extends State<STSelectMenu> {
     } else if (number == 2) {
       _titles = _columnThrList;
     }
-    if (_initValue != null && _initValue.length > number) {
+    if (_initValue.length > number) {
       _initialTitle = _initValue[number];
     }
     if (widget.initUnits != null && widget.initUnits!.length > number) {
@@ -170,9 +170,8 @@ class _STSelectMenuState extends State<STSelectMenu> {
       }
     }
     final _unitWidth = _initUnit != null ? 40.0 : 0.0;
-    return Container(
+    return SizedBox(
       width: _width / _columnNumber,
-      padding: const EdgeInsets.all(0),
       child: Row(
         children: [
           SizedBox(
@@ -256,6 +255,7 @@ class _STSelectMenuState extends State<STSelectMenu> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
+              if (widget.onChanged == null) return;
               widget.onChanged!(_selectedValues);
             },
             child: const Text(
