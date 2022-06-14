@@ -5,6 +5,7 @@ import 'package:example/pages/grid.dart';
 import 'package:example/pages/image.dart';
 import 'package:example/pages/list_cell.dart';
 import 'package:example/pages/menu.dart';
+import 'package:example/pages/rate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:example/pages/checkbox.dart';
@@ -61,6 +62,7 @@ List<PageModel> _pages = [
   PageModel(name: 'Picker', page: PickerPage()),
   PageModel(name: 'Progress', page: ProgressPage()),
   PageModel(name: 'Radio', page: RadioPage()),
+  PageModel(name: 'Rate', page: RatePage()),
   PageModel(name: 'Select', page: SelectPage()),
   PageModel(name: 'Slider', page: SliderPage()),
   PageModel(name: 'Snackbar', page: SnackbarPage()),

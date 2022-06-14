@@ -22,6 +22,7 @@ export 'package:saturn/mobile/st_message/include.dart';
 export 'package:saturn/mobile/st_picker/st_picker_include.dart';
 export 'package:saturn/mobile/st_progress/include.dart';
 export 'package:saturn/mobile/st_radio/st_radio.dart';
+export 'package:saturn/mobile/st_rate/st_rate.dart';
 export 'package:saturn/mobile/st_select/include.dart';
 export 'package:saturn/mobile/st_slider/st_slider.dart';
 export 'package:saturn/mobile/st_snackbar/include.dart';

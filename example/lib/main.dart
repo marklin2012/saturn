@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
       ),
-      initialRoute: MyHomePage.routeName,
+      // initialRoute: MyHomePage.routeName,
       home: MyHomePage(),
     );
   }
