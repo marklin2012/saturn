@@ -7,6 +7,21 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  final _menuDatas = [
+    STMenuDataItem(title: '文本1'),
+    STMenuDataItem(title: '文本2'),
+    STMenuDataItem(title: '文本3'),
+    STMenuDataItem(title: '文本4'),
+    STMenuDataItem(title: '文本5'),
+    STMenuDataItem(title: '文本6'),
+    STMenuDataItem(title: '文本7'),
+  ];
+  var _baseIndex = 0;
+  var _underlineIndex = 0;
+  var _sectionIndex = 0;
+  var _scrollIndex = 0;
+  var _tagIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,16 +49,12 @@ class _MenuPageState extends State<MenuPage> {
               STMenu(
                 onTap: (index) {
                   print('切换到第$index个内容');
+                  setState(() {
+                    _baseIndex = index;
+                  });
                 },
-                items: [
-                  STMenuDataItem(title: '文本1'),
-                  STMenuDataItem(title: '文本2'),
-                  STMenuDataItem(title: '文本3'),
-                  STMenuDataItem(title: '文本4'),
-                  STMenuDataItem(title: '文本5'),
-                  // STMenuDataItem(title: '文本6'),
-                  // STMenuDataItem(title: '文本7'),
-                ],
+                initIndex: _baseIndex,
+                items: _menuDatas,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -59,18 +70,15 @@ class _MenuPageState extends State<MenuPage> {
               ),
               STMenu(
                 type: STMenuType.underline,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 12),
                 onTap: (index) {
                   print('切换到第$index个内容');
+                  setState(() {
+                    _underlineIndex = index;
+                  });
                 },
-                items: [
-                  STMenuDataItem(title: '文本1'),
-                  STMenuDataItem(title: '文本2'),
-                  STMenuDataItem(title: '文本3'),
-                  STMenuDataItem(title: '文本4'),
-                  STMenuDataItem(title: '文本5'),
-                  // STMenuDataItem(title: '文本6'),
-                  // STMenuDataItem(title: '文本7'),
-                ],
+                items: _menuDatas,
+                initIndex: _underlineIndex,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -88,16 +96,12 @@ class _MenuPageState extends State<MenuPage> {
                 type: STMenuType.section,
                 onTap: (index) {
                   print('切换到第$index个内容');
+                  setState(() {
+                    _sectionIndex = index;
+                  });
                 },
-                items: [
-                  STMenuDataItem(title: '文本1'),
-                  STMenuDataItem(title: '文本2'),
-                  STMenuDataItem(title: '文本3'),
-                  STMenuDataItem(title: '文本4'),
-                  STMenuDataItem(title: '文本5'),
-                  // STMenuDataItem(title: '文本6'),
-                  // STMenuDataItem(title: '文本7'),
-                ],
+                items: _menuDatas,
+                initIndex: _sectionIndex,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -115,16 +119,12 @@ class _MenuPageState extends State<MenuPage> {
                 type: STMenuType.section,
                 onTap: (index) {
                   print('切换到第$index个内容');
+                  setState(() {
+                    _scrollIndex = index;
+                  });
                 },
-                items: [
-                  STMenuDataItem(title: '文本1'),
-                  STMenuDataItem(title: '文本2'),
-                  STMenuDataItem(title: '文本3'),
-                  STMenuDataItem(title: '文本4'),
-                  STMenuDataItem(title: '文本5'),
-                  STMenuDataItem(title: '文本6'),
-                  STMenuDataItem(title: '文本7'),
-                ],
+                items: _menuDatas,
+                initIndex: _scrollIndex,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -140,8 +140,13 @@ class _MenuPageState extends State<MenuPage> {
               ),
               STMenu(
                 type: STMenuType.label,
+                padding: EdgeInsets.zero,
+                itemPadding: EdgeInsets.symmetric(horizontal: 10),
                 onTap: (index) {
                   print('切换到第$index个内容');
+                  setState(() {
+                    _tagIndex = index;
+                  });
                 },
                 items: [
                   STMenuDataItem(title: '文本1', icon: Icons.home),
@@ -149,9 +154,8 @@ class _MenuPageState extends State<MenuPage> {
                   STMenuDataItem(title: '文本3', icon: Icons.history),
                   STMenuDataItem(title: '文本4', icon: STIcons.commonly_wallet),
                   STMenuDataItem(title: '文本5', icon: Icons.settings),
-                  // STMenuDataItem(title: '文本6'),
-                  // STMenuDataItem(title: '文本7'),
                 ],
+                initIndex: _tagIndex,
               ),
             ],
           )),

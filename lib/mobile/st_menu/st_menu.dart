@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/common.dart';
 import 'package:saturn/mobile/st_menu/st_menu_item.dart';
+import 'package:saturn/utils/globalkey_ext.dart';
 
 class STMenu extends StatefulWidget {
   final List<STMenuDataItem> items;
@@ -8,6 +9,8 @@ class STMenu extends StatefulWidget {
   final Color? backgroundColor;
   final int? initIndex;
   final EdgeInsets? padding;
+  final EdgeInsets? itemPadding;
+  final Alignment alignment; // 当items小于一屏宽度时，可选择对齐方式
   final double? height;
   final Function(int)? onTap;
 
@@ -18,6 +21,8 @@ class STMenu extends StatefulWidget {
     this.backgroundColor,
     this.initIndex,
     this.padding,
+    this.itemPadding,
+    this.alignment = Alignment.center,
     this.height,
     this.onTap,
   }) : super(key: key);
@@ -27,23 +32,56 @@ class STMenu extends StatefulWidget {
 
 class _STMenuState extends State<STMenu> {
   late int _current;
+  late ScrollController _scrollController;
+  late List<Widget> _contents;
+  late List<GlobalKey> _tabKeys;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _tabKeys = widget.items.map((e) => GlobalKey(debugLabel: e.title)).toList();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   void onItemTap(int index) {
+    if (index == _current) return;
+
+    final key = _tabKeys[index];
+    var offset = key.position()?.dx ?? 0;
+
+    final ScrollPosition position = _scrollController.position;
+    offset = (offset - position.viewportDimension / 2)
+        .clamp(position.minScrollExtent, position.maxScrollExtent);
+
+    _scrollController.animateTo(
+      offset,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.bounceIn,
+    );
+
     setState(() {
       _current = index;
-      if (widget.onTap != null) {
-        widget.onTap!(index);
-      }
+      if (widget.onTap == null) return;
+      widget.onTap!(index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     _current = widget.initIndex ?? 0;
-    List<Widget> contents = widget.items
+    _contents = widget.items
         .asMap()
         .map((index, item) {
-          Widget content = Expanded(
+          final content = Container(
+            key: _tabKeys[index],
+            padding:
+                widget.itemPadding ?? const EdgeInsets.symmetric(horizontal: 4),
             child: STMenuItem(
               type: widget.type,
               item: item,
@@ -52,18 +90,6 @@ class _STMenuState extends State<STMenu> {
               onTap: onItemTap,
             ),
           );
-          if (widget.items.length > 5) {
-            content = Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: STMenuItem(
-                type: widget.type,
-                item: item,
-                current: _current,
-                index: index,
-                onTap: onItemTap,
-              ),
-            );
-          }
           return MapEntry(
             index,
             content,
@@ -73,9 +99,9 @@ class _STMenuState extends State<STMenu> {
         .toList();
     if (widget.type == STMenuType.section) {
       final List<Widget> newContents = [];
-      for (int i = 0; i < contents.length; i++) {
-        newContents.add(contents[i]);
-        if (i < contents.length - 1) {
+      for (int i = 0; i < _contents.length; i++) {
+        newContents.add(_contents[i]);
+        if (i < _contents.length - 1) {
           newContents.add(
             Container(
               width: 1,
@@ -86,22 +112,22 @@ class _STMenuState extends State<STMenu> {
         }
       }
 
-      contents = newContents;
+      _contents = newContents;
     }
 
-    Widget mainContent = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: contents,
-    );
-    if (widget.items.length > 5) {
-      mainContent = SingleChildScrollView(
+    final mainContent = Container(
+      width: MediaQuery.of(context).size.width,
+      alignment: widget.alignment,
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
+        controller: _scrollController,
+        physics: const ClampingScrollPhysics(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: contents,
+          children: _contents,
         ),
-      );
-    }
+      ),
+    );
 
     return Container(
       decoration: BoxDecoration(

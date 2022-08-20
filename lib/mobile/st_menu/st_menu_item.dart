@@ -64,13 +64,16 @@ class STMenuItem extends StatelessWidget {
       selectedTextColor = const Color(0xFF095BF9);
     }
 
-    Widget innerContent = Text(
-      item.title,
-      style: TextStyle(
-        fontSize: item.fontSize,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-        decoration: TextDecoration.none,
-        color: isSelected ? selectedTextColor : defaultTextColor,
+    Widget innerContent = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Text(
+        item.title,
+        style: TextStyle(
+          fontSize: item.fontSize,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+          decoration: TextDecoration.none,
+          color: isSelected ? selectedTextColor : defaultTextColor,
+        ),
       ),
     );
 
@@ -96,48 +99,33 @@ class STMenuItem extends StatelessWidget {
         ],
       );
     } else if (type == STMenuType.underline) {
-      innerContent = Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                item.title,
-                style: TextStyle(
-                  fontSize: item.fontSize,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  decoration: TextDecoration.none,
-                  color: isSelected ? selectedTextColor : defaultTextColor,
-                ),
-              ),
+      innerContent = Container(
+        decoration: BoxDecoration(
+          border: isSelected
+              ? const Border(
+                  bottom: BorderSide(width: 2, color: Color(0xFF095BF9)),
+                )
+              : null,
+        ),
+        child: Center(
+          child: Text(
+            item.title,
+            style: TextStyle(
+              fontSize: item.fontSize,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: isSelected ? selectedTextColor : defaultTextColor,
             ),
           ),
-          if (isSelected)
-            Container(
-              height: 2,
-              color: const Color(0xFF095BF9),
-            ),
-        ],
+        ),
       );
     }
-
-    // if (isSelected) {
-    //     decoration = BoxDecoration(
-    //       color: isSelected ? currentColor : Colors.transparent,
-    //       border: const Border(
-    //         bottom: BorderSide(color: ),
-    //       ),
-    //     );
-    //   }
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          if (onTap != null) {
-            onTap(index);
-          }
+          onTap(index);
         },
         highlightColor: currentColor,
         splashColor: currentColor,
@@ -148,7 +136,6 @@ class STMenuItem extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           decoration: decoration,
-          // height: 32,
           child: innerContent,
         ),
       ),
