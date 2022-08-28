@@ -36,13 +36,14 @@ class _STSelectMixState extends State<STSelectMix> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
   }
 
   void _findRenderObject() {
-    final RenderBox renderBox = _selectKey.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        _selectKey.currentContext!.findRenderObject() as RenderBox;
     _originPoint = renderBox.localToGlobal(Offset.zero);
     setState(() {});
   }

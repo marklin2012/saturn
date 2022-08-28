@@ -199,7 +199,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
         FixedExtentScrollController(initialItem: selectedMonth! - 1);
     yearController = FixedExtentScrollController(initialItem: selectedYear!);
 
-    PaintingBinding.instance!.systemFonts.addListener(_handleSystemFontsChange);
+    PaintingBinding.instance.systemFonts.addListener(_handleSystemFontsChange);
   }
 
   @override
@@ -208,7 +208,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
     monthController!.dispose();
     yearController!.dispose();
 
-    PaintingBinding.instance!.systemFonts
+    PaintingBinding.instance.systemFonts
         .removeListener(_handleSystemFontsChange);
     super.dispose();
   }
@@ -452,7 +452,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
 
   void _scrollToDate(DateTime newDate) {
     assert(newDate != null);
-    SchedulerBinding.instance!.addPostFrameCallback((Duration timestamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timestamp) {
       if (selectedYear != newDate.year) {
         _animateColumnControllerToItem(yearController!, newDate.year);
       }
@@ -505,8 +505,8 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             );
           },
           const CupertinoPickerDefaultSelectionOverlay(
-            capLeftEdge: false,
-            capRightEdge: false,
+            capStartEdge: false,
+            capEndEdge: false,
           ),
         ),
       ));

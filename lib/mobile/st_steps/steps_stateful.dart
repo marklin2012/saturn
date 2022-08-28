@@ -65,7 +65,7 @@ class _STStatefulStepsState extends State<STStatefulSteps> {
       _golbalKeys.add(_tempKey);
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
   }

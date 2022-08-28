@@ -103,13 +103,14 @@ class _STSliderState extends State<STSlider> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       _findRenderObject();
     });
   }
 
   void _findRenderObject() {
-    final RenderBox renderBox = _firstKey.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        _firstKey.currentContext!.findRenderObject() as RenderBox;
     // offset.dx , offset.dy 就是控件的左上角坐标
     _firstOffset = renderBox.localToGlobal(Offset.zero);
     if (widget.value != null && widget.value != 0) {

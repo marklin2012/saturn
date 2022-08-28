@@ -260,8 +260,8 @@ class _STSelectAddressMenuState extends State<STSelectAddressMenu> {
         child: CupertinoPicker(
           itemExtent: _pickerItemExtent,
           selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
-            capLeftEdge: false,
-            capRightEdge: false,
+            capStartEdge: false,
+            capEndEdge: false,
           ),
           scrollController: _pickerController,
           useMagnifier: true,

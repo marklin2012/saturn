@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 extension BuildContextExt on BuildContext {
   /// 获取当前组件的 RenderBox
   RenderBox? renderBox() {
+    if (findRenderObject() == null) return null;
     return findRenderObject() is RenderBox
-        ? (findRenderObject() as RenderBox)
+        ? (findRenderObject()! as RenderBox)
         : null;
   }
 

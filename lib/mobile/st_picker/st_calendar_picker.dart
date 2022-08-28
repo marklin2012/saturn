@@ -75,7 +75,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
       _endHintText = _defaultEndHolder;
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       final RenderBox renderBox =
           _touchCalKey.currentContext!.findRenderObject() as RenderBox;
       _touchCalPoints = renderBox.localToGlobal(Offset.zero);

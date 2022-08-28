@@ -188,8 +188,8 @@ class _STSelectMenuState extends State<STSelectMenu> {
               child: CupertinoPicker(
                 itemExtent: STSelectTextsConst._pickerItemExtent,
                 selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
-                  capLeftEdge: false,
-                  capRightEdge: false,
+                  capStartEdge: false,
+                  capEndEdge: false,
                 ),
                 scrollController: FixedExtentScrollController(
                   initialItem: _initItem,
