@@ -11,7 +11,6 @@ class STSelectMixItem {
     required this.title,
     disabled,
     key,
-  })  : assert(title != null),
-        key = key ?? title,
+  })  : key = key ?? title,
         disabled = disabled ?? false;
 }

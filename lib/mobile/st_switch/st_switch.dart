@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class STSwitch extends StatelessWidget {
   final bool value;
@@ -21,8 +20,7 @@ class STSwitch extends StatelessWidget {
     this.textStyle = const TextStyle(fontSize: 17, color: Color(0xFF000000)),
     this.activeColor,
     this.trackColor,
-  })  : assert(value != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {

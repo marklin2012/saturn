@@ -12,9 +12,7 @@ class STActivityIndicator extends StatefulWidget {
     this.animating = true,
     this.radius = _kDefaultIndicatorRadius,
     this.activeColor = _kActiveTickColor,
-  })  : assert(animating != null),
-        assert(radius != null),
-        assert(radius > 0.0),
+  })  : assert(radius > 0.0),
         progress = 1.0,
         super(key: key);
 
@@ -23,9 +21,7 @@ class STActivityIndicator extends StatefulWidget {
     this.radius = _kDefaultIndicatorRadius,
     this.progress = 1.0,
     this.activeColor = _kActiveTickColor,
-  })  : assert(radius != null),
-        assert(radius > 0.0),
-        assert(progress != null),
+  })  : assert(radius > 0.0),
         assert(progress >= 0.0),
         assert(progress <= 1.0),
         animating = false,

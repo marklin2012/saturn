@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_button/st_button.dart';
 
@@ -17,7 +16,7 @@ class STVideoControl extends StatelessWidget {
       this.size = 40.0,
       this.doubleControlRow = false,
       this.activeColor = Colors.white,
-      this.onChanged})
+      this.onChanged,})
       : super(key: key);
 
   final STVideoStatus status; //状态
@@ -32,10 +31,10 @@ class STVideoControl extends StatelessWidget {
     EdgeInsets _padding = EdgeInsets.all(size - _defaultSize);
     if (status == STVideoStatus.play && !doubleControlRow) {
       _child = Icon(STIcons.commonly_pause_outline,
-          size: _defaultSize, color: activeColor);
+          size: _defaultSize, color: activeColor,);
     } else if (status == STVideoStatus.pause && !doubleControlRow) {
       _child = Icon(STIcons.commonly_play_outline,
-          size: _defaultSize, color: activeColor);
+          size: _defaultSize, color: activeColor,);
     } else if (status == STVideoStatus.loading && !doubleControlRow) {
       _child = const STLoading(
         icon: Icon(
@@ -48,7 +47,7 @@ class STVideoControl extends StatelessWidget {
       );
     } else if (status == STVideoStatus.fail) {
       _child = Icon(STIcons.status_closecircle,
-          size: _defaultFailSize, color: activeColor);
+          size: _defaultFailSize, color: activeColor,);
       _padding = EdgeInsets.all(size - _defaultFailSize);
     } else {
       _child = const Opacity(opacity: 1.0);

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_slider/num_utils.dart';
@@ -175,8 +174,8 @@ class _STSliderState extends State<STSlider> {
                   child: Text('${widget.minValue}',
                       style: _disabled
                           ? const TextStyle(
-                              color: STSliderConstant.disabledColor)
-                          : widget.textStyle),
+                              color: STSliderConstant.disabledColor,)
+                          : widget.textStyle,),
                 ),
               if (widget.maxValue != null)
                 SizedBox(
@@ -184,8 +183,8 @@ class _STSliderState extends State<STSlider> {
                   child: Text('${widget.maxValue}',
                       style: _disabled
                           ? const TextStyle(
-                              color: STSliderConstant.disabledColor)
-                          : widget.textStyle),
+                              color: STSliderConstant.disabledColor,)
+                          : widget.textStyle,),
                 ),
             ],
           ),
@@ -205,12 +204,12 @@ class _STSliderState extends State<STSlider> {
                 Text('${widget.minValue}',
                     style: _disabled
                         ? const TextStyle(color: STSliderConstant.disabledColor)
-                        : widget.textStyle),
+                        : widget.textStyle,),
               if (widget.maxValue != null)
                 Text('${widget.maxValue}',
                     style: _disabled
                         ? const TextStyle(color: STSliderConstant.disabledColor)
-                        : widget.textStyle),
+                        : widget.textStyle,),
             ],
           ),
         ],

@@ -45,7 +45,7 @@ class STBottomNavigationBar extends StatefulWidget {
   /// then [showUnselectedLabels] defaults to `true` when [type] is
   /// [BottomNavigationBarType.fixed] and `false` when [type] is
   /// [BottomNavigationBarType.shifting].
-  STBottomNavigationBar({
+  const STBottomNavigationBar({
     Key? key,
     required this.items,
     this.onTap,
@@ -68,8 +68,7 @@ class STBottomNavigationBar extends StatefulWidget {
     this.mouseCursor,
     this.enableFeedback,
     this.landscapeLayout,
-  })  : assert(items != null),
-        assert(items.length >= 2),
+  })  : assert(items.length >= 2),
         // assert(
         //   items.every((STBottomNavigationBarItem item) => item.title != null) ||
         //       items.every((STBottomNavigationBarItem item) => item.label != null),
@@ -77,13 +76,13 @@ class STBottomNavigationBar extends StatefulWidget {
         // ),
         assert(0 <= currentIndex && currentIndex < items.length),
         assert(elevation == null || elevation >= 0.0),
-        assert(iconSize != null && iconSize >= 0.0),
+        assert(iconSize >= 0.0),
         assert(
           selectedItemColor == null || fixedColor == null,
           'Either selectedItemColor or fixedColor can be specified, but not both',
         ),
-        assert(selectedFontSize != null && selectedFontSize >= 0.0),
-        assert(unselectedFontSize != null && unselectedFontSize >= 0.0),
+        assert(selectedFontSize >= 0.0),
+        assert(unselectedFontSize >= 0.0),
         selectedItemColor = selectedItemColor ?? fixedColor,
         super(key: key);
 
@@ -267,9 +266,12 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
       Tween<double>(begin: 1.0, end: 1.5);
 
   void _resetState() {
-    for (final AnimationController controller in _controllers)
+    for (final AnimationController controller in _controllers) {
       controller.dispose();
-    for (final _Circle circle in _circles) circle.dispose();
+    }
+    for (final _Circle circle in _circles) {
+      circle.dispose();
+    }
     _circles.clear();
 
     _controllers =
@@ -335,9 +337,12 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
 
   @override
   void dispose() {
-    for (final AnimationController controller in _controllers)
+    for (final AnimationController controller in _controllers) {
       controller.dispose();
-    for (final _Circle circle in _circles) circle.dispose();
+    }
+    for (final _Circle circle in _circles) {
+      circle.dispose();
+    }
     super.dispose();
   }
 
@@ -394,8 +399,9 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
       _controllers[oldWidget.currentIndex].reverse();
       _controllers[widget.currentIndex].forward();
     } else {
-      if (_backgroundColor != widget.items[widget.currentIndex].backgroundColor)
+      if (_backgroundColor != widget.items[widget.currentIndex].backgroundColor) {
         _backgroundColor = widget.items[widget.currentIndex].backgroundColor;
+      }
     }
   }
 
@@ -412,7 +418,6 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
   List<Widget> _createTiles(BottomNavigationBarLandscapeLayout layout) {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
-    assert(localizations != null);
 
     final ThemeData themeData = Theme.of(context);
     final BottomNavigationBarThemeData bottomTheme =
@@ -491,10 +496,10 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
             bottomTheme.showUnselectedLabels ??
             _defaultShowUnselected,
         indexLabel: localizations.tabLabel(
-            tabIndex: i + 1, tabCount: widget.items.length),
+            tabIndex: i + 1, tabCount: widget.items.length,),
         mouseCursor: effectiveMouseCursor,
         layout: layout,
-      ));
+      ),);
     }
     return tiles;
   }
@@ -536,7 +541,7 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
           //     minHeight: kBottomNavigationBarHeight + additionalBottomPadding),
           constraints: BoxConstraints(
               minHeight: kSTTabbarHeight + additionalBottomPadding,
-              maxHeight: kSTTabbarHeight + additionalBottomPadding),
+              maxHeight: kSTTabbarHeight + additionalBottomPadding,),
           child: CustomPaint(
             painter: _RadialPainter(
               circles: _circles.toList(),
@@ -574,9 +579,7 @@ class _Circle {
     required this.index,
     required this.color,
     required TickerProvider vsync,
-  })  : assert(state != null),
-        assert(index != null),
-        assert(color != null) {
+  }) {
     controller = AnimationController(
       duration: kThemeAnimationDuration,
       vsync: vsync,
@@ -663,8 +666,7 @@ class _RadialPainter extends CustomPainter {
   _RadialPainter({
     required this.circles,
     required this.textDirection,
-  })  : assert(circles != null),
-        assert(textDirection != null);
+  });
 
   final List<_Circle> circles;
   final TextDirection textDirection;
@@ -684,8 +686,9 @@ class _RadialPainter extends CustomPainter {
     if (textDirection != oldPainter.textDirection) return true;
     if (circles == oldPainter.circles) return false;
     if (circles.length != oldPainter.circles.length) return true;
-    for (int i = 0; i < circles.length; i += 1)
+    for (int i = 0; i < circles.length; i += 1) {
       if (circles[i] != oldPainter.circles[i]) return true;
+    }
     return false;
   }
 
@@ -741,13 +744,7 @@ class _BottomNavigationTile extends StatelessWidget {
     required this.mouseCursor,
     required this.enableFeedback,
     required this.layout,
-  })  : assert(type != null),
-        assert(item != null),
-        assert(animation != null),
-        assert(selected != null),
-        assert(selectedLabelStyle != null),
-        assert(unselectedLabelStyle != null),
-        assert(mouseCursor != null);
+  });
 
   final BottomNavigationBarType type;
   final STBottomNavigationBarItem item;
@@ -812,8 +809,8 @@ class _BottomNavigationTile extends StatelessWidget {
     // |      <-- Padding equal to 1/2 text height + 1/2 unselectedIconDiff.
     // =======
     /// MarkDown - 修改的地方
-    double bottomPadding = 0.0;
-    double topPadding = 3.0;
+    const double bottomPadding = 0.0;
+    const double topPadding = 3.0;
     // double bottomPadding;
     // double topPadding;
     // if (showSelectedLabels && !showUnselectedLabels) {
@@ -859,7 +856,7 @@ class _BottomNavigationTile extends StatelessWidget {
       mouseCursor: mouseCursor,
       enableFeedback: enableFeedback,
       child: Padding(
-        padding: EdgeInsets.only(top: topPadding, bottom: bottomPadding),
+        padding: const EdgeInsets.only(top: topPadding),
         child: _Tile(
           layout: layout,
           icon: _TileIcon(
@@ -934,14 +931,12 @@ class _Tile extends StatelessWidget {
       return Align(
         heightFactor: 1,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[icon!, const SizedBox(width: 8), label!],
         ),
       );
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[icon!, label!],
@@ -959,9 +954,7 @@ class _TileIcon extends StatelessWidget {
     required this.item,
     required this.selectedIconTheme,
     required this.unselectedIconTheme,
-  })  : assert(selected != null),
-        assert(item != null),
-        super(key: key);
+  })  : super(key: key);
 
   final ColorTween? colorTween;
   final Animation<double> animation;
@@ -1009,14 +1002,7 @@ class _Label extends StatelessWidget {
     required this.unselectedLabelStyle,
     required this.showSelectedLabels,
     required this.showUnselectedLabels,
-  })  : assert(colorTween != null),
-        assert(animation != null),
-        assert(item != null),
-        assert(selectedLabelStyle != null),
-        assert(unselectedLabelStyle != null),
-        assert(showSelectedLabels != null),
-        assert(showUnselectedLabels != null),
-        super(key: key);
+  })  : super(key: key);
 
   final ColorTween colorTween;
   final Animation<double> animation;

@@ -25,8 +25,7 @@ class STStepperItem extends StatefulWidget {
     this.borderRadius = 2.0,
     this.disabled = false,
     this.iconSize = 16.0,
-  })  : assert(type != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   _STStepperItemState createState() => _STStepperItemState();
@@ -45,13 +44,13 @@ class _STStepperItemState extends State<STStepperItem> {
         BorderRadius.horizontal(left: Radius.circular(widget.borderRadius));
     _image = Icon(Icons.remove,
         size: widget.iconSize,
-        color: _disabled ? _disableImageColor : widget.iconColor);
+        color: _disabled ? _disableImageColor : widget.iconColor,);
     if (widget.type == StepperItemType.plus) {
       _borderRadius =
           BorderRadius.horizontal(right: Radius.circular(widget.borderRadius));
       _image = Icon(Icons.add,
           size: widget.iconSize,
-          color: _disabled ? _disableImageColor : widget.iconColor);
+          color: _disabled ? _disableImageColor : widget.iconColor,);
     }
   }
 

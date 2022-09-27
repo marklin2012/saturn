@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
 
-import 'common.dart';
-
 class STDialogBottomButtons extends StatelessWidget {
   final bool? hasCancelButton;
   final bool? hasConfirmButton;
@@ -19,7 +17,7 @@ class STDialogBottomButtons extends StatelessWidget {
       this.confirmTitle,
       this.onCancelTap,
       this.onConfirmTap,
-      this.containerWidth});
+      this.containerWidth,});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +41,7 @@ class STDialogBottomButtons extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: STDialogConstant.defaultButtonTextColor,
                   fontSize: 16,
-                  decoration: TextDecoration.none),
+                  decoration: TextDecoration.none,),
             ),
           ),
           Container(
@@ -66,7 +64,7 @@ class STDialogBottomButtons extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: STDialogConstant.defaultButtonTextColor,
                   fontSize: 16,
-                  decoration: TextDecoration.none),
+                  decoration: TextDecoration.none,),
             ),
           ),
         ],
@@ -93,7 +91,7 @@ class STDialogBottomButtons extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: STDialogConstant.defaultButtonTextColor,
               fontSize: 16,
-              decoration: TextDecoration.none),
+              decoration: TextDecoration.none,),
         ),
       );
     }

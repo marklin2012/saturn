@@ -80,7 +80,7 @@ class _STSelectMixState extends State<STSelectMix> {
         decoration: BoxDecoration(
           border: Border.all(
               color:
-                  _showSelected ? widget.selectedColor : _defaultBorderColor),
+                  _showSelected ? widget.selectedColor : _defaultBorderColor,),
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         ),
         child: Row(

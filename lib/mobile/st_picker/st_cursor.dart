@@ -33,7 +33,7 @@ class _STCursorState extends State<STCursor>
     super.initState();
     _boxDecoration = widget.decoration;
     _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500))
+        vsync: this, duration: const Duration(milliseconds: 500),)
       ..addListener(() {
         setState(() {
           _opacity = _controller.value;

@@ -318,7 +318,7 @@ class _STVideoBaseState extends State<STVideoBase> {
         right: 0,
         bottom: _defaultFix8,
         height: _bottomHeight,
-        child: _bottom);
+        child: _bottom,);
   }
 
   Widget _getPlayWidget() {
@@ -377,7 +377,7 @@ class _STVideoBaseState extends State<STVideoBase> {
             setState(() {
               _progressNotifier.value = changeValue!;
               _playerController!.seekTo(
-                  Duration(seconds: (changeValue * _total.inSeconds).toInt()));
+                  Duration(seconds: (changeValue * _total.inSeconds).toInt()),);
             });
             _autoHide();
           },
@@ -440,7 +440,7 @@ class _STVideoBaseState extends State<STVideoBase> {
       onTap: () {
         // 切换全屏
         SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.landscapeLeft]);
+            [DeviceOrientation.landscapeLeft],);
 
         Future.delayed(const Duration(milliseconds: 500), () {
           Navigator.of(context).push(

@@ -81,7 +81,7 @@ class _STStepperState extends State<STStepper> {
               '$_count',
               style: TextStyle(
                   color: _disabled ? _disableTextColor : widget.textColor,
-                  fontSize: _defaultTextFontSize),
+                  fontSize: _defaultTextFontSize,),
             ),
           ),
           STStepperItem(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'common.dart';
+import 'package:saturn/mobile/st_dialog/common.dart';
 
 class STDialogTextField extends StatelessWidget {
   final FocusNode focusNode = FocusNode();

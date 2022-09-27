@@ -92,7 +92,7 @@ abstract class STButtonInterface {
   }
 
   EdgeInsets edgeInsetsFromButtonSize(STButtonSize? size,
-      {required bool circle, STButtonType? type}) {
+      {required bool circle, STButtonType? type,}) {
     if (circle) {
       if (size == STButtonSize.small) {
         return STButtonConstant.iconSmallPadding;

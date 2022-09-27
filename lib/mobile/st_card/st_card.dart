@@ -20,7 +20,7 @@ class STCard extends StatelessWidget {
     this.title,
     this.subTitle,
     this.titleStyle = const TextStyle(
-        fontSize: 18.0, color: Color(0xFF000000), fontWeight: FontWeight.w500),
+        fontSize: 18.0, color: Color(0xFF000000), fontWeight: FontWeight.w500,),
     this.subTitleStyle =
         const TextStyle(fontSize: 16.0, color: Color(0xFF000000)),
     this.opration,
@@ -71,7 +71,7 @@ class STCard extends StatelessWidget {
         alignment: Alignment.center,
         child: child ??
             const Icon(STIcons.commonly_picture,
-                size: 110, color: Colors.white),
+                size: 110, color: Colors.white,),
       );
       final _title = title ?? 'PHOTO BY HEATH';
       final _subTitle =

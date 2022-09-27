@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:saturn/utils/bounding.dart';
@@ -19,7 +18,7 @@ class SliderTipPaint extends StatelessWidget {
       this.child,
       this.tipStr,
       this.tipTextStyle = const TextStyle(color: Colors.white, fontSize: 16.0),
-      this.arrowSize = 4.0})
+      this.arrowSize = 4.0,})
       : super(key: key);
 
   @override
@@ -55,7 +54,7 @@ class BGTipPainter extends CustomPainter {
   const BGTipPainter(
       {this.arrowSize = 4.0,
       this.size = const Size(_defaultHeight, _defaultHeight),
-      this.fillColor});
+      this.fillColor,});
 
   Paint _initPaint() {
     return Paint()
@@ -72,7 +71,7 @@ class BGTipPainter extends CustomPainter {
     final _path = Path();
 
     _path.addRRect(RRect.fromLTRBR(
-        0, 0, size.width, size.height - arrowSize, Radius.circular(arrowSize)));
+        0, 0, size.width, size.height - arrowSize, Radius.circular(arrowSize),),);
     _path.moveTo(size.width / 2 - arrowSize / 2 * 3, size.height - arrowSize);
     _path.lineTo(size.width / 2, size.height);
     _path.lineTo(size.width / 2 + arrowSize / 2 * 3, size.height - arrowSize);

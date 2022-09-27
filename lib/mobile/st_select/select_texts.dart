@@ -7,9 +7,9 @@ class STSelectTextsConst {
   static const _selectTitleHeight = 48.0;
   static const _pickerItemExtent = 44.0;
   static const _textStyle = TextStyle(
-      color: Color(0xFF555555), fontSize: 16, fontWeight: FontWeight.w400);
+      color: Color(0xFF555555), fontSize: 16, fontWeight: FontWeight.w400,);
   static const _unitTextStyle = TextStyle(
-      color: Color(0xFF000000), fontSize: 16, fontWeight: FontWeight.w500);
+      color: Color(0xFF000000), fontSize: 16, fontWeight: FontWeight.w500,);
 }
 
 class STSelectTexts extends StatelessWidget {
@@ -250,7 +250,7 @@ class _STSelectMenuState extends State<STSelectMenu> {
             style: const TextStyle(
                 color: Color(0xFF000000),
                 fontSize: 18,
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold,),
           ),
           TextButton(
             onPressed: () {

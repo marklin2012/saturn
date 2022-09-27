@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_snackbar/common.dart';
 
-import '../../utils/platform.dart';
+import 'package:saturn/utils/platform.dart';
 
 class EasySnackbar extends StatefulWidget {
   final Widget? message;
@@ -133,7 +133,7 @@ class _EasySnackbarState extends State<EasySnackbar> {
           if (widget.title != null) widget.title!,
           if (widget.message != null) const SizedBox(height: 4),
           if (widget.message != null) widget.message!
-        ]);
+        ],);
 
     Widget innerWidget;
 

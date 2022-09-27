@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:saturn/mobile/st_action_sheet/common.dart';
 import 'package:saturn/utils/include.dart';
-
-import '../../utils/string.dart';
-import 'common.dart';
 
 class STActionSheetOption {
   String? title;
@@ -14,7 +11,7 @@ class STActionSheetOption {
   VoidCallback? onTap;
 
   STActionSheetOption(
-      {this.title, this.message, this.icon, this.isRadio = false, this.onTap});
+      {this.title, this.message, this.icon, this.isRadio = false, this.onTap,});
 }
 
 class STActionSheetOptionWidget extends StatelessWidget
@@ -50,7 +47,7 @@ class STActionSheetOptionWidget extends StatelessWidget
       this.selectAction,
       this.isOptionAligmentCenter,
       this.totalCount,
-      this.showSeperateLine});
+      this.showSeperateLine,});
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +117,7 @@ class STActionSheetOptionWidget extends StatelessWidget
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             decoration: TextDecoration.none,
-                            color: Colors.black),
+                            color: Colors.black,),
                       ),
                     if (isNotEmpty(actionSheetOption!.message))
                       Text(
@@ -130,7 +127,7 @@ class STActionSheetOptionWidget extends StatelessWidget
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             decoration: TextDecoration.none,
-                            color: Colors.grey),
+                            color: Colors.grey,),
                       ),
                   ],
                 )
@@ -159,7 +156,7 @@ class STActionSheetOptionWidget extends StatelessWidget
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       decoration: TextDecoration.none,
-                      color: Colors.black),
+                      color: Colors.black,),
                 ),
             ],
           ),
@@ -223,7 +220,7 @@ class STActionSheetOptionWidget extends StatelessWidget
               selectAction!();
             },
             child: content,
-          ));
+          ),);
     }
     return content!;
   }

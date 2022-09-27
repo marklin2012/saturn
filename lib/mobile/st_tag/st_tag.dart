@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'common.dart';
+import 'package:saturn/mobile/st_tag/common.dart';
 
 class STTag extends StatelessWidget {
   final String text;
@@ -80,7 +80,7 @@ class STTag extends StatelessWidget {
           borderRadius: borderRadius,
           border: Border.all(
             color: backgroundColor,
-          )),
+          ),),
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -95,7 +95,7 @@ class STTag extends StatelessWidget {
                   style: TextStyle(
                       fontSize: textSize,
                       fontWeight: FontWeight.w400,
-                      color: isBorder ? backgroundColor : Colors.white))),
+                      color: isBorder ? backgroundColor : Colors.white,),),),
           if (onCloseTap != null)
             GestureDetector(
                 onTap: () {
@@ -108,7 +108,7 @@ class STTag extends StatelessWidget {
                     color: Colors.white,
                     size: textSize,
                   ),
-                ))
+                ),)
         ],
       ),
     );

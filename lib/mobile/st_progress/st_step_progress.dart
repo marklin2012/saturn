@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-import 'common.dart';
+import 'package:saturn/mobile/st_progress/common.dart';
 
 class STStepProgreessClipper extends CustomClipper<Rect> {
   final double? width;
@@ -36,7 +35,7 @@ class STStepProgress extends StatefulWidget {
       this.progress,
       this.progressColor,
       this.isCircle = false,
-      this.trailingWidget});
+      this.trailingWidget,});
 
   @override
   _STStepProgressState createState() => _STStepProgressState();
@@ -70,10 +69,10 @@ class _STStepProgressState extends State<STStepProgress> {
               count: widget.count,
               color: STProgressConstant.defaultBackgroundColor,
               isCircle: widget.isCircle,
-            )),
+            ),),
         ClipRect(
           clipper: STStepProgreessClipper(
-              width: progressWidth, height: widget.height),
+              width: progressWidth, height: widget.height,),
           child: CustomPaint(
             painter: STStepProgressPainter(
               itemWidth: itemWidth,
@@ -86,7 +85,7 @@ class _STStepProgressState extends State<STStepProgress> {
         ),
         Padding(
             padding: EdgeInsets.only(left: itemTotalWidth + 5),
-            child: widget.trailingWidget)
+            child: widget.trailingWidget,)
       ],
     );
   }
@@ -101,7 +100,7 @@ class STStepProgressPainter extends CustomPainter {
   final bool? isCircle;
 
   const STStepProgressPainter(
-      {this.count, this.itemWidth, this.height, this.color, this.isCircle});
+      {this.count, this.itemWidth, this.height, this.color, this.isCircle,});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -123,7 +122,7 @@ class STStepProgressPainter extends CustomPainter {
     for (int i = 0; i < count!; i++) {
       if (isCircle!) {
         canvas.drawCircle(
-            Offset(beginX + radius, height! / 2.0), radius, progressPaint);
+            Offset(beginX + radius, height! / 2.0), radius, progressPaint,);
         beginX += itemWidth! + STProgressConstant.defaultSpace;
       } else {
         final double endX = beginX + itemWidth!;
@@ -131,8 +130,8 @@ class STStepProgressPainter extends CustomPainter {
         final Offset endPoint = Offset(endX, height!);
         canvas.drawRRect(
             RRect.fromRectAndRadius(
-                Rect.fromPoints(beginPoint, endPoint), cornerRadius),
-            progressPaint);
+                Rect.fromPoints(beginPoint, endPoint), cornerRadius,),
+            progressPaint,);
         beginX = endX + STProgressConstant.defaultSpace;
       }
     }

@@ -27,7 +27,7 @@ class STCascaderPopItem {
 
 class STCascaderPop extends StatefulWidget {
   const STCascaderPop(
-      {Key? key, this.items, required this.onChangedValue, this.onChangedKey})
+      {Key? key, this.items, required this.onChangedValue, this.onChangedKey,})
       : super(key: key);
 
   final List<STCascaderItem>? items;

@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 enum STPickerColumnType {
@@ -14,9 +13,9 @@ const _selectTextsHeight = 302.0;
 const _selectTitleHeight = 48.0;
 const _pickerItemExtent = 44.0;
 const _textStyle = TextStyle(
-    color: Color(0xFF555555), fontSize: 16, fontWeight: FontWeight.w400);
+    color: Color(0xFF555555), fontSize: 16, fontWeight: FontWeight.w400,);
 const _unitTextStyle = TextStyle(
-    color: Color(0xFF000000), fontSize: 16, fontWeight: FontWeight.w500);
+    color: Color(0xFF000000), fontSize: 16, fontWeight: FontWeight.w500,);
 
 // TextStyle _themeTextStyle(BuildContext context, {bool isValid = true}) {
 //   return isValid
@@ -25,7 +24,7 @@ const _unitTextStyle = TextStyle(
 // }
 
 void _animateColumnControllerToItem(
-    FixedExtentScrollController controller, int targetItem) {
+    FixedExtentScrollController controller, int targetItem,) {
   controller.animateToItem(
     targetItem,
     curve: Curves.easeInOut,
@@ -37,8 +36,7 @@ class _STDatePickerLayoutDelegate extends MultiChildLayoutDelegate {
   _STDatePickerLayoutDelegate({
     required this.columnWidths,
     required this.textDirectionFactor,
-  })  : assert(columnWidths != null),
-        assert(textDirectionFactor != null);
+  });
   // The list containing widths of all columns.
   final List<double?> columnWidths;
   // textDirectionFactor is 1 if text is written left to right, and -1 if right to left.
@@ -80,9 +78,9 @@ class _STDatePickerLayoutDelegate extends MultiChildLayoutDelegate {
           );
         }
         return true;
-      }());
+      }(),);
       layoutChild(index,
-          BoxConstraints.tight(Size(math.max(0.0, childWidth), size.height)));
+          BoxConstraints.tight(Size(math.max(0.0, childWidth), size.height)),);
       positionChild(index, Offset(currentHorizontalOffset, 0.0));
 
       currentHorizontalOffset += childWidth;
@@ -106,7 +104,6 @@ class STCuperDatePicker extends StatefulWidget {
     this.minimumYear = 1,
     this.maximumYear,
   })  : initialDateTime = initialDateTime ?? DateTime.now(),
-        assert(onDateTimeChanged != null),
         super(key: key);
 
   final DateTime initialDateTime;
@@ -162,7 +159,7 @@ class STCuperDatePicker extends StatefulWidget {
 }
 
 typedef _ColumnBuilder = Widget Function(
-    TransitionBuilder itemPositioningBuilder, Widget selectionOverlay);
+    TransitionBuilder itemPositioningBuilder, Widget selectionOverlay,);
 
 class _STCuperDatePickerState extends State<STCuperDatePicker> {
   late int textDirectionFactor;
@@ -242,7 +239,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
   DateTime _lastDayInMonth(int year, int month) => DateTime(year, month + 1, 0);
 
   Widget _buildDayPicker(
-      TransitionBuilder itemPositioningBuilder, Widget selectionOverlay) {
+      TransitionBuilder itemPositioningBuilder, Widget selectionOverlay,) {
     // final int daysInCurrentMonth =
     //     _lastDayInMonth(selectedYear, selectedMonth).day;
     return NotificationListener<ScrollNotification>(
@@ -270,7 +267,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             selectedDay = index + 1;
             if (_isCurrentDateValid) {
               widget.onDateTimeChanged(
-                  DateTime(selectedYear!, selectedMonth!, selectedDay!));
+                  DateTime(selectedYear!, selectedMonth!, selectedDay!),);
             }
           },
           looping: true,
@@ -292,7 +289,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
   }
 
   Widget _buildMonthPicker(
-      TransitionBuilder itemPositioningBuilder, Widget selectionOverlay) {
+      TransitionBuilder itemPositioningBuilder, Widget selectionOverlay,) {
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
         if (notification is ScrollStartNotification) {
@@ -319,7 +316,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             selectedMonth = index + 1;
             if (_isCurrentDateValid) {
               widget.onDateTimeChanged(
-                  DateTime(selectedYear!, selectedMonth!, selectedDay!));
+                  DateTime(selectedYear!, selectedMonth!, selectedDay!),);
             }
           },
           looping: true,
@@ -345,7 +342,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
   }
 
   Widget _buildYearPicker(
-      TransitionBuilder itemPositioningBuilder, Widget selectionOverlay) {
+      TransitionBuilder itemPositioningBuilder, Widget selectionOverlay,) {
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
         if (notification is ScrollStartNotification) {
@@ -372,7 +369,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             selectedYear = index;
             if (_isCurrentDateValid) {
               widget.onDateTimeChanged(
-                  DateTime(selectedYear!, selectedMonth!, selectedDay!));
+                  DateTime(selectedYear!, selectedMonth!, selectedDay!),);
             }
           },
           itemBuilder: (BuildContext context, int year) {
@@ -451,7 +448,6 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
   }
 
   void _scrollToDate(DateTime newDate) {
-    assert(newDate != null);
     SchedulerBinding.instance.addPostFrameCallback((Duration timestamp) {
       if (selectedYear != newDate.year) {
         _animateColumnControllerToItem(yearController!, newDate.year);
@@ -509,7 +505,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
             capEndEdge: false,
           ),
         ),
-      ));
+      ),);
     }
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
@@ -548,7 +544,7 @@ class _STCuperDatePickerState extends State<STCuperDatePicker> {
                   2,
               child: Container(
                 padding: const EdgeInsets.only(
-                    bottom: 2, left: _pickerItemExtent / 2),
+                    bottom: 2, left: _pickerItemExtent / 2,),
                 height: _pickerItemExtent,
                 alignment: Alignment.center,
                 child: const Text(

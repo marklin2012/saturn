@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_snackbar/common.dart';
 
-import '../../utils/platform.dart';
-import '../../utils/string.dart';
+import 'package:saturn/utils/platform.dart';
+import 'package:saturn/utils/string.dart';
 
 class STSnackbar extends StatefulWidget {
   final String? message;
@@ -126,7 +126,7 @@ class _STSnackbarState extends State<STSnackbar> {
             fontWeight: FontWeight.w400,
             color: Colors.white,
             fontSize: STSnackbarConstant.titleFontSize,
-            decoration: TextDecoration.none),
+            decoration: TextDecoration.none,),
       );
     }
 
@@ -139,7 +139,7 @@ class _STSnackbarState extends State<STSnackbar> {
             fontWeight: FontWeight.w400,
             color: STSnackbarConstant.defaultMessageColor,
             fontSize: STSnackbarConstant.messageFontSize,
-            decoration: TextDecoration.none),
+            decoration: TextDecoration.none,),
       );
     }
 
@@ -171,7 +171,7 @@ class _STSnackbarState extends State<STSnackbar> {
                   const EdgeInsets.all(STSnackbarConstant.textButtonPadding),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
-                    STSnackbarConstant.buttonCornerRadius),
+                    STSnackbarConstant.buttonCornerRadius,),
                 color: widget.isButtonHasBackground!
                     ? STSnackbarConstant.blueColor
                     : Colors.transparent,
@@ -181,7 +181,7 @@ class _STSnackbarState extends State<STSnackbar> {
                       fontWeight: FontWeight.w400,
                       color: curButtonTextColor,
                       fontSize: 16,
-                      decoration: TextDecoration.none))),
+                      decoration: TextDecoration.none,),),),
         );
       } else {
         buttonWidget = TextButton(
@@ -199,7 +199,7 @@ class _STSnackbarState extends State<STSnackbar> {
               child: Icon(
                 Icons.close,
                 color: Colors.white,
-              )),
+              ),),
         );
       }
     }
@@ -211,7 +211,7 @@ class _STSnackbarState extends State<STSnackbar> {
           if (titleWidget != null) titleWidget,
           if (messageWidget != null) const SizedBox(height: 4),
           if (messageWidget != null) messageWidget
-        ]);
+        ],);
 
     Widget innerWidget;
     EdgeInsetsGeometry padding;

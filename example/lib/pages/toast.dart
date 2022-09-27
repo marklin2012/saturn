@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/saturn.dart';
-import 'package:saturn/mobile/st_icons/st_icons.dart';
 
 class ToastPage extends StatelessWidget {
   @override

@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
-import '../../utils/platform.dart';
-import '../../utils/string.dart';
-import 'common.dart';
+import 'package:saturn/mobile/st_message/common.dart';
+import 'package:saturn/utils/platform.dart';
+import 'package:saturn/utils/string.dart';
 
 class STMessage extends StatefulWidget {
   final String? title;
@@ -72,7 +71,7 @@ class STMessage extends StatefulWidget {
       this.autoClose,
       this.disappearMilliseconds,
       this.location,
-      this.type})
+      this.type,})
       : super(key: key);
 
   @override
@@ -100,7 +99,7 @@ class _STMessageState extends State<STMessage> {
         fontWeight: FontWeight.w600,
         color: Colors.black,
         fontSize: STMessageConstant.titleFontSize,
-        decoration: TextDecoration.none);
+        decoration: TextDecoration.none,);
 
     messageTextStyle = const TextStyle(
       fontWeight: FontWeight.w400,
@@ -161,7 +160,7 @@ class _STMessageState extends State<STMessage> {
                       widget.showShadow! ? Colors.black12 : Colors.transparent,
                   offset: containerShadowOffset,
                   blurRadius: 5.0,
-                  spreadRadius: 2.0),
+                  spreadRadius: 2.0,),
             ],
           ),
           child: widget.content ??
@@ -182,7 +181,7 @@ class _STMessageState extends State<STMessage> {
                               if (iconWidget != null)
                                 Padding(
                                     padding: iconTitlePadding,
-                                    child: iconWidget),
+                                    child: iconWidget,),
                               if (titleWidget != null)
                                 Expanded(child: titleWidget),
                               if (titleWidget == null && messageWidget != null)

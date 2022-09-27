@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saturn/mobile/st_icons/st_icons.dart';
-import 'common.dart';
+import 'package:saturn/mobile/st_loading/common.dart';
 
 enum STLoadingIconPosition {
   left,
@@ -29,7 +29,7 @@ class STLoading extends StatefulWidget {
         fontSize: STLoadingConstant.textFontSize,
         decoration: TextDecoration.none,
       ),
-      this.durationMilliseconds = 2000})
+      this.durationMilliseconds = 2000,})
       : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class _STLoadingState extends State<STLoading>
 
     _controller = AnimationController(
         duration: Duration(milliseconds: widget.durationMilliseconds),
-        vsync: this);
+        vsync: this,);
   }
 
   @override
@@ -73,7 +73,7 @@ class _STLoadingState extends State<STLoading>
             style: widget.textStyle,
           )
         ],
-      ));
+      ),);
     } else {
       return Center(
           child: Column(
@@ -86,7 +86,7 @@ class _STLoadingState extends State<STLoading>
             style: widget.textStyle,
           )
         ],
-      ));
+      ),);
     }
   }
 }

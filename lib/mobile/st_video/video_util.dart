@@ -6,7 +6,7 @@ class STVideoConst {
 }
 
 Widget getVolumeIcon(
-    double? value, Axis axis, Color iconColor, double iconSize) {
+    double? value, Axis axis, Color iconColor, double iconSize,) {
   IconData _data;
   if (value == 0) {
     _data = axis == Axis.vertical

@@ -17,7 +17,7 @@ const _defaultFix12 = 12.0;
 const _defaultFix16 = 16.0;
 const _defaultStatusSize = 40.0;
 const _defaultTimeTextStyle = TextStyle(
-    color: Colors.white, fontSize: 12.0, decoration: TextDecoration.none);
+    color: Colors.white, fontSize: 12.0, decoration: TextDecoration.none,);
 const _defaultLiveString = 'Live';
 
 class STVideoFullScreen extends StatefulWidget {
@@ -115,7 +115,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
                   tag: STVideoConst.videoHeroTag,
                   child: AspectRatio(
                       aspectRatio: widget.playerController!.value.aspectRatio,
-                      child: VideoPlayer(widget.playerController!)),
+                      child: VideoPlayer(widget.playerController!),),
                 ),
               ),
             ),
@@ -171,7 +171,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
             _getProgressWidget(),
             Container(
               padding: const EdgeInsets.only(
-                  left: _defaultFix12, right: _defaultFix10),
+                  left: _defaultFix12, right: _defaultFix10,),
               height: _defaultFix16,
               alignment: Alignment.bottomCenter,
               child: _getTimeTextWidget(),
@@ -266,7 +266,7 @@ class _STVideoFullScreenState extends State<STVideoFullScreen> {
             setState(() {
               _progressNotifier.value = changeValue!;
               widget.playerController!.seekTo(
-                  Duration(seconds: (changeValue * _total.inSeconds).toInt()));
+                  Duration(seconds: (changeValue * _total.inSeconds).toInt()),);
             });
             _autoHide();
           },

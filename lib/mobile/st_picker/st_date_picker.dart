@@ -15,7 +15,7 @@ class STDatePicker extends StatelessWidget {
       this.minimumYear,
       this.maximunYear,
       this.onDateTimeChanged,
-      this.child})
+      this.child,})
       : super(key: key);
 
   final DateTime? initDateTime; // 初始日期
@@ -93,7 +93,7 @@ class STDatePicker extends StatelessWidget {
             style: TextStyle(
                 color: Color(0xFF000000),
                 fontSize: 18,
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold,),
           ),
           TextButton(
             onPressed: () {

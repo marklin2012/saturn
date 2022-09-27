@@ -96,7 +96,7 @@ class _STCascaderState extends State<STCascader> {
         margin: const EdgeInsets.symmetric(horizontal: 16.0),
         decoration: BoxDecoration(
           border: Border.all(
-              color: _showSelected ? _defaultSelectColor : _defaultBorderColor),
+              color: _showSelected ? _defaultSelectColor : _defaultBorderColor,),
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         ),
         child: Row(
@@ -113,9 +113,9 @@ class _STCascaderState extends State<STCascader> {
               padding: const EdgeInsets.only(right: 13),
               child: _showSelected
                   ? const Icon(Icons.arrow_drop_up,
-                      size: 24, color: Colors.black)
+                      size: 24, color: Colors.black,)
                   : const Icon(Icons.arrow_drop_down,
-                      size: 24, color: Colors.black),
+                      size: 24, color: Colors.black,),
             ),
           ],
         ),
@@ -126,9 +126,7 @@ class _STCascaderState extends State<STCascader> {
   void _oprationOnChanged(List<String> values) {
     String _temp = '';
     for (final item in values) {
-      if (item != null) {
-        _temp += ' $item';
-      }
+      _temp += ' $item';
     }
     _valueStr = _temp.substring(1);
     setState(() {});

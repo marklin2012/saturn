@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'common.dart';
-import 'percent_indicator/percent_indicator.dart';
-import 'st_step_progress.dart';
+import 'package:saturn/mobile/st_progress/common.dart';
+import 'package:saturn/mobile/st_progress/percent_indicator/percent_indicator.dart';
+import 'package:saturn/mobile/st_progress/st_step_progress.dart';
 
 class STProgress extends StatefulWidget {
   final STProgressType type;
@@ -90,7 +90,7 @@ class _STProgressState extends State<STProgress> {
               curIndicatorWidget ??= Text(
                 '${(curProgress * 100).toInt()}%',
                 style: TextStyle(
-                    color: Colors.white, fontSize: curHeight * 2 / 3 - 4),
+                    color: Colors.white, fontSize: curHeight * 2 / 3 - 4,),
               );
             }
           }
@@ -178,7 +178,7 @@ class _STProgressState extends State<STProgress> {
               curCenterWidget = Text(
                 centerText,
                 style: TextStyle(
-                    fontSize: curHeight * 2.0, color: curProgressColor),
+                    fontSize: curHeight * 2.0, color: curProgressColor,),
               );
             } else {
               curCenterWidget ??= Text(
@@ -200,7 +200,7 @@ class _STProgressState extends State<STProgress> {
               progressColor: curProgressColor,
               arcType: widget.type == STProgressType.dashboard
                   ? ArcType.GAP
-                  : ArcType.NORMAL);
+                  : ArcType.NORMAL,);
         }
         break;
       default:
@@ -226,7 +226,7 @@ class _STProgressState extends State<STProgress> {
   }
 
   Widget iconFromProgressStatus(
-      STProgressStatus status, double iconWidth, bool isOutline) {
+      STProgressStatus status, double iconWidth, bool isOutline,) {
     IconData iconData;
     final Color iconColor =
         isOutline ? Colors.white : colorFromProgressStatus(status);

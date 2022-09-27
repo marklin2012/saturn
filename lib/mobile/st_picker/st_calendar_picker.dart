@@ -100,7 +100,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
           border: Border.all(
               color: _isHighlighted
                   ? _borderHighlightedColor
-                  : _defaultBorderColor),
+                  : _defaultBorderColor,),
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         ),
         child: Row(
@@ -117,7 +117,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
                   Text(_startHintText!,
                       style: _isSelectedDateTime(STCalendarPickerType.start)
                           ? _selectedTextStyle
-                          : _defaultTextStyle),
+                          : _defaultTextStyle,),
                   if (_isHighlighted &&
                       _isShowStart &&
                       _isSelectedDateTime(STCalendarPickerType.start) == true)
@@ -131,7 +131,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
                   Padding(
                     padding: EdgeInsets.only(
                         right: _defaultMargin.right,
-                        left: 2 * _defaultMargin.left),
+                        left: 2 * _defaultMargin.left,),
                     child: const Icon(
                       STIcons.direction_swapright,
                       size: 16.0,
@@ -148,7 +148,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
                       Text(_endHintText!,
                           style: _isSelectedDateTime(STCalendarPickerType.end)
                               ? _selectedTextStyle
-                              : _defaultTextStyle),
+                              : _defaultTextStyle,),
                       if (_isHighlighted &&
                           _isShowStart == false &&
                           _isSelectedDateTime(STCalendarPickerType.end) == true)
@@ -160,7 +160,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
             const Padding(
               padding: _defaultRightPadding,
               child: Icon(STIcons.data_calendar_outline,
-                  size: 20, color: Colors.grey),
+                  size: 20, color: Colors.grey,),
             ),
           ],
         ),
@@ -172,8 +172,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
     var _firstDate = widget.firstDate ?? _defaultFirstDateTime;
     var _initialDate = widget.initialDate ?? DateTime.now();
     if (widget.isRange &&
-        type == STCalendarPickerType.end &&
-        _selectedDateTimes.first != null) {
+        type == STCalendarPickerType.end) {
       _firstDate = _selectedDateTimes.first;
     }
     // initialDate必须大于firstDate,这里做个特殊处理
@@ -189,7 +188,7 @@ class _STCalendarPickerState extends State<STCalendarPicker> {
               _touchCalPoints.dx + _margin!.left,
               _touchCalPoints.dy +
                   _offsetVertical +
-                  (getIsWeb() ? _stCalendarInputHeight : 0)),
+                  (getIsWeb() ? _stCalendarInputHeight : 0),),
           height: _defaultCalenderHeight,
           menu: Container(
             color: Colors.white,

@@ -7,8 +7,7 @@ class STTimePicker extends StatelessWidget {
     required this.child,
     this.onTimerDurationChanged,
     this.initDuration,
-  })  : assert(child != null),
-        super(key: key);
+  })  : super(key: key);
 
   final Duration? initDuration; // 初始化时间
   final ValueChanged<Duration>? onTimerDurationChanged; // 选中后的时间回调

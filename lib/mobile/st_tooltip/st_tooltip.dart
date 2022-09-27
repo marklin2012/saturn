@@ -20,9 +20,7 @@ class STTooltip extends StatelessWidget {
     this.margin = const EdgeInsets.symmetric(horizontal: 60.0),
     this.verticalOffset,
     this.textStyle = const TextStyle(color: Colors.white, fontSize: 16.0),
-  })  : assert(message != null),
-        assert(child != null),
-        super(key: key);
+  })  : super(key: key);
 
   static const _defaultBorderRadius = BorderRadius.all(Radius.circular(8.0));
 

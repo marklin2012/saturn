@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:saturn/mobile/st_dialog/common.dart';
 import 'package:saturn/mobile/st_dialog/st_dialog_bottom_buttons.dart';
 import 'package:saturn/mobile/st_dialog/st_dialog_option.dart';
 import 'package:saturn/mobile/st_dialog/st_dialog_textfield.dart';
-
-import '../../utils/platform.dart';
-import '../../utils/string.dart';
-import 'common.dart';
+import 'package:saturn/utils/platform.dart';
+import 'package:saturn/utils/string.dart';
 
 class STDialog extends StatefulWidget {
   final double? width;
@@ -81,7 +80,7 @@ class STDialog extends StatefulWidget {
         barrierDismissible: false,
         builder: (context) {
           return dialog;
-        });
+        },);
   }
 
   static void hide(
@@ -127,7 +126,7 @@ class _STDialogState extends State<STDialog> {
               fontWeight: FontWeight.w600,
               color: Colors.black,
               fontSize: STDialogConstant.titleFontSize,
-              decoration: TextDecoration.none));
+              decoration: TextDecoration.none,),);
     }
 
     Text? messageWidget;
@@ -185,10 +184,10 @@ class _STDialogState extends State<STDialog> {
         onCancelTap: widget.onCancelTap,
         onConfirmTap: () {
           widget.onConfirmTap!(
-              widget.hasTextField! ? dialogTextField!.getText() : "");
+              widget.hasTextField! ? dialogTextField!.getText() : "",);
         },
         containerWidth: containerWidth,
-      ));
+      ),);
     }
 
     return Scaffold(
@@ -222,7 +221,7 @@ class _STDialogState extends State<STDialog> {
               ),
             ),
           ],
-        ));
+        ),);
   }
 
   void addOptionsToColumn(double containerWidth, List<Widget?> columnArray) {
@@ -244,7 +243,7 @@ class _STDialogState extends State<STDialog> {
             setState(() {});
           },
           verticalIndex: i,
-          enteredList: enteredList));
+          enteredList: enteredList,),);
     }
   }
 
