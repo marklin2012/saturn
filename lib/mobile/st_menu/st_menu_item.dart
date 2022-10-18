@@ -12,12 +12,14 @@ class STMenuDataItem {
   final String title;
   final bool disable;
   final double fontSize;
+  final String? subTitle;
 
   STMenuDataItem({
     this.icon,
     required this.title,
     this.disable = false,
     this.fontSize = 16,
+    this.subTitle,
   });
 }
 
@@ -66,14 +68,28 @@ class STMenuItem extends StatelessWidget {
 
     Widget innerContent = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Text(
-        item.title,
-        style: TextStyle(
-          fontSize: item.fontSize,
-          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-          decoration: TextDecoration.none,
-          color: isSelected ? selectedTextColor : defaultTextColor,
-        ),
+      child: Column(
+        children: [
+          Text(
+            item.title,
+            style: TextStyle(
+              fontSize: item.fontSize,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: isSelected ? selectedTextColor : defaultTextColor,
+            ),
+          ),
+          if (item.subTitle != null)
+            Text(
+              item.subTitle!,
+              style: TextStyle(
+                fontSize: item.fontSize,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                decoration: TextDecoration.none,
+                color: isSelected ? selectedTextColor : defaultTextColor,
+              ),
+            ),
+        ],
       ),
     );
 
