@@ -81,7 +81,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Examples'),
+        title: Text('Saturn Module'),
       ),
       body: ListView.builder(
         itemCount: _pages.length,

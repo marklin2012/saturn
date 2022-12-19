@@ -17,11 +17,9 @@ class ActionSheetPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list vertical文字 单选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list vertical文字 单选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       message: "描述类标题描述类标题描述类标题描述",
@@ -57,11 +55,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list vertical文字 多选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list vertical文字 多选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       message: "描述类标题描述类标题描述类标题描述",
@@ -97,11 +93,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list vertical 图片文字 单选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list vertical 图片文字 单选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       message: "描述类标题描述类标题描述类标题描述",
@@ -156,11 +150,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list vertical 单选按钮文字 单选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list vertical 单选按钮文字 单选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       message: "描述类标题描述类标题描述类标题描述",
@@ -197,11 +189,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list vertical 单选按钮文字 多选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list vertical 单选按钮文字 多选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       message: "描述类标题描述类标题描述类标题描述",
@@ -238,11 +228,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list vertical icon标题文字 单选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list vertical icon标题文字 单选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       icon: SizedBox(
@@ -277,11 +265,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list horizontal 单排 单选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list horizontal 单排 单选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       message: "描述说明信息",
@@ -368,11 +354,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list horizontal 双排 单选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list horizontal 双排 单选",
+                onTap: () {
                   STActionSheet.show(
                       context: context,
                       message: "描述说明信息",
@@ -484,11 +468,9 @@ class ActionSheetPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("list horizontalicon 标题文字 双排 单选",
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "list horizontalicon 标题文字 双排 单选",
+                onTap: () {
                   STActionSheet.show(
                     context: context,
                     icon: SizedBox(

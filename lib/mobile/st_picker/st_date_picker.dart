@@ -7,16 +7,16 @@ const _selectTitleHeight = 48.0;
 
 // ignore: must_be_immutable
 class STDatePicker extends StatelessWidget {
-  STDatePicker(
-      {Key? key,
-      this.initDateTime,
-      this.minimumDate,
-      this.maximumDate,
-      this.minimumYear,
-      this.maximunYear,
-      this.onDateTimeChanged,
-      this.child,})
-      : super(key: key);
+  STDatePicker({
+    Key? key,
+    this.initDateTime,
+    this.minimumDate,
+    this.maximumDate,
+    this.minimumYear,
+    this.maximunYear,
+    this.onDateTimeChanged,
+    this.child,
+  }) : super(key: key);
 
   final DateTime? initDateTime; // 初始日期
   final DateTime? minimumDate; // 最小可选择的日期
@@ -91,9 +91,10 @@ class STDatePicker extends StatelessWidget {
           const Text(
             '选择日期',
             style: TextStyle(
-                color: Color(0xFF000000),
-                fontSize: 18,
-                fontWeight: FontWeight.bold,),
+              color: Color(0xFF000000),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           TextButton(
             onPressed: () {

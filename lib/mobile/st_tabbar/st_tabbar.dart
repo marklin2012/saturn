@@ -78,7 +78,9 @@ class _STTabbarState extends State<STTabbar> {
         dialogTheme: Theme.of(context).dialogTheme,
         sliderTheme: Theme.of(context).sliderTheme,
         switchTheme: Theme.of(context).switchTheme,
-        dividerTheme: Theme.of(context).dividerTheme, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Theme.of(context).colorScheme.secondary),
+        dividerTheme: Theme.of(context).dividerTheme,
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: Theme.of(context).colorScheme.secondary),
       ),
       home: Scaffold(
         body: _pages![_curentIndex],

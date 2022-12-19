@@ -21,10 +21,9 @@ class MessagePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("基础用法", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "基础用法",
+                onTap: () {
                   STMessage.show(
                       context: context,
                       message: "这是文本信息",
@@ -34,10 +33,9 @@ class MessagePage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("含辅助性文字描述", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "含辅助性文字描述",
+                onTap: () {
                   STMessage.show(
                       context: context,
                       title: "标题标题",
@@ -48,10 +46,9 @@ class MessagePage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("显示状态", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "显示状态",
+                onTap: () {
                   STMessage.show(
                       context: context,
                       message: "这是文本信息",
@@ -61,10 +58,9 @@ class MessagePage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("可自定义", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "可自定义",
+                onTap: () {
                   STMessage.show(
                     context: context,
                     autoClose: false,

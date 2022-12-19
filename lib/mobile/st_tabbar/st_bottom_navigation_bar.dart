@@ -399,7 +399,8 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
       _controllers[oldWidget.currentIndex].reverse();
       _controllers[widget.currentIndex].forward();
     } else {
-      if (_backgroundColor != widget.items[widget.currentIndex].backgroundColor) {
+      if (_backgroundColor !=
+          widget.items[widget.currentIndex].backgroundColor) {
         _backgroundColor = widget.items[widget.currentIndex].backgroundColor;
       }
     }
@@ -408,7 +409,7 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
   // If the given [TextStyle] has a non-null `fontSize`, it should be used.
   // Otherwise, the [selectedFontSize] parameter should be used.
   static TextStyle? _effectiveTextStyle(TextStyle? textStyle, double fontSize) {
-    textStyle ??= const TextStyle();
+    if (textStyle == null) return null;
     // Prefer the font size on textStyle if present.
     return textStyle.fontSize == null
         ? textStyle.copyWith(fontSize: fontSize)
@@ -471,35 +472,40 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
 
     final List<Widget> tiles = <Widget>[];
     for (int i = 0; i < widget.items.length; i++) {
-      tiles.add(_BottomNavigationTile(
-        _effectiveType,
-        widget.items[i],
-        _animations[i],
-        widget.iconSize,
-        selectedIconTheme:
-            widget.selectedIconTheme ?? bottomTheme.selectedIconTheme,
-        unselectedIconTheme:
-            widget.unselectedIconTheme ?? bottomTheme.unselectedIconTheme,
-        selectedLabelStyle: effectiveSelectedLabelStyle!,
-        unselectedLabelStyle: effectiveUnselectedLabelStyle!,
-        enableFeedback:
-            widget.enableFeedback ?? bottomTheme.enableFeedback ?? true,
-        onTap: () {
-          widget.onTap?.call(i);
-        },
-        colorTween: colorTween,
-        flex: _evaluateFlex(_animations[i]),
-        selected: i == widget.currentIndex,
-        showSelectedLabels:
-            widget.showSelectedLabels ?? bottomTheme.showSelectedLabels ?? true,
-        showUnselectedLabels: widget.showUnselectedLabels ??
-            bottomTheme.showUnselectedLabels ??
-            _defaultShowUnselected,
-        indexLabel: localizations.tabLabel(
-            tabIndex: i + 1, tabCount: widget.items.length,),
-        mouseCursor: effectiveMouseCursor,
-        layout: layout,
-      ),);
+      tiles.add(
+        _BottomNavigationTile(
+          _effectiveType,
+          widget.items[i],
+          _animations[i],
+          widget.iconSize,
+          selectedIconTheme:
+              widget.selectedIconTheme ?? bottomTheme.selectedIconTheme,
+          unselectedIconTheme:
+              widget.unselectedIconTheme ?? bottomTheme.unselectedIconTheme,
+          selectedLabelStyle: effectiveSelectedLabelStyle!,
+          unselectedLabelStyle: effectiveUnselectedLabelStyle!,
+          enableFeedback:
+              widget.enableFeedback ?? bottomTheme.enableFeedback ?? true,
+          onTap: () {
+            widget.onTap?.call(i);
+          },
+          colorTween: colorTween,
+          flex: _evaluateFlex(_animations[i]),
+          selected: i == widget.currentIndex,
+          showSelectedLabels: widget.showSelectedLabels ??
+              bottomTheme.showSelectedLabels ??
+              true,
+          showUnselectedLabels: widget.showUnselectedLabels ??
+              bottomTheme.showUnselectedLabels ??
+              _defaultShowUnselected,
+          indexLabel: localizations.tabLabel(
+            tabIndex: i + 1,
+            tabCount: widget.items.length,
+          ),
+          mouseCursor: effectiveMouseCursor,
+          layout: layout,
+        ),
+      );
     }
     return tiles;
   }
@@ -540,8 +546,9 @@ class _STBottomNavigationBarState extends State<STBottomNavigationBar>
           // constraints: BoxConstraints(
           //     minHeight: kBottomNavigationBarHeight + additionalBottomPadding),
           constraints: BoxConstraints(
-              minHeight: kSTTabbarHeight + additionalBottomPadding,
-              maxHeight: kSTTabbarHeight + additionalBottomPadding,),
+            minHeight: kSTTabbarHeight + additionalBottomPadding,
+            maxHeight: kSTTabbarHeight + additionalBottomPadding,
+          ),
           child: CustomPaint(
             painter: _RadialPainter(
               circles: _circles.toList(),
@@ -809,7 +816,7 @@ class _BottomNavigationTile extends StatelessWidget {
     // |      <-- Padding equal to 1/2 text height + 1/2 unselectedIconDiff.
     // =======
     /// MarkDown - 修改的地方
-    const double bottomPadding = 0.0;
+    // const double bottomPadding = 0.0;
     const double topPadding = 3.0;
     // double bottomPadding;
     // double topPadding;
@@ -954,7 +961,7 @@ class _TileIcon extends StatelessWidget {
     required this.item,
     required this.selectedIconTheme,
     required this.unselectedIconTheme,
-  })  : super(key: key);
+  }) : super(key: key);
 
   final ColorTween? colorTween;
   final Animation<double> animation;
@@ -1002,7 +1009,7 @@ class _Label extends StatelessWidget {
     required this.unselectedLabelStyle,
     required this.showSelectedLabels,
     required this.showUnselectedLabels,
-  })  : super(key: key);
+  }) : super(key: key);
 
   final ColorTween colorTween;
   final Animation<double> animation;

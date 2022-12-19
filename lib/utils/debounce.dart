@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 // class STDebounce {
 //   static final STDebounce _instance = STDebounce._internal();
 
@@ -62,7 +61,7 @@ class STDebounce {
   /// 根据key来创建和删除Timer
   Future<void> start({
     String? key,
-    Function? func,
+    Function()? func,
     int time = 500,
   }) async {
     /// 先判断是否有key存在的Timer，有的话先取消的这个Timer
@@ -70,7 +69,9 @@ class STDebounce {
 
     /// 创建新的Timer
     final _debounce = Timer(Duration(milliseconds: time), () {
-      func!();
+      if (func != null) {
+        func();
+      }
 
       /// 完成后取消Timer
       cancel(key: key);

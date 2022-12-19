@@ -33,10 +33,9 @@ class SnackbarPage extends StatelessWidget {
                 children: <Widget>[
                   Text('st_snackbar'),
                   SizedBox(height: 20),
-                  FlatButton(
-                    child: Text("基本使用", style: TextStyle(color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: () {
+                  STButton(
+                    text: "基本使用",
+                    onTap: () {
                       STSnackbar.show(
                         context: context,
                         hasCloseButton: false,
@@ -45,11 +44,9 @@ class SnackbarPage extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
-                  FlatButton(
-                    child:
-                        Text("含辅助性文字描述", style: TextStyle(color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: () {
+                  STButton(
+                    text: "含辅助性文字描述",
+                    onTap: () {
                       STSnackbar.show(
                         context: context,
                         title: "这是标题",
@@ -59,10 +56,9 @@ class SnackbarPage extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
-                  FlatButton(
-                    child: Text("含图标样式", style: TextStyle(color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: () {
+                  STButton(
+                    text: "含图标样式",
+                    onTap: () {
                       STSnackbar.show(
                         context: context,
                         title: "文字信息文字信息",
@@ -76,10 +72,9 @@ class SnackbarPage extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
-                  FlatButton(
-                    child: Text("含关闭操作", style: TextStyle(color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: () {
+                  STButton(
+                    text: "含关闭操作",
+                    onTap: () {
                       STSnackbar.show(
                         context: context,
                         title: "这是标题",
@@ -89,10 +84,9 @@ class SnackbarPage extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
-                  FlatButton(
-                    child: Text("含按钮操作", style: TextStyle(color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: () {
+                  STButton(
+                    text: "含按钮操作",
+                    onTap: () {
                       // send();
                       // SocketManage.send(textEditController.text);
 
@@ -107,10 +101,9 @@ class SnackbarPage extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
-                  FlatButton(
-                    child: Text("自定义样式", style: TextStyle(color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: () {
+                  STButton(
+                    text: "自定义样式",
+                    onTap: () {
                       // send();
                       // SocketManage.send(textEditController.text);
 

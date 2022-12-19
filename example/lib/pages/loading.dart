@@ -29,10 +29,9 @@ class _LoadingPageState extends State<LoadingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("基本", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "基本",
+                  onTap: () {
                     showDialog(
                         context: context,
                         barrierDismissible: true,
@@ -42,10 +41,9 @@ class _LoadingPageState extends State<LoadingPage> {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("toast加载", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "toast加载",
+                  onTap: () {
                     showDialog(
                         context: context,
                         barrierDismissible: true,
@@ -70,25 +68,22 @@ class _LoadingPageState extends State<LoadingPage> {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("下拉刷新加载", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "下拉刷新加载",
+                  onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => LoadingPullPage()));
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("进度条加载", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {},
+                STButton(
+                  text: "进度条加载",
+                  onTap: () {},
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("预加载", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "预加载",
+                  onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => LoadingShimmerPage()));
                   },

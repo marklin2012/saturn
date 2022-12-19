@@ -17,10 +17,9 @@ class DialogPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("提示弹框", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "提示弹框",
+                onTap: () {
                   STDialog.show(
                       context: context,
                       title: "标题标题",
@@ -30,10 +29,9 @@ class DialogPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("确认弹框", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "确认弹框",
+                onTap: () {
                   STDialog.show(
                       context: context,
                       title: "标题标题",
@@ -44,10 +42,9 @@ class DialogPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("含图标弹框", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "含图标弹框",
+                onTap: () {
                   STDialog.show(
                     context: context,
                     icon: SizedBox(
@@ -60,10 +57,9 @@ class DialogPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("含选项弹框", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "含选项弹框",
+                onTap: () {
                   STDialog.show(
                       context: context,
                       title: "标题标题",
@@ -86,10 +82,9 @@ class DialogPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("可自定义", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "可自定义",
+                onTap: () {
                   STDialog.show(
                       context: context,
                       title: "标题标题",

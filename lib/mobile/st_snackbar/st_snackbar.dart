@@ -123,10 +123,11 @@ class _STSnackbarState extends State<STSnackbar> {
         widget.title!,
         softWrap: true,
         style: const TextStyle(
-            fontWeight: FontWeight.w400,
-            color: Colors.white,
-            fontSize: STSnackbarConstant.titleFontSize,
-            decoration: TextDecoration.none,),
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+          fontSize: STSnackbarConstant.titleFontSize,
+          decoration: TextDecoration.none,
+        ),
       );
     }
 
@@ -136,10 +137,11 @@ class _STSnackbarState extends State<STSnackbar> {
         widget.message!,
         softWrap: false,
         style: const TextStyle(
-            fontWeight: FontWeight.w400,
-            color: STSnackbarConstant.defaultMessageColor,
-            fontSize: STSnackbarConstant.messageFontSize,
-            decoration: TextDecoration.none,),
+          fontWeight: FontWeight.w400,
+          color: STSnackbarConstant.defaultMessageColor,
+          fontSize: STSnackbarConstant.messageFontSize,
+          decoration: TextDecoration.none,
+        ),
       );
     }
 
@@ -167,21 +169,25 @@ class _STSnackbarState extends State<STSnackbar> {
             }
           },
           child: Container(
-              padding:
-                  const EdgeInsets.all(STSnackbarConstant.textButtonPadding),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                    STSnackbarConstant.buttonCornerRadius,),
-                color: widget.isButtonHasBackground!
-                    ? STSnackbarConstant.blueColor
-                    : Colors.transparent,
+            padding: const EdgeInsets.all(STSnackbarConstant.STButtonPadding),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                STSnackbarConstant.buttonCornerRadius,
               ),
-              child: Text(widget.buttonText!,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: curButtonTextColor,
-                      fontSize: 16,
-                      decoration: TextDecoration.none,),),),
+              color: widget.isButtonHasBackground!
+                  ? STSnackbarConstant.blueColor
+                  : Colors.transparent,
+            ),
+            child: Text(
+              widget.buttonText!,
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                color: curButtonTextColor,
+                fontSize: 16,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ),
         );
       } else {
         buttonWidget = TextButton(
@@ -194,24 +200,26 @@ class _STSnackbarState extends State<STSnackbar> {
             }
           },
           child: const SizedBox(
-              height: 20,
-              width: 20,
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-              ),),
+            height: 20,
+            width: 20,
+            child: Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+          ),
         );
       }
     }
 
     final Widget columnWidget = Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (titleWidget != null) titleWidget,
-          if (messageWidget != null) const SizedBox(height: 4),
-          if (messageWidget != null) messageWidget
-        ],);
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (titleWidget != null) titleWidget,
+        if (messageWidget != null) const SizedBox(height: 4),
+        if (messageWidget != null) messageWidget
+      ],
+    );
 
     Widget innerWidget;
     EdgeInsetsGeometry padding;

@@ -17,10 +17,9 @@ class ToastPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("基本使用", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "基本使用",
+                onTap: () {
                   STToast.show(
                       context: context,
                       message: "文字信息文字信息文字信息",
@@ -28,10 +27,9 @@ class ToastPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("含图标样式", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "含图标样式",
+                onTap: () {
                   STToast.show(
                     context: context,
                     icon: SizedBox(
@@ -45,10 +43,9 @@ class ToastPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("显示状态", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "显示状态",
+                onTap: () {
                   STToast.show(
                       context: context,
                       icon: SizedBox(
@@ -61,10 +58,9 @@ class ToastPage extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FlatButton(
-                child: Text("加载中的样式", style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-                onPressed: () {
+              STButton(
+                text: "加载中的样式",
+                onTap: () {
                   STToast.showLoading(
                       context: context,
                       icon: Icon(

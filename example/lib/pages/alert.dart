@@ -17,10 +17,9 @@ class AlertPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("基本", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "基本",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.info,
                       autoClose: true,
@@ -30,10 +29,9 @@ class AlertPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("含图标", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "含图标",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.info,
                       autoClose: true,
@@ -44,10 +42,9 @@ class AlertPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("含关闭操作", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "含关闭操作",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.info,
                       autoClose: true,
@@ -58,11 +55,9 @@ class AlertPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child:
-                      Text("含辅助性文字描述", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "含辅助性文字描述",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.info,
                       autoClose: true,
@@ -73,11 +68,9 @@ class AlertPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                    child:
-                        Text("含自定义操作", style: TextStyle(color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: () {
+                STButton(
+                    text: "含自定义操作",
+                    onTap: () {
                       STAlert.show(
                         type: STAlertType.info,
                         autoClose: true,
@@ -88,10 +81,9 @@ class AlertPage extends StatelessWidget {
                       );
                     }),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("成功样式", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "成功样式",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.success,
                       autoClose: true,
@@ -101,10 +93,9 @@ class AlertPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("信息样式", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "信息样式",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.info,
                       autoClose: true,
@@ -114,10 +105,9 @@ class AlertPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("警告样式", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "警告样式",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.warning,
                       autoClose: true,
@@ -127,10 +117,9 @@ class AlertPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                FlatButton(
-                  child: Text("错误样式", style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () {
+                STButton(
+                  text: "错误样式",
+                  onTap: () {
                     STAlert.show(
                       type: STAlertType.error,
                       autoClose: true,

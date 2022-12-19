@@ -31,62 +31,67 @@ class STToast extends StatefulWidget {
     this.type,
   }) : super(key: key);
 
-  static void show(
-      {required BuildContext context,
-      required String message,
-      Widget? icon,
-      bool isIconTop = false,
-      STToastPosition position = STToastPosition.center,
-      bool closable = false,
-      bool autoClose = true,
-      int disappearMilliseconds = STToastConstant.defaultDisappearMilliseconds,
-      bool hasSafeArea = true,
-      STToastType type = STToastType.none,}) {
+  static void show({
+    required BuildContext context,
+    required String message,
+    Widget? icon,
+    bool isIconTop = false,
+    STToastPosition position = STToastPosition.center,
+    bool closable = false,
+    bool autoClose = true,
+    int disappearMilliseconds = STToastConstant.defaultDisappearMilliseconds,
+    bool hasSafeArea = true,
+    STToastType type = STToastType.none,
+  }) {
     showDialog(
-        context: context,
-        barrierDismissible: closable,
-        barrierColor: Colors.transparent,
-        builder: (context) {
-          final toast = STToast(
-              message: message,
-              icon: icon,
-              isIconTop: isIconTop,
-              rotateAnimation: false,
-              position: position,
-              closable: closable,
-              autoClose: autoClose,
-              disappearMilliseconds: disappearMilliseconds,
-              hasSafeArea: hasSafeArea,
-              type: type,);
-          return toast;
-        },);
+      context: context,
+      barrierDismissible: closable,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        final toast = STToast(
+          message: message,
+          icon: icon,
+          isIconTop: isIconTop,
+          rotateAnimation: false,
+          position: position,
+          closable: closable,
+          autoClose: autoClose,
+          disappearMilliseconds: disappearMilliseconds,
+          hasSafeArea: hasSafeArea,
+          type: type,
+        );
+        return toast;
+      },
+    );
   }
 
-  static void showLoading(
-      {required BuildContext context,
-      Widget? icon,
-      STToastPosition position = STToastPosition.center,
-      bool hasSafeArea = true,
-      STToastType type = STToastType.none,}) {
+  static void showLoading({
+    required BuildContext context,
+    Widget? icon,
+    STToastPosition position = STToastPosition.center,
+    bool hasSafeArea = true,
+    STToastType type = STToastType.none,
+  }) {
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        barrierColor: Colors.transparent,
-        builder: (context) {
-          final toast = STToast(
-            message: "",
-            icon: icon,
-            isIconTop: false,
-            rotateAnimation: true,
-            position: position,
-            closable: false,
-            autoClose: false,
-            disappearMilliseconds: STToastConstant.defaultDisappearMilliseconds,
-            hasSafeArea: hasSafeArea,
-            type: type,
-          );
-          return toast;
-        },);
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        final toast = STToast(
+          message: "",
+          icon: icon,
+          isIconTop: false,
+          rotateAnimation: true,
+          position: position,
+          closable: false,
+          autoClose: false,
+          disappearMilliseconds: STToastConstant.defaultDisappearMilliseconds,
+          hasSafeArea: hasSafeArea,
+          type: type,
+        );
+        return toast;
+      },
+    );
   }
 
   static void hide(
@@ -119,7 +124,9 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     }
     if (iconWidget != null && widget.rotateAnimation!) {
       controller = AnimationController(
-          duration: const Duration(seconds: 2), vsync: this,);
+        duration: const Duration(seconds: 2),
+        vsync: this,
+      );
       controller!.addStatusListener(
         (status) {
           if (status == AnimationStatus.completed) {
@@ -144,10 +151,11 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
         widget.message!,
         softWrap: true,
         style: const TextStyle(
-            fontWeight: FontWeight.w400,
-            color: Colors.white,
-            fontSize: STToastConstant.messageFontSize,
-            decoration: TextDecoration.none,),
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+          fontSize: STToastConstant.messageFontSize,
+          decoration: TextDecoration.none,
+        ),
       );
     }
 
@@ -167,8 +175,9 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
     Widget content;
     if (iconWidget == null) {
       content = Padding(
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
-          child: messageWidget,);
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+        child: messageWidget,
+      );
     } else {
       if (isNullOrEmpty(widget.message)) {
         content = Padding(padding: const EdgeInsets.all(28), child: iconWidget);
@@ -216,14 +225,17 @@ class _STToastState extends State<STToast> with SingleTickerProviderStateMixin {
       case STToastPosition.bottom:
         alignment = Alignment.bottomCenter;
         break;
+      default:
+        break;
     }
 
     content = Align(
       alignment: alignment,
       child: Container(
-          constraints: BoxConstraints(maxWidth: containerMaxWidth),
-          decoration: boxDecoration,
-          child: content,),
+        constraints: BoxConstraints(maxWidth: containerMaxWidth),
+        decoration: boxDecoration,
+        child: content,
+      ),
     );
     if (widget.hasSafeArea!) {
       return SafeArea(
